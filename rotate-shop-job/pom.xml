@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>rotate-shop-job</artifactId>
     <packaging>war</packaging>
-    <name>rotate-shop-job Maven Webapp</name>
+    <name>rotate-shop-job</name>
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
