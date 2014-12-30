@@ -9,7 +9,6 @@
     <artifactId>rotate-shop-web</artifactId>
     <packaging>war</packaging>
     <name>rotate-shop-web</name>
-    <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

@@ -38,6 +38,16 @@
                 <version>0.1.1</version>
             </dependency>
             <dependency>
+                <groupId>com.dianping.platform</groupId>
+                <artifactId>platform-sdk</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dianping.dpdl</groupId>
+                <artifactId>dpdl-simple</artifactId>
+                <version>0.1.1</version>
+            </dependency>
+            <dependency>
                 <groupId>com.dianping</groupId>
                 <artifactId>avatar-dao</artifactId>
                 <version>2.2.5</version>
@@ -125,8 +135,28 @@
             </dependency>
             <dependency>
                 <groupId>com.dianping.lion</groupId>
+                <artifactId>lion-dev</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dianping.lion</groupId>
                 <artifactId>lion-client</artifactId>
                 <version>0.4.5</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dianping.lion</groupId>
+                <artifactId>lion-alpha</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dianping.lion</groupId>
+                <artifactId>lion-qa</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dianping.lion</groupId>
+                <artifactId>lion-product</artifactId>
+                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.dianping.zebra</groupId>
