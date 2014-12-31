@@ -28,6 +28,7 @@
         <module>rotate-shop-mq</module>
         <module>rotate-shop-job</module>
         <module>rotate-shop-web</module>
+        <module>rotate-shop-module</module>
     </modules>
     <dependencyManagement>
         <dependencies>
