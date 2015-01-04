@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="daoScanner" class="com.dianping.rotate.shop.dao.DaoScanner">
+        <property name="scanPackageList">
+            <list>
+                <ref bean="domainDao"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="domainDao" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <entry key="PACKAGE_NAME" value="com.dianping.rotate.shop.dao"/>
+                <entry key="PARENT_DAO_NAME" value="daoRealizeTarget"/>
+            </map>
+        </constructor-arg>
+    </bean>
+</beans>
