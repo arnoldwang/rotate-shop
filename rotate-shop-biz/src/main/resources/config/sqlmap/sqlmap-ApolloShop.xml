@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!--Create by daogen http://code.dianpingoa.com/yihua.huang/daogen/-->
+<!--@author yihua.huang@dianping.com-->
+<sqlMap namespace="ApolloShop">
+
+    <resultMap id="apolloShop" class="com.dianping.rotate.shop.entity.ApolloShopEntity">
+        <result column="ShopID" property="shopID"/>
+        <result column="ShopGroupID" property="shopGroupID"/>
+        <result column="CityID" property="cityID"/>
+        <result column="District" property="district"/>
+        <result column="ShopType" property="shopType"/>
+        <result column="Status" property="status"/>
+    </resultMap>
+
+    <sql id="keys">
+        ShopID,
+        ShopGroupID,
+        CityID,
+        District,
+        ShopType,
+        Status
+    </sql>
+
+    <select id="loadByShopId" resultMap="groupSummary" parameterClass="map">
+        SELECT
+        <include refid="keys"/>
+        FROM ApolloShop
+        WHERE `ShopID`=#ShopID#;
+    </select>
+
+</sqlMap>
