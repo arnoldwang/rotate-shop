@@ -24,11 +24,35 @@
         Status
     </sql>
 
-    <select id="loadByShopId" resultMap="groupSummary" parameterClass="map">
+    <select id="queryApolloShopByShopID" resultMap="apolloShop" parameterClass="int">
         SELECT
         <include refid="keys"/>
         FROM ApolloShop
         WHERE `ShopID`=#ShopID#;
     </select>
+
+    <insert id="addApolloShop" parameterClass="map">
+        INSERT INTO MR_ShopFuture
+        (
+        <include refid="keys"/>
+        )
+        values
+        (
+        #apolloShop.shopID#,
+        #apolloShop.shopGroupID#,
+        #apolloShop.cityID#,
+        #apolloShop.district#,
+        #apolloShop.shopType#,
+        #apolloShop.status#
+        )
+        <selectKey resultClass="int" keyProperty="ShopID">
+            SELECT @@IDENTITY AS ShopID
+        </selectKey>
+    </insert>
+
+    <update id="deleteApolloShopByShopID" parameterClass="int">
+        update from ApolloShop set Status = 0
+        WHERE ShopID =#ShopId#
+    </update>
 
 </sqlMap>
