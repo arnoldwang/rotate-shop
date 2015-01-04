@@ -16,7 +16,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
-
         <!-- dp framework -->
         <dependency>
             <groupId>com.dianping.dpdl</groupId>
@@ -244,12 +243,12 @@
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.1.3</version>
         </dependency>
         <!--common tool-->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.12</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -264,7 +263,6 @@
             <groupId>c3p0</groupId>
             <artifactId>c3p0</artifactId>
         </dependency>
-
     </dependencies>
     <build>
         <resources>

@@ -6,7 +6,7 @@
 <!--@author yihua.huang@dianping.com-->
 <sqlMap namespace="ApolloShop">
 
-    <resultMap id="apolloShop" class="com.dianping.customerinfo.entity.GroupSummaryEntity">
+    <resultMap id="apolloShop" class="com.dianping.rotate.shop.entity.ApolloShopEntity">
         <result column="ShopID" property="shopID"/>
         <result column="ShopGroupID" property="shopGroupID"/>
         <result column="CityID" property="cityID"/>
