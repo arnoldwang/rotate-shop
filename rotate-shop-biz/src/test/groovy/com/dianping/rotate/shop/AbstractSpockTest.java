@@ -13,8 +13,7 @@ import spock.lang.Specification;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
         "classpath*:/config/spring/common/appcontext-*.xml",
-        "classpath*:/config/spring/local/appcontext-*.xml",
-        "classpath*:/config/spring/test/appcontext-*.xml"})
+        "classpath*:/config/spring/local/appcontext-*.xml"})
 @Ignore
 public  class AbstractSpockTest extends Specification {
 
