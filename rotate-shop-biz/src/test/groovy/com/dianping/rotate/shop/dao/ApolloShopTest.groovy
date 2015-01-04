@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 /**
  * Created by luoming on 15/1/4.
  */
-class ApolloShopInfoTest extends AbstractSpockTest {
+class ApolloShopTest extends AbstractSpockTest {
     @Autowired
     ApolloShopDAO apolloShopDAO;
 
