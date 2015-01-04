@@ -16,7 +16,7 @@
 
     <bean id="placeholder" class="com.dianping.lion.client.SpringConfig">
         <property name="propertiesPath"
-                  value="config/customer-info-web-applicationContext.properties"/>
+                  value="config/rotate-shop-biz-appcontext.properties"/>
     </bean>
 
     <avatar:cache jms-url="${cache.jms.url}" topic-name="${cache.jms.topic.name}"
