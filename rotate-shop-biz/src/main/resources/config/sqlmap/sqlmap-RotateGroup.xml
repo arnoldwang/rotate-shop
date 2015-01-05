@@ -67,7 +67,7 @@
     <select id="queryRotateGroup" resultMap="rotateGroup" parameterClass="map">
         SELECT ID,
         <include refid="keys"/>
-        FROM ROtateGroup
+        FROM RotateGroup
         WHERE RotateGroupID = #rotateGroupID#
     </select>
 </sqlMap>
