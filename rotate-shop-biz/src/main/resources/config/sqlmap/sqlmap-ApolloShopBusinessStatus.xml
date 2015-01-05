@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!--Create by daogen http://code.dianpingoa.com/yihua.huang/daogen/-->
+<!--@author yihua.huang@dianping.com-->
+<sqlMap namespace="ApolloShopBusinessStatus">
+
+    <resultMap id="apolloShopBusinessStatus" class="com.dianping.rotate.shop.entity.ApolloShopBusinessStatusEntity">
+        <result column="ID" property="id"/>
+        <result column="ShopID" property="shopID"/>
+        <result column="CooperationStatus" property="cooperationStatus"/>
+        <result column="OfflineDate" property="offlineDate"/>
+        <result column="BusinessType" property="businessType"/>
+        <result column="Status" property="status"/>
+    </resultMap>
+
+    <sql id="keys">
+        ID,
+        ShopID,
+        CooperationStatus,
+        OfflineDate,
+        BussinessType,
+        Status
+    </sql>
+
+    <select id="queryApolloShopBusinessStatusByShopID" resultMap="apolloShopBusinessStatus" parameterClass="int">
+        SELECT
+        <include refid="keys"/>
+        FROM ApolloShopBusinessStatus
+        WHERE `ShopID`=#ShopID#;
+    </select>
+
+    <insert id="addApolloShopBusinessStatus" parameterClass="map">
+        INSERT INTO ApolloShopBusinessStatus
+        (
+        ShopID,
+        CooperationStatus,
+        OfflineDate,
+        BussinessType,
+        Status
+        )
+        values
+        (
+        #apolloShop.shopID#,
+        #apolloShop.cooperationStatus#,
+        #apolloShop.offlineDate#,
+        #apolloShop.businessType#,
+        #apolloShop.status#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT @@IDENTITY AS ID
+        </selectKey>
+    </insert>
+
+    <update id="deleteApolloShopBusinessStatusByShopID" parameterClass="int">
+        update from ApolloShopBusinessStatus set Status = 0
+        WHERE ShopID =#ShopId#
+    </update>
+
+</sqlMap>

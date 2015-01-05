@@ -4,52 +4,48 @@
 
 <!--Create by daogen http://code.dianpingoa.com/yihua.huang/daogen/-->
 <!--@author yihua.huang@dianping.com-->
-<sqlMap namespace="ApolloShop">
+<sqlMap namespace="ApolloShopExtend">
 
-    <resultMap id="apolloShop" class="com.dianping.rotate.shop.entity.ApolloShopEntity">
+    <resultMap id="apolloShopExtend" class="com.dianping.rotate.shop.entity.ApolloShopExtendEntity">
         <result column="ID" property="id"/>
         <result column="ShopID" property="shopID"/>
-        <result column="ShopGroupID" property="shopGroupID"/>
-        <result column="CityID" property="cityID"/>
-        <result column="District" property="district"/>
-        <result column="ShopType" property="shopType"/>
+        <result column="Type" property="type"/>
+        <result column="BizID" property="bizID"/>
+        <result column="Rating" property="rating"/>
         <result column="Status" property="status"/>
     </resultMap>
 
     <sql id="keys">
         ID,
         ShopID,
-        ShopGroupID,
-        CityID,
-        District,
-        ShopType,
+        Type,
+        BizID,
+        Rating,
         Status
     </sql>
 
-    <select id="queryApolloShopByShopID" resultMap="apolloShop" parameterClass="int">
+    <select id="queryApolloShopExtendByShopID" resultMap="apolloShopExtend" parameterClass="int">
         SELECT
         <include refid="keys"/>
-        FROM ApolloShop
+        FROM ApolloShopExtend
         WHERE `ShopID`=#ShopID#;
     </select>
 
-    <insert id="addApolloShop" parameterClass="map">
-        INSERT INTO ApolloShop
+    <insert id="addApolloShopExtend" parameterClass="map">
+        INSERT INTO ApolloShopExtend
         (
         ShopID,
-        ShopGroupID,
-        CityID,
-        District,
-        ShopType,
+        Type,
+        BizID,
+        Rating,
         Status
         )
         values
         (
         #apolloShop.shopID#,
-        #apolloShop.shopGroupID#,
-        #apolloShop.cityID#,
-        #apolloShop.district#,
-        #apolloShop.shopType#,
+        #apolloShop.type#,
+        #apolloShop.bizID#,
+        #apolloShop.rating#,
         #apolloShop.status#
         )
         <selectKey resultClass="int" keyProperty="id">
@@ -57,8 +53,8 @@
         </selectKey>
     </insert>
 
-    <update id="deleteApolloShopByShopID" parameterClass="int">
-        update from ApolloShop set Status = 0
+    <update id="deleteApolloShopExtendByShopID" parameterClass="int">
+        update from ApolloShopExtend set Status = 0
         WHERE ShopID =#ShopId#
     </update>
 

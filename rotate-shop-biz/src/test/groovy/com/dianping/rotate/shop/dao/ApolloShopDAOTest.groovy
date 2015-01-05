@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired
 /**
  * Created by luoming on 15/1/4.
  */
-class ApolloShopTest extends AbstractSpockTest {
+class ApolloShopDAOTest extends AbstractSpockTest {
     @Autowired
     ApolloShopDAO apolloShopDAO;
 
-    def "add, query and delete apolloShop"() {
+    def "add, query and delete one apolloShop"() {
         setup:
 
         int shopID = 1
