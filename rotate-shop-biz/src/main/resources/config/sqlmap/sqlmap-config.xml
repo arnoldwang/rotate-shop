@@ -15,6 +15,6 @@
     <sqlMap resource="config/sqlmap/sqlmap-RotateGroup.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-RotateGroupShop.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-Biz.xml"/>
-
+    <sqlMap resource="config/sqlmap/sqlmap-BuBiz.xml"/>
 
 </sqlMapConfig>

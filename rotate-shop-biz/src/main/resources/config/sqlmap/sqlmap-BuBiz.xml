@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="BuBiz">
+    <typeAlias alias="BuBiz" type="com.dianping.rotate.shop.entity.BuBizEntity" />
+    <resultMap id="buBiz" class="BuBiz">
+        <result property="id" column="ID"/>
+        <result property="buID" column="BuID"/>
+        <result property="bizID" column="BizID"/>
+        <result property="status" column="Status"/>
+        <result property="createdTime" column="CreatedTime"/>
+        <result property="lastModifiedTime" column="LastModifiedTime"/>
+    </resultMap>
+
+    <sql id="keys">
+        BuID,
+        BizID,
+        Status,
+        CreatedTime,
+        LastModifiedTime
+    </sql>
+
+    <sql id="key-value">
+        (
+        <include refid="keys"/>
+        )
+        VALUES
+        (
+        #buBiz.buID#,
+        #buBiz.bizID#,
+        #buBiz.status#,
+        NOW(),
+        NOW()
+        )
+    </sql>
+
+    <sql id="modify">
+        SET
+            BuID = #buBiz.buID#,
+            BizID = #buBiz.bizID#,
+            Status = #buBiz.status#,
+            LastModifiedTime = NOW()
+        WHERE ID = #buBiz.id#
+    </sql>
+
+    <insert id="addToBuBiz" parameterClass="map">
+        INSERT INTO BuBiz
+        <include refid="key-value"/>
+    </insert>
+
+    <delete id="deleteBuBiz" parameterClass="map">
+        UPDATE BuBiz
+        SET
+            Status = 0,
+            LastModifiedTime = NOW()
+        WHERE ID = #id#
+    </delete>
+
+    <update id="updateBuBiz" parameterClass="map">
+        UPDATE BuBiz
+        <include refid="modify"/>
+    </update>
+
+    <select id="queryBuBiz" resultMap="buBiz" parameterClass="map">
+        SELECT ID,
+        <include refid="keys"/>
+        FROM BuBiz
+        WHERE ID = #id#
+    </select>
+</sqlMap>
