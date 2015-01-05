@@ -60,4 +60,16 @@
         WHERE ShopID = #shopID#
     </update>
 
+    <update id="updateApolloShop" parameterClass="map">
+        update ApolloShop
+        set
+        ShopGroupID = #apolloShop.shopGroupID#,
+        CityID = #apolloShop.cityID#,
+        District = #apolloShop.district#,
+        ShopType = #apolloShop.shopType#,
+        Status = #apolloShop.status#,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #apolloShop.shopID#
+    </update>
+
 </sqlMap>

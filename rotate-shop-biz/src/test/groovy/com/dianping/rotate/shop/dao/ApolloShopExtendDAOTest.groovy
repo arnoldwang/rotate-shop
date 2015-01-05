@@ -27,6 +27,9 @@ class ApolloShopExtendDAOTest extends AbstractSpockTest {
 
         then:
         1 == apolloShopExtendDAO.queryApolloShopExtendByShopID(shopID).get(0).getShopID()
+        s.setRating('A')
+        apolloShopExtendDAO.updateApolloShopExtend(s)
+        'A'.equals(apolloShopExtendDAO.queryApolloShopExtendByShopID(shopID).get(0).getRating())
 
         cleanup:
         apolloShopExtendDAO.deleteApolloShopExtendByShopID(shopID)

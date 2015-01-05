@@ -26,6 +26,9 @@ class ApolloShopBusinessStatusDAOTest extends AbstractSpockTest {
 
         then:
         1 == apolloShopBusinessDAO.queryApolloShopBusinessStatusByShopID(shopID).get(0).getShopID()
+        s.setBusinessType(1)
+        apolloShopBusinessDAO.updateApolloShopBusinessStatus(s)
+        1 == apolloShopBusinessDAO.queryApolloShopBusinessStatusByShopID(shopID).get(0).getBusinessType()
 
         cleanup:
         apolloShopBusinessDAO.deleteApolloShopBusinessStatusByShopID(shopID)

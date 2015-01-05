@@ -57,4 +57,15 @@
         WHERE ShopID = #shopID#
     </update>
 
+    <update id="updateApolloShopBusinessStatus" parameterClass="map">
+        update ApolloShopBusinessStatus
+        set
+        CooperationStatus = #apolloShopBusinessStatus.cooperationStatus#,
+        OfflineDate = #apolloShopBusinessStatus.offlineDate#,
+        BusinessType = #apolloShopBusinessStatus.businessType#,
+        Status = #apolloShopBusinessStatus.status#,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #apolloShopBusinessStatus.shopID#
+    </update>
+
 </sqlMap>
