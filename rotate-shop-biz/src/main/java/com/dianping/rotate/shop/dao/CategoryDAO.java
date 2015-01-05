@@ -4,25 +4,26 @@ import com.dianping.avatar.dao.GenericDao;
 import com.dianping.avatar.dao.annotation.DAOAction;
 import com.dianping.avatar.dao.annotation.DAOActionType;
 import com.dianping.avatar.dao.annotation.DAOParam;
-import com.dianping.rotate.shop.entity.ApolloShopEntity;
+import com.dianping.rotate.shop.entity.CategoryEntity;
+import com.dianping.rotate.shop.entity.RegionEntity;
 
 import java.util.List;
 
 /**
  * Created by luoming on 15/1/4.
  */
-public interface ApolloShopDAO extends GenericDao {
+public interface CategoryDAO extends GenericDao {
 
     @DAOAction(action = DAOActionType.QUERY)
-    List<ApolloShopEntity> queryApolloShopByShopID(@DAOParam("shopID") int shopID);
+    List<CategoryEntity> queryCategoryByCategoryID(@DAOParam("categoryID") int categoryID);
 
     @DAOAction(action = DAOActionType.INSERT)
-    int addApolloShop(@DAOParam("apolloShop") ApolloShopEntity apolloShop);
+    int addCategory(@DAOParam("category") CategoryEntity category);
 
     @DAOAction(action = DAOActionType.UPDATE)
-    int deleteApolloShopByShopID(@DAOParam("shopID") int shopID);
+    int deleteCategoryByCategoryID(@DAOParam("categoryID") int categoryID);
 
     @DAOAction(action = DAOActionType.UPDATE)
-    int updateApolloShop(@DAOParam("apolloShop") ApolloShopEntity apolloShop);
+    int updateCategory(@DAOParam("category") CategoryEntity category);
 
 }

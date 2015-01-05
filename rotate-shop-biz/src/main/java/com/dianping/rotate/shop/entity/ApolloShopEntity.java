@@ -5,12 +5,21 @@ package com.dianping.rotate.shop.entity;
  */
 public class ApolloShopEntity {
 
+    private int id;
     private int shopID;
     private int shopGroupID;
     private int cityID;
     private String district;
     private int shopType;
     private int status;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getShopID() {
         return shopID;

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!--Create by daogen http://code.dianpingoa.com/yihua.huang/daogen/-->
+<!--@author yihua.huang@dianping.com-->
+<sqlMap namespace="Region">
+
+    <resultMap id="region" class="com.dianping.rotate.shop.entity.RegionEntity">
+        <result column="ID" property="id"/>
+        <result column="RegionID" property="regionID"/>
+        <result column="RegionName" property="regionName"/>
+        <result column="ParentID" property="parentID"/>
+        <result column="Status" property="status"/>
+    </resultMap>
+
+    <sql id="keys">
+        RegionID,
+        RegionName,
+        ParentID,
+        Status
+    </sql>
+
+    <select id="queryRegionByRegionID" resultMap="region" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM Region
+        WHERE RegionID = #regionID#
+    </select>
+
+    <insert id="addRegion" parameterClass="map">
+        INSERT INTO Region
+        (
+        <include refid="keys"/>
+        )
+        values
+        (
+        #region.regionID#,
+        #region.regionName#,
+        #region.parentID#,
+        #region.status#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT @@IDENTITY AS ID
+        </selectKey>
+    </insert>
+
+    <update id="deleteRegionByRegionID" parameterClass="map">
+        update Region
+        set
+        Status = 0,
+        LastModifiedTime = NOW()
+        WHERE RegionID = #regionID#
+    </update>
+
+    <update id="updateRegion" parameterClass="map">
+        update Region
+        set
+        RegionName = #region.regionName#,
+        parentID = #region.parentID#,
+        Status = #region.status#,
+        LastModifiedTime = NOW()
+        WHERE RegionID = #region.regionID#
+    </update>
+
+</sqlMap>

@@ -67,7 +67,7 @@
     <select id="queryRotateGroupShop" resultMap="rotateGroupShop" parameterClass="map">
         SELECT ID,
         <include refid="keys"/>
-        FROM RotateShopGroup
+        FROM RotateGroupShop
         WHERE ID = #id#
     </select>
 </sqlMap>

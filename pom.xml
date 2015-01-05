@@ -34,143 +34,6 @@
     </modules>
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.dianping</groupId>
-                <artifactId>merchant-member-api</artifactId>
-                <version>${merchant.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dianping.cosmos.hbase</groupId>
-                <artifactId>DPHBaseClient</artifactId>
-                <version>0.2.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>0.11.6</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.dianping.platform</groupId>
-                <artifactId>platform-sdk</artifactId>
-                <version>1.1.2</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>asm</artifactId>
-                        <groupId>org.ow2.asm</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>spring</artifactId>
-                        <groupId>org.springframework</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.struts</groupId>
-                <artifactId>struts2-spring-plugin</artifactId>
-                <version>${struts.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.dianping.filecloud</groupId>
-                <artifactId>filecloud-storage-api</artifactId>
-                <version>0.0.5</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dianping.filecloud</groupId>
-                <artifactId>filecloud-download-api</artifactId>
-                <version>0.0.6</version>
-            </dependency>
-
-            <dependency>
-                <groupId>xml-apis</groupId>
-                <artifactId>xml-apis</artifactId>
-                <version>1.4.01</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-dbcp</groupId>
-                <artifactId>commons-dbcp</artifactId>
-                <version>1.4</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.struts</groupId>
-                <artifactId>struts2-json-plugin</artifactId>
-                <version>${struts.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>ognl</groupId>
-                <artifactId>ognl</artifactId>
-                <version>3.0.5</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.microsoft</groupId>
-                <artifactId>sqljdbc</artifactId>
-                <version>4</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.dianping.alpaca</groupId>
-                <artifactId>alpaca-client</artifactId>
-                <version>1.0.0</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.mongodb</groupId>
-                        <artifactId>mongo-java-driver</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>com.dianping</groupId>
-                <artifactId>ab-test</artifactId>
-                <version>1.0.2</version>
-                <type>jar</type>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.dianping</groupId>
-                        <artifactId>avatar-biz</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.10</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>5.1.21</version>
-            </dependency>
-
-
-
-            <dependency>
-                <groupId>com.dianping</groupId>
-                <artifactId>file-queue</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>fm.last</groupId>
-                <artifactId>moji</artifactId>
-                <version>1.2.3</version>
-                <scope>provided</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.commons</groupId>
-                        <artifactId>commons-pool</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-
             <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -258,7 +121,21 @@
                 <artifactId>dpdl-simple</artifactId>
                 <version>0.1.1</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.dianping.platform</groupId>
+                <artifactId>platform-sdk</artifactId>
+                <version>1.1.2</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>asm</artifactId>
+                        <groupId>org.ow2.asm</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>spring</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
             <dependency>
                 <groupId>com.dianping</groupId>
                 <artifactId>avatar-dao</artifactId>
@@ -270,7 +147,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-
             <dependency>
                 <groupId>com.dianping</groupId>
                 <artifactId>avatar-cache</artifactId>
@@ -282,7 +158,11 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-
+            <dependency>
+                <groupId>com.dianping</groupId>
+                <artifactId>avatar-tracker</artifactId>
+                <version>2.1.9</version>
+            </dependency>
             <dependency>
                 <groupId>net.sf.ehcache</groupId>
                 <artifactId>ehcache-core</artifactId>
@@ -293,31 +173,16 @@
                 <artifactId>spymemcached</artifactId>
                 <version>2.9.1</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.dianping</groupId>
-                <artifactId>avatar-tracker</artifactId>
-                <version>2.1.9</version>
-            </dependency>
-
             <dependency>
                 <groupId>com.dianping.dpsf</groupId>
                 <artifactId>dpsf-net</artifactId>
                 <version>${pigeon.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.dianping.hawk</groupId>
                 <artifactId>hawk-client</artifactId>
                 <version>0.7.1</version>
             </dependency>
-
-            <dependency>
-                <groupId>org.unidal.framework</groupId>
-                <artifactId>foundation-service</artifactId>
-                <version>2.1.1</version>
-            </dependency>
-
             <dependency>
                 <groupId>com.dianping</groupId>
                 <artifactId>dp-common-service</artifactId>
@@ -364,21 +229,51 @@
             </dependency>
 
             <!-- swallow -->
-
             <dependency>
                 <groupId>com.dianping.swallow</groupId>
                 <artifactId>swallow-consumerclient</artifactId>
                 <version>0.6.10</version>
             </dependency>
-
             <dependency>
                 <groupId>com.dianping.swallow</groupId>
                 <artifactId>swallow-producerclient</artifactId>
                 <version>0.6.10</version>
             </dependency>
 
-            <!-- test -->
+            <!-- cat -->
+            <dependency>
+                <groupId>com.dianping.cat</groupId>
+                <artifactId>cat-core</artifactId>
+                <version>1.1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dianping.cat</groupId>
+                <artifactId>cat-client</artifactId>
+                <version>1.1.3</version>
+            </dependency>
 
+            <!-- test -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.10</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>${groovy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-core</artifactId>
+                <version>0.7-groovy-2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-spring</artifactId>
+                <version>0.7-groovy-2.0</version>
+            </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
@@ -406,20 +301,29 @@
 
             <!-- other -->
             <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.21</version>
+            </dependency>
+            <dependency>
+                <groupId>org.unidal.framework</groupId>
+                <artifactId>foundation-service</artifactId>
+                <version>2.1.1</version>
+            </dependency>
+            <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-mapper-asl</artifactId>
                 <version>1.9.12</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.beust</groupId>
+                <artifactId>jcommander</artifactId>
+                <version>1.32</version>
+            </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>17.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dianping.cat</groupId>
-                <artifactId>cat-core</artifactId>
-                <version>1.1.3</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.netty</groupId>
@@ -432,17 +336,6 @@
                 <version>2.8.1</version>
             </dependency>
             <dependency>
-                <groupId>com.dianping.cat</groupId>
-                <artifactId>cat-client</artifactId>
-                <version>1.1.3</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.dianping</groupId>
-                <artifactId>ts-treasure-pool-api</artifactId>
-                <version>0.1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
                 <groupId>org.opensaml</groupId>
                 <artifactId>opensaml</artifactId>
                 <version>1.1</version>
@@ -452,21 +345,7 @@
                 <artifactId>xmlsec</artifactId>
                 <version>1.4.0</version>
             </dependency>
-            <dependency>
-                <groupId>com.dianping.tuangou</groupId>
-                <artifactId>tp-dataservice-api</artifactId>
-                <version>${data.service.verion}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dianping</groupId>
-                <artifactId>tp-deal-data-api</artifactId>
-                <version>1.3.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-all</artifactId>
-                <version>2.2.1</version>
-            </dependency>
+
         </dependencies>
     </dependencyManagement>
     <build>
