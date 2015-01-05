@@ -31,6 +31,14 @@
         WHERE ShopID = #shopID#
     </select>
 
+    <select id="queryApolloShopBusinessStatusByShopIDAndBusinessType" resultMap="apolloShopBusinessStatus" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShopBusinessStatus
+        WHERE ShopID = #shopID# and BusinessType = #businessType#
+    </select>
+
     <insert id="addApolloShopBusinessStatus" parameterClass="map">
         INSERT INTO ApolloShopBusinessStatus
         (

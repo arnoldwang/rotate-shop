@@ -31,6 +31,14 @@
         WHERE ShopID = #shopID#
     </select>
 
+    <select id="queryApolloShopExtendByShopIDAndBizID" resultMap="apolloShopExtend" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShopExtend
+        WHERE ShopID = #shopID# and BizID = #bizID#
+    </select>
+
     <insert id="addApolloShopExtend" parameterClass="map">
         INSERT INTO ApolloShopExtend
         (
