@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!--Create by daogen http://code.dianpingoa.com/yihua.huang/daogen/-->
+<!--@author yihua.huang@dianping.com-->
+<sqlMap namespace="ShopCategory">
+
+    <resultMap id="shopCategory" class="com.dianping.rotate.shop.entity.ShopCategoryEntity">
+        <result column="ID" property="id"/>
+        <result column="ShopID" property="shopID"/>
+        <result column="CategoryID" property="categoryID"/>
+        <result column="IsMain" property="isMain"/>
+        <result column="Status" property="status"/>
+    </resultMap>
+
+    <sql id="keys">
+        ShopID,
+        CategoryID,
+        IsMain,
+        Status
+    </sql>
+
+    <select id="queryShopCategoryByShopID" resultMap="shopCategory" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ShopCategory
+        WHERE ShopID = #shopID#
+    </select>
+
+    <select id="queryShopCategoryByCategoryID" resultMap="shopCategory" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ShopCategory
+        WHERE CategoryID = #categoryID#
+    </select>
+
+    <select id="queryShopCategoryByShopIDAndCategoryID" resultMap="shopCategory" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ShopCategory
+        WHERE ShopID = #shopID# and CategoryID = #categoryID#
+    </select>
+
+    <insert id="addShopCategory" parameterClass="map">
+        INSERT INTO ShopCategory
+        (
+        <include refid="keys"/>
+        )
+        values
+        (
+        #shopCategory.shopID#,
+        #shopCategory.categoryID#,
+        #shopCategory.isMain#,
+        #shopCategory.status#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT @@IDENTITY AS ID
+        </selectKey>
+    </insert>
+
+    <update id="deleteShopCategoryByShopID" parameterClass="map">
+        update ShopCategory
+        set
+        Status = 0,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #shopID#
+    </update>
+
+    <update id="deleteShopCategoryByCategoryID" parameterClass="map">
+        update ShopCategory
+        set
+        Status = 0,
+        LastModifiedTime = NOW()
+        WHERE CategoryID = #categoryID#
+    </update>
+
+    <update id="deleteShopCategoryByShopIDAndCategoryID" parameterClass="map">
+        update ShopCategory
+        set
+        Status = 0,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #shopID# and CategoryID = #categoryID#
+    </update>
+
+    <update id="updateShopCategory" parameterClass="map">
+        update ShopCategory
+        set
+        ShopID = #shopCategory.shopID#,
+        CategoryID = #shopCategory.categoryID#,
+        IsMain = #shopCategory.isMain#,
+        Status = #shopCategory.status#,
+        LastModifiedTime = NOW()
+        WHERE ID = #shopCategory.id#
+    </update>
+
+</sqlMap>

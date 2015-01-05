@@ -40,7 +40,7 @@ CREATE TABLE `ShopRegion`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `ShopID` int(11) NOT NULL COMMENT '门店ID',
   `RegionID` int(11) NOT NULL COMMENT '区域ID',
-  `IsMain` boolean COMMENT '是否主区域',
+  `IsMain` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否主区域：0，否;1，是;',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
