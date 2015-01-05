@@ -111,23 +111,7 @@
         </dependency>
         <dependency>
             <groupId>com.dianping.lion</groupId>
-            <artifactId>lion-dev</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dianping.lion</groupId>
             <artifactId>lion-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dianping.lion</groupId>
-            <artifactId>lion-alpha</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dianping.lion</groupId>
-            <artifactId>lion-qa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dianping.lion</groupId>
-            <artifactId>lion-product</artifactId>
         </dependency>
         <dependency>
             <groupId>com.dianping.zebra</groupId>
