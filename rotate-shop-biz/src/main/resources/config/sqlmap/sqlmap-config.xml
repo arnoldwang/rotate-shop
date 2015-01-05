@@ -6,6 +6,7 @@
               maxTransactions="3000" useStatementNamespaces="true"/>
 
     <sqlMap resource="config/sqlmap/sqlmap-ApolloShop.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-RotateGroup.xml"/>
 
 
 </sqlMapConfig>

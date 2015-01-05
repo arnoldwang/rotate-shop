@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="RotateGroupShop">
+    <typeAlias alias="RotateGroupShop" type="com.dianping.rotate.shop.entity.RotateGroupShopEntity" />
+    <resultMap id="rotateGroupShop" class="RotateGroupShop">
+        <result property="id" column="ID"/>
+        <result property="rotateGroupID" column="RotateGroupID"/>
+        <result property="shopID" column="ShopID"/>
+        <result property="shopGroupID" column="ShopGroupID"/>
+        <result property="status" column="Status"/>
+        <result property="createdTime" column="CreatedTime"/>
+        <result property="lastModifiedTime" column="LastModifiedTime"/>
+    </resultMap>
+
+    <sql id="keys">
+        RotateGroupID,
+        ShopID,
+        ShopGroupID,
+        Status,
+        CreatedTime,
+        LastModifiedTime
+    </sql>
+    
+    <sql id="key-value">
+        (
+        <include refid="keys"/>
+        )
+        VALUES 
+        (
+        #rotateGroupShop.rotateGroupID#,
+        #rotateGroupShop.shopID#,
+        #rotateGroupShop.shopGroupID#,
+        #rotateGroupShop.status#,
+        NOW(),
+        NOW()
+        )
+    </sql>
+    
+    <sql id="modify">
+        SET
+            RotateGroupID = #rotateGroupShop.rotateGroupID#,
+            ShopID = #rotateGroupShop.shopID#,
+            ShopGroupID = #rotateGroupShop.shopGroupID#,
+            Status = #rotateGroupShop.status#,
+            LastModifiedTime = #rotateGroupShop.lastModifiedTime#
+        WHERE ID = #id#
+    </sql>
+
+    <insert id="addToRotateGroupShop" parameterClass="map">
+        INSERT INTO RotateGroupShop
+        <include refid="key-value"/>
+    </insert>
+
+    <delete id="deleteRotateGroupShop" parameterClass="map">
+        UPDATE RotateGroupShop
+        SET
+            Status = 0,
+            LastModifiedTime = NOW()
+        WHERE ID = #id#
+    </delete>
+
+    <update id="updateRotateGroupShop" parameterClass="map">
+        UPDATE RotateGroupShop
+        <include refid="modify"/>
+    </update>
+
+    <select id="queryRotateGroupShop" resultMap="rotateGroupShop" parameterClass="map">
+        SELECT ID,
+        <include refid="keys"/>
+        FROM RotateShopGroup
+        WHERE ID = #id#
+    </select>
+</sqlMap>
