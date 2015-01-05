@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!--Create by daogen http://code.dianpingoa.com/yihua.huang/daogen/-->
+<!--@author yihua.huang@dianping.com-->
+<sqlMap namespace="ApolloShopBusinessStatus">
+
+    <resultMap id="apolloShopBusinessStatus" class="com.dianping.rotate.shop.entity.ApolloShopBusinessStatusEntity">
+        <result column="ID" property="id"/>
+        <result column="ShopID" property="shopID"/>
+        <result column="CooperationStatus" property="cooperationStatus"/>
+        <result column="OfflineDate" property="offlineDate"/>
+        <result column="BusinessType" property="businessType"/>
+        <result column="Status" property="status"/>
+    </resultMap>
+
+    <sql id="keys">
+        ShopID,
+        CooperationStatus,
+        OfflineDate,
+        BusinessType,
+        Status
+    </sql>
+
+    <select id="queryApolloShopBusinessStatusByShopID" resultMap="apolloShopBusinessStatus" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShopBusinessStatus
+        WHERE ShopID = #shopID#
+    </select>
+
+    <select id="queryApolloShopBusinessStatusByShopIDAndBusinessType" resultMap="apolloShopBusinessStatus" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShopBusinessStatus
+        WHERE ShopID = #shopID# and BusinessType = #businessType#
+    </select>
+
+    <insert id="addApolloShopBusinessStatus" parameterClass="map">
+        INSERT INTO ApolloShopBusinessStatus
+        (
+        <include refid="keys"/>
+        )
+        values
+        (
+        #apolloShopBusinessStatus.shopID#,
+        #apolloShopBusinessStatus.cooperationStatus#,
+        #apolloShopBusinessStatus.offlineDate#,
+        #apolloShopBusinessStatus.businessType#,
+        #apolloShopBusinessStatus.status#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT @@IDENTITY AS ID
+        </selectKey>
+    </insert>
+
+    <update id="deleteApolloShopBusinessStatusByShopID" parameterClass="map">
+        update ApolloShopBusinessStatus
+        set
+        Status = 0,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #shopID#
+    </update>
+
+    <update id="updateApolloShopBusinessStatus" parameterClass="map">
+        update ApolloShopBusinessStatus
+        set
+        CooperationStatus = #apolloShopBusinessStatus.cooperationStatus#,
+        OfflineDate = #apolloShopBusinessStatus.offlineDate#,
+        BusinessType = #apolloShopBusinessStatus.businessType#,
+        Status = #apolloShopBusinessStatus.status#,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #apolloShopBusinessStatus.shopID#
+    </update>
+
+</sqlMap>

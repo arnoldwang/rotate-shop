@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired
 /**
  * Created by luoming on 15/1/4.
  */
-class ApolloShopTest extends AbstractSpockTest {
+class ApolloShopDAOTest extends AbstractSpockTest {
     @Autowired
     ApolloShopDAO apolloShopDAO;
 
-    def "add, query and delete apolloShop"() {
+    def "add, query and delete one apolloShop"() {
         setup:
-
         int shopID = 1
+
         when:
         def s = new ApolloShopEntity()
         s.setShopID(shopID)
@@ -27,6 +27,9 @@ class ApolloShopTest extends AbstractSpockTest {
 
         then:
         1 == apolloShopDAO.queryApolloShopByShopID(shopID).get(0).getShopID()
+        s.setDistrict('北京')
+        apolloShopDAO.updateApolloShop(s)
+        '北京'.equals(apolloShopDAO.queryApolloShopByShopID(shopID).get(0).getDistrict())
 
         cleanup:
         apolloShopDAO.deleteApolloShopByShopID(shopID)
