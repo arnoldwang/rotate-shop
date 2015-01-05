@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MessageQueue">
+
+    <resultMap id="messageQueue" class="com.dianping.rotate.shop.entity.MessageQueueEntity">
+        <result column="ID" property="id"/>
+        <result column="Msg" property="msg"/>
+        <result column="SwallowID" property="swallowId"/>
+        <result column="AttemptIndex" property="attemptIndex"/>
+        <result column="Source" property="source"/>
+        <result column="Status" property="status"/>
+    </resultMap>
+
+    <sql id="keys">
+        ID,
+        Msg,
+        SwallowID,
+        AttemptIndex,
+        Source,
+        Status
+    </sql>
+
+    <sql id="key-value">
+        (
+        <include refid="keys"/>
+        )
+        values
+        (
+        #messageQueue.id#,
+        #messageQueue.msg#,
+        #messageQueue.swallowId#,
+        #messageQueue.attemptIndex#,
+        #messageQueue.source#,
+        #messageQueue.status#
+        )
+    </sql>
+
+
+    <select id="loadByShopId" resultMap="messageQueue" parameterClass="map">
+        SELECT
+        <include refid="keys"/>
+        FROM ApolloShop
+        WHERE `ShopID`=#ShopID#;
+    </select>
+
+</sqlMap>
