@@ -16,7 +16,6 @@
     </resultMap>
 
     <sql id="keys">
-        ID,
         ShopID,
         Type,
         BizID,
@@ -24,38 +23,38 @@
         Status
     </sql>
 
-    <select id="queryApolloShopExtendByShopID" resultMap="apolloShopExtend" parameterClass="int">
+    <select id="queryApolloShopExtendByShopID" resultMap="apolloShopExtend" parameterClass="map">
         SELECT
+        ID,
         <include refid="keys"/>
         FROM ApolloShopExtend
-        WHERE `ShopID`=#ShopID#;
+        WHERE ShopID = #shopID#
     </select>
 
     <insert id="addApolloShopExtend" parameterClass="map">
         INSERT INTO ApolloShopExtend
         (
-        ShopID,
-        Type,
-        BizID,
-        Rating,
-        Status
+        <include refid="keys"/>
         )
         values
         (
-        #apolloShop.shopID#,
-        #apolloShop.type#,
-        #apolloShop.bizID#,
-        #apolloShop.rating#,
-        #apolloShop.status#
+        #apolloShopExtend.shopID#,
+        #apolloShopExtend.type#,
+        #apolloShopExtend.bizID#,
+        #apolloShopExtend.rating#,
+        #apolloShopExtend.status#
         )
         <selectKey resultClass="int" keyProperty="id">
             SELECT @@IDENTITY AS ID
         </selectKey>
     </insert>
 
-    <update id="deleteApolloShopExtendByShopID" parameterClass="int">
-        update from ApolloShopExtend set Status = 0
-        WHERE ShopID =#ShopId#
+    <update id="deleteApolloShopExtendByShopID" parameterClass="map">
+        update ApolloShopExtend
+        set
+        Status = 0,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #shopID#
     </update>
 
 </sqlMap>

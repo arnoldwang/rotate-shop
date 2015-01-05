@@ -16,46 +16,45 @@
     </resultMap>
 
     <sql id="keys">
-        ID,
         ShopID,
         CooperationStatus,
         OfflineDate,
-        BussinessType,
+        BusinessType,
         Status
     </sql>
 
-    <select id="queryApolloShopBusinessStatusByShopID" resultMap="apolloShopBusinessStatus" parameterClass="int">
+    <select id="queryApolloShopBusinessStatusByShopID" resultMap="apolloShopBusinessStatus" parameterClass="map">
         SELECT
+        ID,
         <include refid="keys"/>
         FROM ApolloShopBusinessStatus
-        WHERE `ShopID`=#ShopID#;
+        WHERE ShopID = #shopID#
     </select>
 
     <insert id="addApolloShopBusinessStatus" parameterClass="map">
         INSERT INTO ApolloShopBusinessStatus
         (
-        ShopID,
-        CooperationStatus,
-        OfflineDate,
-        BussinessType,
-        Status
+        <include refid="keys"/>
         )
         values
         (
-        #apolloShop.shopID#,
-        #apolloShop.cooperationStatus#,
-        #apolloShop.offlineDate#,
-        #apolloShop.businessType#,
-        #apolloShop.status#
+        #apolloShopBusinessStatus.shopID#,
+        #apolloShopBusinessStatus.cooperationStatus#,
+        #apolloShopBusinessStatus.offlineDate#,
+        #apolloShopBusinessStatus.businessType#,
+        #apolloShopBusinessStatus.status#
         )
         <selectKey resultClass="int" keyProperty="id">
             SELECT @@IDENTITY AS ID
         </selectKey>
     </insert>
 
-    <update id="deleteApolloShopBusinessStatusByShopID" parameterClass="int">
-        update from ApolloShopBusinessStatus set Status = 0
-        WHERE ShopID =#ShopId#
+    <update id="deleteApolloShopBusinessStatusByShopID" parameterClass="map">
+        update ApolloShopBusinessStatus
+        set
+        Status = 0,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #shopID#
     </update>
 
 </sqlMap>

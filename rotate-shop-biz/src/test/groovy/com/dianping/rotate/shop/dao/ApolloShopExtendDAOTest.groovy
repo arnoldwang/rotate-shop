@@ -2,6 +2,7 @@ package com.dianping.rotate.shop.dao
 
 import com.dianping.rotate.shop.AbstractSpockTest
 import com.dianping.rotate.shop.entity.ApolloShopEntity
+import com.dianping.rotate.shop.entity.ApolloShopExtendEntity
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
@@ -9,26 +10,25 @@ import org.springframework.beans.factory.annotation.Autowired
  */
 class ApolloShopExtendDAOTest extends AbstractSpockTest {
     @Autowired
-    ApolloShopDAO apolloShopDAO;
+    ApolloShopExtendDAO apolloShopExtendDAO;
 
     def "add, query and delete one apolloShopExtend"() {
         setup:
-
         int shopID = 1
+
         when:
-        def s = new ApolloShopEntity()
+        def s = new ApolloShopExtendEntity()
         s.setShopID(shopID)
-        s.setShopGroupID(1)
-        s.setCityID(1)
-        s.setDistrict('上海')
-        s.setShopType(1)
+        s.setType(0)
+        s.setBizID(1)
+        s.setRating('K')
         s.setStatus(1)
-        apolloShopDAO.addApolloShop(s)
+        apolloShopExtendDAO.addApolloShopExtend(s)
 
         then:
-        1 == apolloShopDAO.queryApolloShopByShopID(shopID).get(0).getShopID()
+        1 == apolloShopExtendDAO.queryApolloShopExtendByShopID(shopID).get(0).getShopID()
 
         cleanup:
-        apolloShopDAO.deleteApolloShopByShopID(shopID)
+        apolloShopExtendDAO.deleteApolloShopExtendByShopID(shopID)
     }
 }

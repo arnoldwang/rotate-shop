@@ -17,7 +17,6 @@
     </resultMap>
 
     <sql id="keys">
-        ID,
         ShopID,
         ShopGroupID,
         CityID,
@@ -26,22 +25,18 @@
         Status
     </sql>
 
-    <select id="queryApolloShopByShopID" resultMap="apolloShop" parameterClass="int">
+    <select id="queryApolloShopByShopID" resultMap="apolloShop" parameterClass="map">
         SELECT
+        ID,
         <include refid="keys"/>
         FROM ApolloShop
-        WHERE `ShopID`=#ShopID#;
+        WHERE ShopID = #shopID#
     </select>
 
     <insert id="addApolloShop" parameterClass="map">
         INSERT INTO ApolloShop
         (
-        ShopID,
-        ShopGroupID,
-        CityID,
-        District,
-        ShopType,
-        Status
+        <include refid="keys"/>
         )
         values
         (
@@ -57,9 +52,12 @@
         </selectKey>
     </insert>
 
-    <update id="deleteApolloShopByShopID" parameterClass="int">
-        update from ApolloShop set Status = 0
-        WHERE ShopID =#ShopId#
+    <update id="deleteApolloShopByShopID" parameterClass="map">
+        update ApolloShop
+        set
+        Status = 0,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #shopID#
     </update>
 
 </sqlMap>

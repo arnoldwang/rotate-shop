@@ -13,8 +13,8 @@ class ApolloShopDAOTest extends AbstractSpockTest {
 
     def "add, query and delete one apolloShop"() {
         setup:
-
         int shopID = 1
+
         when:
         def s = new ApolloShopEntity()
         s.setShopID(shopID)
