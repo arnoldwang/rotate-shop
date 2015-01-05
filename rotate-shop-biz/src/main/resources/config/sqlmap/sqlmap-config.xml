@@ -7,6 +7,7 @@
 
     <sqlMap resource="config/sqlmap/sqlmap-ApolloShop.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-RotateGroup.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-RotateGroupShop.xml"/>
 
 
 </sqlMapConfig>

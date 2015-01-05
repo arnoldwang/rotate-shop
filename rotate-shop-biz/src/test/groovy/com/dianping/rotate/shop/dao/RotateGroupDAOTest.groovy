@@ -36,4 +36,6 @@ public class RotateGroupDAOTest extends AbstractSpockTest {
         cleanup:
         rotateGroupDAO.deleteRotateGroup(2);
     }
+
+
 }
