@@ -24,14 +24,14 @@ class BuBizDAOTest extends AbstractSpockTest{
         when:
         buBizDAO.addToBuBiz(r);
         r.setStatus(5);
-        r.setId(2)
+        r.setId(11)
         buBizDAO.updateBuBiz(r);
-        List<BuBizEntity> buBizEntityList = buBizDAO.queryBuBiz(3)
+        List<BuBizEntity> buBizEntityList = buBizDAO.queryBuBiz(11)
 
         then:
-        buBizEntityList.get(0).getStatus() == 0;
+        buBizEntityList.get(0).getStatus() == 5;
 
         cleanup:
-        buBizDAO.deleteBuBiz(3);
+        buBizDAO.deleteBuBiz(11);
     }
 }

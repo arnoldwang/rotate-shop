@@ -26,18 +26,8 @@
             <artifactId>platform-sdk</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.dianping.dpdl</groupId>
-            <artifactId>dpdl-simple</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.dianping</groupId>
             <artifactId>avatar-dao</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.dianping</groupId>
@@ -51,21 +41,7 @@
         </dependency>
         <dependency>
             <groupId>com.dianping</groupId>
-            <artifactId>avatar-dao</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-aop</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-jdbc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-orm</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>avatar-tracker</artifactId>
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache</groupId>
@@ -74,14 +50,6 @@
         <dependency>
             <groupId>net.spy</groupId>
             <artifactId>spymemcached</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dianping</groupId>
-            <artifactId>avatar-tracker</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dianping.dpsf</groupId>
-            <artifactId>dpsf-net</artifactId>
         </dependency>
         <dependency>
             <groupId>com.dianping.hawk</groupId>
@@ -100,12 +68,12 @@
                     <artifactId>lion-client</artifactId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>spring</artifactId>
                     <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>commons-io</artifactId>
                     <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -132,10 +100,6 @@
         <dependency>
             <groupId>com.dianping.cat</groupId>
             <artifactId>cat-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dianping.dpdl</groupId>
-            <artifactId>dpdl-simple</artifactId>
         </dependency>
         <!--spring framework-->
         <dependency>
@@ -192,10 +156,16 @@
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-spring</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -216,30 +186,6 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.dianping.lion</groupId>
-            <artifactId>lion-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dianping</groupId>
-            <artifactId>avatar-dao</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.dianping</groupId>
-            <artifactId>avatar-cache</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!--log4j-->
         <dependency>
@@ -269,11 +215,10 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.12</version>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.netty</groupId>
@@ -283,24 +228,6 @@
         <dependency>
             <groupId>c3p0</groupId>
             <artifactId>c3p0</artifactId>
-        </dependency>
-        <!-- groovy -->
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-core</artifactId>
-            <version>0.7-groovy-2.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-spring</artifactId>
-            <version>0.7-groovy-2.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>2.2.1</version>
         </dependency>
     </dependencies>
     <build>
