@@ -8,10 +8,11 @@ import java.util.Date;
 public class MessageEntity {
     private int id;
     private String msg;
-    private String swallowId;
+    private long swallowId;
     private int attemptIndex;
     private int source;
     private int status;
+    private int type;
 
     public int getId() {
         return id;
@@ -29,11 +30,11 @@ public class MessageEntity {
         this.msg = msg;
     }
 
-    public String getSwallowId() {
+    public long getSwallowId() {
         return swallowId;
     }
 
-    public void setSwallowId(String swallowId) {
+    public void setSwallowId(long swallowId) {
         this.swallowId = swallowId;
     }
 
@@ -59,5 +60,13 @@ public class MessageEntity {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

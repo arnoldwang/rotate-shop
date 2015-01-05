@@ -9,7 +9,7 @@
         http://www.dianping.com/schema/avatar http://www.dianping.com/schema/avatar/avatar-1.0.xsd">
 
 
-    <context:component-scan base-package="com.dianping"/>
+    <context:component-scan base-package="com.dianping.rotate.shop"/>
     <context:annotation-config/>
 
 

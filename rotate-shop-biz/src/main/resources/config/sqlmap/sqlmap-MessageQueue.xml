@@ -3,13 +3,14 @@
 
 <sqlMap namespace="MessageQueue">
 
-    <resultMap id="messageQueue" class="com.dianping.rotate.shop.entity.MessageQueueEntity">
+    <resultMap id="messageQueue" class="com.dianping.rotate.shop.entity.MessageEntity">
         <result column="ID" property="id"/>
         <result column="Msg" property="msg"/>
         <result column="SwallowID" property="swallowId"/>
         <result column="AttemptIndex" property="attemptIndex"/>
         <result column="Source" property="source"/>
         <result column="Status" property="status"/>
+        <result column="Type" property="type"/>
     </resultMap>
 
     <sql id="keys">
@@ -18,7 +19,8 @@
         SwallowID,
         AttemptIndex,
         Source,
-        Status
+        Status,
+        Type
     </sql>
 
     <sql id="key-value">
@@ -27,21 +29,32 @@
         )
         values
         (
-        #messageQueue.id#,
-        #messageQueue.msg#,
-        #messageQueue.swallowId#,
-        #messageQueue.attemptIndex#,
-        #messageQueue.source#,
-        #messageQueue.status#
+        #message.id#,
+        #message.msg#,
+        #message.swallowId#,
+        #message.attemptIndex#,
+        #message.source#,
+        #message.status#,
+        #message.type#
         )
     </sql>
 
 
-    <select id="loadByShopId" resultMap="messageQueue" parameterClass="map">
+    <select id="getMessageById" resultMap="messageQueue" parameterClass="map">
         SELECT
         <include refid="keys"/>
-        FROM ApolloShop
-        WHERE `ShopID`=#ShopID#;
+        FROM MessageQueue
+        WHERE ID=#id#
     </select>
+
+    <insert id="addToMessageQueue" parameterClass="map">
+        INSERT INTO MessageQueue
+        <include refid="key-value"/>
+    </insert>
+
+    <delete id="deleteMessage" parameterClass="map">
+        delete from MessageQueue
+        WHERE ID =#id#
+    </delete>
 
 </sqlMap>
