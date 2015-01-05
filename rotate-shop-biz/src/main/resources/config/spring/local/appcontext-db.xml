@@ -75,4 +75,13 @@
           abstract="true">
         <property name="sqlMapClient" ref="sqlMapClient"/>
     </bean>
+
+    <!--<bean id="rotateGroupDAO" parent="parentDao">-->
+        <!--<property name="proxyInterfaces" value="com.dianping.rotate.shop.dao.RotateGroupDAO"/>-->
+        <!--<property name="target">-->
+            <!--<bean parent="daoRealizeTarget">-->
+                <!--<constructor-arg value="RotateGroupEntity"/>-->
+            <!--</bean>-->
+        <!--</property>-->
+    <!--</bean>-->
 </beans>

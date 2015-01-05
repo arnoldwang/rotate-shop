@@ -33,7 +33,7 @@ public class DaoScanner implements BeanFactoryPostProcessor,ResourceLoaderAware 
         if(!scanPackageList.isEmpty()) {
             for(Map<String,String> scanPackage : scanPackageList) {
                 String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
-                        resolveBasePackage(scanPackage.get(PACKAGE_NAME)) + "/" + "**/*Dao.class";
+                        resolveBasePackage(scanPackage.get(PACKAGE_NAME)) + "/" + "**/*DAO.class";
                 try {
                     Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
                     if(null != resources){
