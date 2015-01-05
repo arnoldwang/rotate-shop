@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!--Create by daogen http://code.dianpingoa.com/yihua.huang/daogen/-->
+<!--@author yihua.huang@dianping.com-->
+<sqlMap namespace="Category">
+
+    <resultMap id="category" class="com.dianping.rotate.shop.entity.CategoryEntity">
+        <result column="ID" property="id"/>
+        <result column="CategoryID" property="categoryID"/>
+        <result column="CategoryName" property="categoryName"/>
+        <result column="ParentID" property="parentID"/>
+        <result column="Status" property="status"/>
+    </resultMap>
+
+    <sql id="keys">
+        CategoryID,
+        CategoryName,
+        ParentID,
+        Status
+    </sql>
+
+    <select id="queryCategoryByCategoryID" resultMap="category" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM Category
+        WHERE CategoryID = #categoryID#
+    </select>
+
+    <insert id="addCategory" parameterClass="map">
+        INSERT INTO Category
+        (
+        <include refid="keys"/>
+        )
+        values
+        (
+        #category.categoryID#,
+        #category.categoryName#,
+        #category.parentID#,
+        #category.status#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT @@IDENTITY AS ID
+        </selectKey>
+    </insert>
+
+    <update id="deleteCategoryByCategoryID" parameterClass="map">
+        update Category
+        set
+        Status = 0,
+        LastModifiedTime = NOW()
+        WHERE CategoryID = #categoryID#
+    </update>
+
+    <update id="updateCategory" parameterClass="map">
+        update Category
+        set
+        CategoryName = #category.categoryName#,
+        parentID = #category.parentID#,
+        Status = #category.status#,
+        LastModifiedTime = NOW()
+        WHERE CategoryID = #category.categoryID#
+    </update>
+
+</sqlMap>
