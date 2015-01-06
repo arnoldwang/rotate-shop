@@ -8,6 +8,7 @@ public class CategoryEntity {
     private int id;
     private int categoryID;
     private String categoryName;
+    private int cityID;
     private int parentID;
     private int status;
 
@@ -49,5 +50,13 @@ public class CategoryEntity {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getCityID() {
+        return cityID;
+    }
+
+    public void setCityID(int cityID) {
+        this.cityID = cityID;
     }
 }
