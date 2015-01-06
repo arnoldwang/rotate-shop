@@ -3,7 +3,7 @@
        default-autowire="byName" xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="apolloShopService" class="com.dianping.dpsf.spring.ServiceRegistry"
+    <bean id="apolloShopServiceRegistry" class="com.dianping.dpsf.spring.ServiceRegistry"
           init-method="init" lazy-init="false">
         <property name="enableEngine" value="true"/>
         <property name="port" value="${rotate-shop-service.remoteServer.port}"/>

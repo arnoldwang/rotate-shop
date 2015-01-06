@@ -65,6 +65,18 @@
         </plugins>
     </build>
     <dependencies>
+        <!-- rotate-shop-api -->
+        <dependency>
+            <groupId>com.dianping</groupId>
+            <artifactId>rotate-shop-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- rotate-shop-biz -->
+        <dependency>
+            <groupId>com.dianping</groupId>
+            <artifactId>rotate-shop-biz</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.dianping.platform</groupId>
             <artifactId>platform-sdk</artifactId>

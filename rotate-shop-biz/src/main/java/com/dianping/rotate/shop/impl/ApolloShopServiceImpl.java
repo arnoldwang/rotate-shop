@@ -11,12 +11,15 @@ import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.entity.ShopCategoryEntity;
 import com.dianping.rotate.shop.entity.ShopRegionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by luoming on 15/1/6.
  */
+
+@Service("apolloShopService")
 public class ApolloShopServiceImpl implements ApolloShopService {
 
     @Autowired
