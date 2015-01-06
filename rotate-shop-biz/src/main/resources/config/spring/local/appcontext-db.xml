@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!-- Master Main datasource -->
+    <bean id="rotate-shop-master" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="jdbcUrl" value="${rotate-shop-biz.jdbc.url}"/>
+        <property name="user" value="${rotate-shop-biz.jdbc.username}"/>
+        <property name="password" value="${rotate-shop-biz.jdbc.password}"/>
+        <property name="driverClass" value="${rotate-shop-biz.jdbc.driverClassName}"/>
+        <property name="minPoolSize" value="8"/>
+        <property name="maxPoolSize" value="30"/>
+        <property name="initialPoolSize" value="15"/>
+        <property name="maxIdleTime" value="1800"/>
+        <property name="idleConnectionTestPeriod" value="60"/>
+        <property name="acquireRetryAttempts" value="3"/>
+        <property name="acquireRetryDelay" value="300"/>
+        <property name="maxStatements" value="0"/>
+        <property name="maxStatementsPerConnection" value="100"/>
+        <property name="numHelperThreads" value="6"/>
+        <property name="maxAdministrativeTaskTime" value="5"/>
+        <property name="preferredTestQuery" value="SELECT 1"/>
+    </bean>
+
+    <!-- Slave Main datasource -->
+    <bean id="rotate-shop-slave" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="jdbcUrl" value="${rotate-shop-biz.jdbc.url}"/>
+        <property name="user" value="${rotate-shop-biz.jdbc.username}"/>
+        <property name="password" value="${rotate-shop-biz.jdbc.password}"/>
+        <property name="driverClass" value="${rotate-shop-biz.jdbc.driverClassName}"/>
+        <property name="minPoolSize" value="8"/>
+        <property name="maxPoolSize" value="30"/>
+        <property name="initialPoolSize" value="15"/>
+        <property name="maxIdleTime" value="1800"/>
+        <property name="idleConnectionTestPeriod" value="60"/>
+        <property name="acquireRetryAttempts" value="3"/>
+        <property name="acquireRetryDelay" value="300"/>
+        <property name="maxStatements" value="0"/>
+        <property name="maxStatementsPerConnection" value="100"/>
+        <property name="numHelperThreads" value="6"/>
+        <property name="maxAdministrativeTaskTime" value="5"/>
+        <property name="preferredTestQuery" value="SELECT 1"/>
+    </bean>
+
+    <!-- Read/Write Splitting -->
+    <bean id="dataSource" class="com.dianping.dpdl.sql.DPDataSource">
+        <property name="writeDS" value="rotate-shop-master"/>
+        <property name="readDS">
+            <map>
+                <entry key="rotate-shop-slave" value="10"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="sqlMapClient" class="com.dianping.avatar.dao.ibatis.spring.LimitSqlMapClientFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:/config/sqlmap/sqlmap-config.xml"/>
+        <property name="sqlConvert" ref="mysqlConverter"/>
+        <property name="useTransactionAwareDataSource" value="true"/>
+        <property name="transactionConfigProperties">
+            <props>
+                <prop key="DefaultAutoCommit">false</prop>
+                <prop key="SetAutoCommitAllowed">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="daoRealizeTarget" class="com.dianping.avatar.dao.ibatis.IBatisGenericDaoImpl"
+          abstract="true">
+        <property name="sqlMapClient" ref="sqlMapClient"/>
+    </bean>
+
+    <!--<bean id="rotateGroupDAO" parent="parentDao">-->
+        <!--<property name="proxyInterfaces" value="com.dianping.rotate.shop.dao.RotateGroupDAO"/>-->
+        <!--<property name="target">-->
+            <!--<bean parent="daoRealizeTarget">-->
+                <!--<constructor-arg value="RotateGroupEntity"/>-->
+            <!--</bean>-->
+        <!--</property>-->
+    <!--</bean>-->
+</beans>

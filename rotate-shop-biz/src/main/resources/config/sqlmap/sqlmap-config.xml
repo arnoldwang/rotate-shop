@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+    <settings cacheModelsEnabled="true" enhancementEnabled="false"
+              lazyLoadingEnabled="false" maxRequests="3000" maxSessions="3000"
+              maxTransactions="3000" useStatementNamespaces="true"/>
+
+    <sqlMap resource="config/sqlmap/sqlmap-ApolloShop.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-ApolloShopExtend.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-ApolloShopBusinessStatus.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-Region.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-ShopRegion.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-Category.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-ShopCategory.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-RotateGroup.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-MessageQueue.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-RotateGroupShop.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-Biz.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-BuBiz.xml"/>
+
+</sqlMapConfig>

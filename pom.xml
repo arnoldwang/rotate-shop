@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>parent</artifactId>
@@ -20,6 +19,9 @@
         <powermock.version>1.5.4</powermock.version>
         <mockito.version>1.9.5</mockito.version>
         <slf4j.version>1.7.5</slf4j.version>
+        <groovy.version>2.2.1</groovy.version>
+        <aspectj.version>1.6.8</aspectj.version>
+        <data.service.verion>0.0.4-SNAPSHOT</data.service.verion>
     </properties>
     <modules>
         <module>rotate-shop-api</module>
@@ -28,11 +30,91 @@
         <module>rotate-shop-mq</module>
         <module>rotate-shop-job</module>
         <module>rotate-shop-web</module>
-        <module>rotate-shop-module</module>
         <module>rotate-shop-common</module>
     </modules>
     <dependencyManagement>
         <dependencies>
+            <!-- Spring -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+                <exclusions>
+                    <!-- Exclude Commons Logging in favor of SLF4j -->
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aspects</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.3.3</version>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1.3</version>
+            </dependency>
+
             <!-- dp framework -->
             <dependency>
                 <groupId>com.dianping.dpdl</groupId>
@@ -42,12 +124,17 @@
             <dependency>
                 <groupId>com.dianping.platform</groupId>
                 <artifactId>platform-sdk</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dianping.dpdl</groupId>
-                <artifactId>dpdl-simple</artifactId>
-                <version>0.1.1</version>
+                <version>1.1.2</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>asm</artifactId>
+                        <groupId>org.ow2.asm</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>spring</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.dianping</groupId>
@@ -72,6 +159,11 @@
                 </exclusions>
             </dependency>
             <dependency>
+                <groupId>com.dianping</groupId>
+                <artifactId>avatar-tracker</artifactId>
+                <version>2.1.9</version>
+            </dependency>
+            <dependency>
                 <groupId>net.sf.ehcache</groupId>
                 <artifactId>ehcache-core</artifactId>
                 <version>2.5.2</version>
@@ -82,11 +174,6 @@
                 <version>2.9.1</version>
             </dependency>
             <dependency>
-                <groupId>com.dianping</groupId>
-                <artifactId>avatar-tracker</artifactId>
-                <version>2.1.9</version>
-            </dependency>
-            <dependency>
                 <groupId>com.dianping.dpsf</groupId>
                 <artifactId>dpsf-net</artifactId>
                 <version>${pigeon.version}</version>
@@ -95,11 +182,6 @@
                 <groupId>com.dianping.hawk</groupId>
                 <artifactId>hawk-client</artifactId>
                 <version>0.7.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.unidal.framework</groupId>
-                <artifactId>foundation-service</artifactId>
-                <version>2.1.1</version>
             </dependency>
             <dependency>
                 <groupId>com.dianping</groupId>
@@ -137,34 +219,16 @@
             </dependency>
             <dependency>
                 <groupId>com.dianping.lion</groupId>
-                <artifactId>lion-dev</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dianping.lion</groupId>
                 <artifactId>lion-client</artifactId>
                 <version>0.4.5</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dianping.lion</groupId>
-                <artifactId>lion-alpha</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dianping.lion</groupId>
-                <artifactId>lion-qa</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dianping.lion</groupId>
-                <artifactId>lion-product</artifactId>
-                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.dianping.zebra</groupId>
                 <artifactId>zebra-ds-monitor-client</artifactId>
                 <version>0.0.7</version>
             </dependency>
+
+            <!-- swallow -->
             <dependency>
                 <groupId>com.dianping.swallow</groupId>
                 <artifactId>swallow-consumerclient</artifactId>
@@ -175,6 +239,8 @@
                 <artifactId>swallow-producerclient</artifactId>
                 <version>0.6.10</version>
             </dependency>
+
+            <!-- cat -->
             <dependency>
                 <groupId>com.dianping.cat</groupId>
                 <artifactId>cat-core</artifactId>
@@ -185,64 +251,29 @@
                 <artifactId>cat-client</artifactId>
                 <version>1.1.3</version>
             </dependency>
-            <!--spring framework-->
+
+            <!-- test -->
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <version>${spring.version}</version>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.10</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>${spring.version}</version>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>${groovy.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aspects</artifactId>
-                <version>${spring.version}</version>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-core</artifactId>
+                <version>0.7-groovy-2.0</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-beans</artifactId>
-                <version>${spring.version}</version>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-spring</artifactId>
+                <version>0.7-groovy-2.0</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-jdbc</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-orm</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-tx</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-web</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <!--dp third api-->
-            <!-- tool for UT -->
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
@@ -267,40 +298,27 @@
                 <version>1.3</version>
                 <scope>test</scope>
             </dependency>
-            <!--log4j-->
+
+            <!-- other -->
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.21</version>
             </dependency>
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
-                <version>${slf4j.version}</version>
-                <scope>runtime</scope>
+                <groupId>org.unidal.framework</groupId>
+                <artifactId>foundation-service</artifactId>
+                <version>2.1.1</version>
             </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.16</version>
-                <scope>runtime</scope>
-            </dependency>
-            <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>1.1.3</version>
-            </dependency>
-            <!--common tool-->
             <dependency>
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-mapper-asl</artifactId>
                 <version>1.9.12</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beust</groupId>
+                <artifactId>jcommander</artifactId>
+                <version>1.32</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
@@ -312,10 +330,101 @@
                 <artifactId>netty</artifactId>
                 <version>3.2.19</version>
             </dependency>
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>2.8.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.opensaml</groupId>
+                <artifactId>opensaml</artifactId>
+                <version>1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.santuario</groupId>
+                <artifactId>xmlsec</artifactId>
+                <version>1.4.0</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
     <build>
+        <pluginManagement>
+            <plugins>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-reactor-plugin</artifactId>
+                <version>1.0</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.src.version}</source>
+                    <target>${java.target.version}</target>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.5.9.201207300726</version>
+                <configuration>
+                    <propertyName>jacoco.agent.argLine</propertyName>
+                    <!-- default: argLine -->
+                    <includes>
+                        <include>com/dianping/**</include>
+                    </includes>
+                    <destFile>${sonar.jacoco.reportPath}</destFile>
+                    <!-- agent -->
+                    <dataFile>${sonar.jacoco.reportPath}</dataFile>
+                    <!-- report -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.1.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>2.2.1</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>1.6</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
         </plugins>
     </build>
 </project>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!--Create by daogen http://code.dianpingoa.com/yihua.huang/daogen/-->
+<!--@author yihua.huang@dianping.com-->
+<sqlMap namespace="ApolloShopExtend">
+
+    <resultMap id="apolloShopExtend" class="com.dianping.rotate.shop.entity.ApolloShopExtendEntity">
+        <result column="ID" property="id"/>
+        <result column="ShopID" property="shopID"/>
+        <result column="Type" property="type"/>
+        <result column="BizID" property="bizID"/>
+        <result column="Rating" property="rating"/>
+        <result column="Status" property="status"/>
+    </resultMap>
+
+    <sql id="keys">
+        ShopID,
+        Type,
+        BizID,
+        Rating,
+        Status
+    </sql>
+
+    <select id="queryApolloShopExtendByShopID" resultMap="apolloShopExtend" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShopExtend
+        WHERE ShopID = #shopID#
+    </select>
+
+    <select id="queryApolloShopExtendByShopIDAndBizID" resultMap="apolloShopExtend" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShopExtend
+        WHERE ShopID = #shopID# and BizID = #bizID#
+    </select>
+
+    <insert id="addApolloShopExtend" parameterClass="map">
+        INSERT INTO ApolloShopExtend
+        (
+        <include refid="keys"/>
+        )
+        values
+        (
+        #apolloShopExtend.shopID#,
+        #apolloShopExtend.type#,
+        #apolloShopExtend.bizID#,
+        #apolloShopExtend.rating#,
+        #apolloShopExtend.status#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT @@IDENTITY AS ID
+        </selectKey>
+    </insert>
+
+    <update id="deleteApolloShopExtendByShopID" parameterClass="map">
+        update ApolloShopExtend
+        set
+        Status = 0,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #shopID#
+    </update>
+
+    <update id="updateApolloShopExtend" parameterClass="map">
+        update ApolloShopExtend
+        set
+        Type = #apolloShopExtend.type#,
+        BizID = #apolloShopExtend.bizID#,
+        Rating = #apolloShopExtend.rating#,
+        Status = #apolloShopExtend.status#,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #apolloShopExtend.shopID#
+    </update>
+
+</sqlMap>

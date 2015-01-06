@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MessageQueue">
+
+    <resultMap id="messageQueue" class="com.dianping.rotate.shop.entity.MessageEntity">
+        <result column="ID" property="id"/>
+        <result column="Msg" property="msg"/>
+        <result column="SwallowID" property="swallowId"/>
+        <result column="AttemptIndex" property="attemptIndex"/>
+        <result column="Source" property="source"/>
+        <result column="Status" property="status"/>
+        <result column="Type" property="type"/>
+    </resultMap>
+
+    <sql id="keys">
+        ID,
+        Msg,
+        SwallowID,
+        AttemptIndex,
+        Source,
+        Status,
+        Type
+    </sql>
+
+    <sql id="key-value">
+        (
+        <include refid="keys"/>
+        )
+        values
+        (
+        #message.id#,
+        #message.msg#,
+        #message.swallowId#,
+        #message.attemptIndex#,
+        #message.source#,
+        #message.status#,
+        #message.type#
+        )
+    </sql>
+
+
+    <select id="getMessageById" resultMap="messageQueue" parameterClass="map">
+        SELECT
+        <include refid="keys"/>
+        FROM MessageQueue
+        WHERE ID=#id#
+    </select>
+
+    <insert id="addToMessageQueue" parameterClass="map">
+        INSERT INTO MessageQueue
+        <include refid="key-value"/>
+    </insert>
+
+    <delete id="deleteMessage" parameterClass="map">
+        delete from MessageQueue
+        WHERE ID =#id#
+    </delete>
+
+</sqlMap>
