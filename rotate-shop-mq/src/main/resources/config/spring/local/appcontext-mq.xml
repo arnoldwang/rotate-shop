@@ -3,5 +3,30 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+    <bean id="consumerFactory" class="com.dianping.swallow.consumer.impl.ConsumerFactoryImpl" factory-method="getInstance"/>
 
+    <bean id="consumerConfig" class="com.dianping.swallow.consumer.ConsumerConfig"/>
+
+    <bean id="poiChangeDest" class="com.dianping.swallow.common.message.Destination" factory-method="topic">
+        <constructor-arg>
+            <value>dp_poi_change</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="poiChangeListener" class="com.dianping.roate.shop.listener.POIChangeListener"/>
+
+    <bean id="poiChangeConsumerClient" factory-bean="consumerFactory" factory-method="createConsumer" init-method="start">
+        <constructor-arg>
+            <ref bean= "poiChangeDest"/>
+        </constructor-arg>
+        <constructor-arg>
+            <value>poi-change-consumer</value>
+        </constructor-arg>
+        <constructor-arg>
+            <ref bean="consumerConfig"/>
+        </constructor-arg>
+        <property name="listener">
+            <ref local="poiChangeListener"/>
+        </property>
+    </bean>
 </beans>
