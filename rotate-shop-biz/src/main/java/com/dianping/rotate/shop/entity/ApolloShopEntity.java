@@ -9,7 +9,7 @@ public class ApolloShopEntity {
     private int shopID;
     private int shopGroupID;
     private int cityID;
-    private String district;
+    private int district;
     private int shopType;
     private int status;
 
@@ -45,11 +45,11 @@ public class ApolloShopEntity {
         this.cityID = cityID;
     }
 
-    public String getDistrict() {
+    public int getDistrict() {
         return district;
     }
 
-    public void setDistrict(String district) {
+    public void setDistrict(int district) {
         this.district = district;
     }
 

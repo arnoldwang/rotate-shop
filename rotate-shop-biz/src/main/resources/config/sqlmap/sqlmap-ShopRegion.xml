@@ -29,6 +29,14 @@
         WHERE ShopID = #shopID#
     </select>
 
+    <select id="queryShopMainRegionByShopID" resultMap="shopRegion" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ShopRegion
+        WHERE ShopID = #shopID# and IsMain = 1
+    </select>
+
     <select id="queryShopRegionByRegionID" resultMap="shopRegion" parameterClass="map">
         SELECT
         ID,

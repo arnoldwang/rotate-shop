@@ -16,6 +16,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+        <!-- rotate-shop-api -->
+        <dependency>
+            <groupId>com.dianping</groupId>
+            <artifactId>rotate-shop-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!-- dp framework -->
         <dependency>
             <groupId>com.dianping.dpdl</groupId>

@@ -1,23 +1,22 @@
-package com.dianping.rotate.shop.entity;
+package com.dianping.rotate.shop.dto;
 
 /**
- * Created by luoming on 15/1/4.
+ * Created by luoming on 15/1/6.
  */
-public class RegionEntity {
+public class RegionDTO {
 
-    private int id;
     private int regionID;
     private String regionName;
     private int cityID;
     private int parentID;
     private int status;
 
-    public int getId() {
-        return id;
+    public int getStatus() {
+        return status;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getRegionID() {
@@ -36,27 +35,19 @@ public class RegionEntity {
         this.regionName = regionName;
     }
 
-    public int getParentID() {
-        return parentID;
-    }
-
-    public void setParentID(int parentID) {
-        this.parentID = parentID;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public int getCityID() {
         return cityID;
     }
 
     public void setCityID(int cityID) {
         this.cityID = cityID;
+    }
+
+    public int getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(int parentID) {
+        this.parentID = parentID;
     }
 }
