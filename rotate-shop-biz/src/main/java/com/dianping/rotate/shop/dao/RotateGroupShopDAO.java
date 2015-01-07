@@ -15,7 +15,7 @@ import java.util.List;
 public interface RotateGroupShopDAO extends GenericDao {
 
 	@DAOAction(action = DAOActionType.INSERT)
-	public void addToRotateGroupShop(@DAOParam("rotateGroupShop")RotateGroupShopEntity rotateGroupShop);
+	public int addToRotateGroupShop(@DAOParam("rotateGroupShop")RotateGroupShopEntity rotateGroupShop);
 
 	@DAOAction(action = DAOActionType.DELETE)
 	public void deleteRotateGroupShop(@DAOParam("id")int id);
@@ -25,4 +25,7 @@ public interface RotateGroupShopDAO extends GenericDao {
 
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<RotateGroupShopEntity> queryRotateGroupShop(@DAOParam("id")int id);
+
+	@DAOAction(action = DAOActionType.QUERY)
+	public List<RotateGroupShopEntity> queryRotateGroupShopByRotateGroupID(@DAOParam("rotateGroupID")int rotateGroupID);
 }

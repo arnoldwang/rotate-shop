@@ -9,8 +9,6 @@ import java.util.Date;
 public class RotateGroupEntity {
 	private int id;
 
-	private int rotateGroupID;
-
 	private int bizID;
 	//类型：0，单店；1，连锁店
 	private int type;
@@ -27,14 +25,6 @@ public class RotateGroupEntity {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getRotateGroupID() {
-		return rotateGroupID;
-	}
-
-	public void setRotateGroupID(int rotateGroupID) {
-		this.rotateGroupID = rotateGroupID;
 	}
 
 	public int getBizID() {

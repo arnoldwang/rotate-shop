@@ -15,14 +15,14 @@ import java.util.List;
 public interface RotateGroupDAO extends GenericDao{
 
 	@DAOAction(action = DAOActionType.INSERT)
-	public void addToRotateGroup(@DAOParam("rotateGroup")RotateGroupEntity rotateGroup);
+	public int addToRotateGroup(@DAOParam("rotateGroup")RotateGroupEntity rotateGroup);
 
 	@DAOAction(action = DAOActionType.DELETE)
-	public void deleteRotateGroup(@DAOParam("rotateGroupID")int rotateGroupID);
+	public void deleteRotateGroup(@DAOParam("id")int rotateGroupID);
 
 	@DAOAction(action = DAOActionType.UPDATE)
 	public void updateRotateGroup(@DAOParam("rotateGroup")RotateGroupEntity rotateGroup);
 
 	@DAOAction(action = DAOActionType.QUERY)
-	public List<RotateGroupEntity> queryRotateGroup(@DAOParam("rotateGroupID")int rotateGroupID);
+	public List<RotateGroupEntity> queryRotateGroup(@DAOParam("id")int rotateGroupID);
 }

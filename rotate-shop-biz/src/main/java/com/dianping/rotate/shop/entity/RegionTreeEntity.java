@@ -3,13 +3,12 @@ package com.dianping.rotate.shop.entity;
 /**
  * Created by luoming on 15/1/4.
  */
-public class RegionEntity {
+public class RegionTreeEntity {
 
     private int id;
     private int regionID;
-    private String regionName;
-    private int cityID;
-    private int regionType;
+    private int parentID;
+    private int isMain;
     private int status;
 
     public int getId() {
@@ -27,21 +26,21 @@ public class RegionEntity {
     public void setRegionID(int regionID) {
         this.regionID = regionID;
     }
-
-    public String getRegionName() {
-        return regionName;
+    
+    public int getParentID() {
+        return parentID;
     }
 
-    public void setRegionName(String regionName) {
-        this.regionName = regionName;
+    public void setParentID(int parentID) {
+        this.parentID = parentID;
     }
 
-    public int getRegionType() {
-        return regionType;
+    public int getIsMain() {
+        return isMain;
     }
 
-    public void setRegionType(int regionType) {
-        this.regionType = regionType;
+    public void setIsMain(int isMain) {
+        this.isMain = isMain;
     }
 
     public int getStatus() {
@@ -50,13 +49,5 @@ public class RegionEntity {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public int getCityID() {
-        return cityID;
-    }
-
-    public void setCityID(int cityID) {
-        this.cityID = cityID;
     }
 }

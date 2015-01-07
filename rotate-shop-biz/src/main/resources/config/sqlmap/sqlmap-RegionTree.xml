@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!--Create by daogen http://code.dianpingoa.com/yihua.huang/daogen/-->
+<!--@author yihua.huang@dianping.com-->
+<sqlMap namespace="RegionTree">
+
+    <resultMap id="regionTree" class="com.dianping.rotate.shop.entity.RegionTreeEntity">
+        <result column="ID" property="id"/>
+        <result column="RegionID" property="regionID"/>
+        <result column="ParentID" property="parentID"/>
+        <result column="IsMain" property="isMain"/>
+        <result column="Status" property="status"/>
+    </resultMap>
+
+    <sql id="keys">
+        RegionID,
+        ParentID,
+        IsMain,
+        Status
+    </sql>
+
+    <select id="queryMainRegionTreeByRegionID" resultMap="regionTree" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM RegionTree
+        WHERE RegionID = #regionID# and IsMain = 1
+    </select>
+
+</sqlMap>
