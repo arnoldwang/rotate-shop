@@ -7,8 +7,6 @@
         <result property="bizID" column="BizID"/>
         <result property="type" column="Type"/>
         <result property="status" column="Status"/>
-        <result property="createdTime" column="CreatedTime"/>
-        <result property="lastModifiedTime" column="LastModifiedTime"/>
     </resultMap>
 
     <sql id="keys">
