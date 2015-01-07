@@ -1,9 +1,11 @@
 package com.dianping.rotate.shop.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by luoming on 15/1/6.
  */
-public class RegionDTO {
+public class RegionDTO implements Serializable {
 
     private int regionID;
     private String regionName;
