@@ -4,7 +4,6 @@
     <typeAlias alias="RotateGroup" type="com.dianping.rotate.shop.entity.RotateGroupEntity" />
     <resultMap id="rotateGroup" class="RotateGroup">
         <result property="id" column="ID"/>
-        <result property="rotateGroupID" column="RotateGroupID"/>
         <result property="bizID" column="BizID"/>
         <result property="type" column="Type"/>
         <result property="status" column="Status"/>
@@ -13,12 +12,9 @@
     </resultMap>
 
     <sql id="keys">
-        RotateGroupID,
         BizID,
         Type,
-        Status,
-        CreatedTime,
-        LastModifiedTime
+        Status
     </sql>
 
     <sql id="key-value">
@@ -27,36 +23,33 @@
         )
         VALUES
         (
-        #rotateGroup.rotateGroupID#,
         #rotateGroup.bizID#,
         #rotateGroup.type#,
-        #rotateGroup.status#,
-        NOW(),
-        NOW()
+        #rotateGroup.status#
         )
     </sql>
 
     <sql id="modify">
         SET
-            RotateGroupID = #rotateGroup.rotateGroupID#,
             BizID = #rotateGroup.bizID#,
             Type = #rotateGroup.type#,
-            Status = #rotateGroup.status#,
-            LastModifiedTime = NOW()
-        WHERE RotateGroupID = #rotateGroup.rotateGroupID#
+            Status = #rotateGroup.status#
+        WHERE ID = #rotateGroup.id#
     </sql>
 
     <insert id="addToRotateGroup" parameterClass="map">
         INSERT INTO RotateGroup
         <include refid="key-value"/>
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
     </insert>
     
     <delete id="deleteRotateGroup" parameterClass="map">
         UPDATE RotateGroup
         SET
-            Status = 0,
-            LastModifiedTime = NOW()
-        WHERE RotateGroupID = #rotateGroupID#
+            Status = 0
+        WHERE ID = #id#
     </delete>
 
     <update id="updateRotateGroup" parameterClass="map">
@@ -68,6 +61,6 @@
         SELECT ID,
         <include refid="keys"/>
         FROM RotateGroup
-        WHERE RotateGroupID = #rotateGroupID#
+        WHERE ID = #id# AND Status = 1
     </select>
 </sqlMap>

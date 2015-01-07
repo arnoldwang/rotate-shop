@@ -15,26 +15,23 @@ public class RotateGroupDAOTest extends AbstractSpockTest {
 
     def "test add query update and delete RotateGroup"(){
         setup:
-        int rotateGroupID = 2;
         int bizID = new Random().nextInt(Integer.MAX_VALUE);
         def r = new RotateGroupEntity();
-        r.setRotateGroupID(rotateGroupID);
         r.setBizID(bizID);
         r.setType(0);
-        r.setStatus(1);
+        r.setStatus(0);
 
         when:
-        rotateGroupDAO.addToRotateGroup(r);
-        r.setStatus(0);
+        int id = rotateGroupDAO.addToRotateGroup(r);
+        r.setStatus(1);
         rotateGroupDAO.updateRotateGroup(r);
-        List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.queryRotateGroup(2)
+        List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.queryRotateGroup(id)
 
         then:
-        rotateGroupEntityList.get(0).getRotateGroupID() == 2;
-        rotateGroupEntityList.get(0).getStatus() == 0;
+        rotateGroupEntityList.get(0).getStatus() == 1;
 
         cleanup:
-        rotateGroupDAO.deleteRotateGroup(2);
+        rotateGroupDAO.deleteRotateGroup(id);
     }
 
 
