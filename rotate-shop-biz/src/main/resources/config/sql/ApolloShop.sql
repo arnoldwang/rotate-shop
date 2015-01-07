@@ -27,13 +27,41 @@ CREATE TABLE `Region`(
   `RegionID` int(11) NOT NULL COMMENT '区域ID',
   `RegionName` varchar(100) COMMENT '区域名',
   `CityID` int(11) NOT NULL COMMENT '城市ID',
-  `ParentID` int(11) COMMENT '父区域ID',
+  `RegionType` int(11) COMMENT '区域类型',
+  `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
+  `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
+  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  PRIMARY KEY (`ID`),
+  KEY `IX_REGION_ID` (`RegionID`),
+  KEY `IX_REGION_CITY_ID` (`RegionID`,`CityID`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '区域表';
+
+DROP TABLE IF EXISTS `RegionTree`;
+CREATE TABLE `RegionTree`(
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `RegionID` int(11) NOT NULL COMMENT '区域ID',
+  `ParentID` int(11) NOT NULL COMMENT '父区域ID',
+  `IsMain` tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否主区域：0，否；1，是；',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_REGION_ID` (`RegionID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '区域树表';
+
+DROP TABLE IF EXISTS `RegionExpand`;
+CREATE TABLE `RegionExpand`(
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `RegionID` int(11) NOT NULL COMMENT '区域ID',
+  `SubRegionID` int(11) NOT NULL COMMENT '子区域ID',
+  `CityID` int(11) NOT NULL DEFAULT 0 COMMENT '城市ID',
+  `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
+  `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
+  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  PRIMARY KEY (`ID`),
+  KEY `IX_REGION_ID` (`RegionID`),
+  KEY `IX_REGION_CITY_ID` (`RegionID`,`CityID`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '区域树拉平表';
 
 
 DROP TABLE IF EXISTS `ShopRegion`;
@@ -57,12 +85,29 @@ CREATE TABLE `Category`(
   `CategoryID` int(11) NOT NULL COMMENT '分类ID',
   `CategoryName` varchar(100) COMMENT '分类名',
   `CityID` int(11) NOT NULL COMMENT '城市ID',
-  `ParentID` int(11) COMMENT '父分类ID',
+  `CategoryType` int(11) COMMENT '分类类型',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_CATEGORY_ID` (`CategoryID`)
+  KEY `IX_CATEGORY_ID` (`CategoryID`),
+  KEY `IX_CATEGORY_CITY_ID` (`CategoryID`,`CityID`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类表';
+
+
+DROP TABLE IF EXISTS `CategoryTree`;
+CREATE TABLE `CategoryTree`(
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `CategoryID` int(11) NOT NULL COMMENT '分类ID',
+  `CityID` int(11) NOT NULL COMMENT '城市ID',
+  `ParentID` int(11) COMMENT '父分类ID',
+  `IsMain` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否主区域：0，否;1，是;',
+  `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
+  `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
+  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  PRIMARY KEY (`ID`),
+  KEY `IX_CATEGORY_ID` (`CategoryID`),
+  KEY `IX_CATEGORY_CITY_ID` (`CategoryID`,`CityID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类树表';
 
 
@@ -116,15 +161,13 @@ CREATE TABLE `ApolloShopBusinessStatus`(
 DROP TABLE IF EXISTS `RotateGroup`;
 CREATE TABLE `RotateGroup`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
-  `RotateGroupID` int(11) NOT NULL COMMENT '轮转门店组ID',
   `BizID` int(11) NOT NULL COMMENT 'BizID',
   `Type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '类型：0，单店；1，连锁店',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；2，关闭；3，暂停营业；4，尚未营业；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_ROTATEGROUP_ID` (`RotateGroupID`),
-  KEY `IX_ROTATEGROUP_BIZ_ID` (`RotateGroupID`,`BizID`)
+  KEY `IX_BIZ_ID` (`BizID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '轮转门店组信息表';
 
 
