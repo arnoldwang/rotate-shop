@@ -10,16 +10,7 @@ public class RegionDTO implements Serializable {
     private int regionID;
     private String regionName;
     private int cityID;
-    private int parentID;
-    private int status;
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+    private int regionType;
 
     public int getRegionID() {
         return regionID;
@@ -45,11 +36,11 @@ public class RegionDTO implements Serializable {
         this.cityID = cityID;
     }
 
-    public int getParentID() {
-        return parentID;
+    public int getRegionType() {
+        return regionType;
     }
 
-    public void setParentID(int parentID) {
-        this.parentID = parentID;
+    public void setRegionType(int regionType) {
+        this.regionType = regionType;
     }
 }

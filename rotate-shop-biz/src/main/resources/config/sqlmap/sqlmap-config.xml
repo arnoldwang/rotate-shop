@@ -9,8 +9,10 @@
     <sqlMap resource="config/sqlmap/sqlmap-ApolloShopExtend.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-ApolloShopBusinessStatus.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-Region.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-RegionTree.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-ShopRegion.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-Category.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-CategoryTree.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-ShopCategory.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-RotateGroup.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-MessageQueue.xml"/>

@@ -17,6 +17,9 @@ public interface CategoryDAO extends GenericDao {
     @DAOAction(action = DAOActionType.QUERY)
     List<CategoryEntity> queryCategoryByCategoryID(@DAOParam("categoryID") int categoryID);
 
+    @DAOAction(action = DAOActionType.QUERY)
+    List<CategoryEntity> queryCategoryByCategoryIDAndCityID(@DAOParam("categoryID") int categoryID, @DAOParam("cityID") int cityID);
+
     @DAOAction(action = DAOActionType.INSERT)
     int addCategory(@DAOParam("category") CategoryEntity category);
 

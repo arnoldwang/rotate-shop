@@ -16,6 +16,32 @@
         </property>
     </bean>
 
+    <bean id="apolloRegionServiceRegistry" class="com.dianping.dpsf.spring.ServiceRegistry"
+          init-method="init" lazy-init="false">
+        <property name="enableEngine" value="true"/>
+        <property name="port" value="${rotate-shop-service.remoteServer.port}"/>
+        <property name="services">
+            <map>
+                <entry
+                        key="http://service.dianping.com/rotate/shop/ApolloRegionService_0.0.1"
+                        value-ref="apolloRegionService"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="apolloCategoryServiceRegistry" class="com.dianping.dpsf.spring.ServiceRegistry"
+          init-method="init" lazy-init="false">
+        <property name="enableEngine" value="true"/>
+        <property name="port" value="${rotate-shop-service.remoteServer.port}"/>
+        <property name="services">
+            <map>
+                <entry
+                        key="http://service.dianping.com/rotate/shop/ApolloCategoryService_0.0.1"
+                        value-ref="apolloCategoryService"/>
+            </map>
+        </property>
+    </bean>
+
     <bean id="rotateGroupServiceRegistry" class="com.dianping.dpsf.spring.ServiceRegistry"
           init-method="init" lazy-init="false">
         <property name="enableEngine" value="true"/>
@@ -25,6 +51,19 @@
                 <entry
                         key="http://service.dianping.com/rotate/shop/RotateGroupService_0.0.1"
                         value-ref="RotateGroupService"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="rotateGroupShopServiceRegistry" class="com.dianping.dpsf.spring.ServiceRegistry"
+          init-method="init" lazy-init="false">
+        <property name="enableEngine" value="true"/>
+        <property name="port" value="${rotate-shop-service.remoteServer.port}"/>
+        <property name="services">
+            <map>
+                <entry
+                        key="http://service.dianping.com/rotate/shop/RotateGroupShopService_0.0.1"
+                        value-ref="RotateGroupShopService"/>
             </map>
         </property>
     </bean>
