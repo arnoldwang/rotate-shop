@@ -2,6 +2,7 @@ package com.dianping.rotate.shop.impl;
 
 import com.dianping.rotate.shop.api.CategoryService;
 import com.dianping.rotate.shop.dao.CategoryDAO;
+import com.dianping.rotate.shop.dao.CategoryTreeDAO;
 import com.dianping.rotate.shop.dto.CategoryDTO;
 import com.dianping.rotate.shop.dto.CategoryDTO;
 import com.dianping.rotate.shop.entity.CategoryEntity;
@@ -19,6 +20,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryDAO categoryDAO;
+
+    @Autowired
+    private CategoryTreeDAO categoryTreeDAO;
     
     @Override
     public CategoryDTO getCategoryByCategoryIDAndCityID(int categoryID, int cityID) {
@@ -47,6 +51,11 @@ public class CategoryServiceImpl implements CategoryService {
         categoryDTO.setCategoryName(category.getCategoryName());
         categoryDTO.setCategoryType(category.getCategoryType());
         return categoryDTO;
+    }
+
+    private CategoryEntity getParentCategoryByCategory(CategoryEntity category) {
+        categoryTreeDAO.queryCategoryTreeByCategoryIDAndCityID(category.getCategoryID(), category.getCityID());
+        return null;
     }
 
 }

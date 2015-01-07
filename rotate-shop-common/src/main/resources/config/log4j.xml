@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+                     threshold="null" debug="false">
+
+    <appender name="CONSOLE" class="com.dianping.combiz.misc.ExtendedConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[rotate-shop-common]%d %-5p [%c %L] %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="appAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <!-- <param name="Threshold" value="INFO" /> -->
+        <param name="File" value="/data/applogs/rotate-shop-common/logs/app.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[rotate-shop-common]%d %-5p [%c %L] %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="queryAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/data/applogs/rotate-shop-common/logs/query.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="catAppender" class="com.dianping.cat.log4j.CatAppender" />
+
+    <logger name="com.dianping.customerinfo" additivity="false">
+        <appender-ref ref="appAppender"/>
+    </logger>
+
+    <logger name="com.dianping.customerinfo.InterfaceAspectLogger" additivity="false">
+        <appender-ref ref="queryAppender"/>
+    </logger>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="appAppender"/>
+        <appender-ref ref="catAppender"/>
+    </root>
+
+</log4j:configuration>
