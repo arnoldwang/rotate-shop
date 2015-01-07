@@ -9,7 +9,7 @@ public class CategoryEntity {
     private int categoryID;
     private String categoryName;
     private int cityID;
-    private int parentID;
+    private int categoryType;
     private int status;
 
     public int getId() {
@@ -36,12 +36,12 @@ public class CategoryEntity {
         this.categoryName = categoryName;
     }
 
-    public int getParentID() {
-        return parentID;
+    public int getCategoryType() {
+        return categoryType;
     }
 
-    public void setParentID(int parentID) {
-        this.parentID = parentID;
+    public void setCategoryType(int categoryType) {
+        this.categoryType = categoryType;
     }
 
     public int getStatus() {

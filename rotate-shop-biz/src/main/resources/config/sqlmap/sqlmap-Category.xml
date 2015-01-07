@@ -10,14 +10,16 @@
         <result column="ID" property="id"/>
         <result column="CategoryID" property="categoryID"/>
         <result column="CategoryName" property="categoryName"/>
-        <result column="ParentID" property="parentID"/>
+        <result column="CityID" property="cityID"/>
+        <result column="CategoryType" property="categoryType"/>
         <result column="Status" property="status"/>
     </resultMap>
 
     <sql id="keys">
         CategoryID,
         CategoryName,
-        ParentID,
+        CityID,
+        CategoryType,
         Status
     </sql>
 
@@ -29,6 +31,14 @@
         WHERE CategoryID = #categoryID#
     </select>
 
+    <select id="queryCategoryByCategoryIDAndCityID" resultMap="category" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM Category
+        WHERE CategoryID = #categoryID# and CityID = #cityID#
+    </select>
+
     <insert id="addCategory" parameterClass="map">
         INSERT INTO Category
         (
@@ -38,7 +48,8 @@
         (
         #category.categoryID#,
         #category.categoryName#,
-        #category.parentID#,
+        #category.cityID#,
+        #category.categoryType#,
         #category.status#
         )
         <selectKey resultClass="int" keyProperty="id">
@@ -58,7 +69,7 @@
         update Category
         set
         CategoryName = #category.categoryName#,
-        parentID = #category.parentID#,
+        CategoryType = #category.categoryType#,
         Status = #category.status#,
         LastModifiedTime = NOW()
         WHERE CategoryID = #category.categoryID#

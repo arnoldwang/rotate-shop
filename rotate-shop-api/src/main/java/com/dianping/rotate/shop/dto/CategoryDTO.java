@@ -10,16 +10,7 @@ public class CategoryDTO implements Serializable {
     private int categoryID;
     private String categoryName;
     private int cityID;
-    private int parentID;
-    private int status;
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+    private int categoryType;
 
     public int getCategoryID() {
         return categoryID;
@@ -45,11 +36,11 @@ public class CategoryDTO implements Serializable {
         this.cityID = cityID;
     }
 
-    public int getParentID() {
-        return parentID;
+    public int getCategoryType() {
+        return categoryType;
     }
 
-    public void setParentID(int parentID) {
-        this.parentID = parentID;
+    public void setCategoryType(int categoryType) {
+        this.categoryType = categoryType;
     }
 }

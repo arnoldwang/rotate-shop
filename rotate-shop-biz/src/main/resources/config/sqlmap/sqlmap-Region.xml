@@ -10,14 +10,16 @@
         <result column="ID" property="id"/>
         <result column="RegionID" property="regionID"/>
         <result column="RegionName" property="regionName"/>
-        <result column="ParentID" property="parentID"/>
+        <result column="CityID" property="cityID"/>
+        <result column="RegionType" property="regionType"/>
         <result column="Status" property="status"/>
     </resultMap>
 
     <sql id="keys">
         RegionID,
         RegionName,
-        ParentID,
+        CityID,
+        RegionType,
         Status
     </sql>
 
@@ -29,6 +31,14 @@
         WHERE RegionID = #regionID#
     </select>
 
+    <select id="queryRegionByRegionIDAndCityID" resultMap="region" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM Region
+        WHERE RegionID = #regionID# and CityID = #cityID#
+    </select>
+
     <insert id="addRegion" parameterClass="map">
         INSERT INTO Region
         (
@@ -38,7 +48,8 @@
         (
         #region.regionID#,
         #region.regionName#,
-        #region.parentID#,
+        #region.cityID#,
+        #region.regionType#,
         #region.status#
         )
         <selectKey resultClass="int" keyProperty="id">

@@ -9,7 +9,7 @@ public class RegionEntity {
     private int regionID;
     private String regionName;
     private int cityID;
-    private int parentID;
+    private int regionType;
     private int status;
 
     public int getId() {
@@ -36,12 +36,12 @@ public class RegionEntity {
         this.regionName = regionName;
     }
 
-    public int getParentID() {
-        return parentID;
+    public int getRegionType() {
+        return regionType;
     }
 
-    public void setParentID(int parentID) {
-        this.parentID = parentID;
+    public void setRegionType(int regionType) {
+        this.regionType = regionType;
     }
 
     public int getStatus() {
