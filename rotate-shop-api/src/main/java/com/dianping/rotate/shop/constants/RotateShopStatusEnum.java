@@ -3,15 +3,14 @@ package com.dianping.rotate.shop.constants;
 /**
  * Created by luoming on 15/1/8.
  */
-public enum RotateShopCooperationStatusEnum {
-    NO_COOP(0, "未合作"),
-    COOPING(1,"合作中"),
-    COOP_BREAK(2, "断约");
+public enum RotateShopStatusEnum {
+    OFFLINE(0, "已下线"),
+    ONLINE(1,"在线");
 
     private int code;
     private String desc;
 
-    private RotateShopCooperationStatusEnum(int code, String desc) {
+    private RotateShopStatusEnum(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }
@@ -34,7 +33,7 @@ public enum RotateShopCooperationStatusEnum {
 
     public static String getDescByCode(int code) {
         String result = "";
-        for (RotateShopCooperationStatusEnum rotateShopCooperationStatusEnum : RotateShopCooperationStatusEnum.values()) {
+        for (RotateShopStatusEnum rotateShopCooperationStatusEnum : RotateShopStatusEnum.values()) {
             if (rotateShopCooperationStatusEnum.getCode() == code) {
                 result = rotateShopCooperationStatusEnum.getDesc();
                 break;
