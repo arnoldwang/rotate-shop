@@ -9,8 +9,8 @@ import java.util.List;
  */
 public interface RegionService {
 
-    public RegionDTO getRegionByRegionIDAndCityID(int regionID, int cityID);
+    public RegionDTO getRegion(int regionID);
 
-    public List<RegionDTO> getRegionTreeByRegionIDAndCityID(int regionID, int cityID);
+    public List<RegionDTO> getRegionAncestors(int regionID);
 
 }
