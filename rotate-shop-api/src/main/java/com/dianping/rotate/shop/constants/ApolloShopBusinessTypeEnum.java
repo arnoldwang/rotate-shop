@@ -38,9 +38,9 @@ public enum ApolloShopBusinessTypeEnum {
 
     public static String getDescByCode(int code) {
         String result = "";
-        for (ApolloShopBusinessTypeEnum apolloShopTypeEnum : ApolloShopBusinessTypeEnum.values()) {
-            if (apolloShopTypeEnum.getCode() == code) {
-                result = apolloShopTypeEnum.getDesc();
+        for (ApolloShopBusinessTypeEnum apolloShopBusinessTypeEnum : ApolloShopBusinessTypeEnum.values()) {
+            if (apolloShopBusinessTypeEnum.getCode() == code) {
+                result = apolloShopBusinessTypeEnum.getDesc();
                 break;
             }
         }
