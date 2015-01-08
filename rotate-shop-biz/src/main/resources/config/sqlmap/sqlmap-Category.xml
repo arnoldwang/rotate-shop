@@ -28,7 +28,7 @@
         ID,
         <include refid="keys"/>
         FROM Category
-        WHERE CategoryID = #categoryID#
+        WHERE CategoryID = #categoryID# and Status != 0
     </select>
 
     <select id="queryCategoryByCategoryIDAndCityID" resultMap="category" parameterClass="map">
@@ -36,7 +36,7 @@
         ID,
         <include refid="keys"/>
         FROM Category
-        WHERE CategoryID = #categoryID# and CityID = #cityID#
+        WHERE CategoryID = #categoryID# and CityID = #cityID# and Status != 0
     </select>
 
     <insert id="addCategory" parameterClass="map">

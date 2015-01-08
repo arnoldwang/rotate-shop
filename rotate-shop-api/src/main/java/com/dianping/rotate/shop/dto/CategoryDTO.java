@@ -7,16 +7,16 @@ import java.io.Serializable;
  */
 public class CategoryDTO implements Serializable {
 
-    private int categoryID;
+    private Integer categoryID;
     private String categoryName;
-    private int cityID;
-    private int categoryType;
+    private Integer cityID;
+    private Integer categoryType;
 
-    public int getCategoryID() {
+    public Integer getCategoryID() {
         return categoryID;
     }
 
-    public void setCategoryID(int categoryID) {
+    public void setCategoryID(Integer categoryID) {
         this.categoryID = categoryID;
     }
 
@@ -28,19 +28,19 @@ public class CategoryDTO implements Serializable {
         this.categoryName = categoryName;
     }
 
-    public int getCityID() {
+    public Integer getCityID() {
         return cityID;
     }
 
-    public void setCityID(int cityID) {
+    public void setCityID(Integer cityID) {
         this.cityID = cityID;
     }
 
-    public int getCategoryType() {
+    public Integer getCategoryType() {
         return categoryType;
     }
 
-    public void setCategoryType(int categoryType) {
+    public void setCategoryType(Integer categoryType) {
         this.categoryType = categoryType;
     }
 }

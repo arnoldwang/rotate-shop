@@ -30,7 +30,7 @@
         ID,
         <include refid="keys"/>
         FROM ApolloShop
-        WHERE ShopID = #shopID#
+        WHERE ShopID = #shopID# and Status != 0
     </select>
 
     <insert id="addApolloShop" parameterClass="map">

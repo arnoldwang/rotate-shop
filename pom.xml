@@ -22,6 +22,7 @@
         <groovy.version>2.2.1</groovy.version>
         <aspectj.version>1.6.8</aspectj.version>
         <data.service.verion>0.0.4-SNAPSHOT</data.service.verion>
+        <avatar.version>1.0.1</avatar.version>
     </properties>
     <modules>
         <module>rotate-shop-api</module>
@@ -34,6 +35,11 @@
     </modules>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.dianping</groupId>
+                <artifactId>avatar-interface</artifactId>
+                <version>${avatar.version}</version>
+            </dependency>
             <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -424,6 +430,20 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.5</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

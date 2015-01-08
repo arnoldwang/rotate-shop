@@ -23,7 +23,7 @@ public class POIStatus implements POIChange{
         msgEntity.setAttemptIndex(0);
         msgEntity.setMsg(msg.getContent());
         String loginId = POIChangeService.getPOIUpdateUser(msg);
-        if(LionConfigUtils.getProperty("rotate-shop-biz.poi.batch.update.user").equals(loginId)){
+        if(LionConfigUtils.getProperty("rotate-shop-biz.poi.batch.update.user","-15900").equals(loginId)){
             msgEntity.setSource(MessageSource.SYSTEM);
         }else{
             msgEntity.setSource(MessageSource.PERSON);

@@ -44,7 +44,7 @@ CREATE TABLE `RegionTree`(
   `IsMain` tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否主区域：0，否；1，是；',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_REGION_ID` (`RegionID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '区域树表';
@@ -57,7 +57,7 @@ CREATE TABLE `RegionExpand`(
   `CityID` int(11) NOT NULL DEFAULT 0 COMMENT '城市ID',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_REGION_ID` (`RegionID`),
   KEY `IX_REGION_CITY_ID` (`RegionID`,`CityID`)
@@ -72,7 +72,7 @@ CREATE TABLE `ShopRegion`(
   `IsMain` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否主区域：0，否;1，是;',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_SHOP_ID` (`ShopID`),
   KEY `IX_REGION_ID` (`RegionID`)
@@ -88,7 +88,7 @@ CREATE TABLE `Category`(
   `CategoryType` int(11) COMMENT '分类类型',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_CATEGORY_ID` (`CategoryID`),
   KEY `IX_CATEGORY_CITY_ID` (`CategoryID`,`CityID`)
@@ -104,11 +104,28 @@ CREATE TABLE `CategoryTree`(
   `IsMain` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否主区域：0，否;1，是;',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_CATEGORY_ID` (`CategoryID`),
   KEY `IX_CATEGORY_CITY_ID` (`CategoryID`,`CityID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类树表';
+
+
+DROP TABLE IF EXISTS `CategoryExpand`;
+CREATE TABLE `CategoryExpand`(
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `CategoryID` int(11) NOT NULL COMMENT '分类ID',
+  `CityID` int(11) NOT NULL COMMENT '城市ID',
+  `SubCategoryID` int(11) NOT NULL COMMENT '子分类ID',
+  `NextCategoryID` int(11) NOT NULL DEFAULT 0 COMMENT '直接子分类ID',
+  `IsMain` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否主区域：0，否;1，是;',
+  `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
+  `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
+  PRIMARY KEY (`ID`),
+  KEY `IX_CATEGORY_ID` (`CategoryID`),
+  KEY `IX_CATEGORY_CITY_ID` (`CategoryID`,`CityID`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类树拉平表';
 
 
 DROP TABLE IF EXISTS `ShopCategory`;
@@ -119,7 +136,7 @@ CREATE TABLE `ShopCategory`(
   `IsMain` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否主分类：0，否;1，是;',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_SHOP_ID` (`ShopID`),
   KEY `IX_CATEGORY_ID` (`CategoryID`)
@@ -135,7 +152,7 @@ CREATE TABLE `ApolloShopExtend`(
   `Rating` varchar(10) NOT NULL DEFAULT '' COMMENT '客户分级：K,A,B,各个BU可以定义自己的客户分级',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_SHOP_ID` (`ShopID`),
   KEY `IX_SHOP_BIZ_ID` (`ShopID`,`BizID`)
@@ -151,7 +168,7 @@ CREATE TABLE `ApolloShopBusinessStatus`(
   `BusinessType` tinyint(4) NOT NULL DEFAULT 0 COMMENT '业务类型：0，团购；1，推广；2，会员卡；4，储值卡；5，预定；6，外卖；7，闪惠；',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_SHOP_ID` (`ShopID`),
   KEY `IX_SHOP_BUSINESSTYPE_ID` (`ShopID`,`BusinessType`)
@@ -165,7 +182,7 @@ CREATE TABLE `RotateGroup`(
   `Type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '类型：0，单店；1，连锁店',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；2，关闭；3，暂停营业；4，尚未营业；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_BIZ_ID` (`BizID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '轮转门店组信息表';
@@ -179,7 +196,7 @@ CREATE TABLE `RotateGroupShop`(
   `ShopGroupID` int(11) NOT NULL COMMENT '门店组ID',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；2，关闭；3，暂停营业；4，尚未营业；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_ROTATEGROUP_ID` (`RotateGroupID`),
   KEY `IX_SHOP_ID` (`ShopID`),
@@ -195,7 +212,7 @@ CREATE TABLE `Biz`(
   `Business` varchar(50) COMMENT '业务',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '业务聚合体信息表';
 
@@ -207,7 +224,7 @@ CREATE TABLE `BuBiz`(
   `BizID` int(11) NOT NULL COMMENT 'BizID',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '业务聚合体和BU的关系表';
 
@@ -222,7 +239,7 @@ CREATE TABLE `MessageQueue`(
   `Type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '消息类型：0，用户增量添加；1，商圈树；2，商户合并；3，商户误合并后恢复；4，系统批量新增POI；5，更新POI属性；6，分类树；',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，新增；2，正在处理；3，处理完成；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'POI消息的缓存队列表';
 
