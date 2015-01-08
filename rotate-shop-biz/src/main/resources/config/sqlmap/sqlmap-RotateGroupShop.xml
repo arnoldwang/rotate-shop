@@ -74,4 +74,30 @@
         FROM RotateGroupShop
         WHERE RotateGroupID = #rotateGroupID# AND Status = 1
     </select>
+
+    <select id="queryRotateGroupShopByShopGroupID" resultMap="rotateGroupShop" parameterClass="map">
+        SELECT
+        rgs.ID,
+        rgs.RotateGroupID,
+        rgs.ShopID,
+        rgs.ShopGroupID,
+        rgs.Status
+        FROM RotateGroupShop rgs, RotateGroup rg
+        WHERE rgs.RotateGroupID = rg.ID AND rgs.ShopGroupID = #shopGroupID# AND rg.BizID = #bizID#
+        AND rgs.Status = rg.Status = 1
+    </select>
+
+    <insert id="addToRotateGroupShopByList" parameterClass="map">
+        INSERT INTO RotateGroupShop
+        <include refid="keys"/>
+        VALUES
+        <iterate property="rotateGroupShopList" conjunction=",">
+            (
+            #rotateGroupShopList[].rotateGroupID#,
+            #rotateGroupShopList[].shopID#,
+            #rotateGroupShopList[].shopGroupID#,
+            #rotateGroupShopList[].status#
+            )
+        </iterate>
+    </insert>
 </sqlMap>
