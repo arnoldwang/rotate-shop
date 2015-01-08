@@ -28,7 +28,7 @@
         ID,
         <include refid="keys"/>
         FROM CategoryTree
-        WHERE CategoryID = #categoryID# and CityID = #cityID# and IsMain = 1
+        WHERE CategoryID = #categoryID# and CityID = #cityID# and IsMain = 1 and Status != 0
     </select>
 
 </sqlMap>

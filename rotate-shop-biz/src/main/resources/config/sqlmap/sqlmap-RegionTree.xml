@@ -26,7 +26,7 @@
         ID,
         <include refid="keys"/>
         FROM RegionTree
-        WHERE RegionID = #regionID# and IsMain = 1
+        WHERE RegionID = #regionID# and IsMain = 1 and Status != 0
     </select>
 
 </sqlMap>

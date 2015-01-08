@@ -36,7 +36,7 @@
         ID,
         <include refid="keys"/>
         FROM Region
-        WHERE RegionID = #regionID# and CityID = #cityID#
+        WHERE RegionID = #regionID# and CityID = #cityID# and Status != 0
     </select>
 
     <insert id="addRegion" parameterClass="map">

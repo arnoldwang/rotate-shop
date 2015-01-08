@@ -7,33 +7,33 @@ import java.io.Serializable;
  * Date: 15-1-7
  */
 public class RotateGroupShopDTO implements Serializable{
-	private int rotateGroupID;
+	private Integer rotateGroupID;
 
-	private int shopID;
+	private Integer shopID;
 
-	private int shopGroupID;
+	private Integer shopGroupID;
 
-	public int getRotateGroupID() {
+	public Integer getRotateGroupID() {
 		return rotateGroupID;
 	}
 
-	public void setRotateGroupID(int rotateGroupID) {
+	public void setRotateGroupID(Integer rotateGroupID) {
 		this.rotateGroupID = rotateGroupID;
 	}
 
-	public int getShopID() {
+	public Integer getShopID() {
 		return shopID;
 	}
 
-	public void setShopID(int shopID) {
+	public void setShopID(Integer shopID) {
 		this.shopID = shopID;
 	}
 
-	public int getShopGroupID() {
+	public Integer getShopGroupID() {
 		return shopGroupID;
 	}
 
-	public void setShopGroupID(int shopGroupID) {
+	public void setShopGroupID(Integer shopGroupID) {
 		this.shopGroupID = shopGroupID;
 	}
 }
