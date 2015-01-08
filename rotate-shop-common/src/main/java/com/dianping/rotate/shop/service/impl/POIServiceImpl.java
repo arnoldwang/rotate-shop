@@ -1,6 +1,8 @@
 package com.dianping.rotate.shop.service.impl;
 
-import com.beust.jcommander.internal.Lists;
+
+import com.dianping.rotate.shop.dao.ApolloShopDAO;
+import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
 import com.dianping.rotate.shop.dao.RotateGroupDAO;
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.entity.ApolloShopEntity;
@@ -12,7 +14,9 @@ import com.dianping.rotate.shop.service.POIService;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import com.dianping.shopremote.remote.ShopService;
 import com.dianping.shopremote.remote.dto.ShopDTO;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -21,10 +25,17 @@ import java.util.Map;
  * User: zhenwei.wang
  * Date: 15-1-6
  */
+@Service("POIService")
 public class POIServiceImpl implements POIService {
 
 	@Autowired
 	ShopService shopService;
+
+	@Autowired
+	ApolloShopDAO apolloShopDAO;
+
+	@Autowired
+	ApolloShopExtendDAO apolloShopExtendDAO;
 
 	@Autowired
 	RotateGroupDAO rotateGroupDAO;
@@ -36,26 +47,24 @@ public class POIServiceImpl implements POIService {
 	public void addPoiBySys(String msg) {
 		try {
 			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
-			int shopId = Integer.valueOf((String) msgBody.get("shopId"));
+			int shopId = (Integer)msgBody.get("shopId");
 			ShopDTO shopDTO = shopService.loadShop(shopId);
-			ApolloShopEntity apolloShopEntity = createApolloShop(shopDTO);
-			List<ApolloShopExtendEntity> apolloShopExtendList = createApolloShopExtendList(shopId);
+			ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
+			List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);//按Bu创建ApolloShopExtend
 			for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
-				List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
+				List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
 				if (rotateGroupShopList.size() == 0) {
-					List<Integer> rotateGroupIDList = insertRotateGroupList(apolloShopExtendList);
-					List<RotateGroupShopEntity> newRotateGroupShopList = insertRotateGroupShopList(rotateGroupIDList, apolloShopEntity);
-				} else if (rotateGroupShopList.size() == 1) {
-					//todo create RotateGroupShop
-					int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
-					updateRotateGroup(rotateGroupID);
-					insertRotateGroupShop(rotateGroupID, apolloShopEntity);
+					int rotateGroupID = insertRotateGroup(apolloShopExtend);//创建轮转组
+					insertRotateGroupShop(rotateGroupID, apolloShopEntity);//创建轮转组和门店关系
 				} else {
-					//todo find smaller RotateGroupID, create RotateGroupShop
+					int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
+					updateRotateGroup(rotateGroupID);//更新轮转组type
+					insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 				}
 			}
 		} catch (Exception e) {
 			//todo
+			System.out.println(e);
 		}
 	}
 
@@ -85,6 +94,12 @@ public class POIServiceImpl implements POIService {
 		return rotateGroupShopEntityList;
 	}
 
+	private int insertRotateGroup(ApolloShopExtendEntity apolloShopExtend) {
+		List<ApolloShopExtendEntity> apolloShopExtendList = Lists.newArrayList(apolloShopExtend);
+		List<Integer> rotateGroupIDList = insertRotateGroupList(apolloShopExtendList);
+		return rotateGroupIDList.get(0);
+	}
+
 	private List<Integer> insertRotateGroupList(List<ApolloShopExtendEntity> apolloShopExtendList) {
 		List<Integer> rotateGroupIDList = Lists.newArrayList();
 		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
@@ -100,7 +115,7 @@ public class POIServiceImpl implements POIService {
 		return rotateGroupIDList;
 	}
 
-	private ApolloShopEntity createApolloShop(ShopDTO shopDTO) {
+	private ApolloShopEntity insertApolloShop(ShopDTO shopDTO) {
 		ApolloShopEntity apolloShopEntity = new ApolloShopEntity();
 		apolloShopEntity.setShopID(shopDTO.getShopId());
 		apolloShopEntity.setShopGroupID(shopDTO.getShopGroupId());
@@ -109,12 +124,16 @@ public class POIServiceImpl implements POIService {
 		apolloShopEntity.setShopType(shopDTO.getShopType());
 		apolloShopEntity.setStatus(1);
 
+		int id = apolloShopDAO.addApolloShop(apolloShopEntity);
+		apolloShopEntity.setId(id);
 		return apolloShopEntity;
 	}
 
-	private List<ApolloShopExtendEntity> createApolloShopExtendList(int shopID) {
+	private List<ApolloShopExtendEntity> insertApolloShopExtendList(int shopID) {
 		List<ApolloShopExtendEntity> apolloShopExtendList = Lists.newArrayList();
 		ApolloShopExtendEntity tp_ApolloShopExtendEntity = new TPApolloShopExtend().createApolloShopExtend(shopID);
+		int tp_id = apolloShopExtendDAO.addApolloShopExtend(tp_ApolloShopExtendEntity);
+		tp_ApolloShopExtendEntity.setId(tp_id);
 		apolloShopExtendList.add(tp_ApolloShopExtendEntity);
 		//add other Bu apolloShopExtendEntity
 

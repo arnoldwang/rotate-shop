@@ -1,5 +1,6 @@
 package com.dianping.rotate.shop.dao
 
+import com.beust.jcommander.internal.Lists
 import com.dianping.rotate.shop.AbstractSpockTest
 import com.dianping.rotate.shop.entity.RotateGroupShopEntity
 import org.springframework.beans.factory.annotation.Autowired
@@ -42,11 +43,26 @@ class RotateGroupShopDAOTest extends AbstractSpockTest{
         int bizID = 1;
 
         when:
-        List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(shopGroupID, bizID);
+        List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopGroupID, bizID);
 
         then:
         rotateGroupShopEntityList.get(0).getShopGroupID() == 0;
+    }
 
+    def "test addToRotateGroupShopByList"() {
+        setup:
+        RotateGroupShopEntity rotateGroupShopEntity = new RotateGroupShopEntity();
+        rotateGroupShopEntity.setRotateGroupID(30);
+        rotateGroupShopEntity.setShopID(5310722);
+        rotateGroupShopEntity.setShopGroupID(5310722);
+        rotateGroupShopEntity.setStatus(1);
+        List<RotateGroupShopEntity> rotateGroupShopEntityList = Lists.newArrayList();
+        rotateGroupShopEntityList.add(rotateGroupShopEntity);
 
+        when:
+        rotateGroupShopDAO.addToRotateGroupShopByList(rotateGroupShopEntityList)
+
+        then:
+        1 == 1;
     }
 }
