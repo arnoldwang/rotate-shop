@@ -7,4 +7,5 @@ package com.dianping.rotate.shop.service;
 public interface POIService {
 
 	public void addPoiBySys(String msg);
+
 }
