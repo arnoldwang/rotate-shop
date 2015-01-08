@@ -67,4 +67,17 @@
             </map>
         </property>
     </bean>
+
+    <bean id="apolloShopForTerritoryServiceRegistry" class="com.dianping.dpsf.spring.ServiceRegistry"
+          init-method="init" lazy-init="false">
+        <property name="enableEngine" value="true"/>
+        <property name="port" value="${rotate-shop-service.remoteServer.port}"/>
+        <property name="services">
+            <map>
+                <entry
+                        key="http://service.dianping.com/rotate/shop/ApolloShopForTerritoryService_0.0.1"
+                        value-ref="apolloShopForTerritoryService"/>
+            </map>
+        </property>
+    </bean>
 </beans>
