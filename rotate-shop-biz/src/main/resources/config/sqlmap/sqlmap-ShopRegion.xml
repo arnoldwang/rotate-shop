@@ -105,4 +105,19 @@
         WHERE ID = #shopRegion.id#
     </update>
 
+    <insert id="addShopRegionByList" parameterClass="map">
+        insert into ShopRegion
+        (
+        <include refid="keys"/>
+        )
+        values
+        <iterate property="shopRegionList" conjunction=",">
+            (
+            #shopRegionList[].shopID#,
+            #shopRegionList[].regionID#,
+            #shopRegionList[].isMain#,
+            #shopRegionList[].status#
+            )
+        </iterate>
+    </insert>
 </sqlMap>

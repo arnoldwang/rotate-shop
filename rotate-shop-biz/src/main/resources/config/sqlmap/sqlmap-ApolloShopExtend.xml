@@ -36,7 +36,7 @@
         ID,
         <include refid="keys"/>
         FROM ApolloShopExtend
-        WHERE ShopID = #shopID# and BizID = #bizID#
+        WHERE ShopID = #shopID# and BizID = #bizID# and Status != 0
     </select>
 
     <insert id="addApolloShopExtend" parameterClass="map">

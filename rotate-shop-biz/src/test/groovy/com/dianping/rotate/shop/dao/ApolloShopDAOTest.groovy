@@ -20,16 +20,16 @@ class ApolloShopDAOTest extends AbstractSpockTest {
         s.setShopID(shopID)
         s.setShopGroupID(1)
         s.setCityID(1)
-        s.setDistrict('上海')
+        s.setDistrict(1)
         s.setShopType(1)
         s.setStatus(1)
         apolloShopDAO.addApolloShop(s)
 
         then:
         1 == apolloShopDAO.queryApolloShopByShopID(shopID).get(0).getShopID()
-        s.setDistrict('北京')
+        s.setDistrict(2)
         apolloShopDAO.updateApolloShop(s)
-        '北京'.equals(apolloShopDAO.queryApolloShopByShopID(shopID).get(0).getDistrict())
+        2 == apolloShopDAO.queryApolloShopByShopID(shopID).get(0).getDistrict()
 
         cleanup:
         apolloShopDAO.deleteApolloShopByShopID(shopID)

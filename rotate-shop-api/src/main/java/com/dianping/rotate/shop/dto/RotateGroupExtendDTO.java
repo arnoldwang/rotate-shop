@@ -5,13 +5,13 @@ package com.dianping.rotate.shop.dto;
  */
 public class RotateGroupExtendDTO {
 
-    private int Status;
+    private Integer Status;
 
-    public int getStatus() {
+    public Integer getStatus() {
         return Status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         Status = status;
     }
 }

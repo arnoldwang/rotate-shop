@@ -41,4 +41,6 @@ public interface ShopRegionDAO extends GenericDao {
     @DAOAction(action = DAOActionType.UPDATE)
     int updateShopRegion(@DAOParam("shopRegion") ShopRegionEntity shopRegion);
 
+	@DAOAction(action = DAOActionType.INSERT)
+	void addShopRegionByList(@DAOParam("shopRegionList") List<ShopRegionEntity> shopRegionEntityList);
 }
