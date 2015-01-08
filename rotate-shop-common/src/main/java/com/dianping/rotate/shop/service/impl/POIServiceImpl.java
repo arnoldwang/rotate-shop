@@ -1,19 +1,17 @@
 package com.dianping.rotate.shop.service.impl;
 
 
-import com.dianping.rotate.shop.dao.ApolloShopDAO;
-import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
-import com.dianping.rotate.shop.dao.RotateGroupDAO;
-import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
-import com.dianping.rotate.shop.entity.ApolloShopEntity;
-import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
-import com.dianping.rotate.shop.entity.RotateGroupEntity;
-import com.dianping.rotate.shop.entity.RotateGroupShopEntity;
+import com.dianping.rotate.shop.constants.ApolloShopStatusEnum;
+import com.dianping.rotate.shop.constants.ApolloShopTypeEnum;
+import com.dianping.rotate.shop.dao.*;
+import com.dianping.rotate.shop.entity.*;
 import com.dianping.rotate.shop.factory.impl.TPApolloShopExtend;
 import com.dianping.rotate.shop.service.POIService;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import com.dianping.shopremote.remote.ShopService;
+import com.dianping.shopremote.remote.dto.ShopCategoryDTO;
 import com.dianping.shopremote.remote.dto.ShopDTO;
+import com.dianping.shopremote.remote.dto.ShopRegionDTO;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +42,12 @@ public class POIServiceImpl implements POIService {
 	@Autowired
 	RotateGroupShopDAO rotateGroupShopDAO;
 
+	@Autowired
+	ShopCategoryDAO shopCategoryDAO;
+
+	@Autowired
+	ShopRegionDAO shopRegionDAO;
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public void addPoiByUser(String msg) {
@@ -69,7 +73,11 @@ public class POIServiceImpl implements POIService {
 
 	private void addPoi(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
+		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
+		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
 		ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
+		insertShopCategoryList(shopCategoryDTOList, shopDTO);
+		inserShopRegionList(shopRegionDTOList, shopDTO);
 		List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);//按Bu创建ApolloShopExtend
 		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
 			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
@@ -82,6 +90,38 @@ public class POIServiceImpl implements POIService {
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			}
 		}
+	}
+
+	private void inserShopRegionList(List<ShopRegionDTO> shopRegionDTOList, ShopDTO shopDTO) {
+		List<ShopRegionEntity> shopRegionEntityList = Lists.newArrayList();
+		int mainRegionId = shopDTO.getMainRegionId();
+		int shopId = shopDTO.getShopId();
+		for(ShopRegionDTO shopRegionDTO: shopRegionDTOList){
+			ShopRegionEntity shopRegionEntity = new ShopRegionEntity();
+			shopRegionEntity.setShopID(shopId);
+			//todo check whether right ID
+			shopRegionEntity.setRegionID(shopRegionDTO.getRegionId());
+			shopRegionEntity.setIsMain(mainRegionId == shopRegionDTO.getRegionId() ? 1 : 0);
+			shopRegionEntity.setStatus(1);
+			shopRegionEntityList.add(shopRegionEntity);
+		}
+		shopRegionDAO.addShopRegionByList(shopRegionEntityList);
+	}
+
+	private void insertShopCategoryList(List<ShopCategoryDTO> shopCategoryDTOList, ShopDTO shopDTO) {
+		List<ShopCategoryEntity> shopCategoryEntityList = Lists.newArrayList();
+		int mainCategoryId = shopDTO.getMainCategoryId();
+		int shopId = shopDTO.getShopId();
+		for(ShopCategoryDTO shopCategoryDTO: shopCategoryDTOList){
+			ShopCategoryEntity shopCategoryEntity = new ShopCategoryEntity();
+			shopCategoryEntity.setShopID(shopId);
+			//todo check whether right ID
+			shopCategoryEntity.setCategoryID(shopCategoryDTO.getId());
+			shopCategoryEntity.setIsMain(mainCategoryId == shopCategoryDTO.getId() ? 1 : 0);
+			shopCategoryEntity.setStatus(1);
+			shopCategoryEntityList.add(shopCategoryEntity);
+		}
+		shopCategoryDAO.addShopCategoryByList(shopCategoryEntityList);
 	}
 
 	private void updateRotateGroup(int rotateGroupID) {
