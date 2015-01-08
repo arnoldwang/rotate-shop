@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -44,27 +45,42 @@ public class POIServiceImpl implements POIService {
 	RotateGroupShopDAO rotateGroupShopDAO;
 
 	@Override
+	@SuppressWarnings("unchecked")
+	public void addPoiByUser(String msg) {
+		try {
+			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
+			int shopId = (Integer) ((List<Map<String, Object>>) msgBody.get("pair")).get(0).get("shopId");
+			addPoi(shopId);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+	}
+
+	@Override
 	public void addPoiBySys(String msg) {
 		try {
 			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
 			int shopId = (Integer)msgBody.get("shopId");
-			ShopDTO shopDTO = shopService.loadShop(shopId);
-			ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
-			List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);//按Bu创建ApolloShopExtend
-			for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
-				List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
-				if (rotateGroupShopList.size() == 0) {
-					int rotateGroupID = insertRotateGroup(apolloShopExtend);//创建轮转组
-					insertRotateGroupShop(rotateGroupID, apolloShopEntity);//创建轮转组和门店关系
-				} else {
-					int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
-					updateRotateGroup(rotateGroupID);//更新轮转组type
-					insertRotateGroupShop(rotateGroupID, apolloShopEntity);
-				}
-			}
-		} catch (Exception e) {
-			//todo
+			addPoi(shopId);
+		} catch (IOException e) {
 			System.out.println(e);
+		}
+	}
+
+	private void addPoi(int shopId) {
+		ShopDTO shopDTO = shopService.loadShop(shopId);
+		ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
+		List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);//按Bu创建ApolloShopExtend
+		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
+			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
+			if (rotateGroupShopList.size() == 0) {
+				int rotateGroupID = insertRotateGroup(apolloShopExtend);//创建轮转组
+				insertRotateGroupShop(rotateGroupID, apolloShopEntity);//创建轮转组和门店关系
+			} else {
+				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
+				updateRotateGroup(rotateGroupID);//更新轮转组type
+				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
+			}
 		}
 	}
 

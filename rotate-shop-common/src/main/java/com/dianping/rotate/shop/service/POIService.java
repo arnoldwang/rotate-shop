@@ -8,4 +8,6 @@ public interface POIService {
 
 	public void addPoiBySys(String msg);
 
+	public void addPoiByUser(String msg);
+
 }
