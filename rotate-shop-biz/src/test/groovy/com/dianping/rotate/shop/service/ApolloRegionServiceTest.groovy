@@ -12,14 +12,22 @@ class ApolloRegionServiceTest extends AbstractSpockTest {
     @Autowired
     RegionService regionService;
 
-    def "apollo region service"() {
-        setup:
-        int regionId = 10;
+    // 和平公园
+    private int hepinggongyuan = 927
 
+    def "get region"() {
         when:
-        RegionDTO dto = regionService.getRegion(regionId);
+        RegionDTO dto = regionService.getRegion(hepinggongyuan);
 
         then:
-        dto.getCityID() == regionId;
+        dto.getRegionID() == hepinggongyuan;
+    }
+
+    def "get ancestors"() {
+        when:
+        List<RegionDTO> dtos = regionService.getRegionAncestors(hepinggongyuan);
+
+        then:
+        dtos.size() != 0;
     }
 }
