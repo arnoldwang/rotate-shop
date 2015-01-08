@@ -1,12 +1,12 @@
 package com.dianping.rotate.shop.impl;
 
 import com.dianping.rotate.shop.api.RotateGroupService;
-import com.dianping.rotate.shop.dao.BizDAO;
 import com.dianping.rotate.shop.dao.RotateGroupDAO;
+import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.dto.RotateGroupDTO;
 import com.dianping.rotate.shop.dto.RotateGroupExtendDTO;
-import com.dianping.rotate.shop.entity.BizEntity;
 import com.dianping.rotate.shop.entity.RotateGroupEntity;
+import com.dianping.rotate.shop.entity.RotateGroupShopEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	RotateGroupDAO rotateGroupDAO;
 
 	@Autowired
-	BizDAO bizDAO;
+	RotateGroupShopDAO rotateGroupShopDAO;
 
 	@Override
 	public RotateGroupDTO getRotateGroup(int rotateGroupID) {
@@ -31,11 +31,8 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 
 	@Override
 	public RotateGroupExtendDTO getRotateGroupExtend(int rotateGroupID) {
-		RotateGroupEntity rotateGroupEntity = getRotateGroupEntity(rotateGroupID);
-		if(rotateGroupEntity != null) {
-			int bizID = rotateGroupEntity.getBizID();
-			List<BizEntity> bizEntityList = bizDAO.queryBiz(bizID);
-
+		List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
+		if(rotateGroupShopEntityList != null) {
 		}
 		return null;
 	}

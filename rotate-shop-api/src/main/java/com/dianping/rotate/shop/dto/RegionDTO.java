@@ -7,16 +7,16 @@ import java.io.Serializable;
  */
 public class RegionDTO implements Serializable {
 
-    private int regionID;
+    private Integer regionID;
     private String regionName;
-    private int cityID;
-    private int regionType;
+    private Integer cityID;
+    private Integer regionType;
 
-    public int getRegionID() {
+    public Integer getRegionID() {
         return regionID;
     }
 
-    public void setRegionID(int regionID) {
+    public void setRegionID(Integer regionID) {
         this.regionID = regionID;
     }
 
@@ -28,19 +28,19 @@ public class RegionDTO implements Serializable {
         this.regionName = regionName;
     }
 
-    public int getCityID() {
+    public Integer getCityID() {
         return cityID;
     }
 
-    public void setCityID(int cityID) {
+    public void setCityID(Integer cityID) {
         this.cityID = cityID;
     }
 
-    public int getRegionType() {
+    public Integer getRegionType() {
         return regionType;
     }
 
-    public void setRegionType(int regionType) {
+    public void setRegionType(Integer regionType) {
         this.regionType = regionType;
     }
 }

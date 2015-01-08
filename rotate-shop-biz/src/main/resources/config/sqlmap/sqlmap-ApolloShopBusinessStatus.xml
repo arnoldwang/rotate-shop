@@ -28,7 +28,7 @@
         ID,
         <include refid="keys"/>
         FROM ApolloShopBusinessStatus
-        WHERE ShopID = #shopID#
+        WHERE ShopID = #shopID# and Status != 0
     </select>
 
     <select id="queryApolloShopBusinessStatusByShopIDAndBusinessType" resultMap="apolloShopBusinessStatus" parameterClass="map">
@@ -36,7 +36,7 @@
         ID,
         <include refid="keys"/>
         FROM ApolloShopBusinessStatus
-        WHERE ShopID = #shopID# and BusinessType = #businessType#
+        WHERE ShopID = #shopID# and BusinessType = #businessType# and Status != 0
     </select>
 
     <insert id="addApolloShopBusinessStatus" parameterClass="map">
