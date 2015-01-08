@@ -1,6 +1,7 @@
 package com.dianping.rotate.shop.api;
 
 import com.dianping.rotate.shop.dto.RotateGroupDTO;
+import com.dianping.rotate.shop.dto.RotateGroupExtendDTO;
 
 /**
  * User: zhenwei.wang
@@ -9,4 +10,6 @@ import com.dianping.rotate.shop.dto.RotateGroupDTO;
 public interface RotateGroupService {
 
 	public RotateGroupDTO getRotateGroup(int rotateGroupID);
+
+	public RotateGroupExtendDTO getRotateGroupExtend(int rotateGroupID);
 }
