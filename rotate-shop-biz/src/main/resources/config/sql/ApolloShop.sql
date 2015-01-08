@@ -111,6 +111,23 @@ CREATE TABLE `CategoryTree`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类树表';
 
 
+DROP TABLE IF EXISTS `CategoryExpand`;
+CREATE TABLE `CategoryExpand`(
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `CategoryID` int(11) NOT NULL COMMENT '分类ID',
+  `CityID` int(11) NOT NULL COMMENT '城市ID',
+  `SubCategoryID` int(11) NOT NULL COMMENT '子分类ID',
+  `NextCategoryID` int(11) NOT NULL DEFAULT 0 COMMENT '直接子分类ID',
+  `IsMain` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否主区域：0，否;1，是;',
+  `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
+  `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
+  PRIMARY KEY (`ID`),
+  KEY `IX_CATEGORY_ID` (`CategoryID`),
+  KEY `IX_CATEGORY_CITY_ID` (`CategoryID`,`CityID`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类树拉平表';
+
+
 DROP TABLE IF EXISTS `ShopCategory`;
 CREATE TABLE `ShopCategory`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',

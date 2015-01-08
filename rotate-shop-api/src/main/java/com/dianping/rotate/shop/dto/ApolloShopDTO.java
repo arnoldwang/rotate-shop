@@ -7,80 +7,80 @@ import java.io.Serializable;
  */
 public class ApolloShopDTO implements Serializable{
 
-    private int shopID;
-    private int shopGroupID;
-    private int cityID;
-    private int district;
-    private int shopType;
-    private int shopStatus;
-    private int type;
-    private int bizID;
+    private Integer shopID;
+    private Integer shopGroupID;
+    private Integer cityID;
+    private Integer district;
+    private Integer shopType;
+    private Integer shopStatus;
+    private Integer type;
+    private Integer bizID;
     private String rating;
-    private int shopExtendStatus;
-    private int mainRegionID;
-    private int mainCategoryID;
+    private Integer shopExtendStatus;
+    private Integer mainRegionID;
+    private Integer mainCategoryID;
 
-    public int getShopID() {
+    public Integer getShopID() {
         return shopID;
     }
 
-    public void setShopID(int shopID) {
+    public void setShopID(Integer shopID) {
         this.shopID = shopID;
     }
 
-    public int getShopGroupID() {
+    public Integer getShopGroupID() {
         return shopGroupID;
     }
 
-    public void setShopGroupID(int shopGroupID) {
+    public void setShopGroupID(Integer shopGroupID) {
         this.shopGroupID = shopGroupID;
     }
 
-    public int getCityID() {
+    public Integer getCityID() {
         return cityID;
     }
 
-    public void setCityID(int cityID) {
+    public void setCityID(Integer cityID) {
         this.cityID = cityID;
     }
 
-    public int getDistrict() {
+    public Integer getDistrict() {
         return district;
     }
 
-    public void setDistrict(int district) {
+    public void setDistrict(Integer district) {
         this.district = district;
     }
 
-    public int getShopType() {
+    public Integer getShopType() {
         return shopType;
     }
 
-    public void setShopType(int shopType) {
+    public void setShopType(Integer shopType) {
         this.shopType = shopType;
     }
 
-    public int getShopStatus() {
+    public Integer getShopStatus() {
         return shopStatus;
     }
 
-    public void setShopStatus(int shopStatus) {
+    public void setShopStatus(Integer shopStatus) {
         this.shopStatus = shopStatus;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public int getBizID() {
+    public Integer getBizID() {
         return bizID;
     }
 
-    public void setBizID(int bizID) {
+    public void setBizID(Integer bizID) {
         this.bizID = bizID;
     }
 
@@ -92,27 +92,27 @@ public class ApolloShopDTO implements Serializable{
         this.rating = rating;
     }
 
-    public int getShopExtendStatus() {
+    public Integer getShopExtendStatus() {
         return shopExtendStatus;
     }
 
-    public void setShopExtendStatus(int shopExtendStatus) {
+    public void setShopExtendStatus(Integer shopExtendStatus) {
         this.shopExtendStatus = shopExtendStatus;
     }
 
-    public int getMainRegionID() {
+    public Integer getMainRegionID() {
         return mainRegionID;
     }
 
-    public void setMainRegionID(int mainRegionID) {
+    public void setMainRegionID(Integer mainRegionID) {
         this.mainRegionID = mainRegionID;
     }
 
-    public int getMainCategoryID() {
+    public Integer getMainCategoryID() {
         return mainCategoryID;
     }
 
-    public void setMainCategoryID(int mainCategoryID) {
+    public void setMainCategoryID(Integer mainCategoryID) {
         this.mainCategoryID = mainCategoryID;
     }
 }

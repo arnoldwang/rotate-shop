@@ -17,7 +17,10 @@ public interface ApolloShopBusinessStatusDAO extends GenericDao {
     List<ApolloShopBusinessStatusEntity> queryApolloShopBusinessStatusByShopID(@DAOParam("shopID") int shopID);
 
     @DAOAction(action = DAOActionType.QUERY)
-    List<ApolloShopBusinessStatusEntity> queryApolloShopBusinessStatusByShopIDAndBusinessType(@DAOParam("shopID") int shopID, @DAOParam("businessType") int bussinessType);
+    List<ApolloShopBusinessStatusEntity> queryApolloShopBusinessStatusByShopIDList(@DAOParam("shopIDList") List<Integer> shopIDList);
+
+    @DAOAction(action = DAOActionType.QUERY)
+    List<ApolloShopBusinessStatusEntity> queryApolloShopBusinessStatusByShopIDAndBusinessType(@DAOParam("shopID") int shopID, @DAOParam("businessType") int businessType);
 
     @DAOAction(action = DAOActionType.INSERT)
     int addApolloShopBusinessStatus(@DAOParam("apolloShopBusinessStatus") ApolloShopBusinessStatusEntity apolloShopBusiness);

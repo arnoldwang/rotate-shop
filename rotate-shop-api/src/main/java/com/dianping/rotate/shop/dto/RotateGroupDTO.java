@@ -7,23 +7,23 @@ import java.io.Serializable;
  * Date: 15-1-7
  */
 public class RotateGroupDTO implements Serializable{
-	private int bizID;
+	private Integer bizID;
 
-	private int type;
+	private Integer type;
 
-	public int getBizID() {
+	public Integer getBizID() {
 		return bizID;
 	}
 
-	public void setBizID(int bizID) {
+	public void setBizID(Integer bizID) {
 		this.bizID = bizID;
 	}
 
-	public int getType() {
+	public Integer getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 }
