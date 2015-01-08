@@ -31,6 +31,18 @@
         WHERE ShopID = #shopID# and Status != 0
     </select>
 
+    <select id="queryApolloShopBusinessStatusByShopIDList" resultMap="apolloShopBusinessStatus" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShopBusinessStatus
+        WHERE Status != 0 and
+        ShopID in
+        <iterate open="(" close=")" conjunction="," property="shopIDList">
+            #shopIDList[]#
+        </iterate>
+    </select>
+
     <select id="queryApolloShopBusinessStatusByShopIDAndBusinessType" resultMap="apolloShopBusinessStatus" parameterClass="map">
         SELECT
         ID,

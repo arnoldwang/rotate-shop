@@ -46,14 +46,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private CategoryDTO transCategoryEntityToDTO(CategoryEntity category) {
-        if(category == null) {
-            return null;
-        }
         CategoryDTO categoryDTO = new CategoryDTO();
-        categoryDTO.setCityID(category.getCityID());
-        categoryDTO.setCategoryID(category.getCategoryID());
-        categoryDTO.setCategoryName(category.getCategoryName());
-        categoryDTO.setCategoryType(category.getCategoryType());
+        if(category != null) {
+            categoryDTO.setCityID(category.getCityID());
+            categoryDTO.setCategoryID(category.getCategoryID());
+            categoryDTO.setCategoryName(category.getCategoryName());
+            categoryDTO.setCategoryType(category.getCategoryType());
+        }
         return categoryDTO;
     }
 

@@ -46,14 +46,13 @@ public class RegionServiceImpl implements RegionService {
     }
 
     private RegionDTO transRegionEntityToDTO(RegionEntity region) {
-        if(region == null) {
-            return null;
-        }
         RegionDTO regionDTO = new RegionDTO();
-        regionDTO.setCityID(region.getCityID());
-        regionDTO.setRegionID(region.getRegionID());
-        regionDTO.setRegionName(region.getRegionName());
-        regionDTO.setRegionType(region.getRegionType());
+        if(region != null) {
+            regionDTO.setCityID(region.getCityID());
+            regionDTO.setRegionID(region.getRegionID());
+            regionDTO.setRegionName(region.getRegionName());
+            regionDTO.setRegionType(region.getRegionType());
+        }
         return regionDTO;
     }
 
