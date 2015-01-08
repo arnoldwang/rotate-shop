@@ -8,8 +8,6 @@
         <result property="shopID" column="ShopID"/>
         <result property="shopGroupID" column="ShopGroupID"/>
         <result property="status" column="Status"/>
-        <result property="createdTime" column="CreatedTime"/>
-        <result property="lastModifiedTime" column="LastModifiedTime"/>
     </resultMap>
 
     <sql id="keys">

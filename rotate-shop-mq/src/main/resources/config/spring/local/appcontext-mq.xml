@@ -7,17 +7,15 @@
 
     <bean id="consumerConfig" class="com.dianping.swallow.consumer.ConsumerConfig"/>
 
-    <bean id="poiChangeDest" class="com.dianping.swallow.common.message.Destination" factory-method="topic">
+    <bean id="poiChangeDestination" class="com.dianping.swallow.common.message.Destination" factory-method="topic">
         <constructor-arg>
             <value>dp_poi_change</value>
         </constructor-arg>
     </bean>
-
-    <bean id="poiChangeListener" class="com.dianping.roate.shop.listener.POIChangeListener"/>
-
+    <bean id="poiChangeListener" class="com.dianping.rotate.shop.listener.POIChangeListener"/>
     <bean id="poiChangeConsumerClient" factory-bean="consumerFactory" factory-method="createConsumer" init-method="start">
         <constructor-arg>
-            <ref bean= "poiChangeDest"/>
+            <ref bean= "poiChangeDestination"/>
         </constructor-arg>
         <constructor-arg>
             <value>poi-change-consumer</value>
@@ -27,6 +25,48 @@
         </constructor-arg>
         <property name="listener">
             <ref local="poiChangeListener"/>
+        </property>
+    </bean>
+
+    <bean id="dpActionDestination" class="com.dianping.swallow.common.message.Destination" factory-method="topic">
+        <constructor-arg>
+            <value>dp_action</value>
+        </constructor-arg>
+    </bean>
+    <bean id="poiAddListener" class="com.dianping.rotate.shop.listener.POIAddListener"/>
+    <bean id="dpActionConsumerClient" factory-bean="consumerFactory" factory-method="createConsumer" init-method="start">
+        <constructor-arg>
+            <ref bean= "dpActionDestination"/>
+        </constructor-arg>
+        <constructor-arg>
+            <value>dp-action-consumer</value>
+        </constructor-arg>
+        <constructor-arg>
+            <ref bean="consumerConfig"/>
+        </constructor-arg>
+        <property name="listener">
+            <ref local="poiAddListener"/>
+        </property>
+    </bean>
+
+    <bean id="poiStatusDestination" class="com.dianping.swallow.common.message.Destination" factory-method="topic">
+        <constructor-arg>
+            <value>dp_shop_status_change</value>
+        </constructor-arg>
+    </bean>
+    <bean id="poiShopStatusListener" class="com.dianping.rotate.shop.listener.POIShopStatusListener"/>
+    <bean id="poiShopStatusConsumerClient" factory-bean="consumerFactory" factory-method="createConsumer" init-method="start">
+        <constructor-arg>
+            <ref bean= "poiStatusDestination"/>
+        </constructor-arg>
+        <constructor-arg>
+            <value>poi-shop-status-consumer</value>
+        </constructor-arg>
+        <constructor-arg>
+            <ref bean="consumerConfig"/>
+        </constructor-arg>
+        <property name="listener">
+            <ref local="poiShopStatusListener"/>
         </property>
     </bean>
 </beans>

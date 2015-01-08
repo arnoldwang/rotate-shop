@@ -3,4 +3,14 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+    <bean id="poiAddBatch" class="com.dianping.rotate.shop.factory.POIAddBatch"/>
+    <bean id="poiCategory" class="com.dianping.rotate.shop.factory.POICategory"/>
+    <bean id="poiMerge" class="com.dianping.rotate.shop.factory.POIMerge"/>
+    <bean id="poiMergeRecover" class="com.dianping.rotate.shop.factory.POIMergeRecover"/>
+    <bean id="poiRegion" class="com.dianping.rotate.shop.factory.POIRegion"/>
+    <bean id="poiUpdate" class="com.dianping.rotate.shop.factory.POIUpdate"/>
+    <bean id="poiAdd" class="com.dianping.rotate.shop.factory.POIAdd"/>
+    <bean id="poiStatus" class="com.dianping.rotate.shop.factory.POIStatus"/>
+    <bean id="poiFactory" class="com.dianping.rotate.shop.factory.POIFactory"/>
+
 </beans>
