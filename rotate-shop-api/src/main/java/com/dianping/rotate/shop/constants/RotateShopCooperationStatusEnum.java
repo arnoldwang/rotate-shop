@@ -33,9 +33,9 @@ public enum RotateShopCooperationStatusEnum {
 
     public static String getDescByCode(int code) {
         String result = "";
-        for (RotateShopCooperationStatusEnum apolloShopStatusEnum : RotateShopCooperationStatusEnum.values()) {
-            if (apolloShopStatusEnum.getCode() == code) {
-                result = apolloShopStatusEnum.getDesc();
+        for (RotateShopCooperationStatusEnum rotateShopCooperationStatusEnum : RotateShopCooperationStatusEnum.values()) {
+            if (rotateShopCooperationStatusEnum.getCode() == code) {
+                result = rotateShopCooperationStatusEnum.getDesc();
                 break;
             }
         }
