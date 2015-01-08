@@ -55,7 +55,7 @@
         </property>
     </bean>
 
-    <bean id="apolloShopForTerritoryServiceRegistry" class="com.dianping.dpsf.spring.ServiceRegistry"
+    <bean id="rotateGroupShopServiceRegistry" class="com.dianping.dpsf.spring.ServiceRegistry"
           init-method="init" lazy-init="false">
         <property name="enableEngine" value="true"/>
         <property name="port" value="${rotate-shop-service.remoteServer.port}"/>
@@ -68,7 +68,7 @@
         </property>
     </bean>
 
-    <bean id="rotateGroupShopServiceRegistry" class="com.dianping.dpsf.spring.ServiceRegistry"
+    <bean id="apolloShopForTerritoryServiceRegistry" class="com.dianping.dpsf.spring.ServiceRegistry"
           init-method="init" lazy-init="false">
         <property name="enableEngine" value="true"/>
         <property name="port" value="${rotate-shop-service.remoteServer.port}"/>
