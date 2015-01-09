@@ -124,12 +124,6 @@ public class POIServiceImpl implements POIService {
 		shopCategoryDAO.addShopCategoryByList(shopCategoryEntityList);
 	}
 
-	private void updateRotateGroup(int rotateGroupID) {
-		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.queryRotateGroup(rotateGroupID).get(0);
-		rotateGroupEntity.setType(1);
-		rotateGroupDAO.updateRotateGroup(rotateGroupEntity);
-	}
-
 	private RotateGroupShopEntity insertRotateGroupShop(int rotateGroupID, ApolloShopEntity apolloShopEntity) {
 		List<Integer> rotateGroupIDList = Lists.newArrayList(rotateGroupID);
 		List<RotateGroupShopEntity> rotateGroupShopEntityList = insertRotateGroupShopList(rotateGroupIDList, apolloShopEntity);
@@ -162,13 +156,19 @@ public class POIServiceImpl implements POIService {
 			if (apolloShopExtend != null) {
 				RotateGroupEntity rotateGroupEntity = new RotateGroupEntity();
 				rotateGroupEntity.setBizID(apolloShopExtend.getBizID());
-				rotateGroupEntity.setType(0);
+				rotateGroupEntity.setType(0);//0：单店；1：连锁店
 				rotateGroupEntity.setStatus(1);
 				int rotateGroupID = rotateGroupDAO.addToRotateGroup(rotateGroupEntity);
 				rotateGroupIDList.add(rotateGroupID);
 			}
 		}
 		return rotateGroupIDList;
+	}
+
+	private void updateRotateGroup(int rotateGroupID) {
+		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.queryRotateGroup(rotateGroupID).get(0);
+		rotateGroupEntity.setType(1);//0：单店；1：连锁店
+		rotateGroupDAO.updateRotateGroup(rotateGroupEntity);
 	}
 
 	private ApolloShopEntity insertApolloShop(ShopDTO shopDTO) {
@@ -179,6 +179,7 @@ public class POIServiceImpl implements POIService {
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
 		apolloShopEntity.setShopType(shopDTO.getShopType());
 		apolloShopEntity.setStatus(1);
+		apolloShopEntity.setShopStatus(shopDTO.getPower());
 
 		int id = apolloShopDAO.addApolloShop(apolloShopEntity);
 		apolloShopEntity.setId(id);
