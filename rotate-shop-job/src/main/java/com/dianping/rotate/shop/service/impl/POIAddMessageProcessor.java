@@ -37,7 +37,7 @@ public class POIAddMessageProcessor implements MessageProcessor {
                 tasks.add(new Callable<Integer>() {
                     @Override
                     public Integer call() throws Exception {
-                        return messageProcessService.messageProcess(msg);
+                        return messageProcessService.messageProcess(msg,POIMessageType.SHOP_ADD);
                     }
                 });
             }
