@@ -15,7 +15,7 @@ CREATE TABLE `ApolloShop`(
   `ShopType` int(11) NOT NULL COMMENT '频道：美食、休闲、娱乐等',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_SHOP_ID` (`ShopID`),
   KEY `IX_SHOP_GROUP_ID` (`ShopGroupID`)
@@ -31,7 +31,7 @@ CREATE TABLE `Region`(
   `RegionType` int(11) COMMENT '区域类型',
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录添加时间',
-  `LastModifiedTime` timestamp NOT NULL COMMENT '记录更新时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_REGION_ID` (`RegionID`),
   KEY `IX_REGION_CITY_ID` (`RegionID`,`CityID`)
