@@ -34,4 +34,10 @@ public interface RotateGroupShopDAO extends GenericDao {
 
 	@DAOAction(action = DAOActionType.INSERT)
 	public void addToRotateGroupShopByList(@DAOParam("rotateGroupShopList")List<RotateGroupShopEntity> rotateGroupShopEntityList);
+
+	@DAOAction(action = DAOActionType.LOAD)
+	public int getShopNumInGroup(@DAOParam("shopID") int shopId);
+
+	@DAOAction(action = DAOActionType.LOAD)
+	public RotateGroupShopEntity findRotateGroupShopByShopID(@DAOParam("shopID")int shopId);
 }

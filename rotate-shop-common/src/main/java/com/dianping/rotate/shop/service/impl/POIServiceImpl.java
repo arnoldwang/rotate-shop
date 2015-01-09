@@ -1,8 +1,6 @@
 package com.dianping.rotate.shop.service.impl;
 
 
-import com.dianping.rotate.shop.constants.ApolloShopStatusEnum;
-import com.dianping.rotate.shop.constants.ApolloShopTypeEnum;
 import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.entity.*;
 import com.dianping.rotate.shop.factory.impl.TPApolloShopExtend;
@@ -48,9 +46,42 @@ public class POIServiceImpl implements POIService {
 	@Autowired
 	ShopRegionDAO shopRegionDAO;
 
-	@Override
+//	@Override
 	public void updatePoi(String msg) {
-		
+		try {
+			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
+			int shopId = (Integer) msgBody.get("shopId");
+			ShopDTO shopDTO = shopService.loadShop(shopId);
+			ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopID(shopId).get(0);
+			if(apolloShopEntity.getShopStatus() != shopDTO.getPower()){
+				//todo 门店状态改变
+				int shopNum = rotateGroupShopDAO.getShopNumInGroup(shopId);
+				RotateGroupEntity rotateGroupEntity = rotateGroupDAO.findRotateShopByShopId(shopId);
+				switch (shopDTO.getPower()){
+					case 1:
+					case 2:
+					case 3:
+					case 4:
+						if(shopNum == 1){
+							rotateGroupEntity.setType(0);//连锁店变单店
+						}
+						break;
+					case 5:
+						if(shopNum == 1){
+							rotateGroupEntity.setType(1);//单店变连锁店
+						}
+						break;
+				}
+				rotateGroupDAO.updateRotateGroup(rotateGroupEntity);
+			}
+			if(apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()){
+				//todo 跟新轮转组门店关系表
+				RotateGroupShopEntity rotateGroupShopEntity = rotateGroupShopDAO.findRotateGroupShopByShopID(shopId);
+			}
+			updateApolloShop(apolloShopEntity, shopDTO);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 	@Override
@@ -200,5 +231,15 @@ public class POIServiceImpl implements POIService {
 		//add other Bu apolloShopExtendEntity
 
 		return apolloShopExtendList;
+	}
+
+
+	private void updateApolloShop(ApolloShopEntity apolloShopEntity, ShopDTO shopDTO) {
+		apolloShopEntity.setShopGroupID(shopDTO.getShopGroupId());
+		apolloShopEntity.setShopType(shopDTO.getShopType());
+		apolloShopEntity.setCityID(shopDTO.getCityId());
+		apolloShopEntity.setDistrict(shopDTO.getDistrict());
+		apolloShopEntity.setShopStatus(shopDTO.getPower());
+		apolloShopDAO.updateApolloShop(apolloShopEntity);
 	}
 }

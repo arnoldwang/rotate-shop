@@ -12,22 +12,39 @@ class ApolloRegionServiceTest extends AbstractSpockTest {
     @Autowired
     RegionService regionService;
 
-    // 和平公园
-    private int hepinggongyuan = 927
+    private final int REGION_LANDMARK = 927
+    private final int REGION_BUSINESS_DISTRICT = 824;
+    private final int DISTRICT = 9;
 
     def "get region"() {
         when:
-        RegionDTO dto = regionService.getRegion(hepinggongyuan);
+        RegionDTO dto = regionService.getRegion(REGION_LANDMARK);
 
         then:
-        dto.getRegionID() == hepinggongyuan;
+        dto.getRegionID() == REGION_LANDMARK;
     }
 
-    def "get ancestors"() {
+    def "get ancestors for landmark"() {
         when:
-        List<RegionDTO> dtos = regionService.getRegionAncestors(hepinggongyuan);
+        List<RegionDTO> dtos = regionService.getRegionAncestors(REGION_LANDMARK);
 
         then:
-        dtos.size() != 0;
+        dtos.size() == 3;
+    }
+
+    def "get ancestors for business district"() {
+        when:
+        List<RegionDTO> dtos = regionService.getRegionAncestors(REGION_BUSINESS_DISTRICT);
+
+        then:
+        dtos.size() == 2;
+    }
+
+    def "get ancestors for district"() {
+        when:
+        List<RegionDTO> dtos = regionService.getRegionAncestors(DISTRICT);
+
+        then:
+        dtos.size() == 1;
     }
 }
