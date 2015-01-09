@@ -50,7 +50,32 @@ public class POIServiceImpl implements POIService {
 
 	@Override
 	public void updatePoi(String msg) {
-		
+		try {
+			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
+			int shopId = (Integer) msgBody.get("shopId");
+			ShopDTO shopDTO = shopService.loadShop(shopId);
+			ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopID(shopId).get(0);
+			if(apolloShopEntity.getShopStatus() != shopDTO.getPower()){
+				//todo 门店状态改变
+				int shopNum = rotateGroupShopDAO.getShopNumInSameRotateGroup(shopId);
+				switch (shopDTO.getPower()){
+					case 1:
+					case 2:
+					case 3:
+					case 4:
+						if(shopNum == 1){
+							
+						}
+				}
+
+			}
+			if(apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()){
+				//todo 跟新轮转组门店关系表
+			}
+			updateApolloShop(apolloShopEntity, shopDTO);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 	@Override
@@ -200,5 +225,15 @@ public class POIServiceImpl implements POIService {
 		//add other Bu apolloShopExtendEntity
 
 		return apolloShopExtendList;
+	}
+
+
+	private void updateApolloShop(ApolloShopEntity apolloShopEntity, ShopDTO shopDTO) {
+		apolloShopEntity.setShopGroupID(shopDTO.getShopGroupId());
+		apolloShopEntity.setShopType(shopDTO.getShopType());
+		apolloShopEntity.setCityID(shopDTO.getCityId());
+		apolloShopEntity.setDistrict(shopDTO.getDistrict());
+		apolloShopEntity.setShopStatus(shopDTO.getPower());
+		apolloShopDAO.updateApolloShop(apolloShopEntity);
 	}
 }
