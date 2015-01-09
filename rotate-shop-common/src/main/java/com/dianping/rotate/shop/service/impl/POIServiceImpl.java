@@ -1,8 +1,6 @@
 package com.dianping.rotate.shop.service.impl;
 
 
-import com.dianping.rotate.shop.constants.ApolloShopStatusEnum;
-import com.dianping.rotate.shop.constants.ApolloShopTypeEnum;
 import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.entity.*;
 import com.dianping.rotate.shop.factory.impl.TPApolloShopExtend;
@@ -58,19 +56,27 @@ public class POIServiceImpl implements POIService {
 			if(apolloShopEntity.getShopStatus() != shopDTO.getPower()){
 				//todo 门店状态改变
 				int shopNum = rotateGroupShopDAO.getShopNumInSameRotateGroup(shopId);
+				RotateGroupEntity rotateGroupEntity = rotateGroupDAO.findRotateShopByShopId(shopId);
 				switch (shopDTO.getPower()){
 					case 1:
 					case 2:
 					case 3:
 					case 4:
 						if(shopNum == 1){
-							
+							rotateGroupEntity.setType(0);//连锁店变单店
 						}
+						break;
+					case 5:
+						if(shopNum == 1){
+							rotateGroupEntity.setType(1);//单店变连锁店
+						}
+						break;
 				}
-
+				rotateGroupDAO.updateRotateGroup(rotateGroupEntity);
 			}
 			if(apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()){
 				//todo 跟新轮转组门店关系表
+				RotateGroupShopEntity rotateGroupShopEntity = rotateGroupShopDAO.findRotateGroupShopByShopID(shopId);
 			}
 			updateApolloShop(apolloShopEntity, shopDTO);
 		} catch (IOException e) {
