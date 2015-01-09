@@ -6,19 +6,13 @@
         <result property="id" column="ID"/>
         <result property="bizID" column="BizID"/>
         <result property="name" column="Name"/>
-        <result property="business" column="Business"/>
         <result property="status" column="Status"/>
-        <result property="createdTime" column="CreatedTime"/>
-        <result property="lastModifiedTime" column="LastModifiedTime"/>
     </resultMap>
 
     <sql id="keys">
         BizID,
         Name,
-        Business,
-        Status,
-        CreatedTime,
-        LastModifiedTime
+        Status
     </sql>
 
     <sql id="key-value">
@@ -29,10 +23,7 @@
         (
         #biz.bizID#,
         #biz.name#,
-        #biz.business#,
-        #biz.status#,
-        NOW(),
-        NOW()
+        #biz.status#
         )
     </sql>
 
@@ -40,9 +31,7 @@
         SET
             BizID = #biz.bizID#,
             Name = #biz.name#,
-            Business = #biz.business#,
-            Status = #biz.status#,
-            LastModifiedTime = NOW()
+            Status = #biz.status#
         WHERE BizID = #biz.bizID#
     </sql>
 
@@ -54,8 +43,7 @@
     <delete id="deleteBiz" parameterClass="map">
         UPDATE Biz
         SET
-            Status = 0,
-            LastModifiedTime = NOW()
+            Status = 0
         WHERE BizID = #bizID#
     </delete>
 
