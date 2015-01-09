@@ -46,7 +46,7 @@ public class POIServiceImpl implements POIService {
 	@Autowired
 	ShopRegionDAO shopRegionDAO;
 
-	@Override
+//	@Override
 	public void updatePoi(String msg) {
 		try {
 			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
@@ -55,7 +55,7 @@ public class POIServiceImpl implements POIService {
 			ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopID(shopId).get(0);
 			if(apolloShopEntity.getShopStatus() != shopDTO.getPower()){
 				//todo 门店状态改变
-				int shopNum = rotateGroupShopDAO.getShopNumInSameRotateGroup(shopId);
+				int shopNum = rotateGroupShopDAO.getShopNumInGroup(shopId);
 				RotateGroupEntity rotateGroupEntity = rotateGroupDAO.findRotateShopByShopId(shopId);
 				switch (shopDTO.getPower()){
 					case 1:

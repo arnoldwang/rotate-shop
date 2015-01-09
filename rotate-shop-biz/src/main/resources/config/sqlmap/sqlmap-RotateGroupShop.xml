@@ -104,7 +104,7 @@
 
     <select id="getShopNumInSameRotateGroup" resultClass="int" parameterClass="map">
         SELECT COUNT(*)
-        FROM RotateGroupShop r1, RotateGroupShop r2
+        FROM RotateGroupShop r1, RotateGroupShop r2, ApolloShop a
         WHERE r1.RotateGroupID = r2.RotateGroupID AND r2.ShopID = #shopID#
     </select>
 </sqlMap>
