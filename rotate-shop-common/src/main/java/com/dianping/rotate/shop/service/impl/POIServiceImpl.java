@@ -1,23 +1,22 @@
 package com.dianping.rotate.shop.service.impl;
 
 
-import com.dianping.rotate.shop.dao.ApolloShopDAO;
-import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
-import com.dianping.rotate.shop.dao.RotateGroupDAO;
-import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
-import com.dianping.rotate.shop.entity.ApolloShopEntity;
-import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
-import com.dianping.rotate.shop.entity.RotateGroupEntity;
-import com.dianping.rotate.shop.entity.RotateGroupShopEntity;
+import com.dianping.rotate.shop.constants.ApolloShopStatusEnum;
+import com.dianping.rotate.shop.constants.ApolloShopTypeEnum;
+import com.dianping.rotate.shop.dao.*;
+import com.dianping.rotate.shop.entity.*;
 import com.dianping.rotate.shop.factory.impl.TPApolloShopExtend;
 import com.dianping.rotate.shop.service.POIService;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import com.dianping.shopremote.remote.ShopService;
+import com.dianping.shopremote.remote.dto.ShopCategoryDTO;
 import com.dianping.shopremote.remote.dto.ShopDTO;
+import com.dianping.shopremote.remote.dto.ShopRegionDTO;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -43,29 +42,86 @@ public class POIServiceImpl implements POIService {
 	@Autowired
 	RotateGroupShopDAO rotateGroupShopDAO;
 
+	@Autowired
+	ShopCategoryDAO shopCategoryDAO;
+
+	@Autowired
+	ShopRegionDAO shopRegionDAO;
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public void addPoiByUser(String msg) {
+		try {
+			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
+			int shopId = (Integer) ((List<Map<String, Object>>) msgBody.get("pair")).get(0).get("shopId");
+			addPoi(shopId);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+	}
+
 	@Override
 	public void addPoiBySys(String msg) {
 		try {
 			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
 			int shopId = (Integer)msgBody.get("shopId");
-			ShopDTO shopDTO = shopService.loadShop(shopId);
-			ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
-			List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);//按Bu创建ApolloShopExtend
-			for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
-				List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
-				if (rotateGroupShopList.size() == 0) {
-					int rotateGroupID = insertRotateGroup(apolloShopExtend);//创建轮转组
-					insertRotateGroupShop(rotateGroupID, apolloShopEntity);//创建轮转组和门店关系
-				} else {
-					int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
-					updateRotateGroup(rotateGroupID);//更新轮转组type
-					insertRotateGroupShop(rotateGroupID, apolloShopEntity);
-				}
-			}
-		} catch (Exception e) {
-			//todo
+			addPoi(shopId);
+		} catch (IOException e) {
 			System.out.println(e);
 		}
+	}
+
+	private void addPoi(int shopId) {
+		ShopDTO shopDTO = shopService.loadShop(shopId);
+		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
+		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
+		ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
+		insertShopCategoryList(shopCategoryDTOList, shopDTO);
+		inserShopRegionList(shopRegionDTOList, shopDTO);
+		List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);//按Bu创建ApolloShopExtend
+		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
+			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
+			if (rotateGroupShopList.size() == 0) {
+				int rotateGroupID = insertRotateGroup(apolloShopExtend);//创建轮转组
+				insertRotateGroupShop(rotateGroupID, apolloShopEntity);//创建轮转组和门店关系
+			} else {
+				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
+				updateRotateGroup(rotateGroupID);//更新轮转组type
+				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
+			}
+		}
+	}
+
+	private void inserShopRegionList(List<ShopRegionDTO> shopRegionDTOList, ShopDTO shopDTO) {
+		List<ShopRegionEntity> shopRegionEntityList = Lists.newArrayList();
+		int mainRegionId = shopDTO.getMainRegionId();
+		int shopId = shopDTO.getShopId();
+		for(ShopRegionDTO shopRegionDTO: shopRegionDTOList){
+			ShopRegionEntity shopRegionEntity = new ShopRegionEntity();
+			shopRegionEntity.setShopID(shopId);
+			//todo check whether right ID
+			shopRegionEntity.setRegionID(shopRegionDTO.getRegionId());
+			shopRegionEntity.setIsMain(mainRegionId == shopRegionDTO.getRegionId() ? 1 : 0);
+			shopRegionEntity.setStatus(1);
+			shopRegionEntityList.add(shopRegionEntity);
+		}
+		shopRegionDAO.addShopRegionByList(shopRegionEntityList);
+	}
+
+	private void insertShopCategoryList(List<ShopCategoryDTO> shopCategoryDTOList, ShopDTO shopDTO) {
+		List<ShopCategoryEntity> shopCategoryEntityList = Lists.newArrayList();
+		int mainCategoryId = shopDTO.getMainCategoryId();
+		int shopId = shopDTO.getShopId();
+		for(ShopCategoryDTO shopCategoryDTO: shopCategoryDTOList){
+			ShopCategoryEntity shopCategoryEntity = new ShopCategoryEntity();
+			shopCategoryEntity.setShopID(shopId);
+			//todo check whether right ID
+			shopCategoryEntity.setCategoryID(shopCategoryDTO.getId());
+			shopCategoryEntity.setIsMain(mainCategoryId == shopCategoryDTO.getId() ? 1 : 0);
+			shopCategoryEntity.setStatus(1);
+			shopCategoryEntityList.add(shopCategoryEntity);
+		}
+		shopCategoryDAO.addShopCategoryByList(shopCategoryEntityList);
 	}
 
 	private void updateRotateGroup(int rotateGroupID) {

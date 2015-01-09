@@ -105,4 +105,19 @@
         WHERE ID = #shopCategory.id#
     </update>
 
+    <insert id="addShopCategoryByList" parameterClass="map">
+        insert into ShopCategory
+        (
+        <include refid="keys"/>
+        )
+        VALUES
+        <iterate property="shopCategoryList" conjunction=",">
+            (
+            #shopCategoryList[].shopID#,
+            #shopCategoryList[].categoryID#,
+            #shopCategoryList[].isMain#,
+            #shopCategoryList[].status#
+            )
+        </iterate>
+    </insert>
 </sqlMap>

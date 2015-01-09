@@ -4,10 +4,13 @@ package com.dianping.rotate.shop.constants;
  * Created by luoming on 15/1/8.
  */
 public enum ApolloShopStatusEnum {
-    OPEN(1, "正常"),
-    CLOSE(2,"已关"),
-    SUSPEND_BUSINESS(3, "暂停营业"),
-    UN_BUSINESS(4,"尚未营业");
+    ONLY_PHONE(0, "只在手机端显示"),
+    CLOSE(1,"已关"),
+    SUSPEND_BUSINESS(2, "暂停营业"),
+    NOT_ACTIVE(3,"非active"),
+    UN_BUSINESS(4,"尚未营业"),
+    OPEN(5, "正常"),
+    INTEGRAL_MERCHANT(10, "积分商户");
 
     private int code;
     private String desc;
