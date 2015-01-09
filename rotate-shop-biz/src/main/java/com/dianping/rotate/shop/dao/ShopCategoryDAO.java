@@ -41,4 +41,6 @@ public interface ShopCategoryDAO extends GenericDao {
     @DAOAction(action = DAOActionType.UPDATE)
     int updateShopCategory(@DAOParam("shopCategory") ShopCategoryEntity shopCategory);
 
+	@DAOAction(action = DAOActionType.INSERT)
+	void addShopCategoryByList(@DAOParam("shopCategoryList") List<ShopCategoryEntity> shopCategoryEntityList);
 }

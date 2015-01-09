@@ -17,7 +17,7 @@ class POIServiceTest extends AbstractSpockTest{
 
     def "test addPoiBySys"(){
         setup:
-        String msg = "{'shopId': 5310723, 'messageType': 4}";
+        String msg = "{'shopId': 5310725, 'messageType': 4}";
 
         when:
         poiService.addPoiBySys(msg);
