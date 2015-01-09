@@ -1,11 +1,14 @@
 package com.dianping.rotate.shop.impl;
 
+import com.dianping.combiz.entity.Category;
 import com.dianping.rotate.shop.api.CategoryService;
 import com.dianping.rotate.shop.dao.CategoryDAO;
 import com.dianping.rotate.shop.dao.CategoryTreeDAO;
 import com.dianping.rotate.shop.dto.CategoryDTO;
 import com.dianping.rotate.shop.entity.CategoryEntity;
 import com.dianping.rotate.shop.entity.CategoryTreeEntity;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,55 +20,37 @@ import java.util.List;
  */
 @Service("apolloCategoryService")
 public class CategoryServiceImpl implements CategoryService {
-
     @Autowired
-    private CategoryDAO categoryDAO;
+    private com.dianping.combiz.service.CategoryService categoryService;
 
-    @Autowired
-    private CategoryTreeDAO categoryTreeDAO;
+    private Function<Category, CategoryDTO> toCategoryEntity = new Function<Category, CategoryDTO>() {
+        @Override
+        public CategoryDTO apply(Category category) {
+            CategoryDTO categoryDTO = new CategoryDTO();
+            if(category != null) {
+                categoryDTO.setCityID(category.getCityId());
+                categoryDTO.setCategoryID(category.getId());
+                categoryDTO.setCategoryName(category.getName());
+                categoryDTO.setCategoryType(category.getType());
+            }
+            return categoryDTO;
+        }
+    };
     
     @Override
-    public CategoryDTO getCategoryByCategoryIDAndCityID(int categoryID, int cityID) {
-        return transCategoryEntityToDTO(getCategoryEntityByCategoryIDAndCityID(categoryID, cityID));
+    public CategoryDTO getCategory(int categoryID, int cityID) {
+        return toCategoryEntity.apply(categoryService.loadCategory(cityID, categoryID));
     }
 
     @Override
-    public List<CategoryDTO> getCategoryTreeByCategoryIDAndCityID(int categoryID, int cityID) {
-        List<CategoryDTO> categoryDTOList = new ArrayList<CategoryDTO>();
-        CategoryEntity category = getCategoryEntityByCategoryIDAndCityID(categoryID, cityID);
-        getParentCategoryByCategory(categoryDTOList, category);
-        return categoryDTOList;
-    }
-
-    private CategoryEntity getCategoryEntityByCategoryIDAndCityID(int categoryID, int cityID) {
-        List<CategoryEntity> categoryList = categoryDAO.queryCategoryByCategoryIDAndCityID(categoryID, cityID);
-        if(categoryList != null && categoryList.size() != 0) {
-            return categoryList.get(0);
+    public List<CategoryDTO> getCategoryAncestors(int categoryID, int cityID) {
+        List<Category> ret = categoryService.getMainCategoryPath(categoryID, cityID);
+        
+        // 如果是顶级分类的话，会返回一个长度是0的数组，这里就要把自己加进去
+        if (ret.size() == 0) {
+            ret.add(categoryService.loadCategory(cityID, categoryID));
         }
-        return null;
-    }
 
-    private CategoryDTO transCategoryEntityToDTO(CategoryEntity category) {
-        CategoryDTO categoryDTO = new CategoryDTO();
-        if(category != null) {
-            categoryDTO.setCityID(category.getCityID());
-            categoryDTO.setCategoryID(category.getCategoryID());
-            categoryDTO.setCategoryName(category.getCategoryName());
-            categoryDTO.setCategoryType(category.getCategoryType());
-        }
-        return categoryDTO;
+        return Lists.transform(ret, toCategoryEntity);
     }
-
-    private void getParentCategoryByCategory(List<CategoryDTO> categoryDTOList, CategoryEntity category) {
-        if(category != null) {
-            categoryDTOList.add(0, transCategoryEntityToDTO(category));
-            List<CategoryTreeEntity> categoryTreeList = categoryTreeDAO.queryMainCategoryTreeByCategoryIDAndCityID(category.getCategoryID(), category.getCityID());
-            if(categoryTreeList != null && categoryTreeList.size() != 0) {
-                CategoryTreeEntity categoryTree = categoryTreeList.get(0);
-                getParentCategoryByCategory(categoryDTOList,
-                        getCategoryEntityByCategoryIDAndCityID(categoryTree.getParentID(), categoryTree.getCityID()));
-            }
-        }
-    }
-
 }
