@@ -64,7 +64,7 @@ public class ApolloShopServiceImpl implements ApolloShopService {
             apolloShopDTO.setCityID(apolloShop.getCityID());
             apolloShopDTO.setDistrict(apolloShop.getDistrict());
             apolloShopDTO.setShopType(apolloShop.getShopType());
-            apolloShopDTO.setShopStatus(apolloShop.getStatus());
+            apolloShopDTO.setShopStatus(apolloShop.getShopStatus());
         }
     }
 
