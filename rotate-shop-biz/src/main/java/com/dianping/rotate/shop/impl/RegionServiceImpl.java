@@ -19,17 +19,25 @@ public class RegionServiceImpl implements RegionService {
     @Autowired
     com.dianping.combiz.service.RegionService regionService;
 
-    @Override
-    public RegionDTO getRegion(int regionID) {
-        return toRegionEntity(regionService.loadRegion(regionID));
-    }
-
-    private Function<Region, RegionDTO> regionTransform = new Function<Region, RegionDTO>() {
+    private Function<Region, RegionDTO> toRegionDTO = new Function<Region, RegionDTO>() {
         @Override
-        public RegionDTO apply(Region region) {
-            return toRegionEntity(region);
+        public RegionDTO apply(Region from) {
+            RegionDTO to = new RegionDTO();
+            if (from != null) {
+                to.setCityID((int) from.getCityId());
+                to.setRegionID(from.getRegionId());
+                to.setRegionName(from.getRegionName());
+                to.setRegionType((int) from.getRegionType());
+            }
+            return to;
         }
     };
+
+
+    @Override
+    public RegionDTO getRegion(int regionID) {
+        return toRegionDTO.apply(regionService.loadRegion(regionID));
+    }
 
     // 现在地区都是3级的
     // 行政区 > 商区 > 地标
@@ -40,32 +48,21 @@ public class RegionServiceImpl implements RegionService {
         int regionType = region.getRegionType();
         // 如果本身就是行政区，就直接返回自己
         if (regionType == CodeConstants.RegionType.District.value) {
-            return Lists.transform(Lists.newArrayList(region), regionTransform);
+            return Lists.transform(Lists.newArrayList(region), toRegionDTO);
         }
 
         // 如果是地标就调用相应方法
         if (regionType == CodeConstants.RegionType.Landmark.value) {
-            return Lists.transform(regionService.findMainLandmarkPath(regionID), regionTransform);
+            return Lists.transform(regionService.findMainLandmarkPath(regionID), toRegionDTO);
         }
 
         // 如果是其它类型的话，则找一个行政区塞进去
         List<Region> ret = Lists.newArrayList(region);
-        Region district = regionService.loadMainParentDistrict(regionID, false);
+        Region district = regionService.loadMainParentDistrict(regionID, true);
         if (district != null) {
             ret.add(0, district);
         }
-        return Lists.transform(ret, regionTransform);
-    }
-
-    private RegionDTO toRegionEntity(Region from) {
-        RegionDTO to = new RegionDTO();
-        if (from != null) {
-            to.setCityID((int) from.getCityId());
-            to.setRegionID(from.getRegionId());
-            to.setRegionName(from.getRegionName());
-            to.setRegionType((int) from.getRegionType());
-        }
-        return to;
+        return Lists.transform(ret, toRegionDTO);
     }
 
 }
