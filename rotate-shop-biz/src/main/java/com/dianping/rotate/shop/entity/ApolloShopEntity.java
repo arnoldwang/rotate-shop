@@ -7,11 +7,20 @@ public class ApolloShopEntity {
 
     private int id;
     private int shopID;
+    private int shopStatus;
     private int shopGroupID;
     private int cityID;
     private int district;
     private int shopType;
     private int status;
+
+    public int getShopStatus() {
+        return shopStatus;
+    }
+
+    public void setShopStatus(int shopStatus) {
+        this.shopStatus = shopStatus;
+    }
 
     public int getId() {
         return id;

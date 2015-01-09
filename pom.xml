@@ -11,9 +11,10 @@
     <artifactId>rotate-shop</artifactId>
     <packaging>pom</packaging>
     <name>rotate-shop</name>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <properties>
         <!--version setting-->
+        <rotate.shop.version>1.0.2-SNAPSHOT</rotate.shop.version>
         <spring.version>3.2.3.RELEASE</spring.version>
         <pigeon.version>2.3.6</pigeon.version>
         <powermock.version>1.5.4</powermock.version>
