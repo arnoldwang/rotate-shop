@@ -49,6 +49,11 @@ public class POIServiceImpl implements POIService {
 	ShopRegionDAO shopRegionDAO;
 
 	@Override
+	public void updatePoi(String msg) {
+		
+	}
+
+	@Override
 	@SuppressWarnings("unchecked")
 	public void addPoiByUser(String msg) {
 		try {
