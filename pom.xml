@@ -24,6 +24,7 @@
         <aspectj.version>1.6.8</aspectj.version>
         <data.service.verion>0.0.4-SNAPSHOT</data.service.verion>
         <avatar.version>1.0.1</avatar.version>
+        <api.version>1.0.2-SNAPSHOT</api.version>
     </properties>
     <modules>
         <module>rotate-shop-api</module>
