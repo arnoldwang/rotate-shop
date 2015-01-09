@@ -20,7 +20,6 @@ class RegionDAOTest extends AbstractSpockTest {
         def s = new RegionEntity()
         s.setRegionID(regionID)
         s.setRegionName('上海')
-        s.setParentID(2)
         s.setStatus(1)
         regionDAO.addRegion(s)
 

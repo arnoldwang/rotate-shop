@@ -19,7 +19,6 @@ class CategoryDAOTest extends AbstractSpockTest {
         def s = new CategoryEntity()
         s.setCategoryID(categoryID)
         s.setCategoryName('上海')
-        s.setParentID(2)
         s.setStatus(1)
         categoryDAO.addCategory(s)
 
