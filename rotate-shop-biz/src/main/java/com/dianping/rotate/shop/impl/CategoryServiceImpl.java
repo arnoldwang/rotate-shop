@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDTO> getCategoryAncestors(int categoryID, int cityID) {
         List<Category> ret = categoryService.getMainCategoryPath(categoryID, cityID);
-        
+
         // 如果是顶级分类的话，会返回一个长度是0的数组，这里就要把自己加进去
         if (ret.size() == 0) {
             ret.add(categoryService.loadCategory(cityID, categoryID));
