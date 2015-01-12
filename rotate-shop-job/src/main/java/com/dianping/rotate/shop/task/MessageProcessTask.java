@@ -1,8 +1,6 @@
 package com.dianping.rotate.shop.task;
 
-import com.dianping.rotate.shop.service.MessageProcessor;
 import com.dianping.rotate.shop.service.impl.*;
-import com.sun.xml.internal.bind.v2.model.annotation.RuntimeAnnotationReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
