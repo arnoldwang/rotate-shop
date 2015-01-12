@@ -18,7 +18,7 @@
             <ref bean= "poiChangeDestination"/>
         </constructor-arg>
         <constructor-arg>
-            <value>poi-change-rotate-shop-consumer</value>
+            <value>change-rotate-shop-consumer</value>
         </constructor-arg>
         <constructor-arg>
             <ref bean="consumerConfig"/>
@@ -39,7 +39,7 @@
             <ref bean= "dpActionDestination"/>
         </constructor-arg>
         <constructor-arg>
-            <value>dp-action-rotate-shop-consumer</value>
+            <value>action-rotate-shop-consumer</value>
         </constructor-arg>
         <constructor-arg>
             <ref bean="consumerConfig"/>
@@ -60,7 +60,7 @@
             <ref bean= "poiStatusDestination"/>
         </constructor-arg>
         <constructor-arg>
-            <value>poi-shop-status-rotate-shop-consumer</value>
+            <value>status-rotate-shop-consumer</value>
         </constructor-arg>
         <constructor-arg>
             <ref bean="consumerConfig"/>

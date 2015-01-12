@@ -1,7 +1,7 @@
 package com.dianping.rotate.shop.task;
 
 import com.dianping.rotate.shop.service.MessageProcessor;
-import com.dianping.rotate.shop.service.impl.POIAddBatchMessageProcessor;
+import com.dianping.rotate.shop.service.impl.*;
 import com.sun.xml.internal.bind.v2.model.annotation.RuntimeAnnotationReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,29 +15,27 @@ import java.util.concurrent.Executors;
  */
 public class MessageProcessTask {
     Logger logger = LoggerFactory.getLogger(getClass());
-    final ExecutorService threadPool = Executors.newFixedThreadPool(7);
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(7);
     @Autowired
-    MessageProcessor addMessageProcessor;
+    private POIAddMessageProcessor addMessageProcessor;
     @Autowired
-    MessageProcessor categoryMessageProcessor;
+    private POICategoryMessageProcessor categoryMessageProcessor;
     @Autowired
-    MessageProcessor mergeMessageProcessor;
+    private POIMergeMessageProcessor mergeMessageProcessor;
     @Autowired
-    MessageProcessor mergeRecoverMessageProcessor;
+    private POIMergeRecoverMessageProcessor mergeRecoverMessageProcessor;
     @Autowired
-    MessageProcessor regionMessageProcessor;
+    private POIRegionMessageProcessor regionMessageProcessor;
     @Autowired
-    MessageProcessor statusMessageProcessor;
+    private POIStatusMessageProcessor statusMessageProcessor;
     @Autowired
-    MessageProcessor updateMessageProcessor;
+    private POIUpdateMessageProcessor updateMessageProcessor;
 
     public void run(){
         try{
             process();
         }catch(Exception ex){
             logger.error(ex.getMessage(), ex);
-        }finally {
-
         }
     }
 
@@ -52,12 +50,8 @@ public class MessageProcessTask {
             threadPool.execute(new POIRegionRunnable());
             threadPool.execute(new POIUpdateRunnable());
         }catch(Exception ex){
-
-        }finally {
-
+            logger.error(ex.getMessage(), ex);
         }
-
-
     }
 
     class POIAddRunnable implements Runnable{

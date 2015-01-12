@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MessageProcessService {
 
     @Autowired
-    MessageQueueDAO messageDAO;
+    private MessageQueueDAO messageDAO;
     @Autowired
-    POIService poiService;
+    private POIService poiService;
 
     public Integer messageProcess(MessageEntity msg,int type){
         if(type == POIMessageType.SHOP_ADD){

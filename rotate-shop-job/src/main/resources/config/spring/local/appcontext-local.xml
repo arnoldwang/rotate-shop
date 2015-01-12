@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 
+    <bean id="messageProcessService" class="com.dianping.rotate.shop.service.impl.MessageProcessService"/>
     <bean id="addMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIAddMessageProcessor"/>
     <bean id="categoryMessageProcessor" class="com.dianping.rotate.shop.service.impl.POICategoryMessageProcessor"/>
     <bean id="mergeMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIMergeMessageProcessor"/>

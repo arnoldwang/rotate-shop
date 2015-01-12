@@ -17,7 +17,7 @@ public class POIAddListener implements MessageListener {
     public static final int DP_ACTION_ADD_TYPE = 201;
 
     @Autowired
-    POIFactory poiFactory;
+    private POIFactory poiFactory;
 
     @Override
     public void onMessage(Message msg) throws POIMessageException {
