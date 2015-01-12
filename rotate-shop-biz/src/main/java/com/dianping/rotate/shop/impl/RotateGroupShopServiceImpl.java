@@ -4,6 +4,7 @@ import com.dianping.rotate.shop.api.RotateGroupShopService;
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.dto.RotateGroupShopDTO;
 import com.dianping.rotate.shop.entity.RotateGroupShopEntity;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 	public RotateGroupShopDTO getRotateGroupShop(int rotateGroupID) {
 		RotateGroupShopDTO rotateGroupShopDTO = new RotateGroupShopDTO();
 		List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
-		if(rotateGroupShopEntityList != null && rotateGroupShopEntityList.size() != 0){
+		if(CollectionUtils.isNotEmpty(rotateGroupShopEntityList)){
 			RotateGroupShopEntity rotateGroupShopEntity = rotateGroupShopEntityList.get(0);
 			rotateGroupShopDTO.setRotateGroupID(rotateGroupShopEntity.getRotateGroupID());
 			rotateGroupShopDTO.setShopID(rotateGroupShopEntity.getShopID());

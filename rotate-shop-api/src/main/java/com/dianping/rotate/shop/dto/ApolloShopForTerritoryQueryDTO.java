@@ -1,10 +1,12 @@
 package com.dianping.rotate.shop.dto;
 
+import java.io.Serializable;
+
 /**
  * 提供给战区使用的查询门店dto
  * Created by dev_wzhang on 15-1-8.
  */
-public class ApolloShopForTerritoryQueryDTO {
+public class ApolloShopForTerritoryQueryDTO implements Serializable {
 
     /**
      * 战区规则

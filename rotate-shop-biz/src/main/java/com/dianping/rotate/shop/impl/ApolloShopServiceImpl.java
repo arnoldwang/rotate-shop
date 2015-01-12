@@ -10,6 +10,7 @@ import com.dianping.rotate.shop.entity.ApolloShopEntity;
 import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.entity.ShopCategoryEntity;
 import com.dianping.rotate.shop.entity.ShopRegionEntity;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,7 @@ public class ApolloShopServiceImpl implements ApolloShopService {
 
     private void processShopExtend(ApolloShopDTO apolloShopDTO, int shopID, int bizID) {
         List<ApolloShopExtendEntity> apolloShopExtendList = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(shopID, bizID);
-        if(apolloShopExtendList != null && apolloShopExtendList.size() != 0) {
+        if(CollectionUtils.isNotEmpty(apolloShopExtendList)) {
             ApolloShopExtendEntity apolloShopExtend = apolloShopExtendList.get(0);
             apolloShopDTO.setBizID(apolloShopExtend.getBizID());
             apolloShopDTO.setType(apolloShopExtend.getType());
@@ -57,7 +58,7 @@ public class ApolloShopServiceImpl implements ApolloShopService {
 
     private void processShop(ApolloShopDTO apolloShopDTO, int shopID) {
         List<ApolloShopEntity> apolloShopList = apolloShopDAO.queryApolloShopByShopID(shopID);
-        if(apolloShopList != null && apolloShopList.size() != 0) {
+        if(CollectionUtils.isNotEmpty(apolloShopList)) {
             ApolloShopEntity apolloShop = apolloShopList.get(0);
             apolloShopDTO.setShopID(apolloShop.getShopID());
             apolloShopDTO.setShopGroupID(apolloShop.getShopGroupID());
@@ -70,7 +71,7 @@ public class ApolloShopServiceImpl implements ApolloShopService {
 
     private void processRegion(ApolloShopDTO apolloShopDTO, int shopID) {
         List<ShopRegionEntity> shopRegionList = shopRegionDAO.queryShopMainRegionByShopID(shopID);
-        if(shopRegionList != null && shopRegionList.size() != 0) {
+        if(CollectionUtils.isNotEmpty(shopRegionList)) {
             ShopRegionEntity shopRegion = shopRegionList.get(0);
             apolloShopDTO.setMainRegionID(shopRegion.getRegionID());
         }
@@ -78,7 +79,7 @@ public class ApolloShopServiceImpl implements ApolloShopService {
 
     private void processCategory(ApolloShopDTO apolloShopDTO, int shopID) {
         List<ShopCategoryEntity> shopCategoryList = shopCategoryDAO.queryShopMainCategoryByShopID(shopID);
-        if(shopCategoryList != null && shopCategoryList.size() != 0) {
+        if(CollectionUtils.isNotEmpty(shopCategoryList)) {
             ShopCategoryEntity shopCategory = shopCategoryList.get(0);
             apolloShopDTO.setMainCategoryID(shopCategory.getCategoryID());
         }
