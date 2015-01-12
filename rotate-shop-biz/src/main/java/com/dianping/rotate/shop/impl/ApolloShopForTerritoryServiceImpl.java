@@ -58,7 +58,7 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
 
         //02.校验传入战区规则是否符合门店定义
         String territoryRule = replaceTerritoryProperty(queryDto.getTerritoryRule());
-
+        avatarLogger.info(String.format("替换后的规则:"+territoryRule));
         //03.查询符合条件的门店
         PageModel pageResult = apolloShopDAO.queryApolloShopsForTerritory(territoryRule, queryDto.getBizId()
                 , queryDto.getModKey(), queryDto.getModValue()
