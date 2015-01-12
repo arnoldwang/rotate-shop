@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -46,14 +47,9 @@ public class ApolloShopServiceTest {
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
 
-    }
-
-    @Test
-    public void getApolloShop() {
         // ApolloShopDAO
-        ApolloShopDAO apolloShopDAO = mock(ApolloShopDAO.class);
-
         List<ApolloShopEntity> apolloShopEntityList = new ArrayList<ApolloShopEntity>();
         ApolloShopEntity apolloShopEntity = new ApolloShopEntity();
         apolloShopEntity.setShopID(1);
@@ -61,8 +57,6 @@ public class ApolloShopServiceTest {
         when(apolloShopDAO.queryApolloShopByShopID(1)).thenReturn(apolloShopEntityList);
 
         // ApollpShopExtendDAO
-        ApolloShopExtendDAO apolloShopExtendDAO = mock(ApolloShopExtendDAO.class);
-
         List<ApolloShopExtendEntity> apolloShopExtendEntityList = new ArrayList<ApolloShopExtendEntity>();
         ApolloShopExtendEntity apolloShopExtendEntity = new ApolloShopExtendEntity();
         apolloShopExtendEntity.setShopID(1);
@@ -71,8 +65,6 @@ public class ApolloShopServiceTest {
         when(apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(1, 1)).thenReturn(apolloShopExtendEntityList);
 
         // ShopRegionDAO
-        ShopRegionDAO shopRegionDAO = mock(ShopRegionDAO.class);
-
         List<ShopRegionEntity> shopRegionEntityList = new ArrayList<ShopRegionEntity>();
         ShopRegionEntity shopRegionEntity = new ShopRegionEntity();
         shopRegionEntity.setShopID(1);
@@ -81,20 +73,19 @@ public class ApolloShopServiceTest {
         when(shopRegionDAO.queryShopRegionByShopID(1)).thenReturn(shopRegionEntityList);
 
         // ShopCategoryDAO
-        ShopCategoryDAO shopCategoryDAO = mock(ShopCategoryDAO.class);
-
         List<ShopCategoryEntity> shopCategoryEntityList = new ArrayList<ShopCategoryEntity>();
         ShopCategoryEntity shopCategoryEntity = new ShopCategoryEntity();
         shopCategoryEntity.setShopID(1);
         shopCategoryEntity.setCategoryID(100);
 
         when(shopCategoryDAO.queryShopCategoryByShopID(1)).thenReturn(shopCategoryEntityList);
+    }
 
-        ApolloShopService apolloShopService = new ApolloShopServiceImpl();
-
+    @Test
+    public void getApolloShop() {
         ApolloShopDTO apolloShopDTO = apolloShopService.getApolloShop(1, 1);
 
-        verify(shopCategoryDAO, times(1)).queryShopCategoryByShopID(1);
+        verify(shopCategoryDAO, times(0)).queryShopCategoryByShopID(1);
 
         Assert.assertEquals(1, (int) apolloShopDTO.getShopID());
         Assert.assertEquals(1, (int) apolloShopDTO.getBizID());

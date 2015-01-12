@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class POIChangeListener implements MessageListener {
     @Autowired
-    POIFactory poiFactory;
+    private POIFactory poiFactory;
 
     @Override
     public void onMessage(Message msg) throws POIMessageException{

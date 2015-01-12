@@ -6,6 +6,8 @@ import com.dianping.avatar.dao.annotation.DAOActionType;
 import com.dianping.avatar.dao.annotation.DAOParam;
 import com.dianping.rotate.shop.entity.MessageEntity;
 
+import java.util.List;
+
 /**
  * Created by zaza on 15/1/4.
  */
@@ -24,5 +26,9 @@ public interface MessageQueueDAO extends GenericDao {
     MessageEntity getMessageById(@DAOParam("id") int id);
 
 
+    @DAOAction(action = DAOActionType.QUERY)
+    List<MessageEntity> getMessage(@DAOParam("source") int source,
+                                   @DAOParam("type") int type,
+                                   @DAOParam("limit") int limit);
 
 }

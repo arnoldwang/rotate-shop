@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="messageProcessTask" class="com.dianping.rotate.shop.task.MessageProcessTask"/>
+    <!--定时器-->
+    <bean id="poiMessageProcessTaskJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="messageProcessTask"/>
+        <property name="targetMethod" value="run"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="poiMessageProcessCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="poiMessageProcessTaskJob"/>
+        <property name="cronExpression" value="${rotate-shop-job.quartz.expression}"/>
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="poiMessageProcessTaskJob"/>
+            </list>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="poiMessageProcessCronTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

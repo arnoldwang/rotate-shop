@@ -69,7 +69,6 @@
         update Region
         set
         RegionName = #region.regionName#,
-        parentID = #region.parentID#,
         Status = #region.status#,
         LastModifiedTime = NOW()
         WHERE RegionID = #region.regionID#
