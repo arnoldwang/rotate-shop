@@ -24,9 +24,6 @@
         <result column="District" property="district"/>
         <result column="ShopType" property="shopType"/>
         <result column="Status" property="shopStatus"/>
-        <result column="Type" property="type"/>
-        <result column="BizID" property="bizID"/>
-        <result column="ShopExtendStatus" property="shopExtendStatus"/>
     </resultMap>
 
     <sql id="keys">
@@ -49,13 +46,8 @@
              m.CityID,
              m.District,
              m.ShopType,
-             m.Status,
-             ex.Type,
-             ex.BizID,
-             ex.Rating,
-             ex.Status as ShopExtendStatus
+             m.Status
         FROM ApolloShop m
-      left join ApolloShopExtend ex on m.ShopID = ex.ShopID
     </sql>
 
 
@@ -112,9 +104,9 @@
     <!-- 提供给战区分页查询门店信息，并返回DTO -->
     <select id="queryApolloShopsForTerritory" resultMap="apolloShopDto" parameterClass="map">
         <include refid="queryDtoSelect" />
-        where ex.bizID = #bizID#
+
         <![CDATA[
-            and m.ID % #modKey# = #modValue#
+             where  m.ID % #modKey# = #modValue#
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
             #ruleExpression#
@@ -127,8 +119,7 @@
             from (
                select count(1)
                  from ApolloShop m
-            left join ApolloShopExtend ex on m.ShopID = ex.ShopID
-                where ex.bizID = #bizID# and m.ID % #modKey# = #modValue#
+                where m.ID % #modKey# = #modValue#
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
             #ruleExpression#
