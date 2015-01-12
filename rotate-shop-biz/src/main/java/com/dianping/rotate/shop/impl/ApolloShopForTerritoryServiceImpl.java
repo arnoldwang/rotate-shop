@@ -26,8 +26,9 @@ import org.springframework.stereotype.Service;
 public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritoryService {
 
     @Autowired
-    ApolloShopDAO apolloShopDAO;
+    private ApolloShopDAO apolloShopDAO;
 
+    //AvatarLogger
     AvatarLogger avatarLogger = AvatarLoggerFactory.getLogger(ApolloShopForTerritoryServiceImpl.class);
 
     @Override
@@ -46,11 +47,12 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
                         , queryDto.getBizId(), queryDto.getTerritoryRule(), queryDto.getModKey(), queryDto.getModValue());
             }
 
+            avatarLogger.info("参数错误:"+inputParams);
             throw new RuntimeException("参数错误，请检查传入参数!" + inputParams);
         }
 
         //记录日志
-        avatarLogger.log(String.format("批量获取门店信息参数信息：bizId=s%,territoryRule=s%,modKey=s%,modValue=s%" +
+        avatarLogger.info(String.format("批量获取门店信息参数信息：bizId=s%,territoryRule=s%,modKey=s%,modValue=s%" +
                 ",pageSize=s%,pageIndex=s%", queryDto.getBizId(), queryDto.getTerritoryRule()
                 , queryDto.getModKey(), queryDto.getModValue(), queryDto.getPageSize(), queryDto.getPageIndex()));
 
@@ -63,7 +65,7 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
                 , queryDto.getPageSize(), queryDto.getPageIndex());
 
         //返回记录日志
-        avatarLogger.log(String.format("返回数据日志，符合条件记录数:s%,当前页索引:s%,共s%页."
+        avatarLogger.info(String.format("返回数据日志，符合条件记录数:s%,当前页索引:s%,共s%页."
                 , pageResult.getRecordCount(), pageResult.getPage(), pageResult.getPageCount()));
 
         return pageResult;

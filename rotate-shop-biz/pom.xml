@@ -32,6 +32,10 @@
             <artifactId>dpdl-simple</artifactId>
         </dependency>
         <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.dianping.platform</groupId>
             <artifactId>platform-sdk</artifactId>
         </dependency>
