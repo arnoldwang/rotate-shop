@@ -1,5 +1,7 @@
 package com.dianping.rotate.shop.impl;
 
+import com.dianping.avatar.log.AvatarLogger;
+import com.dianping.avatar.log.AvatarLoggerFactory;
 import com.dianping.core.type.PageModel;
 import com.dianping.rotate.shop.api.ApolloShopForTerritoryService;
 import com.dianping.rotate.shop.dao.ApolloShopDAO;
@@ -8,6 +10,7 @@ import com.dianping.rotate.shop.dto.ApolloShopForTerritoryQueryDTO;
 
 import com.dianping.rotate.shop.enums.TerritoryShopPropertyMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.impl.AvalonLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.parsing.QualifierEntry;
 import org.springframework.stereotype.Service;
@@ -18,11 +21,14 @@ import org.springframework.stereotype.Service;
  * @author wei.zhang.sh@dianping.com
  * Created on 2015-01-08.
  */
+
 @Service("apolloShopForTerritoryService")
 public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritoryService {
 
     @Autowired
     ApolloShopDAO apolloShopDAO;
+
+    AvatarLogger avatarLogger = AvatarLoggerFactory.getLogger(ApolloShopForTerritoryServiceImpl.class);
 
     @Override
     public PageModel batchFetchApolloShop(ApolloShopForTerritoryQueryDTO queryDto) {
@@ -35,6 +41,11 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
             throw new RuntimeException("参数错误，请检查传入参数!");
         }
 
+        //记录日志
+        avatarLogger.log(String.format("批量获取门店信息参数信息：bizId=s%,territoryRule=s%,modKey=s%,modValue=s%" +
+                ",pageSize=s%,pageIndex=s%" ,queryDto.getBizId(),queryDto.getTerritoryRule()
+                ,queryDto.getModKey(),queryDto.getModValue(),queryDto.getPageSize(),queryDto.getPageIndex()));
+
         //02.校验传入战区规则是否符合门店定义
         String territoryRule = replaceTerritoryProperty(queryDto.getTerritoryRule());
 
@@ -42,6 +53,10 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
         PageModel pageResult = apolloShopDAO.queryApolloShopsForTerritory(territoryRule, queryDto.getBizId()
                 , queryDto.getModKey(), queryDto.getModValue()
                 , queryDto.getPageSize(), queryDto.getPageIndex());
+
+        //返回记录日志
+        avatarLogger.log(String.format("返回数据日志，符合条件记录数:s%,当前页索引:s%,共s%页."
+                ,pageResult.getRecordCount(),pageResult.getPage(),pageResult.getPageCount()));
 
         return pageResult;
     }
