@@ -57,11 +57,12 @@ public class RegionServiceImpl implements RegionService {
         }
 
         // 如果是其它类型的话，则找一个行政区塞进去
-        List<Region> ret = Lists.newArrayList(region);
+        List<Region> ret = Lists.newArrayList();
         Region district = regionService.loadMainParentDistrict(regionID, true);
         if (district != null) {
-            ret.add(0, district);
+            ret.add(district);
         }
+        ret.add(region);
         return Lists.transform(ret, toRegionDTO);
     }
 
