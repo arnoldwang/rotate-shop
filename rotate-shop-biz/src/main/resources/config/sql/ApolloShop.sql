@@ -18,7 +18,9 @@ CREATE TABLE `ApolloShop`(
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
   KEY `IX_SHOP_ID` (`ShopID`),
-  KEY `IX_SHOP_GROUP_ID` (`ShopGroupID`)
+  KEY `IX_SHOP_GROUP_ID` (`ShopGroupID`),
+  KEY `IX_SHOP_CITY_ID` (`CityID`),
+  KEY `IX_SHOP_DISTRICT` (`District`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '落地的POI门店信息表';
 
 

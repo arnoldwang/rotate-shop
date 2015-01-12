@@ -43,18 +43,12 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
             if (queryDto == null) {
                 inputParams = "dto为null";
             } else {
-                inputParams = String.format("bizId:s%,ruleExperession:s%,modKey:s%,modValue:s%"
-                        , queryDto.getBizId(), queryDto.getTerritoryRule(), queryDto.getModKey(), queryDto.getModValue());
+                inputParams = "ruleExperession:"+queryDto.getTerritoryRule();
             }
 
             avatarLogger.info("参数错误:"+inputParams);
             throw new RuntimeException("参数错误，请检查传入参数!" + inputParams);
         }
-
-        //记录日志
-        avatarLogger.info(String.format("批量获取门店信息参数信息：bizId=s%,territoryRule=s%,modKey=s%,modValue=s%" +
-                ",pageSize=s%,pageIndex=s%", queryDto.getBizId(), queryDto.getTerritoryRule()
-                , queryDto.getModKey(), queryDto.getModValue(), queryDto.getPageSize(), queryDto.getPageIndex()));
 
         //02.校验传入战区规则是否符合门店定义
         String territoryRule = replaceTerritoryProperty(queryDto.getTerritoryRule());
@@ -65,8 +59,10 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
                 , queryDto.getPageSize(), queryDto.getPageIndex());
 
         //返回记录日志
-        avatarLogger.info(String.format("返回数据日志，符合条件记录数:s%,当前页索引:s%,共s%页."
-                , pageResult.getRecordCount(), pageResult.getPage(), pageResult.getPageCount()));
+        if(pageResult!=null){
+        avatarLogger.info("返回数据日志，符合条件记录数:"+pageResult.getRecordCount()+",当前页索引:"+pageResult.getPage()+",共"+
+                pageResult.getPageCount()+"页.");
+        }
 
         return pageResult;
     }
