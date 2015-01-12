@@ -12,8 +12,6 @@ public class BizEntity {
 	private int bizID;
 
 	private String name;
-
-	private String business;
 	//状态：0，删除；1，正常；
 	private int status;
 
@@ -43,14 +41,6 @@ public class BizEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getBusiness() {
-		return business;
-	}
-
-	public void setBusiness(String business) {
-		this.business = business;
 	}
 
 	public int getStatus() {

@@ -16,11 +16,9 @@ class BizDAOTest extends AbstractSpockTest{
         setup:
         int bizID = 1;
         String name = "团购1";
-        String business = "上海地区团购";
         def r = new BizEntity();
         r.setBizID(bizID);
         r.setName(name);
-        r.setBusiness(business);
         r.setStatus(1);
 
         when:

@@ -9,8 +9,8 @@ import java.util.List;
  */
 public interface CategoryService {
 
-    public CategoryDTO getCategoryByCategoryIDAndCityID(int categoryID, int cityID);
+    public CategoryDTO getCategory(int categoryID, int cityID);
 
-    public List<CategoryDTO> getCategoryTreeByCategoryIDAndCityID(int categoryID, int cityID);
+    public List<CategoryDTO> getCategoryAncestors(int categoryID, int cityID);
 
 }
