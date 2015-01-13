@@ -19,14 +19,16 @@
     
     <sql id="key-value">
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         VALUES 
         (
         #rotateGroupShop.rotateGroupID#,
         #rotateGroupShop.shopID#,
         #rotateGroupShop.shopGroupID#,
-        #rotateGroupShop.status#
+        #rotateGroupShop.status#,
+        NOW()
         )
     </sql>
     
@@ -89,7 +91,8 @@
     <insert id="addToRotateGroupShopByList" parameterClass="map">
         INSERT INTO RotateGroupShop
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         VALUES
         <iterate property="rotateGroupShopList" conjunction=",">
@@ -97,14 +100,16 @@
             #rotateGroupShopList[].rotateGroupID#,
             #rotateGroupShopList[].shopID#,
             #rotateGroupShopList[].shopGroupID#,
-            #rotateGroupShopList[].status#
+            #rotateGroupShopList[].status#,
+            NOW()
             )
         </iterate>
     </insert>
 
-    <select id="getShopNumInSameRotateGroup" resultClass="int" parameterClass="map">
+    <select id="getShopNumInGroup" resultClass="int" parameterClass="map">
         SELECT COUNT(*)
-        FROM RotateGroupShop r1, RotateGroupShop r2, ApolloShop a
-        WHERE r1.RotateGroupID = r2.RotateGroupID AND r2.ShopID = #shopID#
+        FROM ApolloShop ap, RotateGroupShop rgs1
+        WHERE ap.ShopID = rgs1.ShopID AND ap.status = 1 AND ap.ShopStatus = 5
+        AND rgs1.RotateGroupID IN (SELECT rgs2.RotateGroupID FROM RotateGroupShop rgs2 WHERE rgs2.shopID = #shopID#)
     </select>
 </sqlMap>
