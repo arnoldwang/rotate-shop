@@ -133,12 +133,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	private RotateGroupEntity getRotateGroupEntity(int rotateGroupID) {
-		List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.queryRotateGroup(rotateGroupID);
-		if(CollectionUtils.isNotEmpty(rotateGroupEntityList)){
-			RotateGroupEntity rotateGroupEntity = rotateGroupEntityList.get(0);
-			return rotateGroupEntity;
-		}
-		return null;
+		return rotateGroupDAO.getRotateGroup(rotateGroupID);
 	}
 
 	private RotateGroupDTO transRotateGroupEntityToDTO(RotateGroupEntity rotateGroupEntity) {

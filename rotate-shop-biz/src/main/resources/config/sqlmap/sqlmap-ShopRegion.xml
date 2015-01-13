@@ -91,6 +91,13 @@
         WHERE ShopID = #shopID#
     </update>
 
+    <update id="restoreShopRegionByShopID" parameterClass="map">
+        update ShopRegion
+        set
+        Status = 1
+        WHERE ShopID = #shopID#
+    </update>
+
     <update id="deleteShopRegionByRegionID" parameterClass="map">
         update ShopRegion
         set

@@ -91,6 +91,15 @@
         WHERE ShopID = #shopID#
     </update>
 
+
+    <update id="restoreShopCategoryByShopID" parameterClass="map">
+        update ShopCategory
+        set
+        Status = 1
+        WHERE ShopID = #shopID#
+    </update>
+
+
     <update id="deleteShopCategoryByCategoryID" parameterClass="map">
         update ShopCategory
         set

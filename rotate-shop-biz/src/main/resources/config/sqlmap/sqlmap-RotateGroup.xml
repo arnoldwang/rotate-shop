@@ -57,7 +57,7 @@
         <include refid="modify"/>
     </update>
 
-    <select id="queryRotateGroup" resultMap="rotateGroup" parameterClass="map">
+    <select id="getRotateGroup" resultMap="rotateGroup" parameterClass="map">
         SELECT ID,
         <include refid="keys"/>
         FROM RotateGroup
