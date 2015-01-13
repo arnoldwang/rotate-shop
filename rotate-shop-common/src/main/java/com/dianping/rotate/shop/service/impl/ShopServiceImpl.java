@@ -1,6 +1,5 @@
 package com.dianping.rotate.shop.service.impl;
 
-import com.dianping.rotate.shop.api.ApolloShopService;
 import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.entity.*;
 import com.dianping.rotate.shop.factory.impl.TPApolloShopExtend;
@@ -24,8 +23,6 @@ import java.util.Map;
  */
 @Service
 public class ShopServiceImpl implements ShopService {
-    @Autowired
-    ApolloShopService apolloShopService;
 
 	Logger logger = LoggerFactory.getLogger(ShopServiceImpl.class);
 
@@ -51,13 +48,17 @@ public class ShopServiceImpl implements ShopService {
 	ShopRegionDAO shopRegionDAO;
 
     @Override
-    public void mergeShops(int shopId, int toShopId) {
-        apolloShopService.deleteApolloShopByShopID(shopId);
+    public void closeShop(int shopId) {
+		apolloShopDAO.deleteApolloShopByShopID(shopId);
+		apolloShopExtendDAO.deleteApolloShopExtendByShopID(shopId);
+		shopRegionDAO.deleteShopRegionByShopID(shopId);
+		rotateGroupShopDAO.deleteRotateGroupShopByShopId(shopId);
+
     }
 
     @Override
-    public void restoreMergedShops(int shopId, int restoreShopId) {
-        apolloShopService.restoreApolloShopByShopID(restoreShopId);
+    public void openShop(int shopId) {
+
     }
 
 	@Override
@@ -114,7 +115,7 @@ public class ShopServiceImpl implements ShopService {
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);//创建轮转组和门店关系
 			} else {
 				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
-				updateRotateGroup(rotateGroupID);//更新轮转组type
+				setRotateGroupToStores(rotateGroupID);//更新轮转组type
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			}
 		}
@@ -235,7 +236,7 @@ public class ShopServiceImpl implements ShopService {
 		return rotateGroupIDList;
 	}
 
-	private void updateRotateGroup(int rotateGroupID) {
+	private void setRotateGroupToStores(int rotateGroupID) {
 		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.queryRotateGroup(rotateGroupID).get(0);
 		rotateGroupEntity.setType(1);//0：单店；1：连锁店
 		rotateGroupDAO.updateRotateGroup(rotateGroupEntity);
@@ -248,7 +249,6 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setCityID(shopDTO.getCityId());
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
 		apolloShopEntity.setShopType(shopDTO.getShopType());
-		apolloShopEntity.setStatus(1);
 		apolloShopEntity.setShopStatus(shopDTO.getPower());
 
 		int id = apolloShopDAO.addApolloShop(apolloShopEntity);

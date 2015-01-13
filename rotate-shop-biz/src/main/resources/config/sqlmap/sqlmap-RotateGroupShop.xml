@@ -49,12 +49,21 @@
         </selectKey>
     </insert>
 
-    <delete id="deleteRotateGroupShop" parameterClass="map">
+    <update id="deleteRotateGroupShop" parameterClass="map">
         UPDATE RotateGroupShop
         SET
             Status = 0
         WHERE ID = #id#
-    </delete>
+    </update>
+
+
+    <update id="deleteRotateGroupShopByShopId" parameterClass="map">
+        UPDATE RotateGroupShop
+        SET
+        Status = 0
+        WHERE ShopID = #shopId#
+    </update>
+
 
     <update id="updateRotateGroupShop" parameterClass="map">
         UPDATE RotateGroupShop

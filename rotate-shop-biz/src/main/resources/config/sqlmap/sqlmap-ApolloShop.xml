@@ -14,7 +14,6 @@
         <result column="CityID" property="cityID"/>
         <result column="District" property="district"/>
         <result column="ShopType" property="shopType"/>
-        <result column="Status" property="status"/>
     </resultMap>
 
     <resultMap id="apolloShopDto" class="com.dianping.rotate.shop.dto.ApolloShopDTO">
@@ -23,7 +22,7 @@
         <result column="CityID" property="cityID"/>
         <result column="District" property="district"/>
         <result column="ShopType" property="shopType"/>
-        <result column="Status" property="shopStatus"/>
+        <result column="ShopStatus" property="shopStatus"/>
     </resultMap>
 
     <sql id="keys">
@@ -32,8 +31,7 @@
         ShopGroupID,
         CityID,
         District,
-        ShopType,
-        Status
+        ShopType
     </sql>
 
 
@@ -46,8 +44,8 @@
              m.CityID,
              m.District,
              m.ShopType,
-             m.Status
-        FROM ApolloShop m
+             m.ShopStatus
+      FROM ApolloShop m
     </sql>
 
 
@@ -56,7 +54,7 @@
         ID,
         <include refid="keys"/>
         FROM ApolloShop
-        WHERE ShopID = #shopID# and Status != 0
+        WHERE ShopID = #shopID# and ShopStatus = 5
     </select>
 
     <select id="queryApolloShopByShopIDList" resultMap="apolloShop" parameterClass="map">
@@ -85,7 +83,6 @@
         #apolloShop.cityID#,
         #apolloShop.district#,
         #apolloShop.shopType#,
-        #apolloShop.status#,
         NOW()
         )
         <selectKey resultClass="int" keyProperty="id">
@@ -96,15 +93,14 @@
     <update id="deleteApolloShopByShopID" parameterClass="map">
         update ApolloShop
         set
-        Status = 0
+        ShopStatus = 1
         WHERE ShopID = #shopID#
     </update>
 
     <update id="restoreApolloShopByShopID" parameterClass="map">
         update ApolloShop
         set
-        Status = 1,
-        LastModifiedTime = NOW()
+        ShopStatus = 5
         WHERE ShopID = #shopID#
     </update>
 
@@ -115,8 +111,7 @@
         CityID = #apolloShop.cityID#,
         ShopStatus = #apolloShop.shopStatus#,
         District = #apolloShop.district#,
-        ShopType = #apolloShop.shopType#,
-        Status = #apolloShop.status#
+        ShopType = #apolloShop.shopType#
         WHERE ShopID = #apolloShop.shopID#
     </update>
 

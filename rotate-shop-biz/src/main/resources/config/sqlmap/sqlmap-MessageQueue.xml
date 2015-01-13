@@ -40,11 +40,12 @@
     </sql>
 
 
-    <select id="getMessageById" resultMap="messageQueue" parameterClass="map">
+    <select id="getMessageByID" resultMap="messageQueue" parameterClass="map">
         SELECT
         <include refid="keys"/>
         FROM MessageQueue
         WHERE ID=#id#
+        Limit 1
     </select>
 
     <insert id="addToMessageQueue" parameterClass="map">
@@ -70,8 +71,16 @@
         WHERE Source=#source#
         AND Type=#type#
         AND Status=1
-        Order by AttemptIndex DESC
+        AND AttemptIndex=#attemptIndex#
         LIMIT #limit#
     </select>
+
+    <update id="updateMessageAttemptIndex" parameterClass="map">
+        update  MessageQueue
+        set  AttemptIndex = #attemptIndex#
+        WHERE ID =#id#
+    </update>
+
+
 
 </sqlMap>

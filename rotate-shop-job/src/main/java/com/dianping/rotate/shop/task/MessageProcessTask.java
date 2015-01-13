@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
  * Created by zaza on 15/1/8.
  */
 public class MessageProcessTask {
-    Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private final ExecutorService threadPool = Executors.newFixedThreadPool(7);
     @Autowired
     private POIAddMessageProcessor addMessageProcessor;
@@ -48,6 +48,7 @@ public class MessageProcessTask {
             threadPool.execute(new POIRegionRunnable());
             threadPool.execute(new POIUpdateRunnable());
         }catch(Exception ex){
+            //todo:守护线程
             logger.error(ex.getMessage(), ex);
         }
     }

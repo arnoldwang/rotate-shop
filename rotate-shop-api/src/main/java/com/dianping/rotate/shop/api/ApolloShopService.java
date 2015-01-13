@@ -18,7 +18,7 @@ public interface ApolloShopService {
     public ApolloShopDTO getApolloShop(int shopID, int bizID);
 
     /**
-     * 批量获取阿波罗门店信息（最大一次获取量为10000）
+     * 批量获取阿波罗门店信息（最大限制一次获取量为10000）
      * @param shopIDList
      * @param bizID
      * @return
