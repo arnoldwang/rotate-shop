@@ -17,6 +17,15 @@
         <result column="Status" property="status"/>
     </resultMap>
 
+    <resultMap id="apolloShopDto" class="com.dianping.rotate.shop.dto.ApolloShopDTO">
+        <result column="ShopID" property="shopID"/>
+        <result column="ShopGroupID" property="shopGroupID"/>
+        <result column="CityID" property="cityID"/>
+        <result column="District" property="district"/>
+        <result column="ShopType" property="shopType"/>
+        <result column="Status" property="shopStatus"/>
+    </resultMap>
+
     <sql id="keys">
         ShopID,
         ShopStatus,
@@ -26,6 +35,21 @@
         ShopType,
         Status
     </sql>
+
+
+
+
+    <!-- 直接返回dto的select语句 -->
+    <sql id="queryDtoSelect">
+      SELECT m.ShopID,
+             m.ShopGroupID,
+             m.CityID,
+             m.District,
+             m.ShopType,
+             m.Status
+        FROM ApolloShop m
+    </sql>
+
 
     <select id="queryApolloShopByShopID" resultMap="apolloShop" parameterClass="map">
         SELECT
@@ -64,6 +88,14 @@
         WHERE ShopID = #shopID#
     </update>
 
+    <update id="restoreApolloShopByShopID" parameterClass="map">
+        update ApolloShop
+        set
+        Status = 1,
+        LastModifiedTime = NOW()
+        WHERE ShopID = #shopID#
+    </update>
+
     <update id="updateApolloShop" parameterClass="map">
         update ApolloShop
         set
@@ -75,5 +107,34 @@
         Status = #apolloShop.status#
         WHERE ShopID = #apolloShop.shopID#
     </update>
+
+
+    <!-- 提供给战区分页查询门店信息，并返回DTO -->
+    <select id="queryApolloShopsForTerritory" resultMap="apolloShopDto" parameterClass="map">
+        <include refid="queryDtoSelect" />
+
+        <![CDATA[
+             where  m.ID % #modKey# = #modValue#
+        ]]>
+        <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
+            #ruleExpression#
+        </isNotEqual>
+        order by m.ID;
+    </select>
+    <select id="queryApolloShopsForTerritory_COUNT" resultClass="int" parameterClass="map">
+        <![CDATA[
+            select count(1)
+            from (
+               select count(1)
+                 from ApolloShop m
+                where m.ID % #modKey# = #modValue#
+        ]]>
+        <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
+            #ruleExpression#
+        </isNotEqual>
+        <![CDATA[
+            order by m.ID ) as mr;
+         ]]>
+    </select>
 
 </sqlMap>

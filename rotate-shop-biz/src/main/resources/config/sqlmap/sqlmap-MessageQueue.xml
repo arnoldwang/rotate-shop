@@ -52,9 +52,26 @@
         <include refid="key-value"/>
     </insert>
 
-    <delete id="deleteMessage" parameterClass="map">
+    <delete id="deleteMessagePhysically" parameterClass="map">
         delete from MessageQueue
         WHERE ID =#id#
     </delete>
+
+    <update id="deleteMessage" parameterClass="map">
+        update  MessageQueue
+        set Status = 0
+        WHERE ID =#id#
+    </update>
+
+    <select id="getMessage" resultMap="messageQueue" parameterClass="map">
+        SELECT
+        <include refid="keys"/>
+        FROM MessageQueue
+        WHERE Source=#source#
+        AND Type=#type#
+        AND Status=1
+        Order by AttemptIndex DESC
+        LIMIT #limit#
+    </select>
 
 </sqlMap>

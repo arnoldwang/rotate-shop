@@ -45,6 +45,10 @@ public class RegionServiceImpl implements RegionService {
     public List<RegionDTO> getRegionAncestors(int regionID) {
         Region region = regionService.loadRegion(regionID);
 
+        if (region == null) {
+            return Lists.newArrayList();
+        }
+
         int regionType = region.getRegionType();
         // 如果本身就是行政区，就直接返回自己
         if (regionType == CodeConstants.RegionType.District.value) {
@@ -57,11 +61,12 @@ public class RegionServiceImpl implements RegionService {
         }
 
         // 如果是其它类型的话，则找一个行政区塞进去
-        List<Region> ret = Lists.newArrayList(region);
+        List<Region> ret = Lists.newArrayList();
         Region district = regionService.loadMainParentDistrict(regionID, true);
         if (district != null) {
-            ret.add(0, district);
+            ret.add(district);
         }
+        ret.add(region);
         return Lists.transform(ret, toRegionDTO);
     }
 
