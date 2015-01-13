@@ -57,6 +57,18 @@
         WHERE ShopID = #shopID# and ShopStatus = 5
     </select>
 
+    <select id="queryApolloShopByShopIDList" resultMap="apolloShop" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShop
+        WHERE ShopStatus = 5 and
+        ShopID in
+        <iterate open="(" close=")" conjunction="," property="shopIDList">
+            #shopIDList[]#
+        </iterate>
+    </select>
+
     <insert id="addApolloShop" parameterClass="map">
         INSERT INTO ApolloShop
         (

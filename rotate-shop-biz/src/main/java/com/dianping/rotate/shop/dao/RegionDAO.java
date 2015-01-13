@@ -20,6 +20,9 @@ public interface RegionDAO extends GenericDao {
     @DAOAction(action = DAOActionType.QUERY)
     List<RegionEntity> queryRegionByRegionIDAndCityID(@DAOParam("regionID") int regionID, @DAOParam("cityID") int cityID);
 
+    @DAOAction(action = DAOActionType.QUERY)
+    List<RegionEntity> queryRegionByShopID(@DAOParam("shopID") int shopID);
+
     @DAOAction(action = DAOActionType.INSERT)
     int addRegion(@DAOParam("region") RegionEntity region);
 

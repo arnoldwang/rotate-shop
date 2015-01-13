@@ -26,8 +26,19 @@
         ID,
         <include refid="keys"/>
         FROM ShopCategory
-        WHERE ShopID = #shopID#
-        AND Status != 0
+        WHERE ShopID = #shopID# and Status != 0
+    </select>
+
+    <select id="queryShopCategoryByShopIDList" resultMap="shopCategory" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ShopCategory
+        WHERE Status != 0 and
+        ShopID in
+        <iterate open="(" close=")" conjunction="," property="shopIDList">
+            #shopIDList[]#
+        </iterate>
     </select>
 
     <select id="queryShopMainCategoryByShopID" resultMap="shopCategory" parameterClass="map">

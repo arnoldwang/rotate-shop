@@ -21,6 +21,9 @@ public interface ShopCategoryDAO extends GenericDao {
     List<ShopCategoryEntity> queryShopCategoryByShopID(@DAOParam("shopID") int shopID);
 
     @DAOAction(action = DAOActionType.QUERY)
+    List<ShopCategoryEntity> queryShopCategoryByShopIDList(@DAOParam("shopIDList") List<Integer> shopIDList);
+
+    @DAOAction(action = DAOActionType.QUERY)
     List<ShopCategoryEntity> queryShopMainCategoryByShopID(@DAOParam("shopID") int shopID);
 
     @DAOAction(action = DAOActionType.QUERY)
