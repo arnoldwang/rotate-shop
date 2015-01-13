@@ -27,6 +27,7 @@
         <include refid="keys"/>
         FROM ShopRegion
         WHERE ShopID = #shopID#
+        AND Status != 0
     </select>
 
     <select id="queryShopMainRegionByShopID" resultMap="shopRegion" parameterClass="map">
@@ -35,6 +36,7 @@
         <include refid="keys"/>
         FROM ShopRegion
         WHERE ShopID = #shopID# and IsMain = 1
+        AND Status != 0
     </select>
 
     <select id="queryShopRegionByRegionID" resultMap="shopRegion" parameterClass="map">
@@ -43,6 +45,7 @@
         <include refid="keys"/>
         FROM ShopRegion
         WHERE RegionID = #regionID#
+        AND Status != 0
     </select>
 
     <select id="queryShopRegionByShopIDAndRegionID" resultMap="shopRegion" parameterClass="map">
@@ -51,6 +54,7 @@
         <include refid="keys"/>
         FROM ShopRegion
         WHERE ShopID = #shopID# and RegionID = #regionID#
+        AND Status != 0
     </select>
 
     <insert id="addShopRegion" parameterClass="map">

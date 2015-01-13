@@ -88,5 +88,6 @@
         SELECT COUNT(*)
         FROM ApolloShopExtend
         WHERE ShopID = #shopID#
+        AND Status != 0
     </select>
 </sqlMap>

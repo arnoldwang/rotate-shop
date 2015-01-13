@@ -27,6 +27,7 @@
         <include refid="keys"/>
         FROM ShopCategory
         WHERE ShopID = #shopID#
+        AND Status != 0
     </select>
 
     <select id="queryShopMainCategoryByShopID" resultMap="shopCategory" parameterClass="map">
@@ -35,6 +36,7 @@
         <include refid="keys"/>
         FROM ShopCategory
         WHERE ShopID = #shopID# and IsMain = 1
+        AND Status != 0
     </select>
 
     <select id="queryShopCategoryByCategoryID" resultMap="shopCategory" parameterClass="map">
@@ -43,6 +45,7 @@
         <include refid="keys"/>
         FROM ShopCategory
         WHERE CategoryID = #categoryID#
+        AND Status != 0
     </select>
 
     <select id="queryShopCategoryByShopIDAndCategoryID" resultMap="shopCategory" parameterClass="map">
@@ -51,6 +54,7 @@
         <include refid="keys"/>
         FROM ShopCategory
         WHERE ShopID = #shopID# and CategoryID = #categoryID#
+        AND Status != 0
     </select>
 
     <insert id="addShopCategory" parameterClass="map">
