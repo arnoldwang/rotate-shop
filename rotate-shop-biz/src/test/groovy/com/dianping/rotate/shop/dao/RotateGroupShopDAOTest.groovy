@@ -49,6 +49,22 @@ class RotateGroupShopDAOTest extends AbstractSpockTest{
         rotateGroupShopEntityList.get(0).getShopGroupID() == 0;
     }
 
+    def "test queryRotateGroupShopByShopID"() {
+        setup:
+        int shopId = 99;
+        def r = new RotateGroupShopEntity();
+        r.setShopID(shopId);
+        r.setRotateGroupID(1)
+
+        when:
+        rotateGroupShopDAO.addToRotateGroupShop(r);
+
+        then:
+        rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId).size() == 1;
+    }
+
+
+
     def "test addToRotateGroupShopByList"() {
         setup:
         RotateGroupShopEntity rotateGroupShopEntity = new RotateGroupShopEntity();

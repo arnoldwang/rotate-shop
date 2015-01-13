@@ -25,7 +25,7 @@ public class RotateGroupDAOTest extends AbstractSpockTest {
         int id = rotateGroupDAO.addToRotateGroup(r);
         r.setStatus(1);
         rotateGroupDAO.updateRotateGroup(r);
-        List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.queryRotateGroup(id)
+        List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.getRotateGroup(id)
 
         then:
         rotateGroupEntityList.get(0).getStatus() == 1;

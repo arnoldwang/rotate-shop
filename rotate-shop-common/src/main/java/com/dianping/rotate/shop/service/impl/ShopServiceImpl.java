@@ -54,12 +54,47 @@ public class ShopServiceImpl implements ShopService {
 		shopRegionDAO.deleteShopRegionByShopID(shopId);
 		rotateGroupShopDAO.deleteRotateGroupShopByShopId(shopId);
 
+		for (RotateGroupShopEntity group: rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId)) {
+			updateRotateGroupType(group.getRotateGroupID());
+		}
     }
 
-    @Override
-    public void openShop(int shopId) {
+	@Override
+	public void openShop(int shopId) {
+		apolloShopDAO.restoreApolloShopByShopID(shopId);
+//		apolloShopExtendDAO.
+	}
 
-    }
+	private void updateRotateGroupType(int rotateGroupID) {
+		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroup(rotateGroupID);
+		// 如果没有这个轮转组，就不操作
+		if (rotateGroup == null) {
+			return;
+		}
+
+		List<RotateGroupShopEntity> r = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
+		int currentShopCount = r.size();
+
+		// 如果轮转组已经没有门店,则删除这个轮转组
+		if (currentShopCount == 0) {
+			rotateGroupDAO.deleteRotateGroup(rotateGroupID);
+			return;
+		}
+
+		// 如果门店只有1个,但是轮转组还显示连锁店,则把轮转组改成单店
+		if (currentShopCount == 1 && rotateGroup.getType() == 1) {
+			rotateGroup.setType(1);
+			rotateGroupDAO.updateRotateGroup(rotateGroup);
+			return;
+		}
+
+		// 如果门店超过1个，但是轮转组还显示单店，则把轮转组改成连锁店
+		if (currentShopCount > 1 &&  rotateGroup.getType() == 0) {
+			rotateGroup.setType(2);
+			rotateGroupDAO.updateRotateGroup(rotateGroup);
+			return;
+		}
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -156,7 +191,6 @@ public class ShopServiceImpl implements ShopService {
 			}
 			if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
 				//todo 跟新轮转组门店关系表
-				RotateGroupShopEntity rotateGroupShopEntity = rotateGroupShopDAO.findRotateGroupShopByShopID(shopId);
 			}
 			updateApolloShop(apolloShopEntity, shopDTO);
 		} catch (IOException e) {
@@ -238,7 +272,7 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	private void setRotateGroupToStores(int rotateGroupID) {
-		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.queryRotateGroup(rotateGroupID).get(0);
+		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.getRotateGroup(rotateGroupID);
 		rotateGroupEntity.setType(1);//0：单店；1：连锁店
 		rotateGroupDAO.updateRotateGroup(rotateGroupEntity);
 	}

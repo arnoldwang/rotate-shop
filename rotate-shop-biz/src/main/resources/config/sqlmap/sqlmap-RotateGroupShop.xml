@@ -77,6 +77,14 @@
         WHERE ID = #id#
     </select>
 
+
+    <select id="queryRotateGroupShopByShopID" resultMap="rotateGroupShop" parameterClass="map">
+        SELECT ID,
+        <include refid="keys"/>
+        FROM RotateGroupShop
+        WHERE ShopID = #shopId#
+    </select>
+
     <select id="queryRotateGroupShopByRotateGroupID" resultMap="rotateGroupShop" parameterClass="map">
         SELECT ID,
         <include refid="keys"/>
