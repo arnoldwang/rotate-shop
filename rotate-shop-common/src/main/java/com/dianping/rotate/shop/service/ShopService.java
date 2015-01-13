@@ -4,9 +4,9 @@ package com.dianping.rotate.shop.service;
  * Created by yangjie on 1/13/15.
  */
 public interface ShopService {
-    public void mergeShops(int shopId, int toShopId);
+    public void closeShop(int shopId);
 
-    public void restoreMergedShops(int shopId, int restoreShopId);
+    public void openShop(int shopId);
 
 	/**
 	 * 系统新增poi
