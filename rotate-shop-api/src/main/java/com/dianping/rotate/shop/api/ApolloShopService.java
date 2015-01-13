@@ -9,4 +9,7 @@ public interface ApolloShopService {
 
     public ApolloShopDTO getApolloShop(int shopID, int bizID);
 
+    public void deleteApolloShopByShopID(int shopId);
+    public void restoreApolloShopByShopID(int shopId);
+
 }
