@@ -48,13 +48,17 @@ public class ShopServiceImpl implements ShopService {
 	ShopRegionDAO shopRegionDAO;
 
     @Override
-    public void mergeShops(int shopId, int toShopId) {
-        apolloShopDAO.deleteApolloShopByShopID(shopId);
+    public void closeShop(int shopId) {
+		apolloShopDAO.deleteApolloShopByShopID(shopId);
+		apolloShopExtendDAO.deleteApolloShopExtendByShopID(shopId);
+		shopRegionDAO.deleteShopRegionByShopID(shopId);
+		rotateGroupShopDAO.deleteRotateGroupShopByShopId(shopId);
+
     }
 
     @Override
-    public void restoreMergedShops(int shopId, int restoreShopId) {
-        apolloShopDAO.restoreApolloShopByShopID(restoreShopId);
+    public void openShop(int shopId) {
+
     }
 
 	@Override

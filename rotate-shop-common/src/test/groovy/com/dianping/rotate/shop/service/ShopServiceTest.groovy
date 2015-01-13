@@ -71,7 +71,7 @@ class ShopServiceTest extends AbstractSpockTest {
         apolloShopDAO.addApolloShop(entity)
 
         when:
-        shopService.mergeShops(entity.getShopID(), targetShopId)
+        shopService.closeShop(entity.getShopID(), targetShopId)
 
         then:
         apolloShopDAO.queryApolloShopByShopID(entity.getShopID()).size() == 0;
@@ -82,7 +82,7 @@ class ShopServiceTest extends AbstractSpockTest {
         int targetShopId = 99; // 合并后的shopid，目前的实现里面没有用到
         ApolloShopEntity entity = createShopEntity(1);
         apolloShopDAO.addApolloShop(entity)
-        shopService.mergeShops(entity.getShopID(), targetShopId)
+        shopService.closeShop(entity.getShopID(), targetShopId)
 
         when:
         shopService.restoreMergedShops(targetShopId, entity.getShopID())
