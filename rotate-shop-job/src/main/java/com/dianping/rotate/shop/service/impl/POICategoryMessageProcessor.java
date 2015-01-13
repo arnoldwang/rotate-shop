@@ -28,6 +28,8 @@ public class POICategoryMessageProcessor implements MessageProcessor {
     private static final int PROCESS_MESSAGE_LIMIT = 10;
     private ExecutorService threadPool = Executors.newFixedThreadPool(10);
     private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final int MAX_RETRY = 10;
+
     @Autowired
     private MessageQueueDAO messageQueueDAO;
     @Autowired
@@ -37,14 +39,19 @@ public class POICategoryMessageProcessor implements MessageProcessor {
     public void process(){
         while(Switch.on()){
             try {
-                List<MessageEntity>  messages = messageQueueDAO.getMessage(MessageSource.PERSON, POIMessageType.SHOP_ADD,
-                        MessageAttemptIndex.INDEX_0,PROCESS_MESSAGE_LIMIT);
+                List<MessageEntity>  messages = new ArrayList<MessageEntity>();
+                int attemptIndex = 0;
+                while(messages.size()<1){
+                    messages = messageQueueDAO.getMessage(MessageSource.PERSON, POIMessageType.SHOP_CATEGORY,
+                            attemptIndex,PROCESS_MESSAGE_LIMIT);
+                    attemptIndex = attemptIndex > MAX_RETRY ? 0 : attemptIndex+1;
+                }
                 Collection<Callable<Integer>> tasks=new ArrayList<Callable<Integer>>();
                 for(final MessageEntity msg:messages){
                     tasks.add(new Callable<Integer>() {
                         @Override
                         public Integer call() throws Exception {
-                            return messageProcessService.messageProcess(msg,POIMessageType.SHOP_ADD);
+                            return messageProcessService.messageProcess(msg,POIMessageType.SHOP_CATEGORY);
                         }
                     });
                 }

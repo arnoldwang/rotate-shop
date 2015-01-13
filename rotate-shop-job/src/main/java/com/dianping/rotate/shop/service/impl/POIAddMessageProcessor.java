@@ -1,6 +1,5 @@
 package com.dianping.rotate.shop.service.impl;
 
-import com.dianping.rotate.shop.constants.MessageAttemptIndex;
 import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.dao.MessageQueueDAO;
