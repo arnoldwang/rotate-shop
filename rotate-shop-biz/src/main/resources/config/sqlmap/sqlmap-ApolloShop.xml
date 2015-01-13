@@ -117,30 +117,27 @@
 
 
     <!-- 提供给战区分页查询门店信息，并返回DTO -->
-    <select id="queryApolloShopsForTerritory" resultMap="apolloShopDto" parameterClass="map">
-        <include refid="queryDtoSelect" />
-
+    <select id="queryApolloShopsForTerritory" resultClass="Integer" parameterClass="map">
+        select ShopID
         <![CDATA[
-             where  m.ID % #modKey# = #modValue#
+             where  mod(ID,$modKey$) = #modValue#
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
             #ruleExpression#
         </isNotEqual>
-        order by m.ID;
+        order by ID;
     </select>
     <select id="queryApolloShopsForTerritory_COUNT" resultClass="int" parameterClass="map">
         <![CDATA[
-            select count(1)
-            from (
                select count(1)
-                 from ApolloShop m
-                where m.ID % #modKey# = #modValue#
+                 from ApolloShop
+                where mod(ID,$modKey$) = #modValue#
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
             #ruleExpression#
         </isNotEqual>
         <![CDATA[
-            order by m.ID ) as mr;
+            order by ID;
          ]]>
     </select>
 
