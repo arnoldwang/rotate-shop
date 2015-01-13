@@ -111,8 +111,9 @@ public class ShopServiceImpl implements ShopService {
 		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
 			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
 			if (rotateGroupShopList.size() == 0) {
-				int rotateGroupID = insertRotateGroup(apolloShopExtend);//创建轮转组
-				insertRotateGroupShop(rotateGroupID, apolloShopEntity);//创建轮转组和门店关系
+				//此处有坑，当一个新店与一个已存在的老店shopGroupID相同，而老店被关闭时，轮转组size为0，会新增一个轮转组
+				int rotateGroupID = insertRotateGroup(apolloShopExtend);
+				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			} else {
 				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
 				setRotateGroupToStores(rotateGroupID);//更新轮转组type
