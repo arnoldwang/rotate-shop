@@ -115,7 +115,7 @@ public class ShopServiceImpl implements ShopService {
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);//创建轮转组和门店关系
 			} else {
 				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
-				updateRotateGroup(rotateGroupID);//更新轮转组type
+				setRotateGroupToStores(rotateGroupID);//更新轮转组type
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			}
 		}
@@ -236,7 +236,7 @@ public class ShopServiceImpl implements ShopService {
 		return rotateGroupIDList;
 	}
 
-	private void updateRotateGroup(int rotateGroupID) {
+	private void setRotateGroupToStores(int rotateGroupID) {
 		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.queryRotateGroup(rotateGroupID).get(0);
 		rotateGroupEntity.setType(1);//0：单店；1：连锁店
 		rotateGroupDAO.updateRotateGroup(rotateGroupEntity);
