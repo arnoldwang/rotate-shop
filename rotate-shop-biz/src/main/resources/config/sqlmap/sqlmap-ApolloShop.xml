@@ -121,26 +121,24 @@
         <include refid="queryDtoSelect" />
 
         <![CDATA[
-             where  m.ID % #modKey# = #modValue#
+             where  mod(m.ID,$modKey$) = $modValue$
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
-            #ruleExpression#
+            $ruleExpression$
         </isNotEqual>
         order by m.ID;
     </select>
     <select id="queryApolloShopsForTerritory_COUNT" resultClass="int" parameterClass="map">
         <![CDATA[
-            select count(1)
-            from (
                select count(1)
-                 from ApolloShop m
-                where m.ID % #modKey# = #modValue#
+               from ApolloShop m
+               where m.ID % #modKey# = #modValue#
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
-            #ruleExpression#
+            $ruleExpression$
         </isNotEqual>
         <![CDATA[
-            order by m.ID ) as mr;
+            order by m.ID;
          ]]>
     </select>
 
