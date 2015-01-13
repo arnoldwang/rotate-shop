@@ -56,14 +56,16 @@
     <insert id="addShopRegion" parameterClass="map">
         INSERT INTO ShopRegion
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         values
         (
         #shopRegion.shopID#,
         #shopRegion.regionID#,
         #shopRegion.isMain#,
-        #shopRegion.status#
+        #shopRegion.status#,
+        NOW()
         )
         <selectKey resultClass="int" keyProperty="id">
             SELECT @@IDENTITY AS ID
@@ -73,24 +75,21 @@
     <update id="deleteShopRegionByShopID" parameterClass="map">
         update ShopRegion
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE ShopID = #shopID#
     </update>
 
     <update id="deleteShopRegionByRegionID" parameterClass="map">
         update ShopRegion
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE RegionID = #regionID#
     </update>
 
     <update id="deleteShopRegionByShopIDAndRegionID" parameterClass="map">
         update ShopRegion
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE ShopID = #shopID# and RegionID = #regionID#
     </update>
 
@@ -100,15 +99,15 @@
         ShopID = #shopRegion.shopID#,
         RegionID = #shopRegion.regionID#,
         IsMain = #shopRegion.isMain#,
-        Status = #shopRegion.status#,
-        LastModifiedTime = NOW()
+        Status = #shopRegion.status#
         WHERE ID = #shopRegion.id#
     </update>
 
     <insert id="addShopRegionByList" parameterClass="map">
         insert into ShopRegion
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         values
         <iterate property="shopRegionList" conjunction=",">
@@ -116,7 +115,8 @@
             #shopRegionList[].shopID#,
             #shopRegionList[].regionID#,
             #shopRegionList[].isMain#,
-            #shopRegionList[].status#
+            #shopRegionList[].status#,
+            NOW()
             )
         </iterate>
     </insert>

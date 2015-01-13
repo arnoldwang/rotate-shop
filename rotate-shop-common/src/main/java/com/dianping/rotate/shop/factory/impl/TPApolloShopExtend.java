@@ -16,6 +16,7 @@ public class TPApolloShopExtend implements ApolloShopExtend {
 		apolloShopExtendEntity.setShopID(shopID);
 		apolloShopExtendEntity.setType(ApolloShopTypeEnum.COMMON.getCode());
 		apolloShopExtendEntity.setBizID(BizTypeEnum.TH_6.getCode());
+		apolloShopExtendEntity.setStatus(1);
 		apolloShopExtendEntity.setRating("");
 		return apolloShopExtendEntity;
 	}

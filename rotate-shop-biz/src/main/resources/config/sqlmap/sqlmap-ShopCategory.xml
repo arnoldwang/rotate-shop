@@ -56,14 +56,16 @@
     <insert id="addShopCategory" parameterClass="map">
         INSERT INTO ShopCategory
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         values
         (
         #shopCategory.shopID#,
         #shopCategory.categoryID#,
         #shopCategory.isMain#,
-        #shopCategory.status#
+        #shopCategory.status#,
+        NOW()
         )
         <selectKey resultClass="int" keyProperty="id">
             SELECT @@IDENTITY AS ID
@@ -73,24 +75,21 @@
     <update id="deleteShopCategoryByShopID" parameterClass="map">
         update ShopCategory
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE ShopID = #shopID#
     </update>
 
     <update id="deleteShopCategoryByCategoryID" parameterClass="map">
         update ShopCategory
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE CategoryID = #categoryID#
     </update>
 
     <update id="deleteShopCategoryByShopIDAndCategoryID" parameterClass="map">
         update ShopCategory
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE ShopID = #shopID# and CategoryID = #categoryID#
     </update>
 
@@ -100,15 +99,15 @@
         ShopID = #shopCategory.shopID#,
         CategoryID = #shopCategory.categoryID#,
         IsMain = #shopCategory.isMain#,
-        Status = #shopCategory.status#,
-        LastModifiedTime = NOW()
+        Status = #shopCategory.status#
         WHERE ID = #shopCategory.id#
     </update>
 
     <insert id="addShopCategoryByList" parameterClass="map">
         insert into ShopCategory
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         VALUES
         <iterate property="shopCategoryList" conjunction=",">
@@ -116,7 +115,8 @@
             #shopCategoryList[].shopID#,
             #shopCategoryList[].categoryID#,
             #shopCategoryList[].isMain#,
-            #shopCategoryList[].status#
+            #shopCategoryList[].status#,
+            NOW()
             )
         </iterate>
     </insert>

@@ -84,8 +84,7 @@
     <update id="deleteApolloShopByShopID" parameterClass="map">
         update ApolloShop
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE ShopID = #shopID#
     </update>
 
@@ -105,8 +104,7 @@
         ShopStatus = #apolloShop.shopStatus#,
         District = #apolloShop.district#,
         ShopType = #apolloShop.shopType#,
-        Status = #apolloShop.status#,
-        LastModifiedTime = NOW()
+        Status = #apolloShop.status#
         WHERE ShopID = #apolloShop.shopID#
     </update>
 

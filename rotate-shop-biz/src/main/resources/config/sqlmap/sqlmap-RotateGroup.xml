@@ -17,13 +17,15 @@
 
     <sql id="key-value">
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         VALUES
         (
         #rotateGroup.bizID#,
         #rotateGroup.type#,
-        #rotateGroup.status#
+        #rotateGroup.status#,
+        NOW()
         )
     </sql>
 
