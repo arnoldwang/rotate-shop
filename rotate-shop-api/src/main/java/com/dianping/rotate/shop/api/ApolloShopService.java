@@ -7,6 +7,12 @@ import com.dianping.rotate.shop.dto.ApolloShopDTO;
  */
 public interface ApolloShopService {
 
+    /**
+     * 获取阿波罗门店相关信息
+     * @param shopID
+     * @param bizID
+     * @return
+     */
     public ApolloShopDTO getApolloShop(int shopID, int bizID);
 
     public void deleteApolloShopByShopID(int shopId);
