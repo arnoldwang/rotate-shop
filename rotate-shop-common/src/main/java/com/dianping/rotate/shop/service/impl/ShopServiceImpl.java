@@ -1,6 +1,7 @@
 package com.dianping.rotate.shop.service.impl;
 
 import com.dianping.rotate.shop.api.ApolloShopService;
+import com.dianping.rotate.shop.dao.ApolloShopDAO;
 import com.dianping.rotate.shop.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,15 +12,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class ShopServiceImpl implements ShopService {
     @Autowired
-    ApolloShopService apolloShopService;
+    ApolloShopDAO apolloShopDAO;
 
     @Override
     public void mergeShops(int shopId, int toShopId) {
-        apolloShopService.deleteApolloShopByShopID(shopId);
+        apolloShopDAO.deleteApolloShopByShopID(shopId);
     }
 
     @Override
     public void restoreMergedShops(int shopId, int restoreShopId) {
-        apolloShopService.restoreApolloShopByShopID(restoreShopId);
+        apolloShopDAO.restoreApolloShopByShopID(restoreShopId);
     }
 }

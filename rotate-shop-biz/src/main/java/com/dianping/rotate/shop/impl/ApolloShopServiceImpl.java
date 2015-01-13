@@ -45,16 +45,6 @@ public class ApolloShopServiceImpl implements ApolloShopService {
         return apolloShopDTO;
     }
 
-    @Override
-    public void deleteApolloShopByShopID(int shopId) {
-        apolloShopDAO.deleteApolloShopByShopID(shopId);
-    }
-
-    @Override
-    public void restoreApolloShopByShopID(int shopId) {
-        apolloShopDAO.restoreApolloShopByShopID(shopId);
-    }
-
     private void processShopExtend(ApolloShopDTO apolloShopDTO, int shopID, int bizID) {
         List<ApolloShopExtendEntity> apolloShopExtendList = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(shopID, bizID);
         if(CollectionUtils.isNotEmpty(apolloShopExtendList)) {
