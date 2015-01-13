@@ -47,4 +47,6 @@ public interface ApolloShopDAO extends GenericDao {
             ,@DAOParam("max") int max
             ,@DAOParam("page") int page);
 
+	@DAOAction(action = DAOActionType.LOAD)
+	ApolloShopEntity queryApolloShopByShopIDWithNoStatus(@DAOParam("shopID") int shopId);
 }

@@ -10,20 +10,20 @@ public interface ShopService {
 
 	/**
 	 * 系统新增poi
-	 * @param msg
+	 * @param msg 消息体
 	 */
 	public void addPoiBySys(String msg);
 
 
 	/**
 	 * 用户新增poi
-	 * @param msg
+	 * @param msg 消息体
 	 */
 	public void addPoiByUser(String msg);
 
 	/**
 	 * 更新poi信息
-	 * @param msg
+	 * @param msg 消息体
 	 */
 	public void updatePoi(String msg);
 }

@@ -130,7 +130,7 @@ public class ShopServiceImpl implements ShopService {
 			ShopDTO shopDTO = shopService.loadShop(shopId);
 			if (shopDTO == null)
 				return;
-			ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopID(shopId).get(0);
+			ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
 			if (apolloShopEntity.getShopStatus() != shopDTO.getPower()) {
 				//todo 门店状态改变
 				int shopExtendNum = apolloShopExtendDAO.getApolloShopExtendNumByShopID(shopId);
