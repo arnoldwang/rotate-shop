@@ -1,6 +1,5 @@
 package com.dianping.rotate.shop.service.impl;
 
-import com.dianping.rotate.shop.api.ApolloShopService;
 import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.entity.*;
 import com.dianping.rotate.shop.factory.impl.TPApolloShopExtend;
@@ -24,8 +23,6 @@ import java.util.Map;
  */
 @Service
 public class ShopServiceImpl implements ShopService {
-    @Autowired
-    ApolloShopService apolloShopService;
 
 	Logger logger = LoggerFactory.getLogger(ShopServiceImpl.class);
 
@@ -52,12 +49,12 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public void mergeShops(int shopId, int toShopId) {
-        apolloShopService.deleteApolloShopByShopID(shopId);
+        apolloShopDAO.deleteApolloShopByShopID(shopId);
     }
 
     @Override
     public void restoreMergedShops(int shopId, int restoreShopId) {
-        apolloShopService.restoreApolloShopByShopID(restoreShopId);
+        apolloShopDAO.restoreApolloShopByShopID(restoreShopId);
     }
 
 	@Override
