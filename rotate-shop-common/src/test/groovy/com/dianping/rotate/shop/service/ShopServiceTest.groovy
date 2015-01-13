@@ -15,6 +15,41 @@ class ShopServiceTest extends AbstractSpockTest {
     @Autowired
     ShopService shopService;
 
+    def "test addPoiBySys with single shop"(){
+        setup:
+        String msg = "{'shopId': 500000, 'messageType': 4}";
+
+        when:
+        shopService.addPoiBySys(msg);
+
+        then:
+        def shop = apolloShopDAO.queryApolloShopByShopID(500000).get(0);
+        500000 == shop.getShopID()
+    }
+
+    def "test addPoiBySys with mul shop"(){
+        setup:
+        String msg = "{'shopId': 500012, 'messageType': 4}";
+
+        when:
+        shopService.addPoiBySys(msg);
+
+        then:
+        def shop = apolloShopDAO.queryApolloShopByShopID(500012).get(0);
+        500012 == shop.getShopID()
+    }
+
+    def "test addPoiBySys with wrong data"(){
+        setup:
+        String msg = "{'shopId': 11111, 'messageType': 4}";
+
+        when:
+        shopService.addPoiBySys(msg);
+
+        then:
+        1 == 1;
+    }
+
     def createShopEntity(int shopID) {
         def s = new ApolloShopEntity()
         s.setShopID(shopID)
