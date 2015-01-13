@@ -59,7 +59,7 @@ public class ApolloShopServiceImpl implements ApolloShopService {
                 processRegion(apolloShopDTOMap, shopIDList);
                 processCategory(apolloShopDTOMap, shopIDList);
                 apolloShopDTOList.clear();
-                apolloShopDTOList = (List<ApolloShopDTO>) apolloShopDTOMap.values();
+                apolloShopDTOList = new ArrayList<ApolloShopDTO>(apolloShopDTOMap.values());
             }
         }
         return apolloShopDTOList;
@@ -162,6 +162,7 @@ public class ApolloShopServiceImpl implements ApolloShopService {
                 if(shopRegionDTOListMap.get(shopRegionEntity.getShopID()) == null) {
                     List<ShopRegionDTO> shopRegionDTOList = new ArrayList<ShopRegionDTO>();
                     shopRegionDTOList.add(shopRegionDTO);
+                    shopRegionDTOListMap.put(shopRegionEntity.getShopID(), shopRegionDTOList);
                 } else {
                     shopRegionDTOListMap.get(shopRegionEntity.getShopID()).add(shopRegionDTO);
                 }
@@ -204,6 +205,7 @@ public class ApolloShopServiceImpl implements ApolloShopService {
                 if(shopCategoryDTOListMap.get(shopCategoryEntity.getShopID()) == null) {
                     List<ShopCategoryDTO> shopCategoryDTOList = new ArrayList<ShopCategoryDTO>();
                     shopCategoryDTOList.add(shopCategoryDTO);
+                    shopCategoryDTOListMap.put(shopCategoryEntity.getShopID(), shopCategoryDTOList);
                 } else {
                     shopCategoryDTOListMap.get(shopCategoryEntity.getShopID()).add(shopCategoryDTO);
                 }
