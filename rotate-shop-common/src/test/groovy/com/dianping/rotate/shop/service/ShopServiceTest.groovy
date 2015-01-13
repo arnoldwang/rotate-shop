@@ -15,7 +15,7 @@ class ShopServiceTest extends AbstractSpockTest {
     @Autowired
     ShopService shopService;
 
-    def "test addPoiBySys with single shop"(){
+    def "test addPoiBySys with single shop"() {
         setup:
         String msg = "{'shopId': 500000, 'messageType': 4}";
 
@@ -27,7 +27,7 @@ class ShopServiceTest extends AbstractSpockTest {
         500000 == shop.getShopID()
     }
 
-    def "test addPoiBySys with mul shop"(){
+    def "test addPoiBySys with mul shop"() {
         setup:
         String msg = "{'shopId': 500012, 'messageType': 4}";
 
@@ -39,12 +39,14 @@ class ShopServiceTest extends AbstractSpockTest {
         500012 == shop.getShopID()
     }
 
-    def "test addPoiBySys with wrong data"(){
+    def "test addPoiByUser with wrong data"() {
         setup:
-        String msg = "{'shopId': 11111, 'messageType': 4}";
+        String msg = "{'type': 201,'userId': -12345,'datetime': '2014-5-1'," +
+                "'pair': [{'shopId': 12345,'shopUrl': 'http: //www.dianping.com/shop/12345'," +
+                "'shopName': '小肥羊','branchName': '小肥羊','altName': 'XX'}]}";
 
         when:
-        shopService.addPoiBySys(msg);
+        shopService.addPoiByUser(msg);
 
         then:
         1 == 1;
@@ -72,7 +74,7 @@ class ShopServiceTest extends AbstractSpockTest {
         shopService.closeShop(entity.getShopID(), targetShopId)
 
         then:
-        apolloShopDAO.queryApolloShopByShopID(entity.getShopID()).size()  == 0;
+        apolloShopDAO.queryApolloShopByShopID(entity.getShopID()).size() == 0;
     }
 
     def "restore merged shops"() {
@@ -86,7 +88,7 @@ class ShopServiceTest extends AbstractSpockTest {
         shopService.restoreMergedShops(targetShopId, entity.getShopID())
 
         then:
-        apolloShopDAO.queryApolloShopByShopID(entity.getShopID()).size()  != 0;
+        apolloShopDAO.queryApolloShopByShopID(entity.getShopID()).size() != 0;
 
     }
 }
