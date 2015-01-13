@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -91,12 +90,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	private RotateGroupEntity getRotateGroupEntity(int rotateGroupID) {
-		List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.queryRotateGroup(rotateGroupID);
-		if(CollectionUtils.isNotEmpty(rotateGroupEntityList)){
-			RotateGroupEntity rotateGroupEntity = rotateGroupEntityList.get(0);
-			return rotateGroupEntity;
-		}
-		return null;
+		return rotateGroupDAO.getRotateGroup(rotateGroupID);
 	}
 
 	private RotateGroupDTO transRotateGroupEntityToDTO(RotateGroupEntity rotateGroupEntity) {
