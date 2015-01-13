@@ -16,12 +16,23 @@ class ApolloRegionServiceTest extends AbstractSpockTest {
     private final int REGION_BUSINESS_DISTRICT = 824;
     private final int DISTRICT = 9;
 
+    private final int INVALID_REGION_ID = -1;
+
     def "get region"() {
         when:
         RegionDTO dto = regionService.getRegion(REGION_LANDMARK);
 
         then:
         dto.getRegionID() == REGION_LANDMARK;
+    }
+
+    // 非法regionid返回一个空的region对象
+    def "get region with invalid region id"() {
+        when:
+        RegionDTO dto = regionService.getRegion(INVALID_REGION_ID);
+
+        then:
+        dto.getRegionID().equals(null);
     }
 
     def "get ancestors for landmark"() {
@@ -46,5 +57,13 @@ class ApolloRegionServiceTest extends AbstractSpockTest {
 
         then:
         dtos.size() == 1;
+    }
+
+    def "get ancestors for invalid region id"() {
+        when:
+        List<RegionDTO> dtos = regionService.getRegionAncestors(INVALID_REGION_ID);
+
+        then:
+        dtos.size() == 0;
     }
 }

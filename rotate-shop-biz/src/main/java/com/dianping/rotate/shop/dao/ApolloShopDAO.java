@@ -21,10 +21,13 @@ public interface ApolloShopDAO extends GenericDao {
     int addApolloShop(@DAOParam("apolloShop") ApolloShopEntity apolloShop);
 
     @DAOAction(action = DAOActionType.UPDATE)
-    int deleteApolloShopByShopID(@DAOParam("shopID") int shopID);
+    void deleteApolloShopByShopID(@DAOParam("shopID") int shopID);
 
     @DAOAction(action = DAOActionType.UPDATE)
-    int updateApolloShop(@DAOParam("apolloShop") ApolloShopEntity apolloShop);
+    void restoreApolloShopByShopID(@DAOParam("shopID") int shopID);
+
+    @DAOAction(action = DAOActionType.UPDATE)
+    void updateApolloShop(@DAOParam("apolloShop") ApolloShopEntity apolloShop);
 
 
     /**

@@ -44,11 +44,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDTO> getCategoryAncestors(int categoryID, int cityID) {
+        // 先要看一下是否是合法的categoryID 和 cityID
+        Category me = categoryService.loadCategory(cityID, categoryID);
+
+        if (me == null) {
+            return Lists.newArrayList();
+        }
+
         List<Category> ret = categoryService.getMainCategoryPath(categoryID, cityID);
 
         // 如果是顶级分类的话，会返回一个长度是0的数组，这里就要把自己加进去
         if (ret.size() == 0) {
-            ret.add(categoryService.loadCategory(cityID, categoryID));
+            ret.add(me);
         }
 
         return Lists.transform(ret, toCategoryEntity);

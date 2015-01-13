@@ -14,7 +14,6 @@
         <result column="CityID" property="cityID"/>
         <result column="District" property="district"/>
         <result column="ShopType" property="shopType"/>
-        <result column="Status" property="status"/>
     </resultMap>
 
     <resultMap id="apolloShopDto" class="com.dianping.rotate.shop.dto.ApolloShopDTO">
@@ -23,10 +22,7 @@
         <result column="CityID" property="cityID"/>
         <result column="District" property="district"/>
         <result column="ShopType" property="shopType"/>
-        <result column="Status" property="shopStatus"/>
-        <result column="Type" property="type"/>
-        <result column="BizID" property="bizID"/>
-        <result column="ShopExtendStatus" property="shopExtendStatus"/>
+        <result column="ShopStatus" property="shopStatus"/>
     </resultMap>
 
     <sql id="keys">
@@ -35,8 +31,7 @@
         ShopGroupID,
         CityID,
         District,
-        ShopType,
-        Status
+        ShopType
     </sql>
 
 
@@ -49,13 +44,8 @@
              m.CityID,
              m.District,
              m.ShopType,
-             m.Status,
-             ex.Type,
-             ex.BizID,
-             ex.Rating,
-             ex.Status as ShopExtendStatus
-        FROM ApolloShop m
-      left join ApolloShopExtend ex on m.ShopID = ex.ShopID
+             m.ShopStatus
+      FROM ApolloShop m
     </sql>
 
 
@@ -64,13 +54,14 @@
         ID,
         <include refid="keys"/>
         FROM ApolloShop
-        WHERE ShopID = #shopID# and Status != 0
+        WHERE ShopID = #shopID# and ShopStatus = 5
     </select>
 
     <insert id="addApolloShop" parameterClass="map">
         INSERT INTO ApolloShop
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         values
         (
@@ -80,7 +71,7 @@
         #apolloShop.cityID#,
         #apolloShop.district#,
         #apolloShop.shopType#,
-        #apolloShop.status#
+        NOW()
         )
         <selectKey resultClass="int" keyProperty="id">
             SELECT @@IDENTITY AS ID
@@ -90,8 +81,14 @@
     <update id="deleteApolloShopByShopID" parameterClass="map">
         update ApolloShop
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        ShopStatus = 1
+        WHERE ShopID = #shopID#
+    </update>
+
+    <update id="restoreApolloShopByShopID" parameterClass="map">
+        update ApolloShop
+        set
+        ShopStatus = 5
         WHERE ShopID = #shopID#
     </update>
 
@@ -102,9 +99,7 @@
         CityID = #apolloShop.cityID#,
         ShopStatus = #apolloShop.shopStatus#,
         District = #apolloShop.district#,
-        ShopType = #apolloShop.shopType#,
-        Status = #apolloShop.status#,
-        LastModifiedTime = NOW()
+        ShopType = #apolloShop.shopType#
         WHERE ShopID = #apolloShop.shopID#
     </update>
 
@@ -112,9 +107,9 @@
     <!-- 提供给战区分页查询门店信息，并返回DTO -->
     <select id="queryApolloShopsForTerritory" resultMap="apolloShopDto" parameterClass="map">
         <include refid="queryDtoSelect" />
-        where ex.bizID = #bizID#
+
         <![CDATA[
-            and m.ID % #modKey# = #modValue#
+             where  m.ID % #modKey# = #modValue#
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
             #ruleExpression#
@@ -127,8 +122,7 @@
             from (
                select count(1)
                  from ApolloShop m
-            left join ApolloShopExtend ex on m.ShopID = ex.ShopID
-                where ex.bizID = #bizID# and m.ID % #modKey# = #modValue#
+                where m.ID % #modKey# = #modValue#
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
             #ruleExpression#
