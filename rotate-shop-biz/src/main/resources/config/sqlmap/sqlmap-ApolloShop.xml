@@ -38,7 +38,8 @@
     <insert id="addApolloShop" parameterClass="map">
         INSERT INTO ApolloShop
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         values
         (
@@ -48,7 +49,8 @@
         #apolloShop.cityID#,
         #apolloShop.district#,
         #apolloShop.shopType#,
-        #apolloShop.status#
+        #apolloShop.status#,
+        NOW()
         )
         <selectKey resultClass="int" keyProperty="id">
             SELECT @@IDENTITY AS ID
@@ -58,8 +60,7 @@
     <update id="deleteApolloShopByShopID" parameterClass="map">
         update ApolloShop
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE ShopID = #shopID#
     </update>
 
@@ -71,8 +72,7 @@
         ShopStatus = #apolloShop.shopStatus#,
         District = #apolloShop.district#,
         ShopType = #apolloShop.shopType#,
-        Status = #apolloShop.status#,
-        LastModifiedTime = NOW()
+        Status = #apolloShop.status#
         WHERE ShopID = #apolloShop.shopID#
     </update>
 

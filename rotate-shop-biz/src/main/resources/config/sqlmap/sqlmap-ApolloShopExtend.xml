@@ -42,7 +42,8 @@
     <insert id="addApolloShopExtend" parameterClass="map">
         INSERT INTO ApolloShopExtend
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         values
         (
@@ -50,7 +51,8 @@
         #apolloShopExtend.type#,
         #apolloShopExtend.bizID#,
         #apolloShopExtend.rating#,
-        #apolloShopExtend.status#
+        #apolloShopExtend.status#,
+        NOW()
         )
         <selectKey resultClass="int" keyProperty="id">
             SELECT @@IDENTITY AS ID
@@ -60,8 +62,7 @@
     <update id="deleteApolloShopExtendByShopID" parameterClass="map">
         update ApolloShopExtend
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE ShopID = #shopID#
     </update>
 
@@ -71,9 +72,13 @@
         Type = #apolloShopExtend.type#,
         BizID = #apolloShopExtend.bizID#,
         Rating = #apolloShopExtend.rating#,
-        Status = #apolloShopExtend.status#,
-        LastModifiedTime = NOW()
+        Status = #apolloShopExtend.status#
         WHERE ShopID = #apolloShopExtend.shopID#
     </update>
 
+    <select id="getApolloShopExtendNumByShopID" resultClass="int" parameterClass="map">
+        SELECT COUNT(*)
+        FROM ApolloShopExtend
+        WHERE ShopID = #shopID#
+    </select>
 </sqlMap>

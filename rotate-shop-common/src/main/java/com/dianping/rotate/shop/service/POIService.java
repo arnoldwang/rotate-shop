@@ -10,6 +10,6 @@ public interface POIService {
 
 	public void addPoiByUser(String msg);
 
-//	public void updatePoi(String msg);
+	public void updatePoi(String msg);
 
 }

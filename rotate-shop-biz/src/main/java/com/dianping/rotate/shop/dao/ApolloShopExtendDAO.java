@@ -28,4 +28,6 @@ public interface ApolloShopExtendDAO extends GenericDao {
     @DAOAction(action = DAOActionType.UPDATE)
     int updateApolloShopExtend(@DAOParam("apolloShopExtend") ApolloShopExtendEntity apolloShopExtend);
 
+	@DAOAction(action = DAOActionType.LOAD)
+	int getApolloShopExtendNumByShopID(@DAOParam("shopID") int shopId);
 }
