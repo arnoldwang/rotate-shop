@@ -249,7 +249,6 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setCityID(shopDTO.getCityId());
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
 		apolloShopEntity.setShopType(shopDTO.getShopType());
-		apolloShopEntity.setStatus(1);
 		apolloShopEntity.setShopStatus(shopDTO.getPower());
 
 		int id = apolloShopDAO.addApolloShop(apolloShopEntity);
