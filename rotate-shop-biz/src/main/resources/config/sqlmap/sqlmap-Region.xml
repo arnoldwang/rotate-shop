@@ -39,6 +39,18 @@
         WHERE RegionID = #regionID# and CityID = #cityID# and Status != 0
     </select>
 
+    <select id="queryRegionByShopID" resultMap="region" parameterClass="map">
+        SELECT
+        r.ID,
+        r.RegionID,
+        r.RegionName,
+        r.CityID,
+        r.RegionType,
+        r.Status
+        FROM Region r, ShopRegion sr
+        WHERE r.RegionID  = sr.RegionID and and r.Status != 0 and sr.Status != 0 and sr.ShopID = #shopID#
+    </select>
+
     <insert id="addRegion" parameterClass="map">
         INSERT INTO Region
         (

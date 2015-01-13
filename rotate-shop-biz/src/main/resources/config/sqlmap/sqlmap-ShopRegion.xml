@@ -26,7 +26,7 @@
         ID,
         <include refid="keys"/>
         FROM ShopRegion
-        WHERE ShopID = #shopID#
+        WHERE ShopID = #shopID# and Status != 0
     </select>
 
     <select id="queryShopMainRegionByShopID" resultMap="shopRegion" parameterClass="map">

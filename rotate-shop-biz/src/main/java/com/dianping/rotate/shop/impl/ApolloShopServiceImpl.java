@@ -6,6 +6,8 @@ import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
 import com.dianping.rotate.shop.dao.ShopCategoryDAO;
 import com.dianping.rotate.shop.dao.ShopRegionDAO;
 import com.dianping.rotate.shop.dto.ApolloShopDTO;
+import com.dianping.rotate.shop.dto.ShopCategoryDTO;
+import com.dianping.rotate.shop.dto.ShopRegionDTO;
 import com.dianping.rotate.shop.entity.ApolloShopEntity;
 import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.entity.ShopCategoryEntity;
@@ -14,6 +16,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -80,18 +83,32 @@ public class ApolloShopServiceImpl implements ApolloShopService {
     }
 
     private void processRegion(ApolloShopDTO apolloShopDTO, int shopID) {
-        List<ShopRegionEntity> shopRegionList = shopRegionDAO.queryShopMainRegionByShopID(shopID);
+        List<ShopRegionEntity> shopRegionList = shopRegionDAO.queryShopRegionByShopID(shopID);
         if(CollectionUtils.isNotEmpty(shopRegionList)) {
-            ShopRegionEntity shopRegion = shopRegionList.get(0);
-            apolloShopDTO.setMainRegionID(shopRegion.getRegionID());
+            List<ShopRegionDTO> shopRegionDTOList = new ArrayList<ShopRegionDTO>();
+            for(ShopRegionEntity shopRegionEntity : shopRegionList) {
+                ShopRegionDTO shopRegionDTO = new ShopRegionDTO();
+                shopRegionDTO.setRegionID(shopRegionEntity.getRegionID());
+                shopRegionDTO.setShopID(shopRegionEntity.getShopID());
+                shopRegionDTO.setIsMain(shopRegionEntity.getIsMain());
+                shopRegionDTOList.add(shopRegionDTO);
+            }
+            apolloShopDTO.setShopRegionList(shopRegionDTOList);
         }
     }
 
     private void processCategory(ApolloShopDTO apolloShopDTO, int shopID) {
-        List<ShopCategoryEntity> shopCategoryList = shopCategoryDAO.queryShopMainCategoryByShopID(shopID);
+        List<ShopCategoryEntity> shopCategoryList = shopCategoryDAO.queryShopCategoryByShopID(shopID);
         if(CollectionUtils.isNotEmpty(shopCategoryList)) {
-            ShopCategoryEntity shopCategory = shopCategoryList.get(0);
-            apolloShopDTO.setMainCategoryID(shopCategory.getCategoryID());
+            List<ShopCategoryDTO> shopCategoryDTOList = new ArrayList<ShopCategoryDTO>();
+            for(ShopCategoryEntity shopCategoryEntity : shopCategoryList) {
+                ShopCategoryDTO shopCategoryDTO = new ShopCategoryDTO();
+                shopCategoryDTO.setCategoryID(shopCategoryEntity.getCategoryID());
+                shopCategoryDTO.setShopID(shopCategoryEntity.getShopID());
+                shopCategoryDTO.setIsMain(shopCategoryEntity.getIsMain());
+                shopCategoryDTOList.add(shopCategoryDTO);
+            }
+            apolloShopDTO.setShopCategoryList(shopCategoryDTOList);
         }
     }
 

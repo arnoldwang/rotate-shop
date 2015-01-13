@@ -1,6 +1,7 @@
 package com.dianping.rotate.shop.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by luoming on 15/1/6.
@@ -17,8 +18,8 @@ public class ApolloShopDTO implements Serializable{
     private Integer bizID;
     private String rating;
     private Integer shopExtendStatus;
-    private Integer mainRegionID;
-    private Integer mainCategoryID;
+    private List<ShopRegionDTO> shopRegionList;
+    private List<ShopCategoryDTO> shopCategoryList;
 
     public Integer getShopID() {
         return shopID;
@@ -100,19 +101,19 @@ public class ApolloShopDTO implements Serializable{
         this.shopExtendStatus = shopExtendStatus;
     }
 
-    public Integer getMainRegionID() {
-        return mainRegionID;
+    public List<ShopRegionDTO> getShopRegionList() {
+        return shopRegionList;
     }
 
-    public void setMainRegionID(Integer mainRegionID) {
-        this.mainRegionID = mainRegionID;
+    public void setShopRegionList(List<ShopRegionDTO> shopRegionList) {
+        this.shopRegionList = shopRegionList;
     }
 
-    public Integer getMainCategoryID() {
-        return mainCategoryID;
+    public List<ShopCategoryDTO> getShopCategoryList() {
+        return shopCategoryList;
     }
 
-    public void setMainCategoryID(Integer mainCategoryID) {
-        this.mainCategoryID = mainCategoryID;
+    public void setShopCategoryList(List<ShopCategoryDTO> shopCategoryList) {
+        this.shopCategoryList = shopCategoryList;
     }
 }
