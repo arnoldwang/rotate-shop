@@ -29,6 +29,18 @@
         WHERE ShopID = #shopID# and Status != 0
     </select>
 
+    <select id="queryShopRegionByShopIDList" resultMap="shopRegion" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ShopRegion
+        WHERE Status != 0 and
+        ShopID in
+        <iterate open="(" close=")" conjunction="," property="shopIDList">
+            #shopIDList[]#
+        </iterate>
+    </select>
+
     <select id="queryShopMainRegionByShopID" resultMap="shopRegion" parameterClass="map">
         SELECT
         ID,
