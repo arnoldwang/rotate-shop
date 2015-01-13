@@ -23,12 +23,16 @@ public interface MessageQueueDAO extends GenericDao {
     void deleteMessagePhysically(@DAOParam("id") int id);
 
     @DAOAction(action = DAOActionType.LOAD)
-    MessageEntity getMessageById(@DAOParam("id") int id);
+    MessageEntity getMessageByID(@DAOParam("id") int id);
 
 
     @DAOAction(action = DAOActionType.QUERY)
     List<MessageEntity> getMessage(@DAOParam("source") int source,
                                    @DAOParam("type") int type,
+                                   @DAOParam("attemptIndex") int attemptIndex,
                                    @DAOParam("limit") int limit);
 
+    @DAOAction(action = DAOActionType.UPDATE)
+    void updateMessageAttemptIndex(@DAOParam("id") int id,
+                                   @DAOParam("attemptIndex") int attemptIndex);
 }

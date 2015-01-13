@@ -18,8 +18,12 @@ public class MessageProcessService {
 
     public Integer messageProcess(MessageEntity msg,int type){
         if(type == POIMessageType.SHOP_ADD){
-            poiService.addPoiByUser(msg.getMsg());
-            messageDAO.deleteMessage(msg.getId());
+            try{
+                poiService.addPoiByUser(msg.getMsg());
+                messageDAO.deleteMessage(msg.getId());
+            }catch(Exception ex){
+                messageDAO.updateMessageAttemptIndex(msg.getId(),msg.getAttemptIndex()+1);
+            }
         }
         if(type == POIMessageType.SHOP_STATUS){
 
@@ -39,7 +43,6 @@ public class MessageProcessService {
         if(type == POIMessageType.SHOP_UPDATE){
 
         }
-
         return 1;
     }
 }
