@@ -17,8 +17,12 @@ public interface RotateGroupShopDAO extends GenericDao {
 	@DAOAction(action = DAOActionType.INSERT)
 	public int addToRotateGroupShop(@DAOParam("rotateGroupShop")RotateGroupShopEntity rotateGroupShop);
 
-	@DAOAction(action = DAOActionType.DELETE)
+	@DAOAction(action = DAOActionType.UPDATE)
 	public void deleteRotateGroupShop(@DAOParam("id")int id);
+
+
+	@DAOAction(action = DAOActionType.UPDATE)
+	public void deleteRotateGroupShopByShopId(@DAOParam("shopId")int id);
 
 	@DAOAction(action = DAOActionType.UPDATE)
 	public void updateRotateGroupShop(@DAOParam("rotateGroup")RotateGroupShopEntity rotateGroupShop);
