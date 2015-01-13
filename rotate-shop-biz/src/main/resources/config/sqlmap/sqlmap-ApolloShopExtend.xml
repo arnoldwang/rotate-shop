@@ -66,6 +66,14 @@
         WHERE ShopID = #shopID#
     </update>
 
+    <update id="restoreApolloShopExtendByShopID" parameterClass="map">
+        update ApolloShopExtend
+        set
+        Status = 1
+        WHERE ShopID = #shopID#
+    </update>
+
+
     <update id="updateApolloShopExtend" parameterClass="map">
         update ApolloShopExtend
         set

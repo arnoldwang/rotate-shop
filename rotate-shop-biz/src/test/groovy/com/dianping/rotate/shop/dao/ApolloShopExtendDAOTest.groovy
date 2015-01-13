@@ -35,4 +35,24 @@ class ApolloShopExtendDAOTest extends AbstractSpockTest {
         cleanup:
         apolloShopExtendDAO.deleteApolloShopExtendByShopID(shopID)
     }
+
+    def "restore deleted shop"() {
+        setup:
+        ApolloShopExtendEntity entity = new ApolloShopExtendEntity()
+        entity.setShopID(99)
+        entity.setType(0)
+        entity.setBizID(1)
+        entity.setRating('K')
+        entity.setStatus(1)
+        apolloShopExtendDAO.addApolloShopExtend(entity);
+        apolloShopExtendDAO.deleteApolloShopExtendByShopID(entity.getShopID())
+
+        when:
+        apolloShopExtendDAO.restoreApolloShopExtendByShopID(entity.getShopID());
+
+
+        then:
+        apolloShopExtendDAO.queryApolloShopExtendByShopID(entity.getShopID()).size() != 0;
+
+    }
 }

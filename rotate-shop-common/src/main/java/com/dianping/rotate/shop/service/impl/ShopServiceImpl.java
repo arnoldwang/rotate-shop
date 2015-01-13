@@ -53,19 +53,27 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopExtendDAO.deleteApolloShopExtendByShopID(shopId);
 		shopRegionDAO.deleteShopRegionByShopID(shopId);
 		rotateGroupShopDAO.deleteRotateGroupShopByShopId(shopId);
-
-		for (RotateGroupShopEntity group: rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId)) {
-			updateRotateGroupType(group.getRotateGroupID());
-		}
+		shopCategoryDAO.deleteShopCategoryByShopID(shopId);
+		updateRotateGroupTypeByShopID(shopId);
     }
 
 	@Override
 	public void openShop(int shopId) {
 		apolloShopDAO.restoreApolloShopByShopID(shopId);
-//		apolloShopExtendDAO.
+		apolloShopExtendDAO.restoreApolloShopExtendByShopID(shopId);
+		shopRegionDAO.restoreShopRegionByShopID(shopId);
+		rotateGroupShopDAO.restoreRotateGroupShopByShopId(shopId);
+		shopCategoryDAO.restoreShopCategoryByShopID(shopId);
+		updateRotateGroupTypeByShopID(shopId);
 	}
 
-	private void updateRotateGroupType(int rotateGroupID) {
+	private void updateRotateGroupTypeByShopID(int shopId) {
+		for (RotateGroupShopEntity group: rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId)) {
+			updateRotateGroupTypeByRotateGroupId(group.getRotateGroupID());
+		}
+	}
+
+	private void updateRotateGroupTypeByRotateGroupId(int rotateGroupID) {
 		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroup(rotateGroupID);
 		// 如果没有这个轮转组，就不操作
 		if (rotateGroup == null) {

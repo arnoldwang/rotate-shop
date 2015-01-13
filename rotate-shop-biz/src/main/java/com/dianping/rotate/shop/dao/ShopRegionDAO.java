@@ -33,7 +33,11 @@ public interface ShopRegionDAO extends GenericDao {
     int deleteShopRegionByRegionID(@DAOParam("regionID") int regionID);
 
     @DAOAction(action = DAOActionType.UPDATE)
-    int deleteShopRegionByShopID(@DAOParam("shopID") int shopID);
+    void deleteShopRegionByShopID(@DAOParam("shopID") int shopID);
+
+
+    @DAOAction(action = DAOActionType.UPDATE)
+    void restoreShopRegionByShopID(@DAOParam("shopID") int shopID);
 
     @DAOAction(action = DAOActionType.UPDATE)
     int deleteShopRegionByShopIDAndRegionID(@DAOParam("shopID") int shopID, @DAOParam("regionID") int regionID);
