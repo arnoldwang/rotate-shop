@@ -26,7 +26,19 @@
         ID,
         <include refid="keys"/>
         FROM ShopCategory
-        WHERE ShopID = #shopID#
+        WHERE ShopID = #shopID# and Status != 0
+    </select>
+
+    <select id="queryShopCategoryByShopIDList" resultMap="shopCategory" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ShopCategory
+        WHERE Status != 0 and
+        ShopID in
+        <iterate open="(" close=")" conjunction="," property="shopIDList">
+            #shopIDList[]#
+        </iterate>
     </select>
 
     <select id="queryShopMainCategoryByShopID" resultMap="shopCategory" parameterClass="map">
@@ -35,6 +47,19 @@
         <include refid="keys"/>
         FROM ShopCategory
         WHERE ShopID = #shopID# and IsMain = 1
+        AND Status != 0
+    </select>
+
+    <select id="queryShopMainCategoryByShopIDList" resultMap="shopCategory" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ShopCategory
+        WHERE Status != 0 and IsMain = 1 and
+        ShopID in
+        <iterate open="(" close=")" conjunction="," property="shopIDList">
+            #shopIDList[]#
+        </iterate>
     </select>
 
     <select id="queryShopCategoryByCategoryID" resultMap="shopCategory" parameterClass="map">
@@ -43,6 +68,7 @@
         <include refid="keys"/>
         FROM ShopCategory
         WHERE CategoryID = #categoryID#
+        AND Status != 0
     </select>
 
     <select id="queryShopCategoryByShopIDAndCategoryID" resultMap="shopCategory" parameterClass="map">
@@ -51,6 +77,7 @@
         <include refid="keys"/>
         FROM ShopCategory
         WHERE ShopID = #shopID# and CategoryID = #categoryID#
+        AND Status != 0
     </select>
 
     <insert id="addShopCategory" parameterClass="map">
@@ -78,6 +105,15 @@
         Status = 0
         WHERE ShopID = #shopID#
     </update>
+
+
+    <update id="restoreShopCategoryByShopID" parameterClass="map">
+        update ShopCategory
+        set
+        Status = 1
+        WHERE ShopID = #shopID#
+    </update>
+
 
     <update id="deleteShopCategoryByCategoryID" parameterClass="map">
         update ShopCategory

@@ -57,11 +57,24 @@
         WHERE ShopID = #shopID# and ShopStatus = 5
     </select>
 
+
     <select id="queryApolloShopByShopIDWithNoStatus" resultMap="apolloShop" parameterClass="map">
         SELECT ID,
         <include refid="keys"/>
         FROM ApolloShop
         WHERE ShopID = #shopID#
+    </select>
+
+    <select id="queryApolloShopByShopIDList" resultMap="apolloShop" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShop
+        WHERE ShopStatus = 5 and
+        ShopID in
+        <iterate open="(" close=")" conjunction="," property="shopIDList">
+            #shopIDList[]#
+        </iterate>
     </select>
 
     <insert id="addApolloShop" parameterClass="map">
@@ -112,30 +125,27 @@
 
 
     <!-- 提供给战区分页查询门店信息，并返回DTO -->
-    <select id="queryApolloShopsForTerritory" resultMap="apolloShopDto" parameterClass="map">
-        <include refid="queryDtoSelect" />
-
+    <select id="queryApolloShopsForTerritory" resultClass="Integer" parameterClass="map">
+        select ShopID
         <![CDATA[
-             where  m.ID % #modKey# = #modValue#
+             where  mod(m.ID,$modKey$) = $modValue$
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
-            #ruleExpression#
+            $ruleExpression$
         </isNotEqual>
         order by m.ID;
     </select>
     <select id="queryApolloShopsForTerritory_COUNT" resultClass="int" parameterClass="map">
         <![CDATA[
-            select count(1)
-            from (
                select count(1)
-                 from ApolloShop m
-                where m.ID % #modKey# = #modValue#
+               from ApolloShop m
+               where m.ID % #modKey# = #modValue#
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
-            #ruleExpression#
+            $ruleExpression$
         </isNotEqual>
         <![CDATA[
-            order by m.ID ) as mr;
+            order by m.ID;
          ]]>
     </select>
 

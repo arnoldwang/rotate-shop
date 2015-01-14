@@ -11,9 +11,28 @@ import java.util.List;
  */
 public interface RotateGroupService {
 
+	/**
+	 * 获取轮转组DTO，不包含任何扩展信息
+	 * @param rotateGroupID 轮转组ID
+	 * @return
+	 */
 	public RotateGroupDTO getRotateGroup(int rotateGroupID);
 
 	public List<RotateGroupDTO> getRotateGroup(List<Integer> rotateGroupIDList);
 
-	public RotateGroupExtendDTO getRotateGroupExtend(int rotateGroupID);
+	/**
+	 * 获取轮转组DTO，包括基本信息和合作状态
+	 * @param rotateGroupID 轮转组ID
+	 * @return
+	 */
+	public RotateGroupDTO getRotateGroupWithCooperationStatus(int rotateGroupID);
+
+	/**
+	 * 获取轮转组DTO，包括基本信息和客户状态
+	 * @param bizID bizID
+	 * @param shopID 门店ID
+	 * @return
+	 */
+	public RotateGroupDTO getRotateGroupWithCustomerStatus(int bizID, int shopID);
+
 }

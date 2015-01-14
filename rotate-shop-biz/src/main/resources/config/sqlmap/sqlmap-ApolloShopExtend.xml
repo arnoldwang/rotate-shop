@@ -39,6 +39,18 @@
         WHERE ShopID = #shopID# AND BizID = #bizID# AND Status != 0
     </select>
 
+    <select id="queryApolloShopExtendByShopIDListAndBizID" resultMap="apolloShopExtend" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShopExtend
+        WHERE BizID = #bizID# and Status != 0 and
+        ShopID in
+        <iterate open="(" close=")" conjunction="," property="shopIDList">
+          #shopIDList[]#
+      </iterate>
+    </select>
+
     <insert id="addApolloShopExtend" parameterClass="map">
         INSERT INTO ApolloShopExtend
         (
@@ -66,6 +78,14 @@
         WHERE ShopID = #shopID#
     </update>
 
+    <update id="restoreApolloShopExtendByShopID" parameterClass="map">
+        update ApolloShopExtend
+        set
+        Status = 1
+        WHERE ShopID = #shopID#
+    </update>
+
+
     <update id="updateApolloShopExtend" parameterClass="map">
         update ApolloShopExtend
         set
@@ -80,5 +100,6 @@
         SELECT COUNT(*)
         FROM ApolloShopExtend
         WHERE ShopID = #shopID#
+        AND Status != 0
     </select>
 </sqlMap>

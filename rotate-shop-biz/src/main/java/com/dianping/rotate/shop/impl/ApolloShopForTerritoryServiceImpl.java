@@ -4,7 +4,9 @@ import com.dianping.avatar.log.AvatarLogger;
 import com.dianping.avatar.log.AvatarLoggerFactory;
 import com.dianping.core.type.PageModel;
 import com.dianping.rotate.shop.api.ApolloShopForTerritoryService;
+import com.dianping.rotate.shop.api.ApolloShopService;
 import com.dianping.rotate.shop.dao.ApolloShopDAO;
+import com.dianping.rotate.shop.dto.ApolloShopDTO;
 import com.dianping.rotate.shop.dto.ApolloShopForTerritoryQueryDTO;
 
 
@@ -14,6 +16,9 @@ import org.apache.commons.logging.impl.AvalonLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.parsing.QualifierEntry;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 提供给战区使用的门店服务
@@ -27,6 +32,9 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
 
     @Autowired
     private ApolloShopDAO apolloShopDAO;
+
+    @Autowired
+    private ApolloShopService apolloShopService;
 
     //AvatarLogger
     AvatarLogger avatarLogger = AvatarLoggerFactory.getLogger(ApolloShopForTerritoryServiceImpl.class);
@@ -43,25 +51,29 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
             if (queryDto == null) {
                 inputParams = "dto为null";
             } else {
-                inputParams = "ruleExperession:"+queryDto.getTerritoryRule();
+                inputParams = "ruleExperession:" + queryDto.getTerritoryRule();
             }
 
-            avatarLogger.info("参数错误:"+inputParams);
+            avatarLogger.info("参数错误:" + inputParams);
             throw new RuntimeException("参数错误，请检查传入参数!" + inputParams);
         }
 
         //02.校验传入战区规则是否符合门店定义
         String territoryRule = replaceTerritoryProperty(queryDto.getTerritoryRule());
-        avatarLogger.info(String.format("替换后的规则:"+territoryRule));
+        avatarLogger.info(String.format("替换后的规则:" + territoryRule));
         //03.查询符合条件的门店
         PageModel pageResult = apolloShopDAO.queryApolloShopsForTerritory(territoryRule, queryDto.getBizId()
                 , queryDto.getModKey(), queryDto.getModValue()
                 , queryDto.getPageSize(), queryDto.getPageIndex());
 
         //返回记录日志
-        if(pageResult!=null){
-        avatarLogger.info("返回数据日志，符合条件记录数:"+pageResult.getRecordCount()+",当前页索引:"+pageResult.getPage()+",共"+
-                pageResult.getPageCount()+"页.");
+        if (pageResult != null) {
+            avatarLogger.info("返回数据日志，符合条件记录数:" + pageResult.getRecordCount() + ",当前页索引:"
+                    + pageResult.getPage() + ",共" + pageResult.getPageCount() + "页.");
+            List<Integer> territoryIdList = (List<Integer>) pageResult.getRecords();
+            List<ApolloShopDTO> dtoList = apolloShopService.getApolloShop(territoryIdList, queryDto.getBizId());
+            //将记录转成ApolloShopDTO返回
+            pageResult.setRecords(dtoList);
         }
 
         return pageResult;

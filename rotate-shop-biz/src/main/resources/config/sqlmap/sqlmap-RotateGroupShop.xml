@@ -64,6 +64,13 @@
         WHERE ShopID = #shopId#
     </update>
 
+    <update id="restoreRotateGroupShopByShopId" parameterClass="map">
+        UPDATE RotateGroupShop
+        SET
+        Status = 1
+        WHERE ShopID = #shopId#
+    </update>
+
 
     <update id="updateRotateGroupShop" parameterClass="map">
         UPDATE RotateGroupShop
@@ -75,6 +82,8 @@
         <include refid="keys"/>
         FROM RotateGroupShop
         WHERE ID = #id#
+        AND Status != 0
+
     </select>
 
 
@@ -83,13 +92,15 @@
         <include refid="keys"/>
         FROM RotateGroupShop
         WHERE ShopID = #shopId#
+        AND Status != 0
     </select>
 
     <select id="queryRotateGroupShopByRotateGroupID" resultMap="rotateGroupShop" parameterClass="map">
         SELECT ID,
         <include refid="keys"/>
         FROM RotateGroupShop
-        WHERE RotateGroupID = #rotateGroupID# AND Status = 1
+        WHERE RotateGroupID = #rotateGroupID#
+        AND Status != 0
     </select>
 
     <select id="queryRotateGroupShopByShopGroupIDAndBizID" resultMap="rotateGroupShop" parameterClass="map">

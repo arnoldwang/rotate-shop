@@ -1,14 +1,17 @@
 package com.dianping.rotate.shop.impl;
 
 import com.dianping.rotate.shop.api.RotateGroupService;
+import com.dianping.rotate.shop.constants.ApolloShopTypeEnum;
+import com.dianping.rotate.shop.constants.RotateGroupCustomerStatusEnum;
 import com.dianping.rotate.shop.constants.RotateShopCooperationStatusEnum;
 import com.dianping.rotate.shop.constants.RotateShopStatusEnum;
 import com.dianping.rotate.shop.dao.ApolloShopBusinessStatusDAO;
+import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
 import com.dianping.rotate.shop.dao.RotateGroupDAO;
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.dto.RotateGroupDTO;
-import com.dianping.rotate.shop.dto.RotateGroupExtendDTO;
 import com.dianping.rotate.shop.entity.ApolloShopBusinessStatusEntity;
+import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.entity.RotateGroupEntity;
 import com.dianping.rotate.shop.entity.RotateGroupShopEntity;
 import com.google.common.base.Function;
@@ -35,6 +38,9 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	@Autowired
 	ApolloShopBusinessStatusDAO apolloShopBusinessStatusDAO;
 
+	@Autowired
+	ApolloShopExtendDAO apolloShopExtendDAO;
+
 	private Function<RotateGroupEntity, RotateGroupDTO> toRotateGroupDTO = new Function<RotateGroupEntity, RotateGroupDTO>() {
 		@Override
 		public RotateGroupDTO apply(RotateGroupEntity from) {
@@ -48,6 +54,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		}
 	};
 
+
 	@Override
 	public RotateGroupDTO getRotateGroup(int rotateGroupID) {
 		return toRotateGroupDTO.apply(getRotateGroupEntity(rotateGroupID));
@@ -56,21 +63,59 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	@Override
 	public List<RotateGroupDTO> getRotateGroup(List<Integer> rotateGroupIDList) {
 		return Lists.transform(getRotateGroupEntity(rotateGroupIDList), toRotateGroupDTO);
+
 	}
 
 	@Override
-	public RotateGroupExtendDTO getRotateGroupExtend(int rotateGroupID) {
-		RotateGroupExtendDTO rotateGroupExtendDTO = new RotateGroupExtendDTO();
+	public RotateGroupDTO getRotateGroupWithCooperationStatus(int rotateGroupID) {
+		RotateGroupDTO rotateGroupDTO = transRotateGroupEntityToDTO(getRotateGroupEntity(rotateGroupID));
 		List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
 		List<Integer> shopIDList = getShopIDs(rotateGroupShopEntityList);
 		if(CollectionUtils.isNotEmpty(shopIDList)) {
 			List<ApolloShopBusinessStatusEntity> apolloShopBusinessStatusEntityList = apolloShopBusinessStatusDAO.queryApolloShopBusinessStatusByShopIDList(shopIDList);
-			processRotateShopCooperationStatus(apolloShopBusinessStatusEntityList, rotateGroupExtendDTO);
+			processRotateShopCooperationStatus(apolloShopBusinessStatusEntityList, rotateGroupDTO);
 		}
-		return rotateGroupExtendDTO;
+		return rotateGroupDTO;
 	}
 
-	private void processRotateShopCooperationStatus(List<ApolloShopBusinessStatusEntity> apolloShopBusinessStatusEntityList, RotateGroupExtendDTO rotateGroupExtendDTO) {
+	@Override
+	public RotateGroupDTO getRotateGroupWithCustomerStatus(int bizID, int shopID) {
+		RotateGroupDTO rotateGroupDTO = transRotateGroupEntityToDTO(getRotateGroupEntityByBizIDAndShopID(bizID, shopID));
+		ApolloShopExtendEntity apolloShopExtendEntity = getApolloShopExtendEntityByBizIDAndShopID(bizID, shopID);
+		processRotateShopCustomerStatus(rotateGroupDTO, apolloShopExtendEntity);
+		return rotateGroupDTO;
+	}
+
+	private RotateGroupEntity getRotateGroupEntityByBizIDAndShopID(int bizID, int shopID) {
+		List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.queryRotateGroupByBizIDAndShopID(bizID, shopID);
+		if(CollectionUtils.isNotEmpty(rotateGroupEntityList)){
+			RotateGroupEntity rotateGroupEntity = rotateGroupEntityList.get(0);
+			return rotateGroupEntity;
+		}
+		return null;
+	}
+
+	private ApolloShopExtendEntity getApolloShopExtendEntityByBizIDAndShopID(int bizID, int shopID) {
+		List<ApolloShopExtendEntity> apolloShopExtendEntityList = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(shopID, bizID);;
+		if(CollectionUtils.isNotEmpty(apolloShopExtendEntityList)){
+			ApolloShopExtendEntity apolloShopExtendEntity = apolloShopExtendEntityList.get(0);
+			return apolloShopExtendEntity;
+		}
+		return null;
+	}
+
+	private void processRotateShopCustomerStatus(RotateGroupDTO rotateGroupDTO, ApolloShopExtendEntity apolloShopExtendEntity) {
+		if(apolloShopExtendEntity != null) {
+			int shopCustomerStatus = apolloShopExtendEntity.getType();
+			if(ApolloShopTypeEnum.VIP.getCode() == shopCustomerStatus) {
+				rotateGroupDTO.setCustomerStatus(RotateGroupCustomerStatusEnum.VIP.getCode());
+			} else if(ApolloShopTypeEnum.COMMON.getCode() == shopCustomerStatus) {
+				rotateGroupDTO.setCustomerStatus(RotateGroupCustomerStatusEnum.COMMON.getCode());
+			}
+		}
+	}
+
+	private void processRotateShopCooperationStatus(List<ApolloShopBusinessStatusEntity> apolloShopBusinessStatusEntityList, RotateGroupDTO rotateGroupDTO) {
 		if(CollectionUtils.isNotEmpty(apolloShopBusinessStatusEntityList)) {
 			int rotateGroupStatusIndexTemp = 0;
 			for(int i=0;i<apolloShopBusinessStatusEntityList.size();i++) {
@@ -78,7 +123,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 				if(apolloShopBusinessStatusEntity.getOfflineDate() == null &&
 						RotateShopStatusEnum.ONLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus()) {
 					rotateGroupStatusIndexTemp = 3;
-					rotateGroupExtendDTO.setStatus(RotateShopCooperationStatusEnum.COOPING.getCode());
+					rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.COOPING.getCode());
 					return;
 				} else if(apolloShopBusinessStatusEntity.getOfflineDate() == null &&
 						RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp < 2) {
@@ -88,9 +133,9 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 				}
 			}
 			if(rotateGroupStatusIndexTemp == 1) {
-				rotateGroupExtendDTO.setStatus(RotateShopCooperationStatusEnum.COOP_BREAK.getCode());
+				rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.COOP_BREAK.getCode());
 			} else if(rotateGroupStatusIndexTemp == 2) {
-				rotateGroupExtendDTO.setStatus(RotateShopCooperationStatusEnum.NO_COOP.getCode());
+				rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.NO_COOP.getCode());
 			}
 		}
 	}

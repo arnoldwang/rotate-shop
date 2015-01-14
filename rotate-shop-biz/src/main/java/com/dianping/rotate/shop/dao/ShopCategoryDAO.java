@@ -21,7 +21,13 @@ public interface ShopCategoryDAO extends GenericDao {
     List<ShopCategoryEntity> queryShopCategoryByShopID(@DAOParam("shopID") int shopID);
 
     @DAOAction(action = DAOActionType.QUERY)
+    List<ShopCategoryEntity> queryShopCategoryByShopIDList(@DAOParam("shopIDList") List<Integer> shopIDList);
+
+    @DAOAction(action = DAOActionType.QUERY)
     List<ShopCategoryEntity> queryShopMainCategoryByShopID(@DAOParam("shopID") int shopID);
+
+    @DAOAction(action = DAOActionType.QUERY)
+    List<ShopCategoryEntity> queryShopMainCategoryByShopIDList(@DAOParam("shopIDList") List<Integer> shopIDList);
 
     @DAOAction(action = DAOActionType.QUERY)
     List<ShopCategoryEntity> queryShopCategoryByShopIDAndCategoryID(@DAOParam("shopID") int shopID, @DAOParam("categoryID") int categoryID);
@@ -33,7 +39,10 @@ public interface ShopCategoryDAO extends GenericDao {
     int deleteShopCategoryByCategoryID(@DAOParam("categoryID") int categoryID);
 
     @DAOAction(action = DAOActionType.UPDATE)
-    int deleteShopCategoryByShopID(@DAOParam("shopID") int shopID);
+    void deleteShopCategoryByShopID(@DAOParam("shopID") int shopID);
+
+    @DAOAction(action = DAOActionType.UPDATE)
+    void restoreShopCategoryByShopID(@DAOParam("shopID") int shopID);
 
     @DAOAction(action = DAOActionType.UPDATE)
     int deleteShopCategoryByShopIDAndCategoryID(@DAOParam("shopID") int shopID, @DAOParam("categoryID") int categoryID);
