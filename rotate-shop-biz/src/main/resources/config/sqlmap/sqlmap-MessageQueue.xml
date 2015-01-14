@@ -20,7 +20,8 @@
         AttemptIndex,
         Source,
         Status,
-        Type
+        Type,
+        CreatedTime
     </sql>
 
     <sql id="key-value">
@@ -35,7 +36,8 @@
         #message.attemptIndex#,
         #message.source#,
         #message.status#,
-        #message.type#
+        #message.type#,
+        NOW()
         )
     </sql>
 
