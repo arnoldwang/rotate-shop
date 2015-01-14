@@ -39,4 +39,26 @@ class ShopRegionDAOTest extends AbstractSpockTest {
         shopRegionDAO.deleteShopRegionByShopID(shopID)
         shopRegionDAO.deleteShopRegionByShopIDAndRegionID(shopID, regionID)
     }
+
+    def "restore deleted shop"() {
+        setup:
+        int shopID = 1
+        int regionID = 2
+
+        def s = new ShopRegionEntity()
+        s.setShopID(shopID)
+        s.setRegionID(regionID)
+        s.setIsMain(1)
+        s.setStatus(1)
+        shopRegionDAO.addShopRegion(s)
+        shopRegionDAO.deleteShopRegionByShopID(shopID);
+
+        when:
+        shopRegionDAO.restoreShopRegionByShopID(shopID)
+
+
+        then:
+        shopRegionDAO.queryShopRegionByShopID(s.getShopID()).size() != 0;
+
+    }
 }

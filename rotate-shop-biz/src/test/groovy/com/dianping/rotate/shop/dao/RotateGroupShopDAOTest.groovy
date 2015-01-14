@@ -37,6 +37,27 @@ class RotateGroupShopDAOTest extends AbstractSpockTest{
         rotateGroupShopDAO.deleteRotateGroupShop(1);
     }
 
+    def "restore deleted shop"() {
+        setup:
+        int rotateGroupID = new Random().nextInt(Integer.MAX_VALUE);
+        int shopID = new Random().nextInt(Integer.MAX_VALUE);
+        int shopGroupID = new Random().nextInt(Integer.MAX_VALUE);
+        def r = new RotateGroupShopEntity();
+        r.setRotateGroupID(rotateGroupID);
+        r.setShopID(shopID);
+        r.setShopGroupID(shopGroupID);
+        r.setStatus(1);
+
+        when:
+        rotateGroupShopDAO.addToRotateGroupShop(r);
+        rotateGroupShopDAO.deleteRotateGroupShopByShopId(shopID)
+        rotateGroupShopDAO.restoreRotateGroupShopByShopId(shopID)
+
+        then:
+        rotateGroupShopDAO.queryRotateGroupShopByShopID(shopID).size() != 0;
+
+    }
+
     def "test queryRotateGroupShopByShopGroupID"() {
         setup:
         int shopGroupID = 0;
@@ -48,6 +69,22 @@ class RotateGroupShopDAOTest extends AbstractSpockTest{
         then:
         rotateGroupShopEntityList.get(0).getShopGroupID() == 0;
     }
+
+    def "test queryRotateGroupShopByShopID"() {
+        setup:
+        int shopId = 99;
+        def r = new RotateGroupShopEntity();
+        r.setShopID(shopId);
+        r.setRotateGroupID(1)
+
+        when:
+        rotateGroupShopDAO.addToRotateGroupShop(r);
+
+        then:
+        rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId).size() == 1;
+    }
+
+
 
     def "test addToRotateGroupShopByList"() {
         setup:

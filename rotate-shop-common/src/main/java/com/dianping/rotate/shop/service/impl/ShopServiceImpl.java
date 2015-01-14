@@ -8,6 +8,7 @@ import com.dianping.rotate.shop.utils.JsonUtil;
 import com.dianping.shopremote.remote.dto.ShopCategoryDTO;
 import com.dianping.shopremote.remote.dto.ShopDTO;
 import com.dianping.shopremote.remote.dto.ShopRegionDTO;
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,16 +51,69 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public void closeShop(int shopId) {
 		apolloShopDAO.deleteApolloShopByShopID(shopId);
-		apolloShopExtendDAO.deleteApolloShopExtendByShopID(shopId);
-		shopRegionDAO.deleteShopRegionByShopID(shopId);
-		rotateGroupShopDAO.deleteRotateGroupShopByShopId(shopId);
 
+		updateRotateGroupTypeByShopID(shopId);
     }
 
-    @Override
-    public void openShop(int shopId) {
+	@Override
+	public void openShop(int shopId) {
+		apolloShopDAO.restoreApolloShopByShopID(shopId);
 
-    }
+		updateRotateGroupTypeByShopID(shopId);
+	}
+
+	private void updateRotateGroupTypeByShopID(int shopId) {
+		for (RotateGroupShopEntity group: rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId)) {
+			updateRotateGroupTypeByRotateGroupId(group.getRotateGroupID());
+		}
+	}
+
+	private void updateRotateGroupTypeByRotateGroupId(int rotateGroupID) {
+
+		// 这里需要取出所有的轮转组，包括已经删掉的，因为这里需要根据轮转组下的门店状态重置轮转组的status
+		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroupIgnoreStatus(rotateGroupID);
+		// 如果没有这个轮转组，就不操作
+		if (rotateGroup == null) {
+			return;
+		}
+
+		int shopCountInThisRotateGroup;
+
+		List<RotateGroupShopEntity> r = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
+
+		if (r.size() == 0) {
+			shopCountInThisRotateGroup = 0;
+		} else {
+			// 这里过滤，只取正常营业的门店
+			List<ApolloShopEntity> shops = apolloShopDAO.queryApolloShopByShopIDList(Lists.transform(r, new Function<RotateGroupShopEntity, Integer>() {
+				@Override
+				public Integer apply(RotateGroupShopEntity rotateGroupShopEntity) {
+					return rotateGroupShopEntity.getShopID();
+				}
+			}));
+
+			shopCountInThisRotateGroup = shops.size();
+		}
+
+
+		if (shopCountInThisRotateGroup > 0) {
+			// 有门店,设为有效
+			rotateGroup.setStatus(1);
+
+			if (shopCountInThisRotateGroup > 1) {
+				// 大于1家门店,设为连锁店
+				rotateGroup.setType(1);
+			} else {
+				// 单店
+				rotateGroup.setType(0);
+			}
+		} else {
+			// 没有门店，设为无效
+			rotateGroup.setStatus(0);
+		}
+
+		rotateGroupDAO.updateRotateGroup(rotateGroup);
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -100,7 +154,7 @@ public class ShopServiceImpl implements ShopService {
 			logger.info("add shop info failed with having no region!");
 			return;
 		}
-		if (apolloShopDAO.queryApolloShopByShopID(shopId).size() != 0) {
+		if (apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId) != null) {
 			logger.info("add shop info failed with shop existed!");
 			return;
 		}
@@ -111,8 +165,9 @@ public class ShopServiceImpl implements ShopService {
 		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
 			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
 			if (rotateGroupShopList.size() == 0) {
-				int rotateGroupID = insertRotateGroup(apolloShopExtend);//创建轮转组
-				insertRotateGroupShop(rotateGroupID, apolloShopEntity);//创建轮转组和门店关系
+				//此处有坑，当一个新店与一个已存在的老店shopGroupID相同，而老店被关闭时，轮转组size为0，会新增一个轮转组
+				int rotateGroupID = insertRotateGroup(apolloShopExtend);
+				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			} else {
 				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
 				setRotateGroupToStores(rotateGroupID);//更新轮转组type
@@ -129,7 +184,7 @@ public class ShopServiceImpl implements ShopService {
 			ShopDTO shopDTO = shopService.loadShop(shopId);
 			if (shopDTO == null)
 				return;
-			ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopID(shopId).get(0);
+			ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
 			if (apolloShopEntity.getShopStatus() != shopDTO.getPower()) {
 				//todo 门店状态改变
 				int shopExtendNum = apolloShopExtendDAO.getApolloShopExtendNumByShopID(shopId);
@@ -155,7 +210,6 @@ public class ShopServiceImpl implements ShopService {
 			}
 			if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
 				//todo 跟新轮转组门店关系表
-				RotateGroupShopEntity rotateGroupShopEntity = rotateGroupShopDAO.findRotateGroupShopByShopID(shopId);
 			}
 			updateApolloShop(apolloShopEntity, shopDTO);
 		} catch (IOException e) {
@@ -237,7 +291,7 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	private void setRotateGroupToStores(int rotateGroupID) {
-		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.queryRotateGroup(rotateGroupID).get(0);
+		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.getRotateGroup(rotateGroupID);
 		rotateGroupEntity.setType(1);//0：单店；1：连锁店
 		rotateGroupDAO.updateRotateGroup(rotateGroupEntity);
 	}
