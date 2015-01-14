@@ -96,24 +96,20 @@ public class ShopServiceImpl implements ShopService {
 		}
 
 
-		// 如果轮转组已经没有门店, 但是门店组的状态还显示为有效，则把它置成删除
-		if (shopCountInThisRotateGroup == 0 && rotateGroup.getStatus() == 1) {
-			rotateGroup.setStatus(0);
-		}
-
-		// 如果轮转组有门店, 但是门店组的状态还显示为删除，则把它置成有效
-		if (shopCountInThisRotateGroup > 0 && rotateGroup.getStatus() == 0) {
+		if (shopCountInThisRotateGroup > 0) {
+			// 有门店,设为有效
 			rotateGroup.setStatus(1);
-		}
 
-		// 如果门店只有1个,但是轮转组还显示连锁店,则把轮转组改成单店
-		if (shopCountInThisRotateGroup < 2 && rotateGroup.getType() == 1) {
-			rotateGroup.setType(0);
-		}
-
-		// 如果门店超过1个，但是轮转组还显示单店，则把轮转组改成连锁店
-		if (shopCountInThisRotateGroup >= 2 &&  rotateGroup.getType() == 0) {
-			rotateGroup.setType(1);
+			if (shopCountInThisRotateGroup > 1) {
+				// 大于1家门店,设为连锁店
+				rotateGroup.setType(1);
+			} else {
+				// 单店
+				rotateGroup.setType(0);
+			}
+		} else {
+			// 没有门店，设为无效
+			rotateGroup.setStatus(0);
 		}
 
 		rotateGroupDAO.updateRotateGroup(rotateGroup);
