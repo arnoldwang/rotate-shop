@@ -52,15 +52,15 @@ class ShopServiceTest extends AbstractSpockTest {
         shopService.addPoiBySys(msg);
 
         then:
-        def shop = apolloShopDAO.queryApolloShopByShopID(500012).get(0);
+        def shop = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(500012);
         500012 == shop.getShopID()
     }
 
     def "test addPoiByUser with wrong data"() {
         setup:
         String msg = "{'type': 201,'userId': -12345,'datetime': '2014-5-1'," +
-                "'pair': [{'shopId': 12345,'shopUrl': 'http: //www.dianping.com/shop/12345'," +
-                "'shopName': '小肥羊','branchName': '小肥羊','altName': 'XX'}]}";
+                "'pair': {'shopId': 12345,'shopUrl': 'http: //www.dianping.com/shop/12345'," +
+                "'shopName': '小肥羊','branchName': '小肥羊','altName': 'XX'}}";
 
         when:
         shopService.addPoiByUser(msg);
