@@ -12,4 +12,6 @@
     <bean id="regionMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIRegionMessageProcessor"/>
     <bean id="statusMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIStatusMessageProcessor"/>
     <bean id="updateMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIUpdateMessageProcessor"/>
+    <bean id="messageProducerService" class="com.dianping.rotate.shop.service.impl.MessageProducerService"/>
+    <bean id="shopMessageProducer" class="com.dianping.rotate.shop.service.impl.ShopMessageProducer"/>
 </beans>
