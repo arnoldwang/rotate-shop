@@ -3,7 +3,16 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="messageProcessTask" class="com.dianping.rotate.shop.task.MessageProcessTask"/>
+    <bean id="messageProcessTask" class="com.dianping.rotate.shop.task.MessageProcessTask">
+        <property name="runners">
+            <list>
+                <bean class="com.dianping.rotate.shop.service.impl.TaskRunner">
+                    <property name="messageSourceType" value="0"></property>
+                    <property name="POIMessageType" value="0"></property>
+                </bean>
+            </list>
+        </property>
+    </bean>
     <!--定时器-->
     <bean id="poiMessageProcessTaskJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
