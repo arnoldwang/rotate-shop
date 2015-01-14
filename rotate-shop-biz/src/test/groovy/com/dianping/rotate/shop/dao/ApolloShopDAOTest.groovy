@@ -74,4 +74,14 @@ class ApolloShopDAOTest extends AbstractSpockTest {
 
     }
 
+    def "test queryApolloShopByShopIDWithNoStatus when shopID is right"() {
+        setup:
+        def shopID = 500000
+
+        when:
+        def shop = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopID)
+
+        then:
+        500000 == shop.getShopID()
+    }
 }
