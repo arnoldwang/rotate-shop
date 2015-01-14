@@ -18,6 +18,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +99,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	private void processRotateShopCooperationStatus(List<ApolloShopBusinessStatusEntity> apolloShopBusinessStatusEntityList, RotateGroupDTO rotateGroupDTO) {
 		if(CollectionUtils.isNotEmpty(apolloShopBusinessStatusEntityList)) {
 			int rotateGroupStatusIndexTemp = 0;
+			List<Date> offlineTimeList = new ArrayList<Date>();
 			for(int i=0;i<apolloShopBusinessStatusEntityList.size();i++) {
 				ApolloShopBusinessStatusEntity apolloShopBusinessStatusEntity = apolloShopBusinessStatusEntityList.get(i);
 				if(apolloShopBusinessStatusEntity.getOfflineDate() == null &&
@@ -106,16 +110,39 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 				} else if(apolloShopBusinessStatusEntity.getOfflineDate() == null &&
 						RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp < 2) {
 					rotateGroupStatusIndexTemp = 2;
-				} else if(apolloShopBusinessStatusEntity.getOfflineDate() != null && rotateGroupStatusIndexTemp < 1) {
+				} else if(apolloShopBusinessStatusEntity.getOfflineDate() != null && rotateGroupStatusIndexTemp <= 1) {
 					rotateGroupStatusIndexTemp = 1;
+					offlineTimeList.add(apolloShopBusinessStatusEntity.getOfflineDate());
 				}
 			}
 			if(rotateGroupStatusIndexTemp == 1) {
 				rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.COOP_BREAK.getCode());
+				List<java.util.Date> dateList = getMinAndMaxOfflineTime(offlineTimeList);
+				rotateGroupDTO.setMinOfflineTime(dateList.get(0));
+				rotateGroupDTO.setMaxOfflineTime(dateList.get(1));
 			} else if(rotateGroupStatusIndexTemp == 2) {
 				rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.NO_COOP.getCode());
 			}
 		}
+	}
+
+	private List<java.util.Date> getMinAndMaxOfflineTime(List<Date> offlineTimeList) {
+		List<java.util.Date> dateList = new ArrayList<java.util.Date>();
+		dateList.add(formatDate(offlineTimeList.get(offlineTimeList.size() - 1)));
+		dateList.add(formatDate(offlineTimeList.get(0)));
+		return dateList;
+	}
+
+	private java.util.Date formatDate(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = simpleDateFormat.format(new java.util.Date(date.getTime()));
+		java.util.Date date_ = null;
+		try {
+			date_ = simpleDateFormat.parse(dateString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date_;
 	}
 
 	private List<Integer> getShopIDs(List<RotateGroupShopEntity> rotateGroupShopEntityList) {

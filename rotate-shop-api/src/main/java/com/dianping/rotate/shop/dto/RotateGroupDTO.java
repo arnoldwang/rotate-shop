@@ -1,6 +1,7 @@
 package com.dianping.rotate.shop.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * User: zhenwei.wang
@@ -14,6 +15,10 @@ public class RotateGroupDTO implements Serializable{
 	private Integer type;
 
 	private Integer cooperationStatus;
+
+	private Date minOfflineTime;
+
+	private Date maxOfflineTime;
 
 	private Integer customerStatus;
 
@@ -43,6 +48,22 @@ public class RotateGroupDTO implements Serializable{
 
 	public Integer getCooperationStatus() {
 		return cooperationStatus;
+	}
+
+	public Date getMinOfflineTime() {
+		return minOfflineTime;
+	}
+
+	public void setMinOfflineTime(Date minOfflineTime) {
+		this.minOfflineTime = minOfflineTime;
+	}
+
+	public Date getMaxOfflineTime() {
+		return maxOfflineTime;
+	}
+
+	public void setMaxOfflineTime(Date maxOfflineTime) {
+		this.maxOfflineTime = maxOfflineTime;
 	}
 
 	public void setCooperationStatus(Integer cooperationStatus) {
