@@ -14,6 +14,7 @@ import com.dianping.rotate.shop.entity.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.entity.RotateGroupEntity;
 import com.dianping.rotate.shop.entity.RotateGroupShopEntity;
+import com.dianping.rotate.shop.exceptions.RequestServiceException;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
@@ -71,7 +72,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 
 	@Override
 	public RotateGroupDTO getRotateGroupWithCooperationStatus(int rotateGroupID) {
-		RotateGroupDTO rotateGroupDTO = transRotateGroupEntityToDTO(getRotateGroupEntity(rotateGroupID));
+		RotateGroupDTO rotateGroupDTO = toRotateGroupDTO.apply(getRotateGroupEntity(rotateGroupID));
 		List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
 		List<Integer> shopIDList = getShopIDs(rotateGroupShopEntityList);
 		if(CollectionUtils.isNotEmpty(shopIDList)) {
@@ -83,7 +84,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 
 	@Override
 	public RotateGroupDTO getRotateGroupWithCustomerStatus(int bizID, int shopID) {
-		RotateGroupDTO rotateGroupDTO = transRotateGroupEntityToDTO(getRotateGroupEntityByBizIDAndShopID(bizID, shopID));
+		RotateGroupDTO rotateGroupDTO = toRotateGroupDTO.apply(getRotateGroupEntityByBizIDAndShopID(bizID, shopID));
 		ApolloShopExtendEntity apolloShopExtendEntity = getApolloShopExtendEntityByBizIDAndShopID(bizID, shopID);
 		processRotateShopCustomerStatus(rotateGroupDTO, apolloShopExtendEntity);
 		return rotateGroupDTO;
@@ -92,8 +93,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	private RotateGroupEntity getRotateGroupEntityByBizIDAndShopID(int bizID, int shopID) {
 		List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.queryRotateGroupByBizIDAndShopID(bizID, shopID);
 		if(CollectionUtils.isNotEmpty(rotateGroupEntityList)){
-			RotateGroupEntity rotateGroupEntity = rotateGroupEntityList.get(0);
-			return rotateGroupEntity;
+			return rotateGroupEntityList.get(0);
 		}
 		return null;
 	}
@@ -101,8 +101,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	private ApolloShopExtendEntity getApolloShopExtendEntityByBizIDAndShopID(int bizID, int shopID) {
 		List<ApolloShopExtendEntity> apolloShopExtendEntityList = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(shopID, bizID);;
 		if(CollectionUtils.isNotEmpty(apolloShopExtendEntityList)){
-			ApolloShopExtendEntity apolloShopExtendEntity = apolloShopExtendEntityList.get(0);
-			return apolloShopExtendEntity;
+			return apolloShopExtendEntityList.get(0);
 		}
 		return null;
 	}
@@ -182,21 +181,18 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	private RotateGroupEntity getRotateGroupEntity(int rotateGroupID) {
-		return rotateGroupDAO.getRotateGroup(rotateGroupID);
+		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.getRotateGroup(rotateGroupID);
+		if(rotateGroupEntity == null)
+			throw new RequestServiceException("RotateGroupID does not exist or is wrong!");
+		return rotateGroupEntity;
 	}
 
 
 	private List<RotateGroupEntity> getRotateGroupEntity(List<Integer> rotateGroupIDList) {
-		return rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
+		List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
+		if(CollectionUtils.isEmpty(rotateGroupEntityList))
+			throw new RequestServiceException("RotateGroupID does not exist or is wrong!");
+		return rotateGroupEntityList;
 	}
 
-	private RotateGroupDTO transRotateGroupEntityToDTO(RotateGroupEntity rotateGroupEntity) {
-		RotateGroupDTO rotateGroupDTO = new RotateGroupDTO();
-		if(rotateGroupEntity != null) {
-			rotateGroupDTO.setId(rotateGroupEntity.getId());
-			rotateGroupDTO.setBizID(rotateGroupEntity.getBizID());
-			rotateGroupDTO.setType(rotateGroupEntity.getType());
-		}
-		return rotateGroupDTO;
-	}
 }

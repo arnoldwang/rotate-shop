@@ -45,12 +45,20 @@
         </selectKey>
     </insert>
     
-    <delete id="deleteRotateGroup" parameterClass="map">
+    <update id="deleteRotateGroup" parameterClass="map">
         UPDATE RotateGroup
         SET
             Status = 0
         WHERE ID = #id#
-    </delete>
+    </update>
+
+
+    <update id="restoreRotateGroup" parameterClass="map">
+        UPDATE RotateGroup
+        SET
+        Status = 1
+        WHERE ID = #id#
+    </update>
 
     <update id="updateRotateGroup" parameterClass="map">
         UPDATE RotateGroup
@@ -62,6 +70,13 @@
         <include refid="keys"/>
         FROM RotateGroup
         WHERE ID = #id# AND Status = 1
+    </select>
+
+    <select id="getRotateGroupIgnoreStatus" resultMap="rotateGroup" parameterClass="map">
+        SELECT ID,
+        <include refid="keys"/>
+        FROM RotateGroup
+        WHERE ID = #id#
     </select>
 
     <select id="getRotateGroupList" resultMap="rotateGroup" parameterClass="map">
