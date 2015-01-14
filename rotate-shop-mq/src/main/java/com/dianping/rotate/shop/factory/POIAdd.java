@@ -17,13 +17,18 @@ public class POIAdd implements  POIChange{
 
     @Override
     public void addToMsgQueue(Message msg){
-        MessageEntity msgEntity = new MessageEntity();
-        msgEntity.setAttemptIndex(0);
-        msgEntity.setMsg(msg.getContent());
-        msgEntity.setSource(MessageSource.PERSON);
-        msgEntity.setStatus(MessageStatus.NEW);
-        msgEntity.setSwallowId(msg.getMessageId());
-        msgEntity.setType(POIMessageType.SHOP_ADD);
-        messageQueueDAO.addToMessageQueue(msgEntity);
+        try{
+            MessageEntity msgEntity = new MessageEntity();
+            msgEntity.setAttemptIndex(0);
+            msgEntity.setMsg(msg.getContent());
+            msgEntity.setSource(MessageSource.PERSON);
+            msgEntity.setStatus(MessageStatus.NEW);
+            msgEntity.setSwallowId(msg.getMessageId());
+            msgEntity.setType(POIMessageType.SHOP_ADD);
+            messageQueueDAO.addToMessageQueue(msgEntity);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
     }
 }
