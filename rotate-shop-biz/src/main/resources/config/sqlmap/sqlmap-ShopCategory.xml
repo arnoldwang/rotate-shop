@@ -50,6 +50,18 @@
         AND Status != 0
     </select>
 
+    <select id="queryShopMainCategoryByShopIDList" resultMap="shopCategory" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ShopCategory
+        WHERE Status != 0 and IsMain = 1 and
+        ShopID in
+        <iterate open="(" close=")" conjunction="," property="shopIDList">
+            #shopIDList[]#
+        </iterate>
+    </select>
+
     <select id="queryShopCategoryByCategoryID" resultMap="shopCategory" parameterClass="map">
         SELECT
         ID,
