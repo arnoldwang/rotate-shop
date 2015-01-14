@@ -38,4 +38,26 @@ class ShopCategoryDAOTest extends AbstractSpockTest {
         shopCategoryDAO.deleteShopCategoryByShopID(shopID)
         shopCategoryDAO.deleteShopCategoryByShopIDAndCategoryID(shopID, categoryID)
     }
+
+
+    def "restore deleted shop"() {
+        setup:
+        int shopID = 1
+        int categoryID = 2
+
+        def s = new ShopCategoryEntity()
+        s.setShopID(shopID)
+        s.setCategoryID(categoryID)
+        s.setIsMain(1)
+        s.setStatus(1)
+        shopCategoryDAO.addShopCategory(s)
+        shopCategoryDAO.deleteShopCategoryByShopID(shopID)
+
+        when:
+        shopCategoryDAO.restoreShopCategoryByShopID(shopID)
+
+        then:
+        shopCategoryDAO.queryShopCategoryByShopID(shopID).size() != 0;
+
+    }
 }

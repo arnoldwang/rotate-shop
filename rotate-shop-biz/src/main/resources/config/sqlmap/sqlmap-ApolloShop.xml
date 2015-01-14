@@ -117,9 +117,8 @@
 
 
     <!-- 提供给战区分页查询门店信息，并返回DTO -->
-    <select id="queryApolloShopsForTerritory" resultMap="apolloShopDto" parameterClass="map">
-        <include refid="queryDtoSelect" />
-
+    <select id="queryApolloShopsForTerritory" resultClass="Integer" parameterClass="map">
+        select ShopID
         <![CDATA[
              where  mod(m.ID,$modKey$) = $modValue$
         ]]>
