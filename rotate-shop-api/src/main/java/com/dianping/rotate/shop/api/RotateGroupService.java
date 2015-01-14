@@ -18,6 +18,11 @@ public interface RotateGroupService {
 	 */
 	public RotateGroupDTO getRotateGroup(int rotateGroupID);
 
+	/**
+	 * 批量获取轮转组DTO，不包含任何扩展信息
+	 * @param rotateGroupIDList 轮转组ID列表
+	 * @return
+	 */
 	public List<RotateGroupDTO> getRotateGroup(List<Integer> rotateGroupIDList);
 
 	/**

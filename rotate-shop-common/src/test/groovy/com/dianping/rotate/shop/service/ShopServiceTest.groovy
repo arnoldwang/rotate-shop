@@ -35,7 +35,7 @@ class ShopServiceTest extends AbstractSpockTest {
         shopService.addPoiBySys(msg);
 
         then:
-        def shop = apolloShopDAO.queryApolloShopByShopID(500012).get(0);
+        def shop = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(500012);
         500012 == shop.getShopID()
     }
 
