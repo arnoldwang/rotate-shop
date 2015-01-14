@@ -69,12 +69,13 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	private void updateRotateGroupTypeByRotateGroupId(int rotateGroupID) {
-		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroup(rotateGroupID);
+
+		// 这里需要取出所有的轮转组，包括已经删掉的，因为这里需要根据轮转组下的门店状态重置轮转组的status
+		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroupIgnoreStatus(rotateGroupID);
 		// 如果没有这个轮转组，就不操作
 		if (rotateGroup == null) {
 			return;
 		}
-
 
 		int shopCountInThisRotateGroup;
 
@@ -95,25 +96,27 @@ public class ShopServiceImpl implements ShopService {
 		}
 
 
-		// 如果轮转组已经没有门店,则删除这个轮转组
-		if (shopCountInThisRotateGroup == 0) {
-			rotateGroupDAO.deleteRotateGroup(rotateGroupID);
-			return;
+		// 如果轮转组已经没有门店, 但是门店组的状态还显示为有效，则把它置成删除
+		if (shopCountInThisRotateGroup == 0 && rotateGroup.getStatus() == 1) {
+			rotateGroup.setStatus(0);
+		}
+
+		// 如果轮转组有门店, 但是门店组的状态还显示为删除，则把它置成有效
+		if (shopCountInThisRotateGroup > 0 && rotateGroup.getStatus() == 0) {
+			rotateGroup.setStatus(1);
 		}
 
 		// 如果门店只有1个,但是轮转组还显示连锁店,则把轮转组改成单店
-		if (shopCountInThisRotateGroup == 1 && rotateGroup.getType() == 1) {
-			rotateGroup.setType(1);
-			rotateGroupDAO.updateRotateGroup(rotateGroup);
-			return;
+		if (shopCountInThisRotateGroup < 2 && rotateGroup.getType() == 1) {
+			rotateGroup.setType(0);
 		}
 
 		// 如果门店超过1个，但是轮转组还显示单店，则把轮转组改成连锁店
-		if (shopCountInThisRotateGroup > 1 &&  rotateGroup.getType() == 0) {
-			rotateGroup.setType(2);
-			rotateGroupDAO.updateRotateGroup(rotateGroup);
-			return;
+		if (shopCountInThisRotateGroup >= 2 &&  rotateGroup.getType() == 0) {
+			rotateGroup.setType(1);
 		}
+
+		rotateGroupDAO.updateRotateGroup(rotateGroup);
 	}
 
 	@Override

@@ -17,14 +17,20 @@ public interface RotateGroupDAO extends GenericDao{
 	@DAOAction(action = DAOActionType.INSERT)
 	public int addToRotateGroup(@DAOParam("rotateGroup")RotateGroupEntity rotateGroup);
 
-	@DAOAction(action = DAOActionType.DELETE)
+	@DAOAction(action = DAOActionType.UPDATE)
 	public void deleteRotateGroup(@DAOParam("id")int rotateGroupID);
+
+	@DAOAction(action = DAOActionType.UPDATE)
+	public void restoreRotateGroup(@DAOParam("id")int rotateGroupID);
 
 	@DAOAction(action = DAOActionType.UPDATE)
 	public void updateRotateGroup(@DAOParam("rotateGroup")RotateGroupEntity rotateGroup);
 
 	@DAOAction(action = DAOActionType.LOAD)
 	public RotateGroupEntity getRotateGroup(@DAOParam("id") int rotateGroupID);
+
+	@DAOAction(action = DAOActionType.LOAD)
+	public RotateGroupEntity getRotateGroupIgnoreStatus(@DAOParam("id") int rotateGroupID);
 
 	@DAOAction(action = DAOActionType.LOAD)
 	public RotateGroupEntity findRotateShopByShopId(@DAOParam("shopID") int shopId);
