@@ -27,6 +27,9 @@ public interface ShopRegionDAO extends GenericDao {
     List<ShopRegionEntity> queryShopMainRegionByShopID(@DAOParam("shopID") int shopID);
 
     @DAOAction(action = DAOActionType.QUERY)
+    List<ShopRegionEntity> queryShopMainRegionByShopIDList(@DAOParam("shopIDList") List<Integer> shopIDList);
+
+    @DAOAction(action = DAOActionType.QUERY)
     List<ShopRegionEntity> queryShopRegionByShopIDAndRegionID(@DAOParam("shopID") int shopID, @DAOParam("regionID") int regionID);
 
     @DAOAction(action = DAOActionType.INSERT)

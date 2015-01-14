@@ -18,8 +18,8 @@ public class ApolloShopDTO implements Serializable{
     private Integer bizID;
     private String rating;
     private Integer shopExtendStatus;
-    private List<ShopRegionDTO> shopRegionList;
-    private List<ShopCategoryDTO> shopCategoryList;
+    private Integer mainRegionID;
+    private Integer mainCategoryId;
 
     public Integer getShopID() {
         return shopID;
@@ -101,19 +101,19 @@ public class ApolloShopDTO implements Serializable{
         this.shopExtendStatus = shopExtendStatus;
     }
 
-    public List<ShopRegionDTO> getShopRegionList() {
-        return shopRegionList;
+    public Integer getMainRegionID() {
+        return mainRegionID;
     }
 
-    public void setShopRegionList(List<ShopRegionDTO> shopRegionList) {
-        this.shopRegionList = shopRegionList;
+    public void setMainRegionID(Integer mainRegionID) {
+        this.mainRegionID = mainRegionID;
     }
 
-    public List<ShopCategoryDTO> getShopCategoryList() {
-        return shopCategoryList;
+    public Integer getMainCategoryId() {
+        return mainCategoryId;
     }
 
-    public void setShopCategoryList(List<ShopCategoryDTO> shopCategoryList) {
-        this.shopCategoryList = shopCategoryList;
+    public void setMainCategoryId(Integer mainCategoryId) {
+        this.mainCategoryId = mainCategoryId;
     }
 }
