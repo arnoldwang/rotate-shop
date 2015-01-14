@@ -22,8 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +63,11 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	@Override
+	public RotateGroupDTO getRotateGroup(int bizID, int shopID) {
+		return transRotateGroupEntityToDTO(getRotateGroupEntityByBizIDAndShopID(bizID, shopID));
+	}
+
+	@Override
 	public List<RotateGroupDTO> getRotateGroup(List<Integer> rotateGroupIDList) {
 		return Lists.transform(getRotateGroupEntity(rotateGroupIDList), toRotateGroupDTO);
 
@@ -83,10 +86,17 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	@Override
-	public RotateGroupDTO getRotateGroupWithCustomerStatus(int bizID, int shopID) {
-		RotateGroupDTO rotateGroupDTO = transRotateGroupEntityToDTO(getRotateGroupEntityByBizIDAndShopID(bizID, shopID));
-		ApolloShopExtendEntity apolloShopExtendEntity = getApolloShopExtendEntityByBizIDAndShopID(bizID, shopID);
-		processRotateShopCustomerStatus(rotateGroupDTO, apolloShopExtendEntity);
+	public RotateGroupDTO getRotateGroupWithCustomerStatus(int rotateGroupID) {
+		RotateGroupDTO rotateGroupDTO = transRotateGroupEntityToDTO(getRotateGroupEntity(rotateGroupID));
+		List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
+		if(CollectionUtils.isNotEmpty(rotateGroupShopEntityList)) {
+			int shopID = rotateGroupShopEntityList.get(0).getShopID();
+			Integer bizID = rotateGroupDTO.getBizID();
+			if(bizID != null) {
+				ApolloShopExtendEntity apolloShopExtendEntity = getApolloShopExtendEntityByBizIDAndShopID(bizID, shopID);
+				processRotateShopCustomerStatus(rotateGroupDTO, apolloShopExtendEntity);
+			}
+		}
 		return rotateGroupDTO;
 	}
 
