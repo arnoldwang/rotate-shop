@@ -72,7 +72,6 @@
         WHERE ID = #id# AND Status = 1
     </select>
 
-
     <select id="getRotateGroupIgnoreStatus" resultMap="rotateGroup" parameterClass="map">
         SELECT ID,
         <include refid="keys"/>
@@ -80,14 +79,27 @@
         WHERE ID = #id#
     </select>
 
-    <select id="getRotateShop" resultMap="rotateGroup" parameterClass="map">
+    <select id="getRotateGroupList" resultMap="rotateGroup" parameterClass="map">
+        SELECT ID,
+        <include refid="keys"/>
+        FROM RotateGroup
+        WHERE ID IN
+        (
+        <iterate property="rotateGroupIDList" conjunction=",">
+            #rotateGroupIDList[]#
+        </iterate>
+        )
+        AND status = 1
+    </select>
+
+    <select id="findRotateShopByShopId" resultMap="rotateGroup" parameterClass="map">
         SELECT
         rg.ID,
         rg.BizID,
         rg.Type,
         rg.Status
         FROM RotateGroup rg, RotateGroupShop rgs
-        WHERE rg.ID = rgs.RotateGroupID AND rgs.ShopID = #shoID#
+        WHERE rg.ID = rgs.RotateGroupID AND rgs.ShopID = #shopID#
     </select>
 
     <select id="queryRotateGroupByBizIDAndShopID" resultMap="rotateGroup" parameterClass="map">
