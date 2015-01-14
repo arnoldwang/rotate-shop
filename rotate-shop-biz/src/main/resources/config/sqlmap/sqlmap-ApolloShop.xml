@@ -57,6 +57,14 @@
         WHERE ShopID = #shopID# and ShopStatus = 5
     </select>
 
+
+    <select id="queryApolloShopByShopIDWithNoStatus" resultMap="apolloShop" parameterClass="map">
+        SELECT ID,
+        <include refid="keys"/>
+        FROM ApolloShop
+        WHERE ShopID = #shopID#
+    </select>
+
     <select id="queryApolloShopByShopIDList" resultMap="apolloShop" parameterClass="map">
         SELECT
         ID,
