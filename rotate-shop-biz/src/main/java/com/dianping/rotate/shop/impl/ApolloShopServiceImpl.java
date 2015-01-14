@@ -6,12 +6,11 @@ import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
 import com.dianping.rotate.shop.dao.ShopCategoryDAO;
 import com.dianping.rotate.shop.dao.ShopRegionDAO;
 import com.dianping.rotate.shop.dto.ApolloShopDTO;
-import com.dianping.rotate.shop.dto.ShopCategoryDTO;
-import com.dianping.rotate.shop.dto.ShopRegionDTO;
 import com.dianping.rotate.shop.entity.ApolloShopEntity;
 import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.entity.ShopCategoryEntity;
 import com.dianping.rotate.shop.entity.ShopRegionEntity;
+import com.dianping.rotate.shop.exceptions.RequestServiceException;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +23,8 @@ import java.util.*;
 
 @Service("apolloShopService")
 public class ApolloShopServiceImpl implements ApolloShopService {
+
+    private final static int MAX_SHOPID_LIST_SIZE = 1000;
 
     @Autowired
     private ApolloShopDAO apolloShopDAO;
@@ -50,7 +51,10 @@ public class ApolloShopServiceImpl implements ApolloShopService {
     @Override
     public List<ApolloShopDTO> getApolloShop(List<Integer> shopIDList, int bizID) {
         List<ApolloShopDTO> apolloShopDTOList = new ArrayList<ApolloShopDTO>();
-        if(CollectionUtils.isNotEmpty(shopIDList) && shopIDList.size() <= 1000) {
+        if(CollectionUtils.isNotEmpty(shopIDList)) {
+            if(shopIDList.size() > MAX_SHOPID_LIST_SIZE) {
+                throw new RequestServiceException("shopIDList is over " + MAX_SHOPID_LIST_SIZE);
+            }
             processShop(apolloShopDTOList, shopIDList);
             if(CollectionUtils.isNotEmpty(apolloShopDTOList)) {
                 Map<Integer, ApolloShopDTO> apolloShopDTOMap = new HashMap<Integer, ApolloShopDTO>();

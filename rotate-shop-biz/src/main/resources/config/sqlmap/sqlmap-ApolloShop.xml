@@ -54,7 +54,7 @@
         ID,
         <include refid="keys"/>
         FROM ApolloShop
-        WHERE ShopID = #shopID# and ShopStatus = 5
+        WHERE ShopID = #shopID#
     </select>
 
 

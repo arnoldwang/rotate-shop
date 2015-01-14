@@ -14,6 +14,7 @@ import com.dianping.rotate.shop.entity.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.entity.RotateGroupEntity;
 import com.dianping.rotate.shop.entity.RotateGroupShopEntity;
+import com.dianping.rotate.shop.utils.CommonUtil;
 import com.dianping.rotate.shop.exceptions.RequestServiceException;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -22,8 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +64,11 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	@Override
+	public RotateGroupDTO getRotateGroup(int bizID, int shopID) {
+		return toRotateGroupDTO.apply(getRotateGroupEntityByBizIDAndShopID(bizID, shopID));
+	}
+
+	@Override
 	public List<RotateGroupDTO> getRotateGroup(List<Integer> rotateGroupIDList) {
 		return Lists.transform(getRotateGroupEntity(rotateGroupIDList), toRotateGroupDTO);
 
@@ -83,10 +87,17 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	@Override
-	public RotateGroupDTO getRotateGroupWithCustomerStatus(int bizID, int shopID) {
-		RotateGroupDTO rotateGroupDTO = toRotateGroupDTO.apply(getRotateGroupEntityByBizIDAndShopID(bizID, shopID));
-		ApolloShopExtendEntity apolloShopExtendEntity = getApolloShopExtendEntityByBizIDAndShopID(bizID, shopID);
-		processRotateShopCustomerStatus(rotateGroupDTO, apolloShopExtendEntity);
+	public RotateGroupDTO getRotateGroupWithCustomerStatus(int rotateGroupID) {
+		RotateGroupDTO rotateGroupDTO = toRotateGroupDTO.apply(getRotateGroupEntity(rotateGroupID));
+		List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
+		if(CollectionUtils.isNotEmpty(rotateGroupShopEntityList)) {
+			int shopID = rotateGroupShopEntityList.get(0).getShopID();
+			Integer bizID = rotateGroupDTO.getBizID();
+			if(bizID != null) {
+				ApolloShopExtendEntity apolloShopExtendEntity = getApolloShopExtendEntityByBizIDAndShopID(bizID, shopID);
+				processRotateShopCustomerStatus(rotateGroupDTO, apolloShopExtendEntity);
+			}
+		}
 		return rotateGroupDTO;
 	}
 
@@ -155,15 +166,9 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	private java.util.Date formatDate(Date date) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String dateString = simpleDateFormat.format(new java.util.Date(date.getTime()));
-		java.util.Date date_ = null;
-		try {
-			date_ = simpleDateFormat.parse(dateString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return date_;
+		CommonUtil commonUtil = new CommonUtil();
+		String dateString = commonUtil.datetimeToString(new java.util.Date(date.getTime()));
+		return commonUtil.stringToDateTime(dateString);
 	}
 
 	private List<Integer> getShopIDs(List<RotateGroupShopEntity> rotateGroupShopEntityList) {
