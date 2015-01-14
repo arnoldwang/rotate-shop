@@ -128,6 +128,7 @@
     <select id="queryApolloShopsForTerritory" resultClass="Integer" parameterClass="map">
         select ShopID
         <![CDATA[
+        from ApolloShop m
              where  mod(m.ID,$modKey$) = $modValue$
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
@@ -139,7 +140,7 @@
         <![CDATA[
                select count(1)
                from ApolloShop m
-               where m.ID % #modKey# = #modValue#
+               where mod(m.ID,$modKey$)= $modValue$
         ]]>
         <isNotEqual prepend="AND" property="ruleExpression" compareValue="0">
             $ruleExpression$

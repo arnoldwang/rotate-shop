@@ -1,5 +1,7 @@
 package com.dianping.rotate.shop.service.impl;
 
+import com.dianping.rotate.shop.constants.ActionType;
+import com.dianping.rotate.shop.constants.BizType;
 import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.dao.MessageQueueDAO;
 import com.dianping.rotate.shop.entity.MessageEntity;
@@ -18,11 +20,14 @@ public class MessageProcessService {
     private MessageQueueDAO messageDAO;
     @Autowired
     private ShopService shopService;
+    @Autowired
+    ShopMessageProducer shopMessageProducer;
 
     public Integer messageProcess(MessageEntity msg,int type){
         if(type == POIMessageType.SHOP_ADD){
             try{
                 shopService.addPoiByUser(msg.getMsg());
+                shopMessageProducer.send(123, BizType.TUAN_HUI_6,ActionType.INSERT);
                 messageDAO.deleteMessage(msg.getId());
             }catch(Exception ex){
                 messageDAO.updateMessageAttemptIndex(msg.getId(),msg.getAttemptIndex()+1);

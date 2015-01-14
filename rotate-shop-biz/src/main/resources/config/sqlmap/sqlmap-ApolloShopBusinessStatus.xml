@@ -41,6 +41,7 @@
         <iterate open="(" close=")" conjunction="," property="shopIDList">
             #shopIDList[]#
         </iterate>
+        order by OfflineDate desc
     </select>
 
     <select id="queryApolloShopBusinessStatusByShopIDAndBusinessType" resultMap="apolloShopBusinessStatus" parameterClass="map">
