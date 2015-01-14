@@ -135,7 +135,7 @@ public class ShopServiceImpl implements ShopService {
 			logger.info("add shop info failed with having no region!");
 			return;
 		}
-		if (apolloShopDAO.queryApolloShopByShopID(shopId).size() != 0) {
+		if (apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId) != null) {
 			logger.info("add shop info failed with shop existed!");
 			return;
 		}

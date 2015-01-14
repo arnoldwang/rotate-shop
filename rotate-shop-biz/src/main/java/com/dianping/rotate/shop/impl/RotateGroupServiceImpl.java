@@ -11,6 +11,8 @@ import com.dianping.rotate.shop.dto.RotateGroupExtendDTO;
 import com.dianping.rotate.shop.entity.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.entity.RotateGroupEntity;
 import com.dianping.rotate.shop.entity.RotateGroupShopEntity;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,9 +35,27 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	@Autowired
 	ApolloShopBusinessStatusDAO apolloShopBusinessStatusDAO;
 
+	private Function<RotateGroupEntity, RotateGroupDTO> toRotateGroupDTO = new Function<RotateGroupEntity, RotateGroupDTO>() {
+		@Override
+		public RotateGroupDTO apply(RotateGroupEntity from) {
+			RotateGroupDTO to = new RotateGroupDTO();
+			if(from != null){
+				to.setId(from.getId());
+				to.setBizID(from.getBizID());
+				to.setType(from.getType());
+			}
+			return to;
+		}
+	};
+
 	@Override
 	public RotateGroupDTO getRotateGroup(int rotateGroupID) {
-		return transRotateGroupEntityToDTO(getRotateGroupEntity(rotateGroupID));
+		return toRotateGroupDTO.apply(getRotateGroupEntity(rotateGroupID));
+	}
+
+	@Override
+	public List<RotateGroupDTO> getRotateGroup(List<Integer> rotateGroupIDList) {
+		return Lists.transform(getRotateGroupEntity(rotateGroupIDList), toRotateGroupDTO);
 	}
 
 	@Override
@@ -93,6 +113,11 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		return rotateGroupDAO.getRotateGroup(rotateGroupID);
 	}
 
+
+	private List<RotateGroupEntity> getRotateGroupEntity(List<Integer> rotateGroupIDList) {
+		return rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
+	}
+
 	private RotateGroupDTO transRotateGroupEntityToDTO(RotateGroupEntity rotateGroupEntity) {
 		RotateGroupDTO rotateGroupDTO = new RotateGroupDTO();
 		if(rotateGroupEntity != null) {
@@ -102,5 +127,4 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		}
 		return rotateGroupDTO;
 	}
-
 }
