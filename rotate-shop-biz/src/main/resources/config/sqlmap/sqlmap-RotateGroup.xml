@@ -92,15 +92,6 @@
         AND status = 1
     </select>
 
-    <select id="findRotateShopByShopId" resultMap="rotateGroup" parameterClass="map">
-        SELECT
-        rg.ID,
-        rg.BizID,
-        rg.Type,
-        rg.Status
-        FROM RotateGroup rg, RotateGroupShop rgs
-        WHERE rg.ID = rgs.RotateGroupID AND rgs.ShopID = #shopID#
-    </select>
 
     <select id="queryRotateGroupByBizIDAndShopID" resultMap="rotateGroup" parameterClass="map">
         SELECT
