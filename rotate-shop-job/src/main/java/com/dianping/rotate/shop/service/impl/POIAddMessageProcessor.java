@@ -34,27 +34,29 @@ public class POIAddMessageProcessor implements MessageProcessor {
 
     @Override
     public void process(){
-        while(Switch.on()){
+        while(true){
             try {
-                List<MessageEntity>  messages = new ArrayList<MessageEntity>();
-                int attemptIndex = 0;
-                while(messages.size()<1){
-                    messages = messageQueueDAO.getMessage(MessageSource.PERSON, POIMessageType.SHOP_ADD,
-                            attemptIndex,PROCESS_MESSAGE_LIMIT);
-                    attemptIndex = attemptIndex > MAX_RETRY ? 0 : attemptIndex+1;
-                }
-                Collection<Callable<Integer>> tasks=new ArrayList<Callable<Integer>>();
-                for(final MessageEntity msg:messages){
-                    tasks.add(new Callable<Integer>() {
-                        @Override
-                        public Integer call() throws Exception {
-                            return messageProcessService.messageProcess(msg,POIMessageType.SHOP_ADD);
-                        }
-                    });
-                }
-                List<Future<Integer>> futures = threadPool.invokeAll(tasks);
-                for(Future<Integer> future:futures){
-                    future.get();
+                if(Switch.on()){
+                    List<MessageEntity>  messages = new ArrayList<MessageEntity>();
+                    int attemptIndex = 0;
+                    while(messages.size()<1){
+                        messages = messageQueueDAO.getMessage(MessageSource.PERSON, POIMessageType.SHOP_ADD,
+                                attemptIndex,PROCESS_MESSAGE_LIMIT);
+                        attemptIndex = attemptIndex > MAX_RETRY ? 0 : attemptIndex+1;
+                    }
+                    Collection<Callable<Integer>> tasks=new ArrayList<Callable<Integer>>();
+                    for(final MessageEntity msg:messages){
+                        tasks.add(new Callable<Integer>() {
+                            @Override
+                            public Integer call() throws Exception {
+                                return messageProcessService.messageProcess(msg,POIMessageType.SHOP_ADD);
+                            }
+                        });
+                    }
+                    List<Future<Integer>> futures = threadPool.invokeAll(tasks);
+                    for(Future<Integer> future:futures){
+                        future.get();
+                    }
                 }
             }catch(Exception ex){
                 logger.error(ex.getMessage(), ex);
