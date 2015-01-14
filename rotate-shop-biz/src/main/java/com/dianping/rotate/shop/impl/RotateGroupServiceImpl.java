@@ -14,6 +14,7 @@ import com.dianping.rotate.shop.entity.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.entity.RotateGroupEntity;
 import com.dianping.rotate.shop.entity.RotateGroupShopEntity;
+import com.dianping.rotate.shop.utils.CommonUtil;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
@@ -156,15 +157,9 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	private java.util.Date formatDate(Date date) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String dateString = simpleDateFormat.format(new java.util.Date(date.getTime()));
-		java.util.Date date_ = null;
-		try {
-			date_ = simpleDateFormat.parse(dateString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return date_;
+		CommonUtil commonUtil = new CommonUtil();
+		String dateString = commonUtil.datetimeToString(new java.util.Date(date.getTime()));
+		return commonUtil.stringToDateTime(dateString);
 	}
 
 	private List<Integer> getShopIDs(List<RotateGroupShopEntity> rotateGroupShopEntityList) {
