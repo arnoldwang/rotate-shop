@@ -63,6 +63,7 @@
         <include refid="keys"/>
         FROM ApolloShop
         WHERE ShopID = #shopID#
+        LIMIT 1
     </select>
 
     <select id="queryApolloShopByShopIDList" resultMap="apolloShop" parameterClass="map">
