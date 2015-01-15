@@ -2,7 +2,7 @@ package com.dianping.rotate.shop.dao
 
 import com.dianping.core.type.PageModel
 import com.dianping.rotate.shop.AbstractSpockTest
-import com.dianping.rotate.shop.entity.ApolloShopEntity
+import com.dianping.rotate.shop.json.ApolloShopEntity
 import org.springframework.beans.factory.annotation.Autowired
 
 /**

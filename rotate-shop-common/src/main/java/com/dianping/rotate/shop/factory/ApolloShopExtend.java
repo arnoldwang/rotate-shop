@@ -1,6 +1,6 @@
 package com.dianping.rotate.shop.factory;
 
-import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
+import com.dianping.rotate.shop.json.ApolloShopExtendEntity;
 
 /**
  * User: zhenwei.wang

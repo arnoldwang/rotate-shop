@@ -1,7 +1,7 @@
 package com.dianping.rotate.shop.service.impl;
 
 import com.dianping.rotate.shop.dao.*;
-import com.dianping.rotate.shop.entity.*;
+import com.dianping.rotate.shop.json.*;
 import com.dianping.rotate.shop.factory.impl.TPApolloShopExtend;
 import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;

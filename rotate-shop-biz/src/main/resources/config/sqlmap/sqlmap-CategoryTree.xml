@@ -6,7 +6,7 @@
 <!--@author yihua.huang@dianping.com-->
 <sqlMap namespace="CategoryTree">
 
-    <resultMap id="categoryTree" class="com.dianping.rotate.shop.entity.CategoryTreeEntity">
+    <resultMap id="categoryTree" class="com.dianping.rotate.shop.json.CategoryTreeEntity">
         <result column="ID" property="id"/>
         <result column="CategoryID" property="categoryID"/>
         <result column="CityID" property="cityID"/>

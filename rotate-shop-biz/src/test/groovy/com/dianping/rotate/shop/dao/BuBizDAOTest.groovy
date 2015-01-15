@@ -1,7 +1,7 @@
 package com.dianping.rotate.shop.dao
 
 import com.dianping.rotate.shop.AbstractSpockTest
-import com.dianping.rotate.shop.entity.BuBizEntity
+import com.dianping.rotate.shop.json.BuBizEntity
 import org.springframework.beans.factory.annotation.Autowired
 
 /**

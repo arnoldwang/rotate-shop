@@ -5,7 +5,7 @@ import com.dianping.avatar.dao.annotation.DAOAction;
 import com.dianping.avatar.dao.annotation.DAOActionType;
 import com.dianping.avatar.dao.annotation.DAOParam;
 import com.dianping.core.type.PageModel;
-import com.dianping.rotate.shop.entity.ApolloShopEntity;
+import com.dianping.rotate.shop.json.ApolloShopEntity;
 
 import java.util.List;
 

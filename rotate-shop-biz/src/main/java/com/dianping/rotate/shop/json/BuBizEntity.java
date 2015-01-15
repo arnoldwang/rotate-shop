@@ -1,21 +1,18 @@
-package com.dianping.rotate.shop.entity;
+package com.dianping.rotate.shop.json;
 
 import java.util.Date;
 
 /**
  * User: zhenwei.wang
- * Date: 15-1-4
+ * Date: 15-1-5
  */
-public class RotateGroupShopEntity {
-
+public class BuBizEntity {
 	private int id;
 
-	private int rotateGroupID;
+	private int buID;
 
-	private int shopID;
+	private int bizID;
 
-	private int shopGroupID;
-	//状态：0，删除；1，正常；2，关闭；3，暂停营业；4，尚未营业；
 	private int status;
 
 	private Date createdTime;
@@ -30,28 +27,20 @@ public class RotateGroupShopEntity {
 		this.id = id;
 	}
 
-	public int getRotateGroupID() {
-		return rotateGroupID;
+	public int getBuID() {
+		return buID;
 	}
 
-	public void setRotateGroupID(int rotateGroupID) {
-		this.rotateGroupID = rotateGroupID;
+	public void setBuID(int buID) {
+		this.buID = buID;
 	}
 
-	public int getShopID() {
-		return shopID;
+	public int getBizID() {
+		return bizID;
 	}
 
-	public void setShopID(int shopID) {
-		this.shopID = shopID;
-	}
-
-	public int getShopGroupID() {
-		return shopGroupID;
-	}
-
-	public void setShopGroupID(int shopGroupID) {
-		this.shopGroupID = shopGroupID;
+	public void setBizID(int bizID) {
+		this.bizID = bizID;
 	}
 
 	public int getStatus() {

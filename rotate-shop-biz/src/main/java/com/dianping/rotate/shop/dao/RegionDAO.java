@@ -4,8 +4,7 @@ import com.dianping.avatar.dao.GenericDao;
 import com.dianping.avatar.dao.annotation.DAOAction;
 import com.dianping.avatar.dao.annotation.DAOActionType;
 import com.dianping.avatar.dao.annotation.DAOParam;
-import com.dianping.rotate.shop.entity.ApolloShopEntity;
-import com.dianping.rotate.shop.entity.RegionEntity;
+import com.dianping.rotate.shop.json.RegionEntity;
 
 import java.util.List;
 

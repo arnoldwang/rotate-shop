@@ -1,14 +1,13 @@
-package com.dianping.rotate.shop.entity;
+package com.dianping.rotate.shop.json;
 
 /**
  * Created by luoming on 15/1/4.
  */
-public class CategoryTreeEntity {
+public class ShopCategoryEntity {
 
     private int id;
+    private int shopID;
     private int categoryID;
-    private int cityID;
-    private int parentID;
     private int isMain;
     private int status;
 
@@ -20,28 +19,20 @@ public class CategoryTreeEntity {
         this.id = id;
     }
 
+    public int getShopID() {
+        return shopID;
+    }
+
+    public void setShopID(int shopID) {
+        this.shopID = shopID;
+    }
+
     public int getCategoryID() {
         return categoryID;
     }
 
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
-    }
-
-    public int getCityID() {
-        return cityID;
-    }
-
-    public void setCityID(int cityID) {
-        this.cityID = cityID;
-    }
-
-    public int getParentID() {
-        return parentID;
-    }
-
-    public void setParentID(int parentID) {
-        this.parentID = parentID;
     }
 
     public int getIsMain() {

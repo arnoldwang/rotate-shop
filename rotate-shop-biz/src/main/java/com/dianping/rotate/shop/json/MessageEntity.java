@@ -1,6 +1,4 @@
-package com.dianping.rotate.shop.entity;
-
-import java.util.Date;
+package com.dianping.rotate.shop.json;
 
 /**
  * Created by zaza on 15/1/4.

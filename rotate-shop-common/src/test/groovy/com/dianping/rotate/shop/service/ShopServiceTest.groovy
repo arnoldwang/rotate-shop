@@ -4,9 +4,9 @@ import com.dianping.rotate.shop.AbstractSpockTest
 import com.dianping.rotate.shop.dao.ApolloShopDAO
 import com.dianping.rotate.shop.dao.RotateGroupDAO
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO
-import com.dianping.rotate.shop.entity.ApolloShopEntity
-import com.dianping.rotate.shop.entity.RotateGroupEntity
-import com.dianping.rotate.shop.entity.RotateGroupShopEntity
+import com.dianping.rotate.shop.json.ApolloShopEntity
+import com.dianping.rotate.shop.json.RotateGroupEntity
+import com.dianping.rotate.shop.json.RotateGroupShopEntity
 import org.springframework.beans.factory.annotation.Autowired
 
 /**

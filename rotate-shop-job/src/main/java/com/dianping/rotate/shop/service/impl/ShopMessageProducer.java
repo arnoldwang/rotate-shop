@@ -19,9 +19,9 @@ public class ShopMessageProducer implements MessageProducer {
     MessageProducerService messageProducerService;
 
     @Override
-    public void send(int shopId,int bizType,String action){
+    public void send(int shopId,String action){
         try{
-            String msg = messageProducerService.getShopMessageJson(shopId,bizType,action);
+            String msg = messageProducerService.getShopMessageJson(shopId,action);
             producerClient.sendMessage(msg);
         }catch(Exception ex){
             logger.error(ex.getMessage(), ex);

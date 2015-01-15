@@ -3,7 +3,7 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="messageProcessTask" class="com.dianping.rotate.shop.task.MessageProcessTask">
+    <bean id="messageProcessTask" class="com.dianping.rotate.shop.task.MessageProcessTask" init-method="run">
         <property name="runners">
             <list>
                 <bean class="com.dianping.rotate.shop.service.impl.message.runner.AddShopMessageRunner" />
@@ -11,7 +11,7 @@
         </property>
     </bean>
     <!--定时器-->
-    <bean id="poiMessageProcessTaskJob"
+    <!--bean id="poiMessageProcessTaskJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="messageProcessTask"/>
         <property name="targetMethod" value="run"/>
@@ -34,7 +34,6 @@
                 <ref bean="poiMessageProcessCronTrigger"/>
             </list>
         </property>
-    </bean>
-
+    </bean-->
 
 </beans>
