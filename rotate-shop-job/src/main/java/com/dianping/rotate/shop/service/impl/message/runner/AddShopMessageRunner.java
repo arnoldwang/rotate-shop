@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 /**
  * Created by yangjie on 1/14/15.
  */
-@Service
 public class AddShopMessageRunner extends AbstractMessageRunner {
 
     @Autowired
