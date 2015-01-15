@@ -14,21 +14,56 @@ import java.util.List;
  */
 public interface ApolloShopDAO extends GenericDao {
 
+	/**
+	 * 根据shopID查询门店
+	 * @param shopID
+	 * @return 只返回状态为正常的门店
+	 */
     @DAOAction(action = DAOActionType.QUERY)
     List<ApolloShopEntity> queryApolloShopByShopID(@DAOParam("shopID") int shopID);
 
+	/**
+	 * 根据shopID查询门店
+	 * @param shopId
+	 * @return 返回所有状态门店
+	 */
+	@DAOAction(action = DAOActionType.LOAD)
+	ApolloShopEntity queryApolloShopByShopIDWithNoStatus(@DAOParam("shopID") int shopId);
+
+	/**
+	 * 根据shopID列表查询门店
+	 * @param shopIDList
+	 * @return 返回所有状态门店列表
+	 */
     @DAOAction(action = DAOActionType.QUERY)
     List<ApolloShopEntity> queryApolloShopByShopIDList(@DAOParam("shopIDList") List<Integer> shopIDList);
 
+	/**
+	 * 插入一个新门店
+	 * @param apolloShop
+	 * @return 新门店的ID
+	 */
     @DAOAction(action = DAOActionType.INSERT)
     int addApolloShop(@DAOParam("apolloShop") ApolloShopEntity apolloShop);
 
+	/**
+	 * 根据shopID关闭门店
+	 * @param shopID
+	 */
     @DAOAction(action = DAOActionType.UPDATE)
     void deleteApolloShopByShopID(@DAOParam("shopID") int shopID);
 
+	/**
+	 * 根据shopID重新开放门店
+	 * @param shopID
+	 */
     @DAOAction(action = DAOActionType.UPDATE)
     void restoreApolloShopByShopID(@DAOParam("shopID") int shopID);
 
+	/**
+	 * 更新门店信息
+	 * @param apolloShop
+	 */
     @DAOAction(action = DAOActionType.UPDATE)
     void updateApolloShop(@DAOParam("apolloShop") ApolloShopEntity apolloShop);
 
@@ -50,6 +85,4 @@ public interface ApolloShopDAO extends GenericDao {
             ,@DAOParam("max") int max
             ,@DAOParam("page") int page);
 
-	@DAOAction(action = DAOActionType.LOAD)
-	ApolloShopEntity queryApolloShopByShopIDWithNoStatus(@DAOParam("shopID") int shopId);
 }
