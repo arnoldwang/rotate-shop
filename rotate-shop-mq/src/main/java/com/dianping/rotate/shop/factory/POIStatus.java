@@ -5,7 +5,7 @@ import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.constants.MessageStatus;
 import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.dao.MessageQueueDAO;
-import com.dianping.rotate.shop.entity.MessageEntity;
+import com.dianping.rotate.shop.json.MessageEntity;
 import com.dianping.rotate.shop.service.POIChangeService;
 import com.dianping.swallow.common.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;

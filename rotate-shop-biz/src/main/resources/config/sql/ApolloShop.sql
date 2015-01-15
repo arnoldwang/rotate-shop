@@ -219,7 +219,8 @@ CREATE TABLE `Biz`(
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `IX_BizID_ID` (`BizID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '业务聚合体信息表';
 
 
@@ -246,6 +247,7 @@ CREATE TABLE `MessageQueue`(
   `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，新增；2，正在处理；3，处理完成；',
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `IX_SOURCE_TYPE_ATTEMPTINDEX_ID` (`Source`,`Type`,`AttemptIndex`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'POI消息的缓存队列表';
 

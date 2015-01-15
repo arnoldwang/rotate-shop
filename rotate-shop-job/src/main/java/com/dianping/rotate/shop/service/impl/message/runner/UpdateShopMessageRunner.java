@@ -2,7 +2,7 @@ package com.dianping.rotate.shop.service.impl.message.runner;
 
 import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.constants.POIMessageType;
-import com.dianping.rotate.shop.entity.MessageEntity;
+import com.dianping.rotate.shop.json.MessageEntity;
 
 /**
  * User: zhenwei.wang

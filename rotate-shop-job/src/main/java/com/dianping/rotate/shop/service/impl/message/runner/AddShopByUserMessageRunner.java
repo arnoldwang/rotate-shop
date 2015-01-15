@@ -4,10 +4,13 @@ import com.dianping.rotate.shop.constants.ActionType;
 import com.dianping.rotate.shop.constants.BizType;
 import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.constants.POIMessageType;
-import com.dianping.rotate.shop.entity.MessageEntity;
+import com.dianping.rotate.shop.json.MessageEntity;
+import com.dianping.rotate.shop.json.ShopMessage;
 import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Map;
 
 import java.util.Map;
 
@@ -35,11 +38,11 @@ public class AddShopByUserMessageRunner extends AbstractMessageRunner {
 	@SuppressWarnings("unchecked")
     public void doMessage(MessageEntity msg) {
         try{
-			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
-			int shopId = (Integer) ((Map<String, Object>)msgBody.get("pair")).get("shopId");
-			shopService.addShop(shopId);
-            publishMessageToMQ(shopId, BizType.TUAN_HUI_6, ActionType.INSERT);
+            Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
+            int shopId = (Integer) ((Map<String, Object>)msgBody.get("pair")).get("shopId");
+            shopService.addShop(shopId);
             markMessageHasDone(msg);
+            publishMessageToMQ(new ShopMessage(shopId,ActionType.INSERT));
         }catch(Exception ex){
             markMessageHasFailed(msg);
             logger.error(ex.getMessage(),ex);

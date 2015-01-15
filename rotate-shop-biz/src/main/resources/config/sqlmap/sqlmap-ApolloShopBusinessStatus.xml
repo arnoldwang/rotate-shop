@@ -6,7 +6,7 @@
 <!--@author yihua.huang@dianping.com-->
 <sqlMap namespace="ApolloShopBusinessStatus">
 
-    <resultMap id="apolloShopBusinessStatus" class="com.dianping.rotate.shop.entity.ApolloShopBusinessStatusEntity">
+    <resultMap id="apolloShopBusinessStatus" class="com.dianping.rotate.shop.json.ApolloShopBusinessStatusEntity">
         <result column="ID" property="id"/>
         <result column="ShopID" property="shopID"/>
         <result column="CooperationStatus" property="cooperationStatus"/>

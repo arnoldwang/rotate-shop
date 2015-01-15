@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="RotateGroup">
-    <typeAlias alias="RotateGroup" type="com.dianping.rotate.shop.entity.RotateGroupEntity" />
+    <typeAlias alias="RotateGroup" type="com.dianping.rotate.shop.json.RotateGroupEntity" />
     <resultMap id="rotateGroup" class="RotateGroup">
         <result property="id" column="ID"/>
         <result property="bizID" column="BizID"/>

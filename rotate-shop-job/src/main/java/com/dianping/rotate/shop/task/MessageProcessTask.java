@@ -28,7 +28,7 @@ public class MessageProcessTask {
         this.runners = runners;
     }
 
-    protected void process(){
+    protected  void process(){
         try{
             for (Runnable runner: runners) {
                 threadPool.execute(runner);

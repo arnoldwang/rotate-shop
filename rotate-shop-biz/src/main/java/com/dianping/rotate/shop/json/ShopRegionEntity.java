@@ -1,13 +1,13 @@
-package com.dianping.rotate.shop.entity;
+package com.dianping.rotate.shop.json;
 
 /**
  * Created by luoming on 15/1/4.
  */
-public class RegionTreeEntity {
+public class ShopRegionEntity {
 
     private int id;
+    private int shopID;
     private int regionID;
-    private int parentID;
     private int isMain;
     private int status;
 
@@ -19,20 +19,20 @@ public class RegionTreeEntity {
         this.id = id;
     }
 
+    public int getShopID() {
+        return shopID;
+    }
+
+    public void setShopID(int shopID) {
+        this.shopID = shopID;
+    }
+
     public int getRegionID() {
         return regionID;
     }
 
     public void setRegionID(int regionID) {
         this.regionID = regionID;
-    }
-    
-    public int getParentID() {
-        return parentID;
-    }
-
-    public void setParentID(int parentID) {
-        this.parentID = parentID;
     }
 
     public int getIsMain() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="BuBiz">
-    <typeAlias alias="BuBiz" type="com.dianping.rotate.shop.entity.BuBizEntity" />
+    <typeAlias alias="BuBiz" type="com.dianping.rotate.shop.json.BuBizEntity" />
     <resultMap id="buBiz" class="BuBiz">
         <result property="id" column="ID"/>
         <result property="buID" column="BuID"/>
@@ -15,8 +15,7 @@
         BuID,
         BizID,
         Status,
-        CreatedTime,
-        LastModifiedTime
+        CreatedTime
     </sql>
 
     <sql id="key-value">
@@ -28,7 +27,6 @@
         #buBiz.buID#,
         #buBiz.bizID#,
         #buBiz.status#,
-        NOW(),
         NOW()
         )
     </sql>
@@ -37,8 +35,7 @@
         SET
             BuID = #buBiz.buID#,
             BizID = #buBiz.bizID#,
-            Status = #buBiz.status#,
-            LastModifiedTime = NOW()
+            Status = #buBiz.status#
         WHERE ID = #buBiz.id#
     </sql>
 
@@ -50,8 +47,7 @@
     <delete id="deleteBuBiz" parameterClass="map">
         UPDATE BuBiz
         SET
-            Status = 0,
-            LastModifiedTime = NOW()
+            Status = 0
         WHERE ID = #id#
     </delete>
 

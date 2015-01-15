@@ -3,7 +3,7 @@
 
 <sqlMap namespace="MessageQueue">
 
-    <resultMap id="messageQueue" class="com.dianping.rotate.shop.entity.MessageEntity">
+    <resultMap id="messageQueue" class="com.dianping.rotate.shop.json.MessageEntity">
         <result column="ID" property="id"/>
         <result column="Msg" property="msg"/>
         <result column="SwallowID" property="swallowId"/>

@@ -1,8 +1,7 @@
 package com.dianping.rotate.shop.dao
 
 import com.dianping.rotate.shop.AbstractSpockTest
-import com.dianping.rotate.shop.entity.RegionEntity
-import com.dianping.rotate.shop.entity.ShopRegionEntity
+import com.dianping.rotate.shop.json.ShopRegionEntity
 import org.springframework.beans.factory.annotation.Autowired
 
 /**

@@ -2,7 +2,7 @@ package com.dianping.rotate.shop.factory.impl;
 
 import com.dianping.rotate.shop.constants.ApolloShopTypeEnum;
 import com.dianping.rotate.shop.constants.BizTypeEnum;
-import com.dianping.rotate.shop.entity.ApolloShopExtendEntity;
+import com.dianping.rotate.shop.json.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.factory.ApolloShopExtend;
 
 /**
