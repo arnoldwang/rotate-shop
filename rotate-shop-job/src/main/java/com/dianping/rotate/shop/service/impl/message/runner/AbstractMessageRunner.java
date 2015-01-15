@@ -4,25 +4,23 @@ import com.dianping.rotate.shop.dao.MessageQueueDAO;
 import com.dianping.rotate.shop.entity.MessageEntity;
 import com.dianping.rotate.shop.service.impl.ShopMessageProducer;
 import com.dianping.rotate.shop.utils.Switch;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /**
  * Created by yangjie on 1/14/15.
  */
 public abstract class AbstractMessageRunner implements Runnable {
-    private static final int PROCESS_MESSAGE_LIMIT = 10;
-    private ExecutorService threadPool = Executors.newFixedThreadPool(10);
-    protected Logger logger = LoggerFactory.getLogger(getClass());
+	private static final int PROCESS_MESSAGE_LIMIT = 10;
+	public static final int INTERVAL_WHEN_NO_TASK = 100;
+	private ExecutorService threadPool = Executors.newFixedThreadPool(10);
+	protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final int MAX_RETRY = 10;
 
     abstract int getMessageSourceType();
@@ -55,31 +53,58 @@ public abstract class AbstractMessageRunner implements Runnable {
         while(true){
             try {
                 if(Switch.on()){
-                    List<MessageEntity> messages = new ArrayList<MessageEntity>();
-                    int attemptIndex = 0;
-                    while(messages.size()<1){
-                        messages = messageQueueDAO.getMessage(getMessageSourceType(), getPOIMessageType(),
-                                attemptIndex,PROCESS_MESSAGE_LIMIT);
-                        attemptIndex = attemptIndex > MAX_RETRY ? 0 : attemptIndex+1;
-                    }
-                    Collection<Callable<Void>> tasks=new ArrayList<Callable<Void>>();
-                    for(final MessageEntity msg:messages){
-                        tasks.add(new Callable<Void>() {
-                            @Override
-                            public Void call() throws Exception {
-                                doMessage(msg);
-                                return null;
-                            }
-                        });
-                    }
-                    List<Future<Void>> futures = threadPool.invokeAll(tasks);
-                    for(Future<Void> future:futures){
-                        future.get();
-                    }
-                }
+					List<MessageEntity> messages = messageQueueDAO.getUnproccessedMessage(getMessageSourceType(),
+							getPOIMessageType(),
+							MAX_RETRY, PROCESS_MESSAGE_LIMIT);
+					if (messages.size() == 0) {
+						Thread.sleep(INTERVAL_WHEN_NO_TASK);
+					} else {
+						runMessages(messages);
+					}
+				}
             }catch(Exception ex){
                 logger.error(ex.getMessage(), ex);
             }
         }
     }
+
+	private void runMessages(List<MessageEntity> messages) throws InterruptedException {
+		final CountDownLatch countDownLatch = new CountDownLatch(messages.size());
+		for (final MessageEntity message : messages) {
+			threadPool.execute(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						doMessage(message);
+					} catch (Exception e) {
+						logger.error("Process message error " + ToStringBuilder.reflectionToString(message,
+								ToStringStyle.SHORT_PREFIX_STYLE), e);
+					} finally {
+						countDownLatch.countDown();
+					}
+				}
+			});
+		}
+		countDownLatch.await();
+	}
+
+	public static void main(String[] args) {
+		ExecutorService threadPool = new ThreadPoolExecutor(10, 10, 0, TimeUnit.SECONDS,
+				new SynchronousQueue<Runnable>());
+		final CountDownLatch countDownLatch = new CountDownLatch(0);
+		for (int i=0;i<1000;i++){
+			final int j = i;
+			threadPool.execute(new Runnable() {
+				@Override
+				public void run() {
+					System.out.println(j);
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+	}
 }
