@@ -89,13 +89,13 @@ public interface ApolloShopDAO extends GenericDao {
      * 提供给战区使用的，根据给定条件分页查询门店ID
      * @param ruleExpression:规则表达式
      * @param startIndex：起始索引
-     * @param endIndex:结束索引
+     * @param limitSize:结束索引
      * @return
      */
     @DAOAction(action = DAOActionType.QUERY)
     List<Integer> queryApolloShopIDForTerritory(
             @DAOParam("ruleExpression") String ruleExpression
             ,@DAOParam("startIndex") int startIndex
-            ,@DAOParam("endIndex") int endIndex);
+            ,@DAOParam("limitSize") int limitSize);
 
 }

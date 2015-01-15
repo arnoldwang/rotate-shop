@@ -81,11 +81,11 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
     }
 
     @Override
-    public List<Integer> batchFetchApolloShopID(String where, int startLimit, int endLimit) {
+    public List<Integer> batchFetchApolloShopID(String where, int startLimit, int limitSize) {
         if(StringUtils.isEmpty(where)){
             throw new  RuntimeException("查询条件为空!");
         }
-        return apolloShopDAO.queryApolloShopIDForTerritory(where,startLimit,endLimit);
+        return apolloShopDAO.queryApolloShopIDForTerritory(where,startLimit,limitSize);
     }
 
 
