@@ -8,15 +8,17 @@ import com.dianping.rotate.shop.json.MessageEntity;
 import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 import java.util.Map;
 
 /**
  * Created by yangjie on 1/14/15.
  */
-@Service
-public class AddShopMessageRunner extends AbstractMessageRunner {
+// 这里不要加@Service 因为在被引用的时候是根据class新生成一个实例
+public class AddShopByUserMessageRunner extends AbstractMessageRunner {
+
 
     @Autowired
     protected ShopService shopService;
@@ -32,13 +34,14 @@ public class AddShopMessageRunner extends AbstractMessageRunner {
     }
 
     @Override
+	@SuppressWarnings("unchecked")
     public void doMessage(MessageEntity msg) {
         try{
-            shopService.addPoiByUser(msg.getMsg());
             Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
-            int shopId = (Integer)((Map<String, Object>)msgBody.get("pair")).get("shopId");
-            publishMessageToMQ(shopId,ActionType.INSERT);
+            int shopId = (Integer) ((Map<String, Object>)msgBody.get("pair")).get("shopId");
+            shopService.addShop(shopId);
             markMessageHasDone(msg);
+            publishMessageToMQ(shopId,ActionType.INSERT);
         }catch(Exception ex){
             markMessageHasFailed(msg);
             logger.error(ex.getMessage(),ex);

@@ -11,6 +11,7 @@ import com.dianping.rotate.shop.dto.ApolloShopForTerritoryQueryDTO;
 
 
 import com.dianping.rotate.shop.enums.TerritoryShopPropertyMapper;
+import com.sun.java.swing.plaf.windows.resources.windows_es;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.impl.AvalonLogger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,15 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
 
         return pageResult;
     }
+
+    @Override
+    public List<Integer> batchFetchApolloShopID(String where, int startLimit, int endLimit) {
+        if(StringUtils.isEmpty(where)){
+            throw new  RuntimeException("查询条件为空!");
+        }
+        return apolloShopDAO.queryApolloShopIDForTerritory(where,startLimit,endLimit);
+    }
+
 
     /**
      * 将战区中不同于门店系统中定义的属性，替换成门店系统中使用的属性

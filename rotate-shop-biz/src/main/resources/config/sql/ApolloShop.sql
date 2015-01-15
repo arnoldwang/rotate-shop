@@ -39,6 +39,8 @@ CREATE TABLE `Region`(
   KEY `IX_REGION_CITY_ID` (`RegionID`,`CityID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '区域表';
 
+
+/** 数据不需要同步到表里
 DROP TABLE IF EXISTS `RegionTree`;
 CREATE TABLE `RegionTree`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -65,7 +67,7 @@ CREATE TABLE `RegionExpand`(
   KEY `IX_REGION_ID` (`RegionID`),
   KEY `IX_REGION_CITY_ID` (`RegionID`,`CityID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '区域树拉平表';
-
+**/
 
 DROP TABLE IF EXISTS `ShopRegion`;
 CREATE TABLE `ShopRegion`(
@@ -98,6 +100,7 @@ CREATE TABLE `Category`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类表';
 
 
+/** 数据不需要同步到表里
 DROP TABLE IF EXISTS `CategoryTree`;
 CREATE TABLE `CategoryTree`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -129,6 +132,7 @@ CREATE TABLE `CategoryExpand`(
   KEY `IX_CATEGORY_ID` (`CategoryID`),
   KEY `IX_CATEGORY_CITY_ID` (`CategoryID`,`CityID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类树拉平表';
+**/
 
 
 DROP TABLE IF EXISTS `ShopCategory`;
