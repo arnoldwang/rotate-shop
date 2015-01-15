@@ -6,7 +6,7 @@
 <!--@author yihua.huang@dianping.com-->
 <sqlMap namespace="ApolloShop">
 
-    <resultMap id="apolloShop" class="com.dianping.rotate.shop.entity.ApolloShopEntity">
+    <resultMap id="apolloShop" class="com.dianping.rotate.shop.json.ApolloShopEntity">
         <result column="ID" property="id"/>
         <result column="ShopID" property="shopID"/>
         <result column="ShopStatus" property="shopStatus"/>
@@ -149,6 +149,15 @@
         <![CDATA[
             order by m.ID;
          ]]>
+    </select>
+
+    <!-- 查询给定范围内的shopID -->
+    <select id="queryApolloShopIDForTerritory" resultClass="Integer" parameterClass="map">
+        select ShopID
+        from ApolloShop
+        where  $ruleExpression$
+        order by ID
+        limit $startIndex$,$endIndex$
     </select>
 
 </sqlMap>

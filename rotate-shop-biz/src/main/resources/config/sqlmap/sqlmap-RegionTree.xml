@@ -6,7 +6,7 @@
 <!--@author yihua.huang@dianping.com-->
 <sqlMap namespace="RegionTree">
 
-    <resultMap id="regionTree" class="com.dianping.rotate.shop.entity.RegionTreeEntity">
+    <resultMap id="regionTree" class="com.dianping.rotate.shop.json.RegionTreeEntity">
         <result column="ID" property="id"/>
         <result column="RegionID" property="regionID"/>
         <result column="ParentID" property="parentID"/>

@@ -2,17 +2,12 @@ package com.dianping.rotate.shop.impl;
 
 import com.dianping.combiz.entity.Category;
 import com.dianping.rotate.shop.api.CategoryService;
-import com.dianping.rotate.shop.dao.CategoryDAO;
-import com.dianping.rotate.shop.dao.CategoryTreeDAO;
 import com.dianping.rotate.shop.dto.CategoryDTO;
-import com.dianping.rotate.shop.entity.CategoryEntity;
-import com.dianping.rotate.shop.entity.CategoryTreeEntity;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

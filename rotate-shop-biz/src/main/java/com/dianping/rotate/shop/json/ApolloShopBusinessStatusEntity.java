@@ -1,4 +1,4 @@
-package com.dianping.rotate.shop.entity;
+package com.dianping.rotate.shop.json;
 
 import java.sql.Date;
 

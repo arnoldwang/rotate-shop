@@ -3,7 +3,7 @@ package com.dianping.rotate.shop.impl;
 import com.dianping.rotate.shop.api.RotateGroupShopService;
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.dto.RotateGroupShopDTO;
-import com.dianping.rotate.shop.entity.RotateGroupShopEntity;
+import com.dianping.rotate.shop.json.RotateGroupShopEntity;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

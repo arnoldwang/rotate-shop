@@ -1,4 +1,4 @@
-package com.dianping.rotate.shop.entity;
+package com.dianping.rotate.shop.json;
 
 /**
  * Created by luoming on 15/1/4.

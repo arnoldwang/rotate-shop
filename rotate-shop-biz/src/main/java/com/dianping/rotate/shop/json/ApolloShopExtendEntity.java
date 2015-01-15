@@ -1,14 +1,15 @@
-package com.dianping.rotate.shop.entity;
+package com.dianping.rotate.shop.json;
 
 /**
  * Created by luoming on 15/1/4.
  */
-public class ShopRegionEntity {
+public class ApolloShopExtendEntity {
 
     private int id;
     private int shopID;
-    private int regionID;
-    private int isMain;
+    private int type;
+    private int bizID;
+    private String rating;
     private int status;
 
     public int getId() {
@@ -27,20 +28,28 @@ public class ShopRegionEntity {
         this.shopID = shopID;
     }
 
-    public int getRegionID() {
-        return regionID;
+    public int getType() {
+        return type;
     }
 
-    public void setRegionID(int regionID) {
-        this.regionID = regionID;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public int getIsMain() {
-        return isMain;
+    public int getBizID() {
+        return bizID;
     }
 
-    public void setIsMain(int isMain) {
-        this.isMain = isMain;
+    public void setBizID(int bizID) {
+        this.bizID = bizID;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     public int getStatus() {

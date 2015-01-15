@@ -1,7 +1,7 @@
 package com.dianping.rotate.shop.service.impl;
 
 import com.dianping.rotate.shop.dao.*;
-import com.dianping.rotate.shop.entity.*;
+import com.dianping.rotate.shop.json.*;
 import com.dianping.rotate.shop.factory.impl.TPApolloShopExtend;
 import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;
@@ -52,23 +52,25 @@ public class ShopServiceImpl implements ShopService {
     public void closeShop(int shopId) {
 		apolloShopDAO.deleteApolloShopByShopID(shopId);
 
-		updateRotateGroupTypeByShopID(shopId);
+		updateRotateGroupTypeAndStatusByShopID(shopId);
     }
 
 	@Override
 	public void openShop(int shopId) {
 		apolloShopDAO.restoreApolloShopByShopID(shopId);
 
-		updateRotateGroupTypeByShopID(shopId);
+		updateRotateGroupTypeAndStatusByShopID(shopId);
 	}
 
-	private void updateRotateGroupTypeByShopID(int shopId) {
+	@Override
+	public void updateRotateGroupTypeAndStatusByShopID(int shopId) {
 		for (RotateGroupShopEntity group: rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId)) {
-			updateRotateGroupTypeByRotateGroupId(group.getRotateGroupID());
+			updateRotateGroupTypeAndStatusByRotateGroupId(group.getRotateGroupID());
 		}
 	}
 
-	private void updateRotateGroupTypeByRotateGroupId(int rotateGroupID) {
+	@Override
+	public void updateRotateGroupTypeAndStatusByRotateGroupId(int rotateGroupID) {
 
 		// 这里需要取出所有的轮转组，包括已经删掉的，因为这里需要根据轮转组下的门店状态重置轮转组的status
 		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroupIgnoreStatus(rotateGroupID);
@@ -116,29 +118,6 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public void addPoiByUser(String msg) {
-		try {
-			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
-			int shopId = (Integer) ((Map<String, Object>)msgBody.get("pair")).get("shopId");
-			addPoi(shopId);
-		} catch (IOException e) {
-			logger.warn("add poi by user failed");
-		}
-	}
-
-	@Override
-	public void addPoiBySys(String msg) {
-		try {
-			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
-			int shopId = (Integer) msgBody.get("shopId");
-			addPoi(shopId);
-		} catch (IOException e) {
-			logger.warn("add poi by user failed");
-		}
-	}
-
-	@Override
 	public void updatePoi(String msg) {
 		try {
 			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
@@ -148,7 +127,7 @@ public class ShopServiceImpl implements ShopService {
 				return;
 			ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
 			if (apolloShopEntity.getShopStatus() != shopDTO.getPower()) {
-				updateRotateGroupTypeByShopID(shopId);
+				updateRotateGroupTypeAndStatusByShopID(shopId);
 			}
 			if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
 				//todo 跟新轮转组门店关系表
@@ -159,7 +138,8 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
-	private void addPoi(int shopId) {
+	@Override
+	public void addShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
 		if (shopDTO == null) {
 			logger.info("add shop info failed with wrong shopId!");
