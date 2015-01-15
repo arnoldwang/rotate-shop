@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.*;
 public abstract class AbstractMessageRunner implements Runnable {
 	private static final int PROCESS_MESSAGE_LIMIT = 10;
 	public static final int INTERVAL_WHEN_NO_TASK = 100;
+	public static final int COUNT = 1000000;
 	private ExecutorService threadPool = Executors.newFixedThreadPool(10);
 	protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final int MAX_RETRY = 10;
@@ -85,26 +87,49 @@ public abstract class AbstractMessageRunner implements Runnable {
 				}
 			});
 		}
-		countDownLatch.await();
+		countDownLatch.await(100, TimeUnit.SECONDS);
 	}
 
-	public static void main(String[] args) {
-		ExecutorService threadPool = new ThreadPoolExecutor(10, 10, 0, TimeUnit.SECONDS,
-				new SynchronousQueue<Runnable>());
-		final CountDownLatch countDownLatch = new CountDownLatch(0);
-		for (int i=0;i<1000;i++){
-			final int j = i;
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
+		int j = 0;
+		for (int i = 0; i < COUNT; i++) {
+			j++;
+		}
+		System.out.println(j);
+		long time1 = System.currentTimeMillis();
+		ThreadPoolExecutor threadPool =  new ThreadPoolExecutor(10, 10,
+				0L, TimeUnit.MILLISECONDS,
+				new LinkedBlockingQueue<Runnable>());
+		final CountDownLatch countDownLatch = new CountDownLatch(COUNT);
+		for (int i = 0; i < COUNT; i++) {
 			threadPool.execute(new Runnable() {
 				@Override
 				public void run() {
-					System.out.println(j);
 					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+					} finally {
+						countDownLatch.countDown();
 					}
 				}
 			});
 		}
+		countDownLatch.await();
+		System.out.println(System.currentTimeMillis() - time1);
+
+
+		time1 = System.currentTimeMillis();
+		List<Callable<Void>> list = new ArrayList<Callable<Void>>();
+		for (int i = 0; i < COUNT; i++) {
+			list.add(new Callable() {
+				@Override
+				public Object call() throws Exception {
+					return null;
+				}
+			});
+		}
+		List<Future<Void>> futures = threadPool.invokeAll(list);
+		for (Future<Void> future : futures) {
+			future.get();
+		}
+		System.out.println(System.currentTimeMillis() - time1);
 	}
 }
