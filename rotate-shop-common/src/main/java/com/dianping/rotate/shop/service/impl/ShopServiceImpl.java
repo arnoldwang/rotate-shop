@@ -1,6 +1,7 @@
 package com.dianping.rotate.shop.service.impl;
 
 import com.dianping.rotate.shop.dao.*;
+import com.dianping.rotate.shop.exceptions.WrongShopInfoException;
 import com.dianping.rotate.shop.json.*;
 import com.dianping.rotate.shop.factory.impl.TPApolloShopExtend;
 import com.dianping.rotate.shop.service.ShopService;
@@ -10,6 +11,7 @@ import com.dianping.shopremote.remote.dto.ShopDTO;
 import com.dianping.shopremote.remote.dto.ShopRegionDTO;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,22 +144,18 @@ public class ShopServiceImpl implements ShopService {
 	public void addShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
 		if (shopDTO == null) {
-			logger.info("add shop info failed with wrong shopId!");
-			return;
+			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
 		}
 		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
 		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
-		if (shopCategoryDTOList == null || shopCategoryDTOList.size() == 0) {
-			logger.info("add shop info failed with having no category!");
-			return;
-		}
-		if (shopRegionDTOList == null || shopRegionDTOList.size() == 0) {
-			logger.info("add shop info failed with having no region!");
-			return;
-		}
+		if(CollectionUtils.isEmpty(shopCategoryDTOList))
+			throw new WrongShopInfoException("add shop info failed with having no category!");
+
+		if(CollectionUtils.isEmpty(shopRegionDTOList))
+			throw new WrongShopInfoException("add shop info failed with having no region!");
+
 		if (apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId) != null) {
-			logger.info("add shop info failed with shop existed!");
-			return;
+			throw new WrongShopInfoException("add shop info failed with shop existed!");
 		}
 		ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
 		insertShopCategoryList(shopCategoryDTOList, shopDTO);
