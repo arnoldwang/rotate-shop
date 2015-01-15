@@ -14,7 +14,9 @@ import java.util.Map;
 /**
  * Created by yangjie on 1/14/15.
  */
+// 这里不要加@Service 因为在被引用的时候是根据class新生成一个实例
 public class AddShopByUserMessageRunner extends AbstractMessageRunner {
+
 
     @Autowired
     protected ShopService shopService;

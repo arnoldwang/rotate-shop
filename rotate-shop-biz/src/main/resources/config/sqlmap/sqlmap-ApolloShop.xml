@@ -151,4 +151,13 @@
          ]]>
     </select>
 
+    <!-- 查询给定范围内的shopID -->
+    <select id="queryApolloShopIDForTerritory" resultClass="Integer" parameterClass="map">
+        select ShopID
+        from ApolloShop
+        where  $ruleExpression$
+        order by ID
+        limit $startIndex$,$endIndex$
+    </select>
+
 </sqlMap>
