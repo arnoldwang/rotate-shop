@@ -5,6 +5,7 @@ import com.dianping.rotate.shop.constants.BizType;
 import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.json.MessageEntity;
+import com.dianping.rotate.shop.json.ShopMessage;
 import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class AddShopByUserMessageRunner extends AbstractMessageRunner {
             int shopId = (Integer) ((Map<String, Object>)msgBody.get("pair")).get("shopId");
             shopService.addShop(shopId);
             markMessageHasDone(msg);
-            publishMessageToMQ(shopId,ActionType.INSERT);
+            publishMessageToMQ(new ShopMessage(shopId,ActionType.INSERT));
         }catch(Exception ex){
             markMessageHasFailed(msg);
             logger.error(ex.getMessage(),ex);
