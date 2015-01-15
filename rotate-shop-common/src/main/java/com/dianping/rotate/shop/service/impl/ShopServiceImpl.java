@@ -62,13 +62,15 @@ public class ShopServiceImpl implements ShopService {
 		updateRotateGroupTypeByShopID(shopId);
 	}
 
-	private void updateRotateGroupTypeByShopID(int shopId) {
+	@Override
+	public void updateRotateGroupTypeByShopID(int shopId) {
 		for (RotateGroupShopEntity group: rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId)) {
 			updateRotateGroupTypeByRotateGroupId(group.getRotateGroupID());
 		}
 	}
 
-	private void updateRotateGroupTypeByRotateGroupId(int rotateGroupID) {
+	@Override
+	public void updateRotateGroupTypeByRotateGroupId(int rotateGroupID) {
 
 		// 这里需要取出所有的轮转组，包括已经删掉的，因为这里需要根据轮转组下的门店状态重置轮转组的status
 		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroupIgnoreStatus(rotateGroupID);
