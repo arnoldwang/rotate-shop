@@ -32,8 +32,8 @@ public class AddShopMessageRunner extends AbstractMessageRunner {
     public void doMessage(MessageEntity msg) {
         try{
             shopService.addPoiByUser(msg.getMsg());
-            publishMessageToMQ(123, BizType.TUAN_HUI_6, ActionType.INSERT);
             markMessageHasDone(msg);
+            publishMessageToMQ(123, BizType.TUAN_HUI_6, ActionType.INSERT);
         }catch(Exception ex){
             markMessageHasFailed(msg);
             logger.error(ex.getMessage(),ex);
