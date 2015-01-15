@@ -46,7 +46,7 @@ public interface RotateGroupDAO extends GenericDao{
 	/**
 	 * 按轮转组ID查询轮转组
 	 * @param rotateGroupID
-	 * @return 轮转组实体
+	 * @return 只返回未删除的轮转组实体
 	 */
 	@DAOAction(action = DAOActionType.LOAD)
 	public RotateGroupEntity getRotateGroup(@DAOParam("id") int rotateGroupID);
@@ -54,19 +54,25 @@ public interface RotateGroupDAO extends GenericDao{
 	/**
 	 * 按轮转组ID列表批量查询轮转组
 	 * @param rotateGroupIDList
-	 * @return 轮转组实体列表
+	 * @return 只返回未删除的轮转组实体列表
 	 */
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<RotateGroupEntity> getRotateGroupList(@DAOParam("rotateGroupIDList") List<Integer> rotateGroupIDList);
 
 	/**
-	 *
+	 * 按轮转组ID查询轮转组
 	 * @param rotateGroupID
-	 * @return
+	 * @return 返回所有轮转组实体
 	 */
 	@DAOAction(action = DAOActionType.LOAD)
 	public RotateGroupEntity getRotateGroupIgnoreStatus(@DAOParam("id") int rotateGroupID);
 
+	/**
+	 * 按shopID和bizID查询轮转组
+	 * @param bizID
+	 * @param shopID
+	 * @return 轮转组列表
+	 */
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<RotateGroupEntity> queryRotateGroupByBizIDAndShopID(@DAOParam("bizID")int bizID, @DAOParam("shopID")int shopID);
 }

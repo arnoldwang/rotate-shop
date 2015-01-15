@@ -18,19 +18,7 @@ public interface ShopService {
 	// 1个门店 -> 有效 单店
 	// 2个及以上门店 -> 有效 连锁店
 	public void updateRotateGroupTypeAndStatusByRotateGroupId(int rotateGroupID);
-
-	/**
-	 * 系统新增poi
-	 * @param msg 消息体
-	 */
-	public void addPoiBySys(String msg);
-
-
-	/**
-	 * 用户新增poi
-	 * @param msg 消息体
-	 */
-	public void addPoiByUser(String msg);
+	public void addShop(int shopId);
 
 	/**
 	 * 更新poi信息

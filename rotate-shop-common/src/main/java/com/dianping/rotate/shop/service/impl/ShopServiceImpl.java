@@ -118,29 +118,6 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public void addPoiByUser(String msg) {
-		try {
-			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
-			int shopId = (Integer) ((Map<String, Object>)msgBody.get("pair")).get("shopId");
-			addPoi(shopId);
-		} catch (IOException e) {
-			logger.warn("add poi by user failed");
-		}
-	}
-
-	@Override
-	public void addPoiBySys(String msg) {
-		try {
-			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
-			int shopId = (Integer) msgBody.get("shopId");
-			addPoi(shopId);
-		} catch (IOException e) {
-			logger.warn("add poi by user failed");
-		}
-	}
-
-	@Override
 	public void updatePoi(String msg) {
 		try {
 			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
@@ -161,7 +138,8 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
-	private void addPoi(int shopId) {
+	@Override
+	public void addShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
 		if (shopDTO == null) {
 			logger.info("add shop info failed with wrong shopId!");
