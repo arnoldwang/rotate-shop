@@ -3,15 +3,4 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-
-    <bean id="messageProcessService" class="com.dianping.rotate.shop.service.impl.MessageProcessService"/>
-    <bean id="addMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIAddMessageProcessor"/>
-    <bean id="categoryMessageProcessor" class="com.dianping.rotate.shop.service.impl.POICategoryMessageProcessor"/>
-    <bean id="mergeMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIMergeMessageProcessor"/>
-    <bean id="mergeRecoverMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIMergeRecoverMessageProcessor"/>
-    <bean id="regionMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIRegionMessageProcessor"/>
-    <bean id="statusMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIStatusMessageProcessor"/>
-    <bean id="updateMessageProcessor" class="com.dianping.rotate.shop.service.impl.POIUpdateMessageProcessor"/>
-    <bean id="messageProducerService" class="com.dianping.rotate.shop.service.impl.MessageProducerService"/>
-    <bean id="shopMessageProducer" class="com.dianping.rotate.shop.service.impl.ShopMessageProducer"/>
 </beans>
