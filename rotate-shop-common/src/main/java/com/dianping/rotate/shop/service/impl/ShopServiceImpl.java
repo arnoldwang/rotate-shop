@@ -52,25 +52,25 @@ public class ShopServiceImpl implements ShopService {
     public void closeShop(int shopId) {
 		apolloShopDAO.deleteApolloShopByShopID(shopId);
 
-		updateRotateGroupTypeByShopID(shopId);
+		updateRotateGroupTypeAndStatusByShopID(shopId);
     }
 
 	@Override
 	public void openShop(int shopId) {
 		apolloShopDAO.restoreApolloShopByShopID(shopId);
 
-		updateRotateGroupTypeByShopID(shopId);
+		updateRotateGroupTypeAndStatusByShopID(shopId);
 	}
 
 	@Override
-	public void updateRotateGroupTypeByShopID(int shopId) {
+	public void updateRotateGroupTypeAndStatusByShopID(int shopId) {
 		for (RotateGroupShopEntity group: rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId)) {
-			updateRotateGroupTypeByRotateGroupId(group.getRotateGroupID());
+			updateRotateGroupTypeAndStatusByRotateGroupId(group.getRotateGroupID());
 		}
 	}
 
 	@Override
-	public void updateRotateGroupTypeByRotateGroupId(int rotateGroupID) {
+	public void updateRotateGroupTypeAndStatusByRotateGroupId(int rotateGroupID) {
 
 		// 这里需要取出所有的轮转组，包括已经删掉的，因为这里需要根据轮转组下的门店状态重置轮转组的status
 		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroupIgnoreStatus(rotateGroupID);
@@ -150,7 +150,7 @@ public class ShopServiceImpl implements ShopService {
 				return;
 			ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
 			if (apolloShopEntity.getShopStatus() != shopDTO.getPower()) {
-				updateRotateGroupTypeByShopID(shopId);
+				updateRotateGroupTypeAndStatusByShopID(shopId);
 			}
 			if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
 				//todo 跟新轮转组门店关系表

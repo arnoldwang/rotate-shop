@@ -6,8 +6,8 @@ package com.dianping.rotate.shop.service;
 public interface ShopService {
     public void closeShop(int shopId);
     public void openShop(int shopId);
-	public void updateRotateGroupTypeByShopID(int shopId);
-	public void updateRotateGroupTypeByRotateGroupId(int rotateGroupID);
+	public void updateRotateGroupTypeAndStatusByShopID(int shopId);
+	public void updateRotateGroupTypeAndStatusByRotateGroupId(int rotateGroupID);
 
 	/**
 	 * 系统新增poi
