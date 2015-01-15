@@ -2,7 +2,7 @@ package com.dianping.rotate.shop.service.impl.message.runner;
 
 import com.dianping.rotate.shop.dao.MessageQueueDAO;
 import com.dianping.rotate.shop.json.MessageEntity;
-import com.dianping.rotate.shop.service.impl.ShopMessageProducer;
+import com.dianping.rotate.shop.service.impl.message.producer.ShopMessageProducer;
 import com.dianping.rotate.shop.utils.Switch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +37,8 @@ public abstract class AbstractMessageRunner implements Runnable {
         messageDAO.updateMessageAttemptIndex(msg.getId(),msg.getAttemptIndex()+1);
     }
 
-    protected void publishMessageToMQ(int shopId,String action) {
-        shopMessageProducer.send(shopId,action);
+    protected void publishMessageToMQ(Object msg) {
+        shopMessageProducer.send(msg);
     }
 
     @Autowired

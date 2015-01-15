@@ -15,8 +15,7 @@
         BuID,
         BizID,
         Status,
-        CreatedTime,
-        LastModifiedTime
+        CreatedTime
     </sql>
 
     <sql id="key-value">
@@ -28,7 +27,6 @@
         #buBiz.buID#,
         #buBiz.bizID#,
         #buBiz.status#,
-        NOW(),
         NOW()
         )
     </sql>
@@ -37,8 +35,7 @@
         SET
             BuID = #buBiz.buID#,
             BizID = #buBiz.bizID#,
-            Status = #buBiz.status#,
-            LastModifiedTime = NOW()
+            Status = #buBiz.status#
         WHERE ID = #buBiz.id#
     </sql>
 
@@ -50,8 +47,7 @@
     <delete id="deleteBuBiz" parameterClass="map">
         UPDATE BuBiz
         SET
-            Status = 0,
-            LastModifiedTime = NOW()
+            Status = 0
         WHERE ID = #id#
     </delete>
 

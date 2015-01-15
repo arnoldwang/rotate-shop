@@ -42,7 +42,8 @@
     <insert id="addCategory" parameterClass="map">
         INSERT INTO Category
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         values
         (
@@ -50,7 +51,8 @@
         #category.categoryName#,
         #category.cityID#,
         #category.categoryType#,
-        #category.status#
+        #category.status#,
+        NOW()
         )
         <selectKey resultClass="int" keyProperty="id">
             SELECT @@IDENTITY AS ID
@@ -60,8 +62,7 @@
     <update id="deleteCategoryByCategoryID" parameterClass="map">
         update Category
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE CategoryID = #categoryID#
     </update>
 
@@ -70,8 +71,7 @@
         set
         CategoryName = #category.categoryName#,
         CategoryType = #category.categoryType#,
-        Status = #category.status#,
-        LastModifiedTime = NOW()
+        Status = #category.status#
         WHERE CategoryID = #category.categoryID#
     </update>
 
