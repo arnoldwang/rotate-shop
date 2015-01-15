@@ -1,7 +1,5 @@
 package com.dianping.rotate.shop.task;
 
-import com.dianping.rotate.shop.constants.POIMessageType;
-import com.dianping.rotate.shop.service.impl.TaskRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

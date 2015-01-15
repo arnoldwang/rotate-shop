@@ -1,14 +1,12 @@
-package com.dianping.rotate.shop.service.impl;
+package com.dianping.rotate.shop.service.impl.message.runner;
 
-import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.dao.MessageQueueDAO;
 import com.dianping.rotate.shop.entity.MessageEntity;
-import com.dianping.rotate.shop.service.MessageProcessService;
+import com.dianping.rotate.shop.service.impl.ShopMessageProducer;
 import com.dianping.rotate.shop.utils.Switch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,38 +19,36 @@ import java.util.concurrent.Future;
 /**
  * Created by yangjie on 1/14/15.
  */
-public class TaskRunner implements Runnable {
+public abstract class AbstractMessageRunner implements Runnable {
     private static final int PROCESS_MESSAGE_LIMIT = 10;
     private ExecutorService threadPool = Executors.newFixedThreadPool(10);
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final int MAX_RETRY = 10;
+
+    abstract int getMessageSourceType();
+    abstract int getPOIMessageType();
+    abstract void doMessage(MessageEntity message);
+
+    protected void markMessageHasDone(MessageEntity msg) {
+        messageDAO.deleteMessage(msg.getId());
+    }
+
+    protected void markMessageHasFailed(MessageEntity msg) {
+        messageDAO.updateMessageAttemptIndex(msg.getId(),msg.getAttemptIndex()+1);
+    }
+
+    protected void publishMessageToMQ(int shopId, int bizType, String action) {
+        shopMessageProducer.send(shopId, bizType, action);
+    }
+
+    @Autowired
+    private ShopMessageProducer shopMessageProducer;
 
     @Autowired
     private MessageQueueDAO messageQueueDAO;
 
     @Autowired
-    @Qualifier("messageProcessService")
-    private MessageProcessService messageProcessService;
-
-
-    private int messageSourceType = 0;
-    private int POIMessageType = 0;
-
-    public int getMessageSourceType() {
-        return messageSourceType;
-    }
-
-    public void setMessageSourceType(int messageSourceType) {
-        this.messageSourceType = messageSourceType;
-    }
-
-    public int getPOIMessageType() {
-        return POIMessageType;
-    }
-
-    public void setPOIMessageType(int POIMessageType) {
-        this.POIMessageType = POIMessageType;
-    }
+    private MessageQueueDAO messageDAO;
 
     @Override
     public void run() {
@@ -71,7 +67,7 @@ public class TaskRunner implements Runnable {
                         tasks.add(new Callable<Void>() {
                             @Override
                             public Void call() throws Exception {
-                                messageProcessService.process(getPOIMessageType(), msg);
+                                doMessage(msg);
                                 return null;
                             }
                         });

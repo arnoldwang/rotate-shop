@@ -3,11 +3,4 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-       <bean class="com.dianping.rotate.shop.service.impl.message.process.Dispatcher" id="messageProcessService">
-              <property name="processors">
-                     <map>
-                            <entry key="0" value-ref="addShop"></entry>
-                     </map>
-              </property>
-       </bean>
 </beans>

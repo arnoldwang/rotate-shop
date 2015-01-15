@@ -6,10 +6,7 @@
     <bean id="messageProcessTask" class="com.dianping.rotate.shop.task.MessageProcessTask">
         <property name="runners">
             <list>
-                <bean class="com.dianping.rotate.shop.service.impl.TaskRunner">
-                    <property name="messageSourceType" value="0"></property>
-                    <property name="POIMessageType" value="0"></property>
-                </bean>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.AddShopMessageRunner" />
             </list>
         </property>
     </bean>
