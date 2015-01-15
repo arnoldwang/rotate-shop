@@ -8,19 +8,7 @@ public interface ShopService {
     public void openShop(int shopId);
 	public void updateRotateGroupTypeAndStatusByShopID(int shopId);
 	public void updateRotateGroupTypeAndStatusByRotateGroupId(int rotateGroupID);
-
-	/**
-	 * 系统新增poi
-	 * @param msg 消息体
-	 */
-	public void addPoiBySys(String msg);
-
-
-	/**
-	 * 用户新增poi
-	 * @param msg 消息体
-	 */
-	public void addPoiByUser(String msg);
+	public void addShop(int shopId);
 
 	/**
 	 * 更新poi信息
