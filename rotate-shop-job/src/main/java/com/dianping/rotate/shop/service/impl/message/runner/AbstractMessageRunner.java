@@ -53,7 +53,7 @@ public abstract class AbstractMessageRunner implements Runnable {
         while(true){
             try {
                 if(Switch.on()){
-					List<MessageEntity> messages = messageQueueDAO.getUnproccessedMessage(getMessageSourceType(),
+					List<MessageEntity> messages = messageQueueDAO.getUnprocessedMessage(getMessageSourceType(),
 							getPOIMessageType(),
 							MAX_RETRY, PROCESS_MESSAGE_LIMIT);
 					if (messages.size() == 0) {

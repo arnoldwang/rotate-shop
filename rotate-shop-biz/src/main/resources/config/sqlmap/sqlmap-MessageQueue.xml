@@ -66,7 +66,7 @@
         WHERE ID =#id#
     </update>
 
-    <select id="getUnproccessedMessage" resultMap="messageQueue" parameterClass="map">
+    <select id="getUnprocessedMessage" resultMap="messageQueue" parameterClass="map">
         SELECT
         <include refid="keys"/>
         FROM MessageQueue

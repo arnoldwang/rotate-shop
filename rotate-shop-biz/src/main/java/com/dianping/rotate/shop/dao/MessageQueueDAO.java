@@ -27,7 +27,7 @@ public interface MessageQueueDAO extends GenericDao {
 
 
 	@DAOAction(action = DAOActionType.QUERY)
-	List<MessageEntity> getUnproccessedMessage(@DAOParam("source") int source,
+	List<MessageEntity> getUnprocessedMessage(@DAOParam("source") int source,
 			@DAOParam("type") int type,
 			@DAOParam("maxAttemptIndex") int maxAttemptIndex,
 			@DAOParam("limit") int limit);

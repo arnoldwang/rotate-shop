@@ -21,7 +21,6 @@ public class MessageProcessTask {
 				threadPool.execute(runner);
 			}
 		}catch(Exception ex){
-			//todo:守护线程
 			logger.error(ex.getMessage(), ex);
 		}
     }
