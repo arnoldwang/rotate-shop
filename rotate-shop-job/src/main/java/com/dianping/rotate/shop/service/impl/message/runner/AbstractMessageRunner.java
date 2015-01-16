@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -20,7 +19,6 @@ import java.util.concurrent.*;
 public abstract class AbstractMessageRunner implements Runnable {
 	private static final int PROCESS_MESSAGE_LIMIT = 10;
 	public static final int INTERVAL_WHEN_NO_TASK = 100;
-	public static final int COUNT = 1000000;
 	private ExecutorService threadPool = Executors.newFixedThreadPool(10);
 	protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final int MAX_RETRY = 10;
