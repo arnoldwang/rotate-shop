@@ -19,12 +19,12 @@ import java.util.Stack;
  */
 public class CatContext {
 
-	private final Map<String, Transaction> transactions;
+	public static final String STEP_ALL = "ALL";
 	private final String transactionName;
 	private int stepCount;
 	private final Stack<Transaction> transactionStack;
 
-	private static ThreadLocal<Map<String, CatContext>> catContextMaps = new InheritableThreadLocal<Map<String, CatContext>>();
+	private static ThreadLocal<Map<String, CatContext>> catContextMaps = new ThreadLocal<Map<String, CatContext>>();
 
 	public static CatContext transaction(String transactionName) {
 		Map<String, CatContext> catContextMap = catContextMaps.get();
@@ -41,7 +41,6 @@ public class CatContext {
 	}
 
 	private CatContext(String transactionName) {
-		this.transactions = new HashMap<String, Transaction>();
 		this.transactionName = transactionName;
 		this.stepCount = 0;
 		this.transactionStack = new Stack<Transaction>();
@@ -60,29 +59,33 @@ public class CatContext {
 	}
 
 	public void startTransactionWithStep(String stepName) {
-		newTransaction("ALL");
+		newTransaction(STEP_ALL);
 		if (stepName != null) {
 			newTransaction(formatIntWithZero(incAndGetStepCount()) + "-" + stepName);
 		}
 	}
 
 	public void startNewStep(String stepName) {
-		if (!transactionStack.peek().getName().equals("ALL")) {
-			transactionStack.pop().complete();
+		if (!transactionStack.peek().getName().equals(STEP_ALL)) {
+			completeTransaction(transactionStack.pop());
 		}
 		newTransaction(formatIntWithZero(incAndGetStepCount()) + "-" + stepName);
 	}
 
 	public void stopTransaction() {
 		while (!transactionStack.isEmpty()) {
-			transactionStack.pop().complete();
+			completeTransaction(transactionStack.pop());
 		}
 		catContextMaps.remove();
 	}
 
+	private void completeTransaction(Transaction transaction) {
+		transaction.setStatus(Transaction.SUCCESS);
+		transaction.complete();
+	}
+
 	private Transaction newTransaction( String step) {
 		Transaction transaction = Cat.newTransaction(transactionName, step);
-		transactions.put(transactionName + step, transaction);
 		transactionStack.push(transaction);
 		return transaction;
 	}
