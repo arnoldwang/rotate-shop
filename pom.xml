@@ -25,6 +25,7 @@
         <data.service.verion>0.0.4-SNAPSHOT</data.service.verion>
         <avatar.version>1.0.1</avatar.version>
         <api.version>1.0.8-SNAPSHOT</api.version>
+        <smt.base.version>1.0.4-SNAPSHOT</smt.base.version>
     </properties>
     <modules>
         <module>rotate-shop-api</module>
@@ -352,6 +353,12 @@
                 <groupId>org.apache.santuario</groupId>
                 <artifactId>xmlsec</artifactId>
                 <version>1.4.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>smt-base</groupId>
+                <artifactId>smt-base</artifactId>
+                <version>${smt.base.version}</version>
             </dependency>
 
         </dependencies>

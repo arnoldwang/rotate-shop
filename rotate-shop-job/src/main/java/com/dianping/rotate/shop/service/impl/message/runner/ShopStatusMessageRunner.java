@@ -20,7 +20,7 @@ public class ShopStatusMessageRunner extends AbstractMessageRunner {
 	}
 
 	@Override
-	public void doMessage(MessageEntity message) {
+	public void doMessage(MessageEntity message) throws Exception {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 }

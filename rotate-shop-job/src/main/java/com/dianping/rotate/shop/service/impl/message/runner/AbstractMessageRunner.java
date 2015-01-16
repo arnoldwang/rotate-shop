@@ -28,13 +28,13 @@ public abstract class AbstractMessageRunner implements Runnable {
 
     abstract int getMessageSourceType();
     abstract int getPOIMessageType();
-    abstract void doMessage(MessageEntity message);
+    abstract void doMessage(MessageEntity message) throws Exception;
 
-    protected void markMessageHasDone(MessageEntity msg) {
+    private void markMessageHasDone(MessageEntity msg) {
         messageDAO.deleteMessage(msg.getId());
     }
 
-    protected void markMessageHasFailed(MessageEntity msg) {
+    private void markMessageHasFailed(MessageEntity msg) {
         messageDAO.updateMessageAttemptIndex(msg.getId(),msg.getAttemptIndex()+1);
     }
 
@@ -79,9 +79,16 @@ public abstract class AbstractMessageRunner implements Runnable {
 				public void run() {
 					try {
 						doMessage(message);
+                        markMessageHasDone(message);
 					} catch (Exception e) {
 						logger.error("Process message error " + ToStringBuilder.reflectionToString(message,
 								ToStringStyle.SHORT_PREFIX_STYLE), e);
+						try {
+							markMessageHasFailed(message);
+						} catch (Exception e1) {
+							logger.error("MarkMessageHasFailed error " + ToStringBuilder.reflectionToString(message,
+									ToStringStyle.SHORT_PREFIX_STYLE), e);
+						}
 					} finally {
 						countDownLatch.countDown();
 					}

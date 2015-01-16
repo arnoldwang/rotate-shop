@@ -10,6 +10,7 @@ import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -32,16 +33,10 @@ public class ShopAddBySystemMessageRunner extends AbstractMessageRunner {
 	}
 
 	@Override
-	public void doMessage(MessageEntity msg) {
-		try{
-			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
-			int shopId = (Integer) msgBody.get("shopId");
-			shopService.addShop(shopId);
-			publishMessageToMQ(new ShopMessage(shopId,ActionType.INSERT));
-			markMessageHasDone(msg);
-		}catch(Exception ex){
-			markMessageHasFailed(msg);
-			logger.error(ex.getMessage(),ex);
-		}
+	public void doMessage(MessageEntity msg) throws Exception {
+		Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
+		int shopId = (Integer) msgBody.get("shopId");
+		shopService.addShop(shopId);
+		publishMessageToMQ(new ShopMessage(shopId,ActionType.INSERT));
 	}
 }
