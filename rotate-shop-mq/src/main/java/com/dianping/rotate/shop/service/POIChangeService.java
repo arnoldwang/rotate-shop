@@ -12,8 +12,9 @@ public class POIChangeService {
     public final static String POI_CHANGE_MESSAGE_TYPE_FIELD="messageType";
     public final static String POI_CHANGE_MESSAGE_USER_FIELD="lastModifyUser";
     public final static String DP_ACTION_MESSAGE_TYPE_FIELD ="type";
-    /*dp_poi_change这个Topic会有各种不同的MessageType
-    * */
+    /*
+    * dp_poi_change这个Topic会有各种不同的MessageType
+    */
     public static int getPOIChangeMessageType(Message msg){
         try{
             Map<String,Object> msgMaps = JsonUtil.fromStrToMap(msg.getContent());
@@ -33,8 +34,9 @@ public class POIChangeService {
         }catch(Exception ex){}
         return "0";
     }
-    /*dp_action这个Topic会有不同的type
-    * */
+    /*
+    * dp_action这个Topic会有不同的type
+    */
     public static int getDPActionMessageType(Message msg){
         try{
             Map<String,Object> msgMaps = JsonUtil.fromStrToMap(msg.getContent());

@@ -10,7 +10,7 @@ import com.dianping.rotate.shop.utils.JsonUtil;
 import java.util.Map;
 
 /**
- * User: zhenwei.wang
+ * User: zaza
  * Date: 15-1-15
  */
 public class ShopMergeMessageRunner extends AbstractMessageRunner {

@@ -5,7 +5,7 @@ import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.json.MessageEntity;
 
 /**
- * User: zhenwei.wang
+ * User: zaza
  * Date: 15-1-15
  */
 public class CategoryMessageRunner extends AbstractMessageRunner {

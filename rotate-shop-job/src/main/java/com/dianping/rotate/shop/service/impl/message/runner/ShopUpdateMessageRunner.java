@@ -1,14 +1,16 @@
 package com.dianping.rotate.shop.service.impl.message.runner;
 
+import com.dianping.rotate.shop.constants.ActionType;
 import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.json.MessageEntity;
+import com.dianping.rotate.shop.json.ShopMessage;
 import com.dianping.rotate.shop.utils.JsonUtil;
 
 import java.util.Map;
 
 /**
- * User: zhenwei.wang
+ * User: zaza
  * Date: 15-1-15
  */
 public class ShopUpdateMessageRunner extends AbstractMessageRunner {
@@ -26,6 +28,7 @@ public class ShopUpdateMessageRunner extends AbstractMessageRunner {
 	public void doMessage(MessageEntity message) throws Exception{
         Map<String, Object> msg = JsonUtil.fromStrToMap(message.getMsg());
         int shopId = (Integer)msg.get("shopId");
-        shopService.updateShop(message.getMsg());
+        shopService.updateShop(shopId);
+        publishMessageToMQ(new ShopMessage(shopId, ActionType.UPDATE));
 	}
 }

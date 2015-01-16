@@ -125,10 +125,8 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public void updateShop(String msg) {
+	public void updateShop(int shopId) {
 		try {
-			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
-			int shopId = (Integer) msgBody.get("shopId");
 			ShopDTO shopDTO = shopService.loadShop(shopId);
 			if (shopDTO == null)
 				return;
@@ -140,7 +138,7 @@ public class ShopServiceImpl implements ShopService {
 				//todo 跟新轮转组门店关系表
 			}
 			updateApolloShop(apolloShopEntity, shopDTO);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.warn("update shop info failed", e);
 		}
 	}

@@ -22,7 +22,7 @@ public interface ShopService {
 
 	/**
 	 * 更新poi信息
-	 * @param msg 消息体
+	 * @param shopId
 	 */
-	public void updateShop(String msg);
+	public void updateShop(int shopId);
 }
