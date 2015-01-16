@@ -16,11 +16,12 @@ public class RegionMessageRunner extends AbstractMessageRunner {
 
 	@Override
 	int getPOIMessageType() {
-		return POIMessageType.SHOP_UPDATE;
+		return POIMessageType.SHOP_REGION;
 	}
 
 	@Override
 	public void doMessage(MessageEntity message) {
 		//To change body of implemented methods use File | Settings | File Templates.
+
 	}
 }

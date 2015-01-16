@@ -3,6 +3,9 @@ package com.dianping.rotate.shop.service.impl.message.runner;
 import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.json.MessageEntity;
+import com.dianping.rotate.shop.utils.JsonUtil;
+
+import java.util.Map;
 
 /**
  * User: zhenwei.wang
@@ -20,7 +23,9 @@ public class ShopUpdateMessageRunner extends AbstractMessageRunner {
 	}
 
 	@Override
-	public void doMessage(MessageEntity message) {
-		//To change body of implemented methods use File | Settings | File Templates.
+	public void doMessage(MessageEntity message) throws Exception{
+        Map<String, Object> msg = JsonUtil.fromStrToMap(message.getMsg());
+        int shopId = (Integer)msg.get("shopId");
+        shopService.updateShop(message.getMsg());
 	}
 }

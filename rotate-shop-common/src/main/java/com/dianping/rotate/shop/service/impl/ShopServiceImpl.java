@@ -118,7 +118,7 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public void updatePoi(String msg) {
+	public void updateShop(String msg) {
 		try {
 			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg);
 			int shopId = (Integer) msgBody.get("shopId");

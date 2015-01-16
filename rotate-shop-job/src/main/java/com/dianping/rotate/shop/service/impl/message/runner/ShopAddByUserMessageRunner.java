@@ -21,9 +21,6 @@ import java.util.Map;
 // 这里不要加@Service 因为在被引用的时候是根据class新生成一个实例
 public class ShopAddByUserMessageRunner extends AbstractMessageRunner {
 
-    @Autowired
-    protected ShopService shopService;
-
     @Override
     int getMessageSourceType() {
         return MessageSource.PERSON;

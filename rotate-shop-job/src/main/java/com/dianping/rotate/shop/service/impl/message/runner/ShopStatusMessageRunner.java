@@ -16,7 +16,7 @@ public class ShopStatusMessageRunner extends AbstractMessageRunner {
 
 	@Override
 	int getPOIMessageType() {
-		return POIMessageType.SHOP_UPDATE;
+		return POIMessageType.SHOP_STATUS;
 	}
 
 	@Override

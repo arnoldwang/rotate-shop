@@ -2,6 +2,7 @@ package com.dianping.rotate.shop.service.impl.message.runner;
 
 import com.dianping.rotate.shop.dao.MessageQueueDAO;
 import com.dianping.rotate.shop.json.MessageEntity;
+import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.service.impl.message.producer.ShopMessageProducer;
 import com.dianping.rotate.shop.utils.Switch;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -41,6 +42,9 @@ public abstract class AbstractMessageRunner implements Runnable {
     protected void publishMessageToMQ(Object msg) {
         shopMessageProducer.send(msg);
     }
+
+    @Autowired
+    protected ShopService shopService;
 
     @Autowired
     private ShopMessageProducer shopMessageProducer;

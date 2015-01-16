@@ -24,5 +24,5 @@ public interface ShopService {
 	 * 更新poi信息
 	 * @param msg 消息体
 	 */
-	public void updatePoi(String msg);
+	public void updateShop(String msg);
 }
