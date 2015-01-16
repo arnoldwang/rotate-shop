@@ -71,6 +71,25 @@
         </selectKey>
     </insert>
 
+    <insert id="addApolloShopExtendByList" parameterClass="map">
+        INSERT INTO ApolloShopExtend
+        (
+        <include refid="keys"/>,
+        CreatedTime
+        )
+        VALUES
+        <iterate property="extendEntities" conjunction=",">
+            (
+            #extendEntities[].shopID#,
+            #extendEntities[].type#,
+            #extendEntities[].bizID#,
+            #extendEntities[].rating#,
+            #extendEntities[].status#,
+            NOW()
+            )
+        </iterate>
+    </insert>
+
     <update id="deleteApolloShopExtendByShopID" parameterClass="map">
         update ApolloShopExtend
         set

@@ -5,10 +5,10 @@ import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.json.MessageEntity;
 
 /**
- * User: zhenwei.wang
+ * User: zaza
  * Date: 15-1-15
  */
-public class UpdateShopMessageRunner extends AbstractMessageRunner {
+public class ShopStatusMessageRunner extends AbstractMessageRunner {
 	@Override
 	int getMessageSourceType() {
 		return MessageSource.PERSON;
@@ -16,7 +16,7 @@ public class UpdateShopMessageRunner extends AbstractMessageRunner {
 
 	@Override
 	int getPOIMessageType() {
-		return POIMessageType.SHOP_UPDATE;
+		return POIMessageType.SHOP_STATUS;
 	}
 
 	@Override

@@ -21,10 +21,11 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 
 	@Override
 	public RotateGroupShopDTO getRotateGroupShop(int rotateGroupID) {
-		RotateGroupShopDTO rotateGroupShopDTO = new RotateGroupShopDTO();
+		RotateGroupShopDTO rotateGroupShopDTO = null;
 		List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
 		if(CollectionUtils.isNotEmpty(rotateGroupShopEntityList)){
 			RotateGroupShopEntity rotateGroupShopEntity = rotateGroupShopEntityList.get(0);
+			rotateGroupShopDTO = new RotateGroupShopDTO();
 			rotateGroupShopDTO.setRotateGroupID(rotateGroupShopEntity.getRotateGroupID());
 			rotateGroupShopDTO.setShopID(rotateGroupShopEntity.getShopID());
 			rotateGroupShopDTO.setShopGroupID(rotateGroupShopEntity.getShopGroupID());

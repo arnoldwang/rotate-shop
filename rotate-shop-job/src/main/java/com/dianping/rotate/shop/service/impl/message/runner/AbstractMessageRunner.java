@@ -2,6 +2,7 @@ package com.dianping.rotate.shop.service.impl.message.runner;
 
 import com.dianping.rotate.shop.dao.MessageQueueDAO;
 import com.dianping.rotate.shop.json.MessageEntity;
+import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.service.impl.message.producer.ShopMessageProducer;
 import com.dianping.rotate.shop.utils.CatContext;
 import com.dianping.rotate.shop.utils.Switch;
@@ -45,6 +46,9 @@ public abstract class AbstractMessageRunner implements Runnable {
     }
 
     @Autowired
+    protected ShopService shopService;
+
+    @Autowired
     private ShopMessageProducer shopMessageProducer;
 
     @Autowired
@@ -60,8 +64,8 @@ public abstract class AbstractMessageRunner implements Runnable {
                 if(Switch.on()){
 					CatContext.transaction(TRANSACTION_NAME).startTransactionWithStep("Load");
 					List<MessageEntity> messages = messageQueueDAO.getUnprocessedMessage(getMessageSourceType(),
-							getPOIMessageType(),
-							MAX_RETRY, PROCESS_MESSAGE_LIMIT);
+                            getPOIMessageType(),
+                            MAX_RETRY, PROCESS_MESSAGE_LIMIT);
 					if (messages.size() == 0) {
 						CatContext.transaction(TRANSACTION_NAME).startNewStep("Sleep");
 						Thread.sleep(INTERVAL_WHEN_NO_TASK);
