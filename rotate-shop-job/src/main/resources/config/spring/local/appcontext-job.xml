@@ -6,7 +6,13 @@
     <bean id="messageProcessTask" class="com.dianping.rotate.shop.task.MessageProcessTask" init-method="run">
         <property name="runners">
             <list>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runner.AddShopByUserMessageRunner" />
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopAddByUserMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.CategoryMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.RegionMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopMergeMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopMergeRecoverMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopStatusMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopUpdateMessageRunner"/>
             </list>
         </property>
     </bean>

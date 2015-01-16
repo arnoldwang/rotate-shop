@@ -11,7 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by yangjie on 1/14/15.
@@ -54,8 +57,8 @@ public abstract class AbstractMessageRunner implements Runnable {
             try {
                 if(Switch.on()){
 					List<MessageEntity> messages = messageQueueDAO.getUnprocessedMessage(getMessageSourceType(),
-							getPOIMessageType(),
-							MAX_RETRY, PROCESS_MESSAGE_LIMIT);
+                            getPOIMessageType(),
+                            MAX_RETRY, PROCESS_MESSAGE_LIMIT);
 					if (messages.size() == 0) {
 						Thread.sleep(INTERVAL_WHEN_NO_TASK);
 					} else {

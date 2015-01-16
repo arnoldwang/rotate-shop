@@ -8,7 +8,7 @@ import com.dianping.rotate.shop.json.MessageEntity;
  * User: zhenwei.wang
  * Date: 15-1-15
  */
-public class UpdateShopMessageRunner extends AbstractMessageRunner {
+public class RegionMessageRunner extends AbstractMessageRunner {
 	@Override
 	int getMessageSourceType() {
 		return MessageSource.PERSON;

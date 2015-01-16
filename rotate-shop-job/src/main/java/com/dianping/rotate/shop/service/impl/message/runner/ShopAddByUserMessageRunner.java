@@ -18,7 +18,7 @@ import java.util.Map;
  * Created by yangjie on 1/14/15.
  */
 // 这里不要加@Service 因为在被引用的时候是根据class新生成一个实例
-public class AddShopByUserMessageRunner extends AbstractMessageRunner {
+public class ShopAddByUserMessageRunner extends AbstractMessageRunner {
 
 
     @Autowired
@@ -41,8 +41,8 @@ public class AddShopByUserMessageRunner extends AbstractMessageRunner {
             Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
             int shopId = (Integer) ((Map<String, Object>)msgBody.get("pair")).get("shopId");
             shopService.addShop(shopId);
-            markMessageHasDone(msg);
             publishMessageToMQ(new ShopMessage(shopId,ActionType.INSERT));
+            markMessageHasDone(msg);
         }catch(Exception ex){
             markMessageHasFailed(msg);
             logger.error(ex.getMessage(),ex);
