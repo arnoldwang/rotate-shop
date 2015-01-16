@@ -2,8 +2,8 @@ package com.dianping.rotate.shop.service.impl;
 
 import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.exceptions.WrongShopInfoException;
+import com.dianping.rotate.shop.factory.ApolloShopExtendFactory;
 import com.dianping.rotate.shop.json.*;
-import com.dianping.rotate.shop.factory.impl.TPApolloShopExtend;
 import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import com.dianping.shopremote.remote.dto.ShopCategoryDTO;
@@ -24,7 +24,6 @@ import java.util.Map;
 /**
  * Created by yangjie on 1/13/15.
  */
-@Service
 public class ShopServiceImpl implements ShopService {
 
 	Logger logger = LoggerFactory.getLogger(ShopServiceImpl.class);
@@ -50,7 +49,13 @@ public class ShopServiceImpl implements ShopService {
 	@Autowired
 	ShopRegionDAO shopRegionDAO;
 
-    @Override
+	List<ApolloShopExtendFactory> extendFactories;
+
+	public void setExtendFactories(List<ApolloShopExtendFactory> extendFactories) {
+		this.extendFactories = extendFactories;
+	}
+
+	@Override
     public void closeShop(int shopId) {
 		apolloShopDAO.deleteApolloShopByShopID(shopId);
 
@@ -160,7 +165,7 @@ public class ShopServiceImpl implements ShopService {
 		ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
 		insertShopCategoryList(shopCategoryDTOList, shopDTO);
 		insertShopRegionList(shopRegionDTOList, shopDTO);
-		List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);//按Bu创建ApolloShopExtend
+		List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);
 		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
 			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
 			if (rotateGroupShopList.size() == 0) {
@@ -268,15 +273,18 @@ public class ShopServiceImpl implements ShopService {
 		return apolloShopEntity;
 	}
 
+	/**
+	 * 按biz为门店创建shopExtend
+	 * @param shopID
+	 * @return
+	 */
 	private List<ApolloShopExtendEntity> insertApolloShopExtendList(int shopID) {
-		List<ApolloShopExtendEntity> apolloShopExtendList = Lists.newArrayList();
-		ApolloShopExtendEntity tp_ApolloShopExtendEntity = new TPApolloShopExtend().createApolloShopExtend(shopID);
-		int tp_id = apolloShopExtendDAO.addApolloShopExtend(tp_ApolloShopExtendEntity);
-		tp_ApolloShopExtendEntity.setId(tp_id);
-		apolloShopExtendList.add(tp_ApolloShopExtendEntity);
-		//add other Bu apolloShopExtendEntity
-
-		return apolloShopExtendList;
+		List<ApolloShopExtendEntity> extendEntities = Lists.newArrayList();
+		for(ApolloShopExtendFactory factory: extendFactories){
+			extendEntities.add(factory.createApolloShopExtend(shopID));
+		}
+		apolloShopExtendDAO.addApolloShopExtendByList(extendEntities);
+		return extendEntities;
 	}
 
 
