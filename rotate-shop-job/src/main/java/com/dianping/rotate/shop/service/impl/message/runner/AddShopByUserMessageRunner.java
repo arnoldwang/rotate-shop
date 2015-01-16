@@ -10,6 +10,7 @@ import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.Map;
 
 import java.util.Map;
@@ -35,17 +36,11 @@ public class AddShopByUserMessageRunner extends AbstractMessageRunner {
     }
 
     @Override
-	@SuppressWarnings("unchecked")
-    public void doMessage(MessageEntity msg) {
-        try{
-            Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
-            int shopId = (Integer) ((Map<String, Object>)msgBody.get("pair")).get("shopId");
-            shopService.addShop(shopId);
-            markMessageHasDone(msg);
-            publishMessageToMQ(new ShopMessage(shopId,ActionType.INSERT));
-        }catch(Exception ex){
-            markMessageHasFailed(msg);
-            logger.error(ex.getMessage(),ex);
-        }
+    public void doMessage(MessageEntity msg) throws Exception {
+        Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
+        int shopId = (Integer) ((Map<String, Object>)msgBody.get("pair")).get("shopId");
+        shopService.addShop(shopId);
+        publishMessageToMQ(new ShopMessage(shopId,ActionType.INSERT));
+
     }
 }

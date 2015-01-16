@@ -66,14 +66,15 @@
         WHERE ID =#id#
     </update>
 
-    <select id="getMessage" resultMap="messageQueue" parameterClass="map">
+    <select id="getUnprocessedMessage" resultMap="messageQueue" parameterClass="map">
         SELECT
         <include refid="keys"/>
         FROM MessageQueue
         WHERE Source=#source#
         AND Type=#type#
         AND Status=1
-        AND AttemptIndex=#attemptIndex#
+        AND AttemptIndex&lt;#maxAttemptIndex#
+        ORDER BY AttemptIndex ASC
         LIMIT #limit#
     </select>
 
