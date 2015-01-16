@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * Created by yangjie on 1/14/15.
  */
 public abstract class AbstractMessageRunner implements Runnable {
-	private static final int PROCESS_MESSAGE_LIMIT = 10;
+	private static final int PROCESS_MESSAGE_LIMIT = 1000;
 	public static final int INTERVAL_WHEN_NO_TASK = 100;
 	public static final String TRANSACTION_NAME = "AddJob";
 	private ExecutorService threadPool = Executors.newFixedThreadPool(10);
