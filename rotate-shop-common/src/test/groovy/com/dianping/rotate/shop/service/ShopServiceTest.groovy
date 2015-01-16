@@ -70,6 +70,18 @@ class ShopServiceTest extends AbstractSpockTest {
         }
     }
 
+    def "test updatePoi with right data"(){
+        setup:
+        def msg = "{'shopId':21813102, 'lastModifyUser': -1234}"
+
+        when:
+        shopService.updatePoi(msg)
+
+        then:
+        def shop = apolloShopDAO.queryApolloShopByShopID(21813102).get(0)
+        21813102 == shop.getShopID()
+    }
+
     def "关闭连锁门店 在仅有1个门店的轮转组，门店组被删除"() {
         setup:
         RotateGroupEntity rotateGroup = createRotateGroup(false);

@@ -199,6 +199,8 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 
 
 	private List<RotateGroupEntity> getRotateGroupEntity(List<Integer> rotateGroupIDList) {
+		if(rotateGroupIDList.size() > 10000)
+			throw new RequestServiceException("RotateGroupIDs are too many!");
 		List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
 		if(CollectionUtils.isEmpty(rotateGroupEntityList))
 			throw new RequestServiceException("RotateGroupID does not exist or is wrong!");

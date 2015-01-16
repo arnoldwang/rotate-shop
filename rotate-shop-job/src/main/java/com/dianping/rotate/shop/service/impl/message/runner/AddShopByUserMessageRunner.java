@@ -36,6 +36,7 @@ public class AddShopByUserMessageRunner extends AbstractMessageRunner {
     }
 
     @Override
+	@SuppressWarnings("unchecked")
     public void doMessage(MessageEntity msg) throws Exception {
         Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
         int shopId = (Integer) ((Map<String, Object>)msgBody.get("pair")).get("shopId");
