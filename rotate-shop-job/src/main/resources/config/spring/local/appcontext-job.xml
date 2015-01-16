@@ -10,33 +10,5 @@
             </list>
         </property>
     </bean>
-<<<<<<< HEAD
-    <!--定时器-->
-    <!--bean id="poiMessageProcessTaskJob"
-          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="messageProcessTask"/>
-        <property name="targetMethod" value="run"/>
-        <property name="concurrent" value="false"/>
-    </bean>
-
-    <bean id="poiMessageProcessCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="poiMessageProcessTaskJob"/>
-        <property name="cronExpression" value="${rotate-shop-job.quartz.expression}"/>
-    </bean>
-
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="jobDetails">
-            <list>
-                <ref bean="poiMessageProcessTaskJob"/>
-            </list>
-        </property>
-        <property name="triggers">
-            <list>
-                <ref bean="poiMessageProcessCronTrigger"/>
-            </list>
-        </property>
-    </bean-->
-=======
->>>>>>> job-refactor-yihua.huang
 
 </beans>

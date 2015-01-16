@@ -15,7 +15,6 @@ public class MessageProcessTask {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private final ExecutorService threadPool = Executors.newFixedThreadPool(7);
 
-	@PostConstruct
     public void run(){
 		try{
 			for (Runnable runner: runners) {
@@ -33,17 +32,4 @@ public class MessageProcessTask {
         this.runners = runners;
     }
 
-<<<<<<< HEAD
-    protected  void process(){
-        try{
-            for (Runnable runner: runners) {
-                threadPool.execute(runner);
-            }
-        }catch(Exception ex){
-            //todo:守护线程
-            logger.error(ex.getMessage(), ex);
-        }
-    }
-=======
->>>>>>> job-refactor-yihua.huang
 }
