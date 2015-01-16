@@ -11,7 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by yangjie on 1/14/15.
@@ -25,13 +28,13 @@ public abstract class AbstractMessageRunner implements Runnable {
 
     abstract int getMessageSourceType();
     abstract int getPOIMessageType();
-    abstract void doMessage(MessageEntity message);
+    abstract void doMessage(MessageEntity message) throws Exception;
 
-    protected void markMessageHasDone(MessageEntity msg) {
+    private void markMessageHasDone(MessageEntity msg) {
         messageDAO.deleteMessage(msg.getId());
     }
 
-    protected void markMessageHasFailed(MessageEntity msg) {
+    private void markMessageHasFailed(MessageEntity msg) {
         messageDAO.updateMessageAttemptIndex(msg.getId(),msg.getAttemptIndex()+1);
     }
 
@@ -76,9 +79,11 @@ public abstract class AbstractMessageRunner implements Runnable {
 				public void run() {
 					try {
 						doMessage(message);
+                        markMessageHasDone(message);
 					} catch (Exception e) {
 						logger.error("Process message error " + ToStringBuilder.reflectionToString(message,
 								ToStringStyle.SHORT_PREFIX_STYLE), e);
+                        markMessageHasFailed(message);
 					} finally {
 						countDownLatch.countDown();
 					}
