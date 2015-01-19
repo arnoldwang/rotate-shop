@@ -15,11 +15,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by yangjie on 1/13/15.
@@ -104,7 +101,6 @@ public class ShopServiceImpl implements ShopService {
 			shopCountInThisRotateGroup = shops.size();
 		}
 
-
 		if (shopCountInThisRotateGroup > 0) {
 			// 有门店,设为有效
 			rotateGroup.setStatus(1);
@@ -125,22 +121,30 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public void updateShop(int shopId) {
-		try {
-			ShopDTO shopDTO = shopService.loadShop(shopId);
-			if (shopDTO == null)
-				return;
-			ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
-			if (apolloShopEntity.getShopStatus() != shopDTO.getPower()) {
-				updateRotateGroupTypeAndStatusByShopID(shopId);
-			}
-			if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
-				//todo 跟新轮转组门店关系表
-			}
-			updateApolloShop(apolloShopEntity, shopDTO);
-		} catch (Exception e) {
-			logger.warn("update shop info failed", e);
+	public void updateShop(int shopId){
+		ShopDTO shopDTO = shopService.loadShop(shopId);
+		if (shopDTO == null)
+			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
+
+		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
+		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
+		if(CollectionUtils.isEmpty(shopCategoryDTOList))
+			throw new WrongShopInfoException("add shop info failed with having no category!");
+
+		if(CollectionUtils.isEmpty(shopRegionDTOList))
+			throw new WrongShopInfoException("add shop info failed with having no region!");
+
+		ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
+		if (apolloShopEntity.getShopStatus() != shopDTO.getPower()) {
+			updateRotateGroupTypeAndStatusByShopID(shopId);
 		}
+		if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
+			updateRotateGroupShopByShopID(shopId, shopDTO.getShopGroupId());
+		}
+
+		updateApolloShop(apolloShopEntity, shopDTO);
+		updateShopCategoryList(shopCategoryDTOList, shopDTO);
+		updateShopRegionList(shopRegionDTOList, shopDTO);
 	}
 
 	@Override
@@ -285,7 +289,6 @@ public class ShopServiceImpl implements ShopService {
 		return extendEntities;
 	}
 
-
 	private void updateApolloShop(ApolloShopEntity apolloShopEntity, ShopDTO shopDTO) {
 		apolloShopEntity.setShopGroupID(shopDTO.getShopGroupId());
 		apolloShopEntity.setShopType(shopDTO.getShopType());
@@ -293,5 +296,19 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
 		apolloShopEntity.setShopStatus(shopDTO.getPower());
 		apolloShopDAO.updateApolloShop(apolloShopEntity);
+	}
+
+	private void updateShopRegionList(List<ShopRegionDTO> shopRegionDTOList, ShopDTO shopDTO) {
+		shopRegionDAO.deleteShopRegionByShopID(shopDTO.getShopId());
+		insertShopRegionList(shopRegionDTOList, shopDTO);
+	}
+
+	private void updateShopCategoryList(List<ShopCategoryDTO> shopCategoryDTOList, ShopDTO shopDTO) {
+		shopCategoryDAO.deleteShopCategoryByShopID(shopDTO.getShopId());
+		insertShopCategoryList(shopCategoryDTOList, shopDTO);
+	}
+
+	private void updateRotateGroupShopByShopID(int shopId, int shopGroupId) {
+		rotateGroupShopDAO.updateRotateGroupShopByShopID(shopId, shopGroupId);
 	}
 }

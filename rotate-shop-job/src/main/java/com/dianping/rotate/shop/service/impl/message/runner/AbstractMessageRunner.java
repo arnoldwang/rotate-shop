@@ -60,24 +60,25 @@ public abstract class AbstractMessageRunner implements Runnable {
     @Override
     public void run() {
         while(true){
-            try {
+			CatContext catContext = CatContext.transaction(TRANSACTION_NAME);
+			try {
                 if(Switch.on()){
-					CatContext.transaction(TRANSACTION_NAME).startTransactionWithStep("Load");
+					catContext.startTransactionWithStep("Load");
 					List<MessageEntity> messages = messageQueueDAO.getUnprocessedMessage(getMessageSourceType(),
                             getPOIMessageType(),
                             MAX_RETRY, PROCESS_MESSAGE_LIMIT);
 					if (messages.size() == 0) {
-						CatContext.transaction(TRANSACTION_NAME).startNewStep("Sleep");
+						catContext.startNewStep("Sleep");
 						Thread.sleep(INTERVAL_WHEN_NO_TASK);
 					} else {
-						CatContext.transaction(TRANSACTION_NAME).startNewStep("Run");
+						catContext.startNewStep("Run");
 						runMessages(messages);
 					}
 				}
             }catch(Exception ex){
                 logger.error(ex.getMessage(), ex);
             }finally {
-				CatContext.transaction(TRANSACTION_NAME).stopTransaction();
+				catContext.stopTransaction();
 			}
 		}
     }
