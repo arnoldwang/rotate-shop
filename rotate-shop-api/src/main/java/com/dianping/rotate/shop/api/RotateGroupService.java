@@ -1,7 +1,6 @@
 package com.dianping.rotate.shop.api;
 
 import com.dianping.rotate.shop.dto.RotateGroupDTO;
-import com.dianping.rotate.shop.dto.RotateGroupExtendDTO;
 
 import java.util.List;
 

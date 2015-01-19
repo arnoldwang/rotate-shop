@@ -50,6 +50,14 @@
         Limit 1
     </select>
 
+    <select id="getMessageBySwallowID" resultMap="messageQueue" parameterClass="map">
+        SELECT
+        <include refid="keys"/>
+        FROM MessageQueue
+        WHERE SwallowID=#swallowId#
+        Limit 1
+    </select>
+
     <insert id="addToMessageQueue" parameterClass="map">
         INSERT INTO MessageQueue
         <include refid="key-value"/>
@@ -58,6 +66,11 @@
     <delete id="deleteMessagePhysically" parameterClass="map">
         delete from MessageQueue
         WHERE ID =#id#
+    </delete>
+
+    <delete id="deleteMessagePhysicallyBySwallowID" parameterClass="map">
+        delete from MessageQueue
+        WHERE SwallowID =#swallowId#
     </delete>
 
     <update id="deleteMessage" parameterClass="map">

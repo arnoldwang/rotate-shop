@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractMessageRunner implements Runnable {
 	private static final int PROCESS_MESSAGE_LIMIT = 1000;
 	public static final int INTERVAL_WHEN_NO_TASK = 100;
-	public static final String TRANSACTION_NAME = "AddJob";
+	public static final String TRANSACTION_NAME = "Job";
 	private ExecutorService threadPool = Executors.newFixedThreadPool(10);
 	protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final int MAX_RETRY = 10;
@@ -60,7 +60,7 @@ public abstract class AbstractMessageRunner implements Runnable {
     @Override
     public void run() {
         while(true){
-			CatContext catContext = CatContext.transaction(TRANSACTION_NAME);
+			CatContext catContext = CatContext.transaction(TRANSACTION_NAME + "_" + getMessageSourceType());
 			try {
                 if(Switch.on()){
 					catContext.startTransactionWithStep("Load");

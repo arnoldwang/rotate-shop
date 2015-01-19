@@ -22,8 +22,14 @@ public interface MessageQueueDAO extends GenericDao {
     @DAOAction(action = DAOActionType.DELETE)
     void deleteMessagePhysically(@DAOParam("id") int id);
 
+    @DAOAction(action = DAOActionType.DELETE)
+    void deleteMessagePhysicallyBySwallowID(@DAOParam("swallowId") String swallowId);
+
     @DAOAction(action = DAOActionType.LOAD)
     MessageEntity getMessageByID(@DAOParam("id") int id);
+
+    @DAOAction(action = DAOActionType.LOAD)
+    MessageEntity getMessageBySwallowID(@DAOParam("swallowId") String swallowId);
 
 
 	@DAOAction(action = DAOActionType.QUERY)
