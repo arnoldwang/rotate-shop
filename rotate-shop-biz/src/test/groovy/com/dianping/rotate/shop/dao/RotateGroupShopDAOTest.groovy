@@ -15,9 +15,9 @@ class RotateGroupShopDAOTest extends AbstractSpockTest{
 
     def "test add update query and delete RotateGroupShop"(){
         setup:
-        int rotateGroupID = new Random().nextInt(Integer.MAX_VALUE);
-        int shopID = new Random().nextInt(Integer.MAX_VALUE);
-        int shopGroupID = new Random().nextInt(Integer.MAX_VALUE);
+        def rotateGroupID = new Random().nextInt(Integer.MAX_VALUE);
+        def shopID = new Random().nextInt(Integer.MAX_VALUE);
+        def shopGroupID = new Random().nextInt(Integer.MAX_VALUE);
         def r = new RotateGroupShopEntity();
         r.setRotateGroupID(rotateGroupID);
         r.setShopID(shopID);
@@ -28,9 +28,9 @@ class RotateGroupShopDAOTest extends AbstractSpockTest{
         rotateGroupShopDAO.addToRotateGroupShop(r);
         r.setStatus(0);
         rotateGroupShopDAO.updateRotateGroupShop(r);
-        List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShop(1)
 
         then:
+        def rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShop(1)
         rotateGroupShopEntityList.get(0).getStatus() == 0;
 
         cleanup:
@@ -73,15 +73,16 @@ class RotateGroupShopDAOTest extends AbstractSpockTest{
     def "test queryRotateGroupShopByShopID"() {
         setup:
         int shopId = 99;
-        def r = new RotateGroupShopEntity();
-        r.setShopID(shopId);
+        def r = new RotateGroupShopEntity()
+        r.setShopID(shopId)
         r.setRotateGroupID(1)
+        r.setStatus(1)
 
         when:
-        rotateGroupShopDAO.addToRotateGroupShop(r);
+        rotateGroupShopDAO.addToRotateGroupShop(r)
 
         then:
-        rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId).size() == 1;
+        1 == rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId).size()
     }
 
 

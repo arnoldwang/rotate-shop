@@ -22,16 +22,17 @@ class BizDAOTest extends AbstractSpockTest{
         r.setStatus(1);
 
         when:
-        bizDAO.addToBiz(r);
-        r.setStatus(0);
+        def id = bizDAO.addToBiz(r);
+        r.setStatus(0)
+        r.setId(id)
         bizDAO.updateBiz(r);
-        List<BizEntity> bizEntityList = bizDAO.queryBiz(1)
+        def bizEntity = bizDAO.queryBiz(id)
 
         then:
-        bizEntityList.get(0).getBizID() == 1;
-        bizEntityList.get(0).getStatus() == 0;
+        bizEntity.getBizID() == 1;
+        bizEntity.getStatus() == 0;
 
         cleanup:
-        bizDAO.deleteBiz(1);
+        bizDAO.deleteBiz(id);
     }
 }

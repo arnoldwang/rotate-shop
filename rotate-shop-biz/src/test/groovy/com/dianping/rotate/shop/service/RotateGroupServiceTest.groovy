@@ -38,7 +38,7 @@ class RotateGroupServiceTest extends AbstractSpockTest{
         RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroup(-1);
 
         then:
-        null == rotateGroupDTO.getId();
+        null == rotateGroupDTO;
     }
 
     def "test getRotateGroupWithCooperationStatus when normal"() {
@@ -55,40 +55,24 @@ class RotateGroupServiceTest extends AbstractSpockTest{
         RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroupWithCooperationStatus(-1);
 
         then:
-        null == rotateGroupDTO.getId();
+        null == rotateGroupDTO;
     }
 
     def "test getRotateGroupWithCustomerStatus when normal"() {
         when:
-        RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroupWithCustomerStatus(bizID, shopID);
+        RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroupWithCustomerStatus(rotateGroupID);
 
         then:
         rotateGroupID == rotateGroupDTO.getId();
         1 == rotateGroupDTO.getCustomerStatus();
     }
 
-    def "test getRotateGroupWithCustomerStatus when shopID is not exist"() {
+    def "test getRotateGroupWithCustomerStatus when rotateGroupDTO is not exist"() {
         when:
-        RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroupWithCustomerStatus(bizID, -1);
+        RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroupWithCustomerStatus(-1);
 
         then:
-        null == rotateGroupDTO.getId();
-    }
-
-    def "test getRotateGroupWithCustomerStatus when bizID is not exist"() {
-        when:
-        RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroupWithCustomerStatus(-1, shopID);
-
-        then:
-        null == rotateGroupDTO.getId();
-    }
-
-    def "test getRotateGroupWithCustomerStatus when bizID and shopID is not exist"() {
-        when:
-        RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroupWithCustomerStatus(-1, -1);
-
-        then:
-        null == rotateGroupDTO.getId();
+        null == rotateGroupDTO;
     }
 
     final shouldFail = new GroovyTestCase().&shouldFail
@@ -101,9 +85,7 @@ class RotateGroupServiceTest extends AbstractSpockTest{
         rotateGroupID = 111112
 
         then:
-        shouldFail(RequestServiceException){
-            rotateGroupService.getRotateGroup(rotateGroupID)
-        }
+        null == rotateGroupService.getRotateGroup(rotateGroupID)
     }
 
     def "test getRotateGroup when rotateGroupID is right"() {

@@ -14,7 +14,7 @@ import java.util.List;
 public interface MessageQueueDAO extends GenericDao {
 
     @DAOAction(action = DAOActionType.INSERT)
-    void addToMessageQueue(@DAOParam("message") MessageEntity message);
+    int addToMessageQueue(@DAOParam("message") MessageEntity message);
 
     @DAOAction(action = DAOActionType.DELETE)
     void deleteMessage(@DAOParam("id") int id);

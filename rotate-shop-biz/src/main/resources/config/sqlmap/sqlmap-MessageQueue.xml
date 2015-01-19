@@ -61,6 +61,9 @@
     <insert id="addToMessageQueue" parameterClass="map">
         INSERT INTO MessageQueue
         <include refid="key-value"/>
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT @@IDENTITY AS ID
+        </selectKey>
     </insert>
 
     <delete id="deleteMessagePhysically" parameterClass="map">

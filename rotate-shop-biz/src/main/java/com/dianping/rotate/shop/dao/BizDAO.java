@@ -6,7 +6,6 @@ import com.dianping.avatar.dao.annotation.DAOActionType;
 import com.dianping.avatar.dao.annotation.DAOParam;
 import com.dianping.rotate.shop.json.BizEntity;
 
-import java.util.List;
 
 /**
  * User: zhenwei.wang
@@ -15,7 +14,7 @@ import java.util.List;
 public interface BizDAO extends GenericDao {
 
 	@DAOAction(action = DAOActionType.INSERT)
-	public void addToBiz(@DAOParam("biz")BizEntity biz);
+	public int addToBiz(@DAOParam("biz")BizEntity biz);
 
 	@DAOAction(action = DAOActionType.DELETE)
 	public void deleteBiz(@DAOParam("bizID")int bizID);
@@ -23,6 +22,6 @@ public interface BizDAO extends GenericDao {
 	@DAOAction(action = DAOActionType.UPDATE)
 	public void updateBiz(@DAOParam("biz")BizEntity biz);
 
-	@DAOAction(action = DAOActionType.QUERY)
-	public List<BizEntity> queryBiz(@DAOParam("bizID")int bizID);
+	@DAOAction(action = DAOActionType.LOAD)
+	public BizEntity queryBiz(@DAOParam("id")int id);
 }
