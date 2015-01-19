@@ -157,7 +157,12 @@
         from ApolloShop
         where  $ruleExpression$
         order by ID
-        limit $startIndex$,$endIndex$
+        limit $startIndex$,$limitSize$
     </select>
+
+    <update id="deleteApolloShopPhysically" parameterClass="map">
+        delete from ApolloShop
+        WHERE ShopID = #shopID#
+    </update>
 
 </sqlMap>

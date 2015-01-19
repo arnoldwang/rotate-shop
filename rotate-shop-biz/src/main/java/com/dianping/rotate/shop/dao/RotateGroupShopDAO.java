@@ -28,10 +28,10 @@ public interface RotateGroupShopDAO extends GenericDao {
 	public void restoreRotateGroupShopByShopId(@DAOParam("shopId")int id);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void updateRotateGroupShop(@DAOParam("rotateGroup")RotateGroupShopEntity rotateGroupShop);
+	public void updateRotateGroupShop(@DAOParam("rotateGroupShop")RotateGroupShopEntity rotateGroupShop);
 
-	@DAOAction(action = DAOActionType.QUERY)
-	public List<RotateGroupShopEntity> queryRotateGroupShop(@DAOParam("id")int id);
+	@DAOAction(action = DAOActionType.LOAD)
+	public RotateGroupShopEntity queryRotateGroupShop(@DAOParam("id")int id);
 
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<RotateGroupShopEntity> queryRotateGroupShopByRotateGroupID(@DAOParam("rotateGroupID")int rotateGroupID);
@@ -47,4 +47,7 @@ public interface RotateGroupShopDAO extends GenericDao {
 
 	@DAOAction(action = DAOActionType.LOAD)
 	public int getShopNumInGroup(@DAOParam("shopID") int shopId);
+
+	@DAOAction(action = DAOActionType.UPDATE)
+	public void updateRotateGroupShopByShopID(@DAOParam("shopID") int shopId, @DAOParam("shopGroupID")int shopGroupId);
 }

@@ -7,24 +7,29 @@ import com.dianping.rotate.shop.factory.POIFactory;
 import com.dianping.rotate.shop.service.POIChangeService;
 import com.dianping.swallow.common.message.Message;
 import com.dianping.swallow.consumer.MessageListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by zaza on 15/1/7.
  */
 public class POIAddListener implements MessageListener {
-
     public static final int DP_ACTION_ADD_TYPE = 201;
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private POIFactory poiFactory;
 
     @Override
     public void onMessage(Message msg) throws POIMessageException {
-        if(POIChangeService.getDPActionMessageType(msg)==DP_ACTION_ADD_TYPE){
-            POIChange poiChange = poiFactory.factory(POIMessageType.SHOP_ADD);
-            if(poiChange==null) return;
-            poiChange.addToMsgQueue(msg);
+        try{
+            if(POIChangeService.getDPActionMessageType(msg)==DP_ACTION_ADD_TYPE){
+                POIChange poiChange = poiFactory.factory(POIMessageType.SHOP_ADD);
+                if(poiChange==null) return;
+                poiChange.addToMsgQueue(msg);
+            }
+        }catch(Exception ex){
+            logger.error("Accept POI Add Message Error:"+ex.getMessage(),ex);
         }
     }
 }

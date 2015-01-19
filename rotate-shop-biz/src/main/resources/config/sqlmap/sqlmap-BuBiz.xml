@@ -7,28 +7,24 @@
         <result property="buID" column="BuID"/>
         <result property="bizID" column="BizID"/>
         <result property="status" column="Status"/>
-        <result property="createdTime" column="CreatedTime"/>
-        <result property="lastModifiedTime" column="LastModifiedTime"/>
     </resultMap>
 
     <sql id="keys">
         BuID,
         BizID,
-        Status,
-        CreatedTime,
-        LastModifiedTime
+        Status
     </sql>
 
     <sql id="key-value">
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         VALUES
         (
         #buBiz.buID#,
         #buBiz.bizID#,
         #buBiz.status#,
-        NOW(),
         NOW()
         )
     </sql>
@@ -37,21 +33,22 @@
         SET
             BuID = #buBiz.buID#,
             BizID = #buBiz.bizID#,
-            Status = #buBiz.status#,
-            LastModifiedTime = NOW()
+            Status = #buBiz.status#
         WHERE ID = #buBiz.id#
     </sql>
 
     <insert id="addToBuBiz" parameterClass="map">
         INSERT INTO BuBiz
         <include refid="key-value"/>
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
     </insert>
 
     <delete id="deleteBuBiz" parameterClass="map">
         UPDATE BuBiz
         SET
-            Status = 0,
-            LastModifiedTime = NOW()
+            Status = 0
         WHERE ID = #id#
     </delete>
 

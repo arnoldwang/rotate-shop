@@ -50,14 +50,30 @@
         Limit 1
     </select>
 
+    <select id="getMessageBySwallowID" resultMap="messageQueue" parameterClass="map">
+        SELECT
+        <include refid="keys"/>
+        FROM MessageQueue
+        WHERE SwallowID=#swallowId#
+        Limit 1
+    </select>
+
     <insert id="addToMessageQueue" parameterClass="map">
         INSERT INTO MessageQueue
         <include refid="key-value"/>
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT @@IDENTITY AS ID
+        </selectKey>
     </insert>
 
     <delete id="deleteMessagePhysically" parameterClass="map">
         delete from MessageQueue
         WHERE ID =#id#
+    </delete>
+
+    <delete id="deleteMessagePhysicallyBySwallowID" parameterClass="map">
+        delete from MessageQueue
+        WHERE SwallowID =#swallowId#
     </delete>
 
     <update id="deleteMessage" parameterClass="map">
@@ -66,14 +82,15 @@
         WHERE ID =#id#
     </update>
 
-    <select id="getMessage" resultMap="messageQueue" parameterClass="map">
+    <select id="getUnprocessedMessage" resultMap="messageQueue" parameterClass="map">
         SELECT
         <include refid="keys"/>
         FROM MessageQueue
         WHERE Source=#source#
         AND Type=#type#
         AND Status=1
-        AND AttemptIndex=#attemptIndex#
+        AND AttemptIndex&lt;#maxAttemptIndex#
+        ORDER BY AttemptIndex ASC
         LIMIT #limit#
     </select>
 

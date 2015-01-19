@@ -5,10 +5,12 @@ import com.dianping.rotate.shop.constants.BizType;
 import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.json.MessageEntity;
+import com.dianping.rotate.shop.json.ShopMessage;
 import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -16,7 +18,7 @@ import java.util.Map;
  * Date: 15-1-15
  */
 //系统行为暂时未开放
-public class AddShopBySysMessageRunner extends AbstractMessageRunner {
+public class ShopAddBySystemMessageRunner extends AbstractMessageRunner {
 	@Autowired
 	ShopService shopService;
 
@@ -31,16 +33,10 @@ public class AddShopBySysMessageRunner extends AbstractMessageRunner {
 	}
 
 	@Override
-	public void doMessage(MessageEntity msg) {
-		try{
-			Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
-			int shopId = (Integer) msgBody.get("shopId");
-			shopService.addShop(shopId);
-			publishMessageToMQ(shopId, ActionType.INSERT);
-			markMessageHasDone(msg);
-		}catch(Exception ex){
-			markMessageHasFailed(msg);
-			logger.error(ex.getMessage(),ex);
-		}
+	public void doMessage(MessageEntity msg) throws Exception {
+		Map<String, Object> msgBody = JsonUtil.fromStrToMap(msg.getMsg());
+		int shopId = (Integer) msgBody.get("shopId");
+		shopService.addShop(shopId);
+		publishMessageToMQ(new ShopMessage(shopId,ActionType.INSERT));
 	}
 }

@@ -31,8 +31,7 @@ class ApolloShopServiceTest extends AbstractSpockTest {
         ApolloShopDTO apolloShopDTO = apolloShopService.getApolloShop(-1, bizID);
 
         then:
-        null == apolloShopDTO.getShopID();
-        null == apolloShopDTO.getBizID();
+        null == apolloShopDTO;
     }
 
     def "test getApolloShop when bizID is not exist"() {
@@ -49,8 +48,7 @@ class ApolloShopServiceTest extends AbstractSpockTest {
         ApolloShopDTO apolloShopDTO = apolloShopService.getApolloShop(-1, -1);
 
         then:
-        null == apolloShopDTO.getShopID();
-        null == apolloShopDTO.getBizID();
+        null == apolloShopDTO;
     }
 
     def "test getApolloShop batch when normal"() {

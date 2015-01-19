@@ -23,8 +23,8 @@ public interface ApolloShopForTerritoryService {
      * 批量获取门店ID信息
      * @param where：查询条件
      * @param startLimit:limit的起始值
-     * @param endLimit:limit的结束值
+     * @param rowSize:limit请求的行数
      * @return 符合条件的ID集合
      */
-    List<Integer> batchFetchApolloShopID(String where,int startLimit,int endLimit);
+    List<Integer> batchFetchApolloShopID(String where,int startLimit,int rowSize);
 }

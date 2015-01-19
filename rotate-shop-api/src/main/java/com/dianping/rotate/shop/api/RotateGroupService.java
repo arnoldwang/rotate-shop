@@ -1,7 +1,6 @@
 package com.dianping.rotate.shop.api;
 
 import com.dianping.rotate.shop.dto.RotateGroupDTO;
-import com.dianping.rotate.shop.dto.RotateGroupExtendDTO;
 
 import java.util.List;
 
@@ -12,14 +11,14 @@ import java.util.List;
 public interface RotateGroupService {
 
 	/**
-	 * 获取轮转组DTO，不包含任何扩展信息
+	 * 获取轮转组DTO
 	 * @param rotateGroupID 轮转组ID
 	 * @return
 	 */
 	public RotateGroupDTO getRotateGroup(int rotateGroupID);
 
 	/**
-	 * 获取轮转组DTO，不包含任何扩展信息
+	 * 获取轮转组DTO
 	 * @param bizID bizID
 	 * @param shopID 门店ID
 	 * @return

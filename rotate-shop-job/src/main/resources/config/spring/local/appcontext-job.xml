@@ -6,34 +6,15 @@
     <bean id="messageProcessTask" class="com.dianping.rotate.shop.task.MessageProcessTask" init-method="run">
         <property name="runners">
             <list>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runner.AddShopByUserMessageRunner" />
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopAddByUserMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.CategoryMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.RegionMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopMergeMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopMergeRecoverMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopStatusMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopUpdateMessageRunner"/>
             </list>
         </property>
     </bean>
-    <!--定时器-->
-    <!--bean id="poiMessageProcessTaskJob"
-          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="messageProcessTask"/>
-        <property name="targetMethod" value="run"/>
-        <property name="concurrent" value="false"/>
-    </bean>
-
-    <bean id="poiMessageProcessCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="poiMessageProcessTaskJob"/>
-        <property name="cronExpression" value="${rotate-shop-job.quartz.expression}"/>
-    </bean>
-
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="jobDetails">
-            <list>
-                <ref bean="poiMessageProcessTaskJob"/>
-            </list>
-        </property>
-        <property name="triggers">
-            <list>
-                <ref bean="poiMessageProcessCronTrigger"/>
-            </list>
-        </property>
-    </bean-->
 
 </beans>

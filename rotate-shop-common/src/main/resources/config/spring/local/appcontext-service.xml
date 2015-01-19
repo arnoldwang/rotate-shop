@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!--bean def-->
+    <bean id="rotateShopService" class="com.dianping.rotate.shop.service.impl.ShopServiceImpl">
+        <property name="extendFactories">
+            <list>
+                <bean id="marryApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.MarryApolloShopExtend"/>
+                <bean id="takeoutApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.TakeoutApolloShopExtend"/>
+                <bean id="bookApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.BookApolloShopExtend"/>
+                <bean id="spreadApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.SpreadApolloShopExtend"/>
+                <bean id="movieApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.MovieApolloShopExtend"/>
+                <bean id="tpApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.TPApolloShopExtend"/>
+                <bean id="travelApolloExtend" class="com.dianping.rotate.shop.factory.impl.TravelApolloShopExtend"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

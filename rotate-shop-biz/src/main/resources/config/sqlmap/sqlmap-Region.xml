@@ -54,7 +54,8 @@
     <insert id="addRegion" parameterClass="map">
         INSERT INTO Region
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         values
         (
@@ -62,7 +63,8 @@
         #region.regionName#,
         #region.cityID#,
         #region.regionType#,
-        #region.status#
+        #region.status#,
+        NOW()
         )
         <selectKey resultClass="int" keyProperty="id">
             SELECT @@IDENTITY AS ID
@@ -72,8 +74,7 @@
     <update id="deleteRegionByRegionID" parameterClass="map">
         update Region
         set
-        Status = 0,
-        LastModifiedTime = NOW()
+        Status = 0
         WHERE RegionID = #regionID#
     </update>
 
@@ -81,8 +82,7 @@
         update Region
         set
         RegionName = #region.regionName#,
-        Status = #region.status#,
-        LastModifiedTime = NOW()
+        Status = #region.status#
         WHERE RegionID = #region.regionID#
     </update>
 

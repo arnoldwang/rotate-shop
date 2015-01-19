@@ -24,7 +24,7 @@ import java.util.*;
 @Service("apolloShopService")
 public class ApolloShopServiceImpl implements ApolloShopService {
 
-    private final static int MAX_SHOPID_LIST_SIZE = 1000;
+    private final static int MAX_SHOPID_LIST_SIZE = 5000;
 
     @Autowired
     private ApolloShopDAO apolloShopDAO;
@@ -41,8 +41,11 @@ public class ApolloShopServiceImpl implements ApolloShopService {
     @Override
     public ApolloShopDTO getApolloShop(int shopID, int bizID) {
         ApolloShopDTO apolloShopDTO = new ApolloShopDTO();
-        processShopExtend(apolloShopDTO, shopID, bizID);
         processShop(apolloShopDTO, shopID);
+        if(apolloShopDTO.getShopID() == null) {
+            return null;
+        }
+        processShopExtend(apolloShopDTO, shopID, bizID);
         processRegion(apolloShopDTO, shopID);
         processCategory(apolloShopDTO, shopID);
         return apolloShopDTO;

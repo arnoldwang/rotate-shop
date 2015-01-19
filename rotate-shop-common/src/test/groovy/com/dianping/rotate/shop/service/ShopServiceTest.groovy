@@ -4,6 +4,7 @@ import com.dianping.rotate.shop.AbstractSpockTest
 import com.dianping.rotate.shop.dao.ApolloShopDAO
 import com.dianping.rotate.shop.dao.RotateGroupDAO
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO
+import com.dianping.rotate.shop.exceptions.WrongShopInfoException
 import com.dianping.rotate.shop.json.ApolloShopEntity
 import com.dianping.rotate.shop.json.RotateGroupEntity
 import com.dianping.rotate.shop.json.RotateGroupShopEntity
@@ -34,22 +35,22 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test addPoiBySys with single shop"() {
         setup:
-        String msg = "{'shopId': 500000, 'messageType': 4}";
+        def shopId = 21813102
 
         when:
-        shopService.addPoiBySys(msg);
+        shopService.addShop(shopId);
 
         then:
-        def shop = apolloShopDAO.queryApolloShopByShopID(500000).get(0);
-        500000 == shop.getShopID()
+        def shop = apolloShopDAO.queryApolloShopByShopID(21813102).get(0);
+        21813102 == shop.getShopID()
     }
 
     def "test addPoiBySys with mul shop"() {
         setup:
-        String msg = "{'shopId': 500012, 'messageType': 4}";
+        def shopId = 500012
 
         when:
-        shopService.addPoiBySys(msg);
+        shopService.addShop(shopId);
 
         then:
         def shop = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(500012);
@@ -58,15 +59,40 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test addPoiByUser with wrong data"() {
         setup:
-        String msg = "{'type': 201,'userId': -12345,'datetime': '2014-5-1'," +
-                "'pair': {'shopId': 12345,'shopUrl': 'http: //www.dianping.com/shop/12345'," +
-                "'shopName': '小肥羊','branchName': '小肥羊','altName': 'XX'}}";
+        def shopId = 12346
 
         when:
-        shopService.addPoiByUser(msg);
+        shopId = 12345
 
         then:
-        1 == 1;
+        GroovyAssert.shouldFail(WrongShopInfoException){
+            shopService.addShop(shopId);
+        }
+    }
+
+    def "test updatePoi with right data"(){
+        setup:
+        def shopId = 21813102
+
+        when:
+        shopService.updateShop(shopId)
+
+        then:
+        def shop = apolloShopDAO.queryApolloShopByShopID(21813102).get(0)
+        21813102 == shop.getShopID()
+    }
+
+    def "test updatePoi with wrong data"(){
+        setup:
+        def shopId = 1
+
+        when:
+        shopId = 2
+
+        then:
+        GroovyAssert.shouldFail(WrongShopInfoException){
+            shopService.updateShop(shopId)
+        }
     }
 
     def "关闭连锁门店 在仅有1个门店的轮转组，门店组被删除"() {

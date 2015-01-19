@@ -247,6 +247,11 @@
             <groupId>c3p0</groupId>
             <artifactId>c3p0</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>smt-base</groupId>
+            <artifactId>smt-base</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <resources>
