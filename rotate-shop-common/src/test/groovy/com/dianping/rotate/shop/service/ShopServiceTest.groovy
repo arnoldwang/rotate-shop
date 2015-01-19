@@ -72,14 +72,27 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test updatePoi with right data"(){
         setup:
-        def msg = "{'shopId':21813102, 'lastModifyUser': -1234}"
+        def shopId = 21813102
 
         when:
-        shopService.updatePoi(msg)
+        shopService.updateShop(shopId)
 
         then:
         def shop = apolloShopDAO.queryApolloShopByShopID(21813102).get(0)
         21813102 == shop.getShopID()
+    }
+
+    def "test updatePoi with wrong data"(){
+        setup:
+        def shopId = 1
+
+        when:
+        shopId = 2
+
+        then:
+        GroovyAssert.shouldFail(WrongShopInfoException){
+            shopService.updateShop(shopId)
+        }
     }
 
     def "关闭连锁门店 在仅有1个门店的轮转组，门店组被删除"() {
