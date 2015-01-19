@@ -18,7 +18,7 @@ import java.util.Map;
  * Date: 15-1-15
  */
 //系统行为暂时未开放
-public class AddShopBySysMessageRunner extends AbstractMessageRunner {
+public class ShopAddBySystemMessageRunner extends AbstractMessageRunner {
 	@Autowired
 	ShopService shopService;
 

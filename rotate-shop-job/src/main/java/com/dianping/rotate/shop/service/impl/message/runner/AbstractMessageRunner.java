@@ -2,7 +2,9 @@ package com.dianping.rotate.shop.service.impl.message.runner;
 
 import com.dianping.rotate.shop.dao.MessageQueueDAO;
 import com.dianping.rotate.shop.json.MessageEntity;
+import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.service.impl.message.producer.ShopMessageProducer;
+import com.dianping.rotate.shop.utils.CatContext;
 import com.dianping.rotate.shop.utils.Switch;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -20,8 +22,9 @@ import java.util.concurrent.TimeUnit;
  * Created by yangjie on 1/14/15.
  */
 public abstract class AbstractMessageRunner implements Runnable {
-	private static final int PROCESS_MESSAGE_LIMIT = 10;
+	private static final int PROCESS_MESSAGE_LIMIT = 1000;
 	public static final int INTERVAL_WHEN_NO_TASK = 100;
+	public static final String TRANSACTION_NAME = "AddJob";
 	private ExecutorService threadPool = Executors.newFixedThreadPool(10);
 	protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final int MAX_RETRY = 10;
@@ -43,6 +46,9 @@ public abstract class AbstractMessageRunner implements Runnable {
     }
 
     @Autowired
+    protected ShopService shopService;
+
+    @Autowired
     private ShopMessageProducer shopMessageProducer;
 
     @Autowired
@@ -54,21 +60,27 @@ public abstract class AbstractMessageRunner implements Runnable {
     @Override
     public void run() {
         while(true){
-            try {
+			CatContext catContext = CatContext.transaction(TRANSACTION_NAME);
+			try {
                 if(Switch.on()){
+					catContext.startTransactionWithStep("Load");
 					List<MessageEntity> messages = messageQueueDAO.getUnprocessedMessage(getMessageSourceType(),
-							getPOIMessageType(),
-							MAX_RETRY, PROCESS_MESSAGE_LIMIT);
+                            getPOIMessageType(),
+                            MAX_RETRY, PROCESS_MESSAGE_LIMIT);
 					if (messages.size() == 0) {
+						catContext.startNewStep("Sleep");
 						Thread.sleep(INTERVAL_WHEN_NO_TASK);
 					} else {
+						catContext.startNewStep("Run");
 						runMessages(messages);
 					}
 				}
             }catch(Exception ex){
                 logger.error(ex.getMessage(), ex);
-            }
-        }
+            }finally {
+				catContext.stopTransaction();
+			}
+		}
     }
 
 	private void runMessages(List<MessageEntity> messages) throws InterruptedException {

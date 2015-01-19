@@ -16,9 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by yangjie on 1/13/15.
@@ -125,9 +123,8 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public void updateShop(int shopId){
 		ShopDTO shopDTO = shopService.loadShop(shopId);
-		if (shopDTO == null) {
+		if (shopDTO == null)
 			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
-		}
 
 		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
 		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);

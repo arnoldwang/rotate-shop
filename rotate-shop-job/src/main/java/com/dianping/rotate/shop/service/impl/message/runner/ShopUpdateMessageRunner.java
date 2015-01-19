@@ -5,21 +5,15 @@ import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.json.MessageEntity;
 import com.dianping.rotate.shop.json.ShopMessage;
-import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
 /**
- * User: zhenwei.wang
+ * User: zaza
  * Date: 15-1-15
  */
-public class UpdateShopMessageRunner extends AbstractMessageRunner {
-
-	@Autowired
-	ShopService shopService;
-
+public class ShopUpdateMessageRunner extends AbstractMessageRunner {
 	@Override
 	int getMessageSourceType() {
 		return MessageSource.PERSON;
@@ -31,10 +25,10 @@ public class UpdateShopMessageRunner extends AbstractMessageRunner {
 	}
 
 	@Override
-	public void doMessage(MessageEntity message) throws Exception {
-		Map<String, Object> msgBody = JsonUtil.fromStrToMap(message.getMsg());
-		int shopId = (Integer) msgBody.get("shopId");
-		shopService.updateShop(shopId);
-		publishMessageToMQ(new ShopMessage(shopId, ActionType.UPDATE));
+	public void doMessage(MessageEntity message) throws Exception{
+        Map<String, Object> msg = JsonUtil.fromStrToMap(message.getMsg());
+        int shopId = (Integer)msg.get("shopId");
+        shopService.updateShop(shopId);
+        publishMessageToMQ(new ShopMessage(shopId, ActionType.UPDATE));
 	}
 }

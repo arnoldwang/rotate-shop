@@ -31,7 +31,8 @@ public interface ShopService {
 	public void addShop(int shopId);
 
 	/**
-	 * poi更新门店信息后，客户轮转系统更新shop、shopExtend、region、category、rotateGroup、rotateGroupShop
+	 * poi更新门店信息后，客户轮转系统更新shop、region、category、rotateGroup、rotateGroupShop
+	 * 更新poi信息
 	 * @param shopId
 	 */
 	public void updateShop(int shopId);
