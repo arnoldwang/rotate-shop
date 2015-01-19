@@ -32,6 +32,8 @@ import java.util.List;
  */
 @Service("RotateGroupService")
 public class RotateGroupServiceImpl implements RotateGroupService {
+	private final static int MAX_RESULT_SIZE = 10000;
+
 	@Autowired
 	RotateGroupDAO rotateGroupDAO;
 
@@ -212,7 +214,13 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 
 
 	private List<RotateGroupEntity> getRotateGroupEntity(List<Integer> rotateGroupIDList) {
-		return rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
+		if(rotateGroupIDList.size() > MAX_RESULT_SIZE)
+			throw new RequestServiceException("RotateGroupIDs are too many!");
+		List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
+		if(CollectionUtils.isEmpty(rotateGroupEntityList))
+			throw new RequestServiceException("RotateGroupID does not exist or is wrong!");
+		return rotateGroupEntityList;
+
 	}
 
 }

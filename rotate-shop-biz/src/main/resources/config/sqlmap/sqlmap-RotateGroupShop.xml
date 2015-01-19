@@ -140,4 +140,11 @@
         WHERE rgs1.Status = 1
         AND rgs1.RotateGroupID IN (SELECT rgs2.RotateGroupID FROM RotateGroupShop rgs2 WHERE rgs2.shopID = #shopID#)
     </select>
+
+    <update id="updateRotateGroupShopByShopID" parameterClass="map">
+        UPDATE RotateGroupShop
+        SET
+        ShopGroupID = #shopGroupID#
+        WHERE shopID = #shopID#
+    </update>
 </sqlMap>
