@@ -35,14 +35,14 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test addPoiBySys with single shop"() {
         setup:
-        def shopId = 500000
+        def shopId = 21813102
 
         when:
         shopService.addShop(shopId);
 
         then:
-        def shop = apolloShopDAO.queryApolloShopByShopID(500000).get(0);
-        500000 == shop.getShopID()
+        def shop = apolloShopDAO.queryApolloShopByShopID(21813102).get(0);
+        21813102 == shop.getShopID()
     }
 
     def "test addPoiBySys with mul shop"() {
@@ -67,6 +67,31 @@ class ShopServiceTest extends AbstractSpockTest {
         then:
         GroovyAssert.shouldFail(WrongShopInfoException){
             shopService.addShop(shopId);
+        }
+    }
+
+    def "test updatePoi with right data"(){
+        setup:
+        def shopId = 21813102
+
+        when:
+        shopService.updateShop(shopId)
+
+        then:
+        def shop = apolloShopDAO.queryApolloShopByShopID(21813102).get(0)
+        21813102 == shop.getShopID()
+    }
+
+    def "test updatePoi with wrong data"(){
+        setup:
+        def shopId = 1
+
+        when:
+        shopId = 2
+
+        then:
+        GroovyAssert.shouldFail(WrongShopInfoException){
+            shopService.updateShop(shopId)
         }
     }
 
