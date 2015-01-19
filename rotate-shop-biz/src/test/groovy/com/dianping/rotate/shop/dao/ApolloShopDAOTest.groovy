@@ -23,7 +23,6 @@ class ApolloShopDAOTest extends AbstractSpockTest {
         s.setCityID(1)
         s.setDistrict(1)
         s.setShopType(1)
-        s.setStatus(1)
         apolloShopDAO.addApolloShop(s)
 
         then:

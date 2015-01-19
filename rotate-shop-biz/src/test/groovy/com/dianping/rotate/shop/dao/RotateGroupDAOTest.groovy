@@ -24,11 +24,12 @@ public class RotateGroupDAOTest extends AbstractSpockTest {
         when:
         int id = rotateGroupDAO.addToRotateGroup(r);
         r.setStatus(1);
+        r.setId(id)
         rotateGroupDAO.updateRotateGroup(r);
-        List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.getRotateGroup(id)
+        def rotateGroupEntity = rotateGroupDAO.getRotateGroup(id)
 
         then:
-        rotateGroupEntityList.get(0).getStatus() == 1;
+        rotateGroupEntity.getStatus() == 1;
 
         cleanup:
         rotateGroupDAO.deleteRotateGroup(id);

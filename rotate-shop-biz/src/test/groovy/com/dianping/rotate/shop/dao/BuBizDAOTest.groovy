@@ -22,16 +22,16 @@ class BuBizDAOTest extends AbstractSpockTest{
         r.setStatus(1);
 
         when:
-        buBizDAO.addToBuBiz(r);
+        def id = buBizDAO.addToBuBiz(r);
         r.setStatus(5);
-        r.setId(11)
+        r.setId(id)
         buBizDAO.updateBuBiz(r);
-        List<BuBizEntity> buBizEntityList = buBizDAO.queryBuBiz(11)
+        List<BuBizEntity> buBizEntityList = buBizDAO.queryBuBiz(id)
 
         then:
         buBizEntityList.get(0).getStatus() == 5;
 
         cleanup:
-        buBizDAO.deleteBuBiz(11);
+        buBizDAO.deleteBuBiz(id);
     }
 }

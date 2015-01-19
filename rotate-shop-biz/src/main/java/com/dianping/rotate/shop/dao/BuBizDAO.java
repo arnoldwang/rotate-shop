@@ -15,7 +15,7 @@ import java.util.List;
 public interface BuBizDAO extends GenericDao {
 
 	@DAOAction(action = DAOActionType.INSERT)
-	public void addToBuBiz(@DAOParam("buBiz")BuBizEntity buBiz);
+	public int addToBuBiz(@DAOParam("buBiz")BuBizEntity buBiz);
 
 	@DAOAction(action = DAOActionType.DELETE)
 	public void deleteBuBiz(@DAOParam("id")int id);

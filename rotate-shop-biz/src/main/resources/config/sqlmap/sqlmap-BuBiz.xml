@@ -7,20 +7,18 @@
         <result property="buID" column="BuID"/>
         <result property="bizID" column="BizID"/>
         <result property="status" column="Status"/>
-        <result property="createdTime" column="CreatedTime"/>
-        <result property="lastModifiedTime" column="LastModifiedTime"/>
     </resultMap>
 
     <sql id="keys">
         BuID,
         BizID,
-        Status,
-        CreatedTime
+        Status
     </sql>
 
     <sql id="key-value">
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         VALUES
         (
@@ -42,6 +40,9 @@
     <insert id="addToBuBiz" parameterClass="map">
         INSERT INTO BuBiz
         <include refid="key-value"/>
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
     </insert>
 
     <delete id="deleteBuBiz" parameterClass="map">

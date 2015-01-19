@@ -18,11 +18,11 @@ class MessageQueueDAOTest extends AbstractSpockTest{
         message.setMsg("groovy message queue test");
         message.setSource(1);
         message.setStatus(1);
-        message.setSwallowId("0ea12334swallow");
+        message.setSwallowId(12334);
 
         when:
-        messageQueueDAO.addToMessageQueue(message);
-        MessageEntity msg = messageQueueDAO.getMessageById(1);
+        def id = messageQueueDAO.addToMessageQueue(message);
+        MessageEntity msg = messageQueueDAO.getMessageByID(id);
 
         then:
         msg.getMsg().equals("groovy message queue test");
