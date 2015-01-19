@@ -98,4 +98,11 @@ public interface ApolloShopDAO extends GenericDao {
             ,@DAOParam("startIndex") int startIndex
             ,@DAOParam("limitSize") int limitSize);
 
+    /**
+     * 硬删除Shop
+     * @param shopID
+     */
+    @DAOAction(action = DAOActionType.DELETE)
+    void deleteApolloShopPhysically(@DAOParam("shopID") int shopID);
+
 }
