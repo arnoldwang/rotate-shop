@@ -32,4 +32,5 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 		}
 		return rotateGroupShopDTO;
 	}
+
 }

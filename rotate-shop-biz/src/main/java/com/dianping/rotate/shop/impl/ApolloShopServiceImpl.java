@@ -11,6 +11,8 @@ import com.dianping.rotate.shop.json.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.json.ShopCategoryEntity;
 import com.dianping.rotate.shop.json.ShopRegionEntity;
 import com.dianping.rotate.shop.exceptions.RequestServiceException;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,23 @@ public class ApolloShopServiceImpl implements ApolloShopService {
 
     @Autowired
     private ShopCategoryDAO shopCategoryDAO;
+
+	private Function<ApolloShopEntity, ApolloShopDTO> toApolloShopDTO = new Function<ApolloShopEntity, ApolloShopDTO>() {
+		@Override
+		public ApolloShopDTO apply(ApolloShopEntity from) {
+			ApolloShopDTO to = null;
+			if(from != null){
+				to = new ApolloShopDTO();
+				to.setShopID(from.getShopID());
+				to.setShopGroupID(from.getShopGroupID());
+				to.setCityID(from.getCityID());
+				to.setDistrict(from.getDistrict());
+				to.setShopType(from.getShopType());
+				to.setShopStatus(from.getShopStatus());
+			}
+			return to;
+		}
+	};
 
     @Override
     public ApolloShopDTO getApolloShop(int shopID, int bizID) {
@@ -72,7 +91,13 @@ public class ApolloShopServiceImpl implements ApolloShopService {
         return apolloShopDTOList;
     }
 
-    @Override
+	@Override
+	public List<ApolloShopDTO> getShopByRotateGroupID(int rotateGroupID) {
+		List<ApolloShopEntity> apolloShopEntities = apolloShopDAO.queryApolloShopByRotateGroupID(rotateGroupID);
+		return Lists.transform(apolloShopEntities, toApolloShopDTO);
+	}
+
+	@Override
     public void deleteApolloShopByShopID(int shopId) {
         apolloShopDAO.deleteApolloShopByShopID(shopId);
     }

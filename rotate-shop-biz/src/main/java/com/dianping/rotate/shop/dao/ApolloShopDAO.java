@@ -98,4 +98,6 @@ public interface ApolloShopDAO extends GenericDao {
             ,@DAOParam("startIndex") int startIndex
             ,@DAOParam("limitSize") int limitSize);
 
+	@DAOAction(action = DAOActionType.QUERY)
+	List<ApolloShopEntity> queryApolloShopByRotateGroupID(@DAOParam("rotateGroupID") int rotateGroupID);
 }

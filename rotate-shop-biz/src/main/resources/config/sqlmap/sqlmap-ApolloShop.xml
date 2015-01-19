@@ -160,4 +160,16 @@
         limit $startIndex$,$limitSize$
     </select>
 
+    <select id="queryApolloShopByRotateGroupID" resultMap="apolloShop" parameterClass="map">
+        SELECT
+        ap.ID,
+        ap.ShopID,
+        ap.ShopStatus,
+        ap.ShopGroupID,
+        ap.CityID,
+        ap.District,
+        ap.ShopType
+        FROM ApolloShop ap, RotateGroupShop rgs
+        WHERE ap.ShopID = rgs.ShopID AND rgs.RotateGroupID = #rotateGroupID# AND rgs.Status = 1
+    </select>
 </sqlMap>

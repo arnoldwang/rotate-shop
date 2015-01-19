@@ -112,4 +112,26 @@ class ApolloShopServiceTest extends AbstractSpockTest {
         null == apolloShopDTOList.get(1).getBizID();
     }
 
+    def "test getShopByRotateGroupID with wrong data"(){
+        setup:
+        def rotateGroupID = 100
+
+        when:
+        def shops = apolloShopService.getShopByRotateGroupID(rotateGroupID)
+
+        then:
+        0 == shops.size()
+    }
+
+    def "test getShopByRotateGroupID with right data"(){
+        setup:
+        def rotateGroupID = 69
+
+        when:
+        def shops = apolloShopService.getShopByRotateGroupID(rotateGroupID)
+
+        then:
+        21813102 == shops.get(0).getShopID()
+    }
+
 }

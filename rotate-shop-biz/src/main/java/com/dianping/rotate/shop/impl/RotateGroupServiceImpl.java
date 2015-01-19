@@ -15,7 +15,6 @@ import com.dianping.rotate.shop.json.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.json.RotateGroupEntity;
 import com.dianping.rotate.shop.json.RotateGroupShopEntity;
 import com.dianping.rotate.shop.utils.CommonUtil;
-import com.dianping.rotate.shop.exceptions.RequestServiceException;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
