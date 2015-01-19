@@ -38,7 +38,7 @@
             ShopID = #rotateGroupShop.shopID#,
             ShopGroupID = #rotateGroupShop.shopGroupID#,
             Status = #rotateGroupShop.status#
-        WHERE ID = #id#
+        WHERE ID = #rotateGroupShop.id#
     </sql>
 
     <insert id="addToRotateGroupShop" parameterClass="map">
