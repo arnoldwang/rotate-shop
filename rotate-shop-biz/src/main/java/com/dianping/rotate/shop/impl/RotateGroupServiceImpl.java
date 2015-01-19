@@ -98,7 +98,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	private void processRotateShopDTOCooperationStatus(RotateGroupDTO rotateGroupDTO, int rotateGroupID) {
-		if(rotateGroupDTO == null) {
+		if(rotateGroupDTO != null) {
 			List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
 			List<Integer> shopIDList = getShopIDs(rotateGroupShopEntityList);
 			if(CollectionUtils.isNotEmpty(shopIDList)) {
