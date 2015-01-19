@@ -60,7 +60,7 @@ public abstract class AbstractMessageRunner implements Runnable {
     @Override
     public void run() {
         while(true){
-			CatContext catContext = CatContext.transaction(TRANSACTION_NAME);
+			CatContext catContext = CatContext.transaction(TRANSACTION_NAME + "_" + getMessageSourceType());
 			try {
                 if(Switch.on()){
 					catContext.startTransactionWithStep("Load");
