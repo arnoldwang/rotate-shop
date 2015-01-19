@@ -6,5 +6,4 @@ package com.dianping.rotate.shop.constants;
 public class MessageStatus {
     public static final int FINISHED = 0;
     public static final int NEW = 1;
-    public static final int PROCESSING = 2;
 }

@@ -160,4 +160,9 @@
         limit $startIndex$,$limitSize$
     </select>
 
+    <update id="deleteApolloShopPhysically" parameterClass="map">
+        delete from ApolloShop
+        WHERE ShopID = #shopID#
+    </update>
+
 </sqlMap>
