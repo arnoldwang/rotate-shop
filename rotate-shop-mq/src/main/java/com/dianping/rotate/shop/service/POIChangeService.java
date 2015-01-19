@@ -1,6 +1,8 @@
 package com.dianping.rotate.shop.service;
 import com.dianping.rotate.shop.utils.JsonUtil;
 import com.dianping.swallow.common.message.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
