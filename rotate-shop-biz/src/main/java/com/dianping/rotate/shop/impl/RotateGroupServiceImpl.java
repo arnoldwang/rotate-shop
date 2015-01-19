@@ -58,15 +58,23 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		}
 	};
 
-
 	@Override
 	public RotateGroupDTO getRotateGroup(int rotateGroupID) {
-		return toRotateGroupDTO.apply(getRotateGroupEntity(rotateGroupID));
+		RotateGroupDTO rotateGroupDTO = toRotateGroupDTO.apply(getRotateGroupEntity(rotateGroupID));
+		processRotateShopDTOCooperationStatus(rotateGroupDTO, rotateGroupID);
+		processRotateShopDTOCustomerStatus(rotateGroupDTO, rotateGroupID);
+		return rotateGroupDTO;
 	}
 
 	@Override
 	public RotateGroupDTO getRotateGroup(int bizID, int shopID) {
-		return toRotateGroupDTO.apply(getRotateGroupEntityByBizIDAndShopID(bizID, shopID));
+		RotateGroupDTO rotateGroupDTO = toRotateGroupDTO.apply(getRotateGroupEntityByBizIDAndShopID(bizID, shopID));
+		if(rotateGroupDTO != null) {
+			int rotateGroupID = rotateGroupDTO.getId();
+			processRotateShopDTOCooperationStatus(rotateGroupDTO, rotateGroupID);
+			processRotateShopDTOCustomerStatus(rotateGroupDTO, rotateGroupID);
+		}
+		return rotateGroupDTO;
 	}
 
 	@Override
@@ -78,6 +86,18 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	@Override
 	public RotateGroupDTO getRotateGroupWithCooperationStatus(int rotateGroupID) {
 		RotateGroupDTO rotateGroupDTO = toRotateGroupDTO.apply(getRotateGroupEntity(rotateGroupID));
+		processRotateShopDTOCooperationStatus(rotateGroupDTO, rotateGroupID);
+		return rotateGroupDTO;
+	}
+
+	@Override
+	public RotateGroupDTO getRotateGroupWithCustomerStatus(int rotateGroupID) {
+		RotateGroupDTO rotateGroupDTO = toRotateGroupDTO.apply(getRotateGroupEntity(rotateGroupID));
+		processRotateShopDTOCustomerStatus(rotateGroupDTO, rotateGroupID);
+		return rotateGroupDTO;
+	}
+
+	private void processRotateShopDTOCooperationStatus(RotateGroupDTO rotateGroupDTO, int rotateGroupID) {
 		if(rotateGroupDTO == null) {
 			List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
 			List<Integer> shopIDList = getShopIDs(rotateGroupShopEntityList);
@@ -86,12 +106,9 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 				processRotateShopCooperationStatus(apolloShopBusinessStatusEntityList, rotateGroupDTO);
 			}
 		}
-		return rotateGroupDTO;
 	}
 
-	@Override
-	public RotateGroupDTO getRotateGroupWithCustomerStatus(int rotateGroupID) {
-		RotateGroupDTO rotateGroupDTO = toRotateGroupDTO.apply(getRotateGroupEntity(rotateGroupID));
+	private void processRotateShopDTOCustomerStatus(RotateGroupDTO rotateGroupDTO, int rotateGroupID) {
 		if(rotateGroupDTO != null) {
 			List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
 			if(CollectionUtils.isNotEmpty(rotateGroupShopEntityList)) {
@@ -103,7 +120,6 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 				}
 			}
 		}
-		return rotateGroupDTO;
 	}
 
 	private RotateGroupEntity getRotateGroupEntityByBizIDAndShopID(int bizID, int shopID) {
@@ -191,18 +207,12 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	private RotateGroupEntity getRotateGroupEntity(int rotateGroupID) {
-		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.getRotateGroup(rotateGroupID);
-		if(rotateGroupEntity == null)
-			throw new RequestServiceException("RotateGroupID does not exist or is wrong!");
-		return rotateGroupEntity;
+		return rotateGroupDAO.getRotateGroup(rotateGroupID);
 	}
 
 
 	private List<RotateGroupEntity> getRotateGroupEntity(List<Integer> rotateGroupIDList) {
-		List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
-		if(CollectionUtils.isEmpty(rotateGroupEntityList))
-			throw new RequestServiceException("RotateGroupID does not exist or is wrong!");
-		return rotateGroupEntityList;
+		return rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
 	}
 
 }
