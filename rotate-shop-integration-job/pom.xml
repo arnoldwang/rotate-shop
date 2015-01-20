@@ -284,7 +284,7 @@
 
         <dependency>
             <groupId>com.dianping</groupId>
-            <artifactId>rotate-shop-common</artifactId>
+            <artifactId>rotate-shop-aggregation</artifactId>
             <version>1.0.2-SNAPSHOT</version>
         </dependency>
 
