@@ -3,6 +3,7 @@ package com.dianping.rotate.shop.service
 import com.dianping.rotate.shop.AbstractSpockTest
 import com.dianping.rotate.shop.api.ApolloShopService
 import com.dianping.rotate.shop.dto.ApolloShopDTO
+import com.dianping.rotate.shop.exceptions.RequestServiceException
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
@@ -69,17 +70,16 @@ class ApolloShopServiceTest extends AbstractSpockTest {
     }
 
     def "test getApolloShop batch when shopIDList size over 1000"() {
-        setup:
+        when:
         List<Integer> shopIDList = new ArrayList<Integer>();
         for(int i=0;i<10001;i++) {
             shopIDList.add(shopID);
         }
 
-        when:
-        List<ApolloShopDTO> apolloShopDTOList = apolloShopService.getApolloShop(shopIDList, bizID);
-
         then:
-        0 == apolloShopDTOList.size();
+        GroovyAssert.shouldFail(RequestServiceException){
+            apolloShopService.getApolloShop(shopIDList, bizID);
+        }
     }
 
     def "test getApolloShop batch when shopIDList is null"() {

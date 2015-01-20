@@ -35,26 +35,26 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test addPoiBySys with single shop"() {
         setup:
-        def shopId = 21813102
-
-        when:
-        shopService.addShop(shopId);
-
-        then:
-        def shop = apolloShopDAO.queryApolloShopByShopID(21813102).get(0);
-        21813102 == shop.getShopID()
-    }
-
-    def "test addPoiBySys with mul shop"() {
-        setup:
         def shopId = 500012
 
         when:
         shopService.addShop(shopId);
 
         then:
-        def shop = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(500012);
+        def shop = apolloShopDAO.queryApolloShopByShopID(500012).get(0);
         500012 == shop.getShopID()
+    }
+
+    def "test addPoiBySys with mul shop"() {
+        setup:
+        def shopId = 500009
+
+        when:
+        shopService.addShop(shopId);
+
+        then:
+        def shop = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(500009);
+        500009 == shop.getShopID()
     }
 
     def "test addPoiByUser with wrong data"() {
@@ -72,14 +72,14 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test updatePoi with right data"(){
         setup:
-        def shopId = 21813102
+        def shopId = 500005
 
         when:
         shopService.updateShop(shopId)
 
         then:
-        def shop = apolloShopDAO.queryApolloShopByShopID(21813102).get(0)
-        21813102 == shop.getShopID()
+        def shop = apolloShopDAO.queryApolloShopByShopID(500005).get(0)
+        500005 == shop.getShopID()
     }
 
     def "test updatePoi with wrong data"(){

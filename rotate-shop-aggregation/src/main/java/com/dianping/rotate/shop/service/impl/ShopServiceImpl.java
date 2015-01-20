@@ -124,15 +124,15 @@ public class ShopServiceImpl implements ShopService {
 	public void updateShop(int shopId){
 		ShopDTO shopDTO = shopService.loadShop(shopId);
 		if (shopDTO == null)
-			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
+			throw new WrongShopInfoException("update shop info failed with wrong shopId!");
 
 		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
 		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
 		if(CollectionUtils.isEmpty(shopCategoryDTOList))
-			throw new WrongShopInfoException("add shop info failed with having no category!");
+			throw new WrongShopInfoException("update shop info failed with having no category!");
 
 		if(CollectionUtils.isEmpty(shopRegionDTOList))
-			throw new WrongShopInfoException("add shop info failed with having no region!");
+			throw new WrongShopInfoException("update shop info failed with having no region!");
 
 		ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
 		if (apolloShopEntity.getShopStatus() != shopDTO.getPower()) {
