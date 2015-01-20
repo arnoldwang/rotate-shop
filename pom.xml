@@ -34,8 +34,8 @@
         <module>rotate-shop-mq</module>
         <module>rotate-shop-job</module>
         <module>rotate-shop-web</module>
-        <module>rotate-shop-common</module>
         <module>rotate-shop-integration-job</module>
+        <module>rotate-shop-aggregation</module>
     </modules>
     <dependencyManagement>
         <dependencies>

@@ -8,10 +8,10 @@
         <version>1.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>rotate-shop-common</artifactId>
+    <artifactId>rotate-shop-aggregation</artifactId>
     <version>1.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>rotate-shop-common</name>
+    <name>rotate-shop-aggregation</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
