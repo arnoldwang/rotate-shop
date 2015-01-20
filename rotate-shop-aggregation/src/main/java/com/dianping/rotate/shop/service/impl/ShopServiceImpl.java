@@ -135,11 +135,13 @@ public class ShopServiceImpl implements ShopService {
 			throw new WrongShopInfoException("update shop info failed with having no region!");
 
 		ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
-		if (apolloShopEntity.getShopStatus() != shopDTO.getPower()) {
-			updateRotateGroupTypeAndStatusByShopID(shopId);
-		}
 		if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
 			updateRotateGroupShopByShopID(shopId, shopDTO.getShopGroupId());
+		}
+
+		if (apolloShopEntity.getShopStatus() != shopDTO.getPower()) {
+			updateApolloShop(apolloShopEntity, shopDTO);
+			updateRotateGroupTypeAndStatusByShopID(shopId);
 		}
 
 		updateApolloShop(apolloShopEntity, shopDTO);
