@@ -25,16 +25,17 @@ class RotateGroupShopDAOTest extends AbstractSpockTest{
         r.setStatus(1);
 
         when:
-        rotateGroupShopDAO.addToRotateGroupShop(r);
-        r.setStatus(0);
+        def id = rotateGroupShopDAO.addToRotateGroupShop(r);
+        r.setStatus(8);
+        r.setId(id)
         rotateGroupShopDAO.updateRotateGroupShop(r);
 
         then:
-        def rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShop(1)
-        rotateGroupShopEntityList.get(0).getStatus() == 0;
+        def rotateGroupShopEntity = rotateGroupShopDAO.queryRotateGroupShop(id)
+        8 == rotateGroupShopEntity.getStatus();
 
         cleanup:
-        rotateGroupShopDAO.deleteRotateGroupShop(1);
+        rotateGroupShopDAO.deleteRotateGroupShop(id);
     }
 
     def "restore deleted shop"() {
