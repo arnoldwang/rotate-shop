@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
  */
 public class MessageProcessTask {
     private Logger logger = LoggerFactory.getLogger(getClass());
-    private final ExecutorService threadPool = Executors.newFixedThreadPool(7);
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
     public void run(){
 		try{

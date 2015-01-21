@@ -22,6 +22,6 @@ public class CategoryMessageRunner extends AbstractMessageRunner {
 	@Override
 	public void doMessage(MessageEntity message) {
 		//To change body of implemented methods use File | Settings | File Templates.
-
+        //对于分类树的变化，目前不不通知下游，只在后台记下，线下处理
 	}
 }

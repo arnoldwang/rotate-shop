@@ -13,6 +13,9 @@
                 <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopMergeRecoverMessageRunner"/>
                 <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopStatusMessageRunner"/>
                 <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopUpdateMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopAddBySystemMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopStatusBySystemMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopUpdateBySystemMessageRunner"/>
             </list>
         </property>
     </bean>
