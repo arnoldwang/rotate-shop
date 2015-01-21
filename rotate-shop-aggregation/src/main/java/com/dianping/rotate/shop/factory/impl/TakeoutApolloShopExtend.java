@@ -15,7 +15,7 @@ public class TakeoutApolloShopExtend implements ApolloShopExtendFactory {
 		ApolloShopExtendEntity apolloShopExtendEntity = new ApolloShopExtendEntity();
 		apolloShopExtendEntity.setShopID(shopID);
 		apolloShopExtendEntity.setType(ApolloShopTypeEnum.COMMON.getCode());
-		apolloShopExtendEntity.setBizID(BizTypeEnum.S_2.getCode());
+		apolloShopExtendEntity.setBizID(BizTypeEnum.WM.getCode());
 		apolloShopExtendEntity.setStatus(1);
 		apolloShopExtendEntity.setRating("");
 		return apolloShopExtendEntity;
