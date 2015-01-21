@@ -25,7 +25,7 @@ public interface ApolloShopDAO extends GenericDao {
 	/**
 	 * 根据shopID查询门店
 	 * @param shopId
-	 * @return 返回所有状态门店
+	 * @return 返回所有门店
 	 */
 	@DAOAction(action = DAOActionType.LOAD)
 	ApolloShopEntity queryApolloShopByShopIDWithNoStatus(@DAOParam("shopID") int shopId);
@@ -33,10 +33,18 @@ public interface ApolloShopDAO extends GenericDao {
 	/**
 	 * 根据shopID列表查询门店
 	 * @param shopIDList
-	 * @return 返回所有状态门店列表
+	 * @return 返回所有状态为正常的门店列表
 	 */
     @DAOAction(action = DAOActionType.QUERY)
     List<ApolloShopEntity> queryApolloShopByShopIDList(@DAOParam("shopIDList") List<Integer> shopIDList);
+
+    /**
+     * 根据shopID列表查询门店
+     * @param shopIDList
+     * @return 返回所有门店列表
+     */
+    @DAOAction(action = DAOActionType.QUERY)
+    List<ApolloShopEntity> queryApolloShopByShopIDListWithNoStatus(@DAOParam("shopIDList") List<Integer> shopIDList);
 
 	/**
 	 * 插入一个新门店

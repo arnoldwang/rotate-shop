@@ -54,7 +54,7 @@
         ID,
         <include refid="keys"/>
         FROM ApolloShop
-        WHERE ShopID = #shopID#
+        WHERE ShopID = #shopID# and ShopStatus = 5
     </select>
 
 
@@ -66,12 +66,24 @@
         LIMIT 1
     </select>
 
-    <select id="queryApolloShopByShopIDList" resultMap="apolloShop" parameterClass="map">
+    <select id="queryApolloShopByShopIDListWithNoStatus" resultMap="apolloShop" parameterClass="map">
         SELECT
         ID,
         <include refid="keys"/>
         FROM ApolloShop
         WHERE
+        ShopID in
+        <iterate open="(" close=")" conjunction="," property="shopIDList">
+            #shopIDList[]#
+        </iterate>
+    </select>
+
+    <select id="queryApolloShopByShopIDList" resultMap="apolloShop" parameterClass="map">
+        SELECT
+        ID,
+        <include refid="keys"/>
+        FROM ApolloShop
+        WHERE ShopStatus = 5 and
         ShopID in
         <iterate open="(" close=")" conjunction="," property="shopIDList">
             #shopIDList[]#

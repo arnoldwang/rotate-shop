@@ -83,14 +83,14 @@ public class ApolloShopServiceImpl implements ApolloShopService {
     }
 
     private void processShop(ApolloShopDTO apolloShopDTO, int shopID) {
-        List<ApolloShopEntity> apolloShopList = apolloShopDAO.queryApolloShopByShopID(shopID);
-        if(CollectionUtils.isNotEmpty(apolloShopList)) {
-            transShopEntityToDTO(apolloShopList.get(0), apolloShopDTO);
+        ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopID);
+        if(apolloShopEntity != null) {
+            transShopEntityToDTO(apolloShopEntity, apolloShopDTO);
         }
     }
 
     private void processShop(List<ApolloShopDTO> apolloShopDTOList, List<Integer> shopIDList) {
-        List<ApolloShopEntity> apolloShopEntityList = apolloShopDAO.queryApolloShopByShopIDList(shopIDList);
+        List<ApolloShopEntity> apolloShopEntityList = apolloShopDAO.queryApolloShopByShopIDListWithNoStatus(shopIDList);
         if(CollectionUtils.isNotEmpty(apolloShopEntityList)) {
             for(ApolloShopEntity apolloShopEntity : apolloShopEntityList) {
                 ApolloShopDTO apolloShopDTO = new ApolloShopDTO();

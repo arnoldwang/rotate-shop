@@ -34,7 +34,8 @@
         <module>rotate-shop-mq</module>
         <module>rotate-shop-job</module>
         <module>rotate-shop-web</module>
-        <module>rotate-shop-common</module>
+        <module>rotate-shop-integration-job</module>
+        <module>rotate-shop-aggregation</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -91,7 +92,7 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.3.3</version>
+                <version>4.3.5</version>
             </dependency>
 
             <!-- Logging -->

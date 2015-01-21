@@ -21,7 +21,7 @@ class RotateGroupServiceTest extends AbstractSpockTest{
     @Autowired
     RotateGroupService rotateGroupService;
 
-    int rotateGroupID = 11;
+    int rotateGroupID = 69;
     int shopID = 500004;
     int bizID = 6;
 
@@ -43,11 +43,11 @@ class RotateGroupServiceTest extends AbstractSpockTest{
 
     def "test getRotateGroupWithCooperationStatus when normal"() {
         when:
-        RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroupWithCooperationStatus(rotateGroupID);
+        RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroupWithCooperationStatus(19);
 
         then:
-        rotateGroupID == rotateGroupDTO.getId();
-        2 == rotateGroupDTO.getCooperationStatus();
+        19 == rotateGroupDTO.getId();
+        null == rotateGroupDTO.getCooperationStatus();
     }
 
     def "test getRotateGroupWithCooperationStatus when rotateGroupID is not exist"() {
@@ -64,7 +64,7 @@ class RotateGroupServiceTest extends AbstractSpockTest{
 
         then:
         rotateGroupID == rotateGroupDTO.getId();
-        1 == rotateGroupDTO.getCustomerStatus();
+        0 == rotateGroupDTO.getCustomerStatus();
     }
 
     def "test getRotateGroupWithCustomerStatus when rotateGroupDTO is not exist"() {
@@ -78,30 +78,26 @@ class RotateGroupServiceTest extends AbstractSpockTest{
     final shouldFail = new GroovyTestCase().&shouldFail
 
     def "test getRotateGroup when rotateGroupID is wrong"() {
-        setup:
-        def rotateGroupID = 111111
 
         when:
-        rotateGroupID = 111112
+        rotateGroupID = 1111121
 
         then:
         null == rotateGroupService.getRotateGroup(rotateGroupID)
     }
 
     def "test getRotateGroup when rotateGroupID is right"() {
-        setup:
-        def rotateGroupID = 11
 
         when:
         def r = rotateGroupService.getRotateGroup(rotateGroupID)
 
         then:
-        11 == r.getId()
+        rotateGroupID == r.getId()
     }
 
     def "test getRotateGroupList when rotateGroupIDList is right"() {
         setup:
-        def rotateGroupIDList = Lists.newArrayList(9, 7, 8)
+        def rotateGroupIDList = Lists.newArrayList(69,70,71)
 
         when:
         def entityList = rotateGroupService.getRotateGroup(rotateGroupIDList)
