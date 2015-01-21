@@ -44,7 +44,7 @@ class ApolloShopDAOTest extends AbstractSpockTest {
         PageModel result = apolloShopDAO.queryApolloShopsForTerritory(ruleExpression,bizId,10,1,100,1)
 
         then:
-        result.getRecordCount()>0
+        result != null
 
     }
 
