@@ -72,7 +72,7 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test updatePoi with right data"(){
         setup:
-        def shopId = 500005
+        def shopId = 21813147
 
         when:
         shopService.updateShop(shopId)

@@ -1,6 +1,8 @@
 package com.dianping.rotate.shop
 
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.transaction.TransactionConfiguration
+import org.springframework.transaction.annotation.Transactional
 import spock.lang.Ignore
 import spock.lang.Specification
 
@@ -11,8 +13,8 @@ import spock.lang.Specification
     "classpath*:/config/spring/common/appcontext-*.xml",
     "classpath*:/config/spring/local/appcontext-*.xml",
     "classpath*:/config/spring/test/appcontext-*.xml"])
-//@Transactional
-//@TransactionConfiguration(transactionManager = "transactionManager",defaultRollback = true)
+@Transactional
+@TransactionConfiguration(transactionManager = "transactionManager",defaultRollback = true)
 @Ignore
 public abstract class AbstractSpockTest extends Specification {
 
