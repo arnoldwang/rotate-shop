@@ -15,7 +15,7 @@ public class SpreadApolloShopExtend implements ApolloShopExtendFactory {
 		ApolloShopExtendEntity apolloShopExtendEntity = new ApolloShopExtendEntity();
 		apolloShopExtendEntity.setShopID(shopID);
 		apolloShopExtendEntity.setType(ApolloShopTypeEnum.COMMON.getCode());
-		apolloShopExtendEntity.setBizID(BizTypeEnum.T_4.getCode());
+		apolloShopExtendEntity.setBizID(BizTypeEnum.TG.getCode());
 		apolloShopExtendEntity.setStatus(1);
 		apolloShopExtendEntity.setRating("");
 		return apolloShopExtendEntity;

@@ -15,7 +15,7 @@ public class MovieApolloShopExtend implements ApolloShopExtendFactory {
 		ApolloShopExtendEntity apolloShopExtendEntity = new ApolloShopExtendEntity();
 		apolloShopExtendEntity.setShopID(shopID);
 		apolloShopExtendEntity.setType(ApolloShopTypeEnum.COMMON.getCode());
-		apolloShopExtendEntity.setBizID(BizTypeEnum.TZ_5.getCode());
+		apolloShopExtendEntity.setBizID(BizTypeEnum.DY.getCode());
 		apolloShopExtendEntity.setStatus(1);
 		apolloShopExtendEntity.setRating("");
 		return apolloShopExtendEntity;

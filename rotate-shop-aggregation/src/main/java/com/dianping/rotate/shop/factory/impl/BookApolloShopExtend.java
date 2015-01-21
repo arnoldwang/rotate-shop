@@ -15,7 +15,7 @@ public class BookApolloShopExtend implements ApolloShopExtendFactory {
 		ApolloShopExtendEntity apolloShopExtendEntity = new ApolloShopExtendEntity();
 		apolloShopExtendEntity.setShopID(shopID);
 		apolloShopExtendEntity.setType(ApolloShopTypeEnum.COMMON.getCode());
-		apolloShopExtendEntity.setBizID(BizTypeEnum.D_3.getCode());
+		apolloShopExtendEntity.setBizID(BizTypeEnum.YD.getCode());
 		apolloShopExtendEntity.setStatus(1);
 		apolloShopExtendEntity.setRating("");
 		return apolloShopExtendEntity;

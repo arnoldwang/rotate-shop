@@ -15,7 +15,7 @@ public class MarryApolloShopExtend implements ApolloShopExtendFactory {
 		ApolloShopExtendEntity apolloShopExtendEntity = new ApolloShopExtendEntity();
 		apolloShopExtendEntity.setShopID(shopID);
 		apolloShopExtendEntity.setType(ApolloShopTypeEnum.COMMON.getCode());
-		apolloShopExtendEntity.setBizID(BizTypeEnum.TG_1.getCode());
+		apolloShopExtendEntity.setBizID(BizTypeEnum.JH.getCode());
 		apolloShopExtendEntity.setStatus(1);
 		apolloShopExtendEntity.setRating("");
 		return apolloShopExtendEntity;
