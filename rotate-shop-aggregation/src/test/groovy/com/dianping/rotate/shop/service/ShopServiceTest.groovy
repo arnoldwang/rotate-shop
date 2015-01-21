@@ -58,11 +58,9 @@ class ShopServiceTest extends AbstractSpockTest {
     }
 
     def "test addPoiByUser with wrong data"() {
-        setup:
-        def shopId = 12346
 
         when:
-        shopId = 12345
+        def shopId = 12345
 
         then:
         GroovyAssert.shouldFail(WrongShopInfoException){
@@ -72,7 +70,7 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test updatePoi with right data"(){
         setup:
-        def shopId = 21813147
+        def shopId = 500005
 
         when:
         shopService.updateShop(shopId)
@@ -83,11 +81,9 @@ class ShopServiceTest extends AbstractSpockTest {
     }
 
     def "test updatePoi with wrong data"(){
-        setup:
-        def shopId = 1
 
         when:
-        shopId = 2
+        def shopId = 2
 
         then:
         GroovyAssert.shouldFail(WrongShopInfoException){

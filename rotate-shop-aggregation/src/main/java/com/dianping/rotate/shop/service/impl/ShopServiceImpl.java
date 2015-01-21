@@ -272,11 +272,28 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setCityID(shopDTO.getCityId());
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
 		apolloShopEntity.setShopType(shopDTO.getShopType());
-		apolloShopEntity.setShopStatus(shopDTO.getPower());
+		apolloShopEntity.setShopStatus(getApolloShopStatus(shopDTO.getPower(), shopDTO.getDisplayStatus()));
 
 		int id = apolloShopDAO.addApolloShop(apolloShopEntity);
 		apolloShopEntity.setId(id);
 		return apolloShopEntity;
+	}
+
+	/**
+	 * 根据门店的自然状态和审核状态返回门店的最终状态
+	 * displayStatus=1&&businessStatus=x   ======> businessStatus = x
+	 * displayStatus=0&&businessStatus=x   ======> businessStatus = 2
+	 * displayStatus=2&&businessStatus=x   ======> businessStatus = 1
+	 * @param businessStatus 门店的自然状态
+	 * @param displayStatus 门店的审核状态
+	 * @return
+	 */
+	private int getApolloShopStatus(Short businessStatus, Short displayStatus) {
+		if(displayStatus == 0)
+			return 2;
+		if(displayStatus == 1)
+			return businessStatus;
+		return 1;
 	}
 
 	/**
@@ -298,7 +315,7 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setShopType(shopDTO.getShopType());
 		apolloShopEntity.setCityID(shopDTO.getCityId());
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
-		apolloShopEntity.setShopStatus(shopDTO.getPower());
+		apolloShopEntity.setShopStatus(getApolloShopStatus(shopDTO.getPower(), shopDTO.getDisplayStatus()));
 		apolloShopDAO.updateApolloShop(apolloShopEntity);
 	}
 
