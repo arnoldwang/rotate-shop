@@ -237,6 +237,11 @@
                 <artifactId>zebra-ds-monitor-client</artifactId>
                 <version>0.0.7</version>
             </dependency>
+            <dependency>
+                <groupId>com.dianping.tuangou</groupId>
+                <artifactId>tp-dataservice-api</artifactId>
+                <version>0.0.4-SNAPSHOT</version>
+            </dependency>
 
             <!-- swallow -->
             <dependency>
