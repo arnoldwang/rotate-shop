@@ -258,6 +258,11 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.dianping.tuangou</groupId>
+            <artifactId>tp-dataservice-api</artifactId>
+        </dependency>
+
         <!-- quartz -->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
