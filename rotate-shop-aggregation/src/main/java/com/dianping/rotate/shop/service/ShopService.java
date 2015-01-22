@@ -1,5 +1,7 @@
 package com.dianping.rotate.shop.service;
 
+import java.util.List;
+
 /**
  * Created by yangjie on 1/13/15.
  */
@@ -36,4 +38,12 @@ public interface ShopService {
 	 * @param shopId
 	 */
 	public void updateShop(int shopId);
+
+	/**
+	 * 分页批量获取rotateGroupID
+	 * @param pageSize 每页的数量
+	 * @param offset 偏移量
+	 * @return ID列表
+	 */
+	public List<Integer> getRotateGroupIDList(int pageSize, int offset);
 }

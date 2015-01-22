@@ -152,6 +152,11 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
+	public List<Integer> getRotateGroupIDList(int pageSize, int offset) {
+		return rotateGroupDAO.queryRotateGroupIDList(pageSize, offset);
+	}
+
+	@Override
 	public void addShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
 		if (shopDTO == null) {

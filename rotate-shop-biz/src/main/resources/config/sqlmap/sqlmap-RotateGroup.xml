@@ -102,4 +102,11 @@
         FROM RotateGroup rg, RotateGroupShop rgs
         WHERE rg.ID = rgs.RotateGroupID and rg.Status != 0 and rgs.Status != 0 and rg.BizID = #bizID# AND rgs.ShopID = #shopID#
     </select>
+
+    <select id="queryRotateGroupIDList" resultClass="int" parameterClass="map">
+        SELECT ID
+        FROM RotateGroup
+        ORDER BY ID
+        LIMIT #offset#, #pageSize#
+    </select>
 </sqlMap>
