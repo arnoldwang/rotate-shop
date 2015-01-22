@@ -93,12 +93,12 @@ public abstract class AbstractMessageRunner implements Runnable {
 						doMessage(message);
                         markMessageHasDone(message);
 					} catch (Exception e) {
-						logger.error("Process message error " + ToStringBuilder.reflectionToString(message,
+						logger.error("Process message error :" + ToStringBuilder.reflectionToString(message,
 								ToStringStyle.SHORT_PREFIX_STYLE), e);
 						try {
 							markMessageHasFailed(message);
 						} catch (Exception e1) {
-							logger.error("MarkMessageHasFailed error " + ToStringBuilder.reflectionToString(message,
+							logger.error("MarkMessageHasFailed error :" + ToStringBuilder.reflectionToString(message,
 									ToStringStyle.SHORT_PREFIX_STYLE), e);
 						}
 					} finally {

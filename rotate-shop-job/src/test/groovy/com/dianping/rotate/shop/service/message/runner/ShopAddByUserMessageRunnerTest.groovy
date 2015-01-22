@@ -11,8 +11,7 @@ import com.dianping.rotate.shop.dao.RotateGroupDAO
 import com.dianping.rotate.shop.json.ApolloShopEntity
 import com.dianping.rotate.shop.json.ApolloShopExtendEntity
 import com.dianping.rotate.shop.json.MessageEntity
-import com.dianping.rotate.shop.service.impl.message.runner.ShopAddByUserMessageRunner
-import com.dianping.rotate.shop.task.MessageProcessTask
+import com.dianping.rotate.shop.service.impl.message.runner.ShopAddMessageRunner
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
@@ -20,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired
  */
 class ShopAddByUserMessageRunnerTest extends AbstractSpockTest{
     @Autowired
-    private ShopAddByUserMessageRunner shopAddByUserMessageRunner;
+    private ShopAddMessageRunner shopAddByUserMessageRunner;
     @Autowired
     private MessageQueueDAO messageQueueDAO;
     @Autowired
