@@ -1,11 +1,11 @@
 package com.dianping.rotate.shop.service.impl;
 
+import com.dianping.rotate.shop.constants.RotateGroupTypeEnum;
 import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.exceptions.WrongShopInfoException;
 import com.dianping.rotate.shop.factory.ApolloShopExtendFactory;
 import com.dianping.rotate.shop.json.*;
 import com.dianping.rotate.shop.service.ShopService;
-import com.dianping.rotate.shop.utils.JsonUtil;
 import com.dianping.shopremote.remote.dto.ShopCategoryDTO;
 import com.dianping.shopremote.remote.dto.ShopDTO;
 import com.dianping.shopremote.remote.dto.ShopRegionDTO;
@@ -107,10 +107,10 @@ public class ShopServiceImpl implements ShopService {
 
 			if (shopCountInThisRotateGroup > 1) {
 				// 大于1家门店,设为连锁店
-				rotateGroup.setType(1);
+				rotateGroup.setType(RotateGroupTypeEnum.CHAIN.getCode());
 			} else {
 				// 单店
-				rotateGroup.setType(0);
+				rotateGroup.setType(RotateGroupTypeEnum.SINGLE.getCode());
 			}
 		} else {
 			// 没有门店，设为无效
@@ -180,7 +180,11 @@ public class ShopServiceImpl implements ShopService {
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			} else {
 				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
-				setRotateGroupToStores(rotateGroupID);//更新轮转组type
+				int apolloShopID = rotateGroupShopList.get(0).getShopID();
+				int apolloShopExtendType = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(apolloShopID, apolloShopExtend.getBizID()).get(0).getType();
+				apolloShopExtend.setType(apolloShopExtendType);
+				changeApolloShopExtendType(apolloShopExtend);
+				changeRotateGroupType(rotateGroupID);//更新轮转组type
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			}
 		}
@@ -250,7 +254,7 @@ public class ShopServiceImpl implements ShopService {
 			if (apolloShopExtend != null) {
 				RotateGroupEntity rotateGroupEntity = new RotateGroupEntity();
 				rotateGroupEntity.setBizID(apolloShopExtend.getBizID());
-				rotateGroupEntity.setType(0);//0：单店；1：连锁店
+				rotateGroupEntity.setType(RotateGroupTypeEnum.SINGLE.getCode());//0：单店；1：连锁店
 				rotateGroupEntity.setStatus(1);
 				int rotateGroupID = rotateGroupDAO.addToRotateGroup(rotateGroupEntity);
 				rotateGroupIDList.add(rotateGroupID);
@@ -259,10 +263,14 @@ public class ShopServiceImpl implements ShopService {
 		return rotateGroupIDList;
 	}
 
-	private void setRotateGroupToStores(int rotateGroupID) {
+	private void changeRotateGroupType(int rotateGroupID) {
 		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.getRotateGroup(rotateGroupID);
-		rotateGroupEntity.setType(1);//0：单店；1：连锁店
+		rotateGroupEntity.setType(RotateGroupTypeEnum.CHAIN.getCode());//0：单店；1：连锁店
 		rotateGroupDAO.updateRotateGroup(rotateGroupEntity);
+	}
+
+	private void changeApolloShopExtendType(ApolloShopExtendEntity apolloShopExtend) {
+		apolloShopExtendDAO.updateApolloShopExtend(apolloShopExtend);
 	}
 
 	private ApolloShopEntity insertApolloShop(ShopDTO shopDTO) {

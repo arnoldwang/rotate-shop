@@ -2,6 +2,7 @@ package com.dianping.rotate.shop.service
 
 import com.dianping.rotate.shop.AbstractSpockTest
 import com.dianping.rotate.shop.dao.ApolloShopDAO
+import com.dianping.rotate.shop.dao.ApolloShopExtendDAO
 import com.dianping.rotate.shop.dao.RotateGroupDAO
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO
 import com.dianping.rotate.shop.exceptions.WrongShopInfoException
@@ -16,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired
 class ShopServiceTest extends AbstractSpockTest {
     @Autowired
     ApolloShopDAO apolloShopDAO;
+
+    @Autowired
+    ApolloShopExtendDAO apolloShopExtendDAO;
 
     @Autowired
     ShopService shopService;
@@ -47,14 +51,16 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test addPoiBySys with mul shop"() {
         setup:
-        def shopId = 500009
+        def shopId = 503837
 
         when:
         shopService.addShop(shopId);
 
         then:
-        def shop = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(500009);
-        500009 == shop.getShopID()
+        def shop = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(503837);
+        503837 == shop.getShopID()
+        def shopExtend = apolloShopExtendDAO.queryApolloShopExtendByShopID(503837).get(0)
+        1 == shopExtend.getType()
     }
 
     def "test addPoiByUser with wrong data"() {

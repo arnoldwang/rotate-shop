@@ -110,9 +110,8 @@
         set
         Type = #apolloShopExtend.type#,
         BizID = #apolloShopExtend.bizID#,
-        Rating = #apolloShopExtend.rating#,
-        Status = #apolloShopExtend.status#
-        WHERE ShopID = #apolloShopExtend.shopID#
+        Rating = #apolloShopExtend.rating#
+        WHERE ShopID = #apolloShopExtend.shopID# and BizID = #apolloShopExtend.bizID#
     </update>
 
     <select id="getApolloShopExtendNumByShopID" resultClass="int" parameterClass="map">
@@ -121,4 +120,5 @@
         WHERE ShopID = #shopID#
         AND Status != 0
     </select>
+
 </sqlMap>
