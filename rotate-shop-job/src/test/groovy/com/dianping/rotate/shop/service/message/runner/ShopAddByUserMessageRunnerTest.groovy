@@ -56,4 +56,24 @@ class ShopAddByUserMessageRunnerTest extends AbstractSpockTest{
         cleanup:
         messageQueueDAO.deleteMessagePhysicallyBySwallowID(swallowID+"");
     }
+
+    /*
+    def "add test data"(){
+        setup:
+        MessageEntity msg = new MessageEntity();
+        for(int i=500000 ;i<600000;i++){
+            msg.setSwallowId(swallowID);
+            msg.setStatus(MessageStatus.NEW);
+            msg.setSource(MessageSource.PERSON);
+            msg.setAttemptIndex(0);
+            String msgStr1 = "{\"type\": 201,\"userId\": -12345,\"datetime\": \"2014-5-1\",\"pair\": {\"shopId\": ";
+            String msgN = i+"";
+            String msgStr2 = ",\"shopUrl\": \"http: //www.dianping.com/shop/12345\",\"shopName\": \"小肥羊\",\"branchName\": \"小肥羊\",\"altName\": \"XX\",\"address\": \"XXXX路\",\"crossRoad\": \"XXXXX\",\"businessHours\": \"4-5\",\"publicTransit\": \"XXXX\",\"priceInfo\": \"XXXXX\",\"userIP\": \"10.2.3.4\",\"msgStatus\": 0}}";
+            String msgStr = msgStr1+msgN+msgStr2;
+            msg.setMsg(msgStr);
+            msg.setType(POIMessageType.SHOP_ADD);
+            messageQueueDAO.addToMessageQueue(msg);
+        }
+    }
+    */
 }
