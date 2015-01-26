@@ -1,5 +1,6 @@
 package com.dianping.rotate.shop.service.impl;
 
+import com.dianping.combiz.service.CityService;
 import com.dianping.rotate.shop.constants.RotateGroupTypeEnum;
 import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.exceptions.WrongShopInfoException;
@@ -27,6 +28,9 @@ public class ShopServiceImpl implements ShopService {
 
 	@Autowired
 	com.dianping.shopremote.remote.ShopService shopService;
+
+	@Autowired
+	CityService cityService;
 
 	@Autowired
 	ApolloShopDAO apolloShopDAO;
@@ -281,6 +285,7 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
 		apolloShopEntity.setShopType(shopDTO.getShopType());
 		apolloShopEntity.setShopStatus(getApolloShopStatus(shopDTO.getPower(), shopDTO.getDisplayStatus()));
+		apolloShopEntity.setProvinceID(cityService.loadCity(shopDTO.getCityId()).getProvinceID());
 
 		int id = apolloShopDAO.addApolloShop(apolloShopEntity);
 		apolloShopEntity.setId(id);
@@ -324,6 +329,8 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setCityID(shopDTO.getCityId());
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
 		apolloShopEntity.setShopStatus(getApolloShopStatus(shopDTO.getPower(), shopDTO.getDisplayStatus()));
+		apolloShopEntity.setProvinceID(cityService.loadCity(shopDTO.getCityId()).getProvinceID());
+		
 		apolloShopDAO.updateApolloShop(apolloShopEntity);
 	}
 
