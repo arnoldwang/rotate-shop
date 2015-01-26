@@ -31,14 +31,17 @@ public class SyncRotateGroupTypeTask {
 		}
 
 		logger.info("SyncRotateGroupTypeTask.running...");
+		System.out.println("SyncRotateGroupTypeTask.running...");
 		long beginTime = System.currentTimeMillis();
 
 		syncRotateGroupType();
 
 		long endTime = System.currentTimeMillis();
 		logger.info("SyncRotateGroupTypeTask.end");
+		System.out.println("SyncRotateGroupTypeTask.end");
 		long useTime = (endTime - beginTime) / 1000;
 		logger.info("This task use " + useTime / 3600 + " H " + useTime % 3600 / 60 + " m " + useTime % (3600 * 60) + " s!");
+		System.out.println("This task use " + useTime / 3600 + " H " + useTime % 3600 / 60 + " m " + useTime % (3600 * 60) + " s!");
 	}
 
 	private void syncRotateGroupType() {
@@ -55,10 +58,11 @@ public class SyncRotateGroupTypeTask {
 				}
 
 				for (int rotateGroupID : rotateGroupIDList) {
-					shopService.updateRotateGroupTypeAndStatusByRotateGroupId(rotateGroupID);
+					shopService.updateRotateGroupTypeAndStatus(rotateGroupID);
 				}
 
-				logger.info("sync date from " + (index - page) + " to " + index);
+				logger.info("sync date from " + rotateGroupIDList.get(0) + " to " + (rotateGroupIDList.get(0) + page));
+				System.out.println("sync date from " + rotateGroupIDList.get(0) + " to " + (rotateGroupIDList.get(0) + page));
 				index += page;
 			} catch (Exception e) {
 				logger.warn("sync data failed!", e);

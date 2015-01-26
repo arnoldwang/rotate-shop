@@ -25,6 +25,7 @@ public interface ShopService {
 	 * @param rotateGroupID
 	 */
 	public void updateRotateGroupTypeAndStatusByRotateGroupId(int rotateGroupID);
+	public void updateRotateGroupTypeAndStatus(int rotateGroupID);
 
 	/**
 	 * poi新增门店后，客户轮转系统初始化shop、shopExtend、region、category、rotateGroup、rotateGroupShop
