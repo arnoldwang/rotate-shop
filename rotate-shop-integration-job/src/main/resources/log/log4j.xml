@@ -130,6 +130,10 @@
         <appender-ref ref="locationAppender"/>
         <appender-ref ref="catAppender"/>
     </logger>
+    <logger name="com.dianping.rotate.shop.task" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="CONSOLE"/>
+    </logger>
     <root>
         <level value="ERROR"/>
         <appender-ref ref="CONSOLE"/>

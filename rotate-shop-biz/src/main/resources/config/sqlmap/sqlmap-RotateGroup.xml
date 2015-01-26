@@ -109,4 +109,11 @@
         ORDER BY ID
         LIMIT #offset#, #pageSize#
     </select>
+
+    <select id="getMaxRotateGroupID" resultClass="int">
+        SELECT ID
+        FROM RotateGroup
+        ORDER BY ID DESC
+        LIMIT 1
+    </select>
 </sqlMap>

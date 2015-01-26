@@ -47,4 +47,10 @@ public interface ShopService {
 	 * @return ID列表
 	 */
 	public List<Integer> getRotateGroupIDList(int pageSize, int offset);
+
+	/**
+	 * 获得最大的RotateGroupID
+	 * @return
+	 */
+	public int getMaxRotateGroupID();
 }

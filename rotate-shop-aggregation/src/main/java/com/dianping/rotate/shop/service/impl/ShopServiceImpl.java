@@ -192,6 +192,11 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
+	public int getMaxRotateGroupID() {
+		return rotateGroupDAO.getMaxRotateGroupID();
+	}
+
+	@Override
 	public void addShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
 		if (shopDTO == null) {
