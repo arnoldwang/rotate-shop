@@ -136,9 +136,8 @@
 
     <select id="getShopNumInGroup" resultClass="int" parameterClass="map">
         SELECT COUNT(*)
-        FROM RotateGroupShop rgs1
-        WHERE rgs1.Status = 1
-        AND rgs1.RotateGroupID IN (SELECT rgs2.RotateGroupID FROM RotateGroupShop rgs2 WHERE rgs2.shopID = #shopID#)
+        FROM RotateGroupShop rgs, ApolloShop ap
+        WHERE  rgs.RotateGroupID = #rotateGroupID# AND rgs.ShopID = ap.ShopID AND ap.ShopStatus = 5 AND rgs.Status = 1
     </select>
 
     <update id="updateRotateGroupShopByShopID" parameterClass="map">
