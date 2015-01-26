@@ -40,8 +40,8 @@ public class SyncRotateGroupTypeTask {
 		logger.info("SyncRotateGroupTypeTask.end");
 		System.out.println("SyncRotateGroupTypeTask.end");
 		long useTime = (endTime - beginTime) / 1000;
-		logger.info("This task use " + useTime / 3600 + " H " + useTime % 3600 / 60 + " m " + useTime % (3600 * 60) + " s!");
-		System.out.println("This task use " + useTime / 3600 + " H " + useTime % 3600 / 60 + " m " + useTime % (3600 * 60) + " s!");
+		logger.info("This task use " + useTime / 3600 + " H " + useTime % 3600 / 60 + " m " + useTime % 3600 % 60 + " s!");
+		System.out.println("This task use " + useTime / 3600 + " H " + useTime % 3600 / 60 + " m " + useTime % 3600 % 60 + " s!");
 	}
 
 	private void syncRotateGroupType() {
