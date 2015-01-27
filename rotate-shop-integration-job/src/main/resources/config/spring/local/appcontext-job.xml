@@ -3,4 +3,19 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+       <bean id="apolloShopBusinessDataProcessorTask" class="com.dianping.rotate.shop.task.ApolloShopBusinessDataProcessorTask">
+       </bean>
+
+       <bean id="apolloShopBusinessDataProcessorTaskJob"
+             class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+              <property name="targetObject" ref="apolloShopBusinessDataProcessorTask"/>
+              <property name="targetMethod" value="process"/>
+              <property name="concurrent" value="false"/>
+       </bean>
+
+       <bean id="visitRankExtCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+              <property name="jobDetail" ref="apolloShopBusinessDataProcessorTaskJob"/>
+              <property name="cronExpression" value="${rotate-shop-integration-job.apolloShopBusinessDataProcessorTask.quartz.expression}"/>
+       </bean>
+
 </beans>
