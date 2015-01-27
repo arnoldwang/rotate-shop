@@ -206,20 +206,19 @@ public class ShopServiceImpl implements ShopService {
 		if (shopDTO == null) {
 			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
 		}
-		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
-		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
-		if (CollectionUtils.isEmpty(shopCategoryDTOList))
-			throw new WrongShopInfoException("add shop info failed with having no category!");
-
-		if (CollectionUtils.isEmpty(shopRegionDTOList))
-			throw new WrongShopInfoException("add shop info failed with having no region!");
 
 		if (apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId) != null) {
 			throw new WrongShopInfoException("add shop info failed with shop existed!");
 		}
+
+		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
+		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
+
 		ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
-		insertShopCategoryList(shopCategoryDTOList, shopDTO);
-		insertShopRegionList(shopRegionDTOList, shopDTO);
+		if(CollectionUtils.isNotEmpty(shopCategoryDTOList))
+			insertShopCategoryList(shopCategoryDTOList, shopDTO);
+		if(CollectionUtils.isNotEmpty(shopRegionDTOList))
+			insertShopRegionList(shopRegionDTOList, shopDTO);
 		List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);
 		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
 			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
