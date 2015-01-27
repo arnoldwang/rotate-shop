@@ -21,6 +21,8 @@ public class ApolloShopDTO implements Serializable{
     private Integer mainRegionID;
     private Integer mainCategoryId;
 
+	private Integer provinceID;
+
     public Integer getShopID() {
         return shopID;
     }
@@ -116,4 +118,12 @@ public class ApolloShopDTO implements Serializable{
     public void setMainCategoryId(Integer mainCategoryId) {
         this.mainCategoryId = mainCategoryId;
     }
+
+	public Integer getProvinceID() {
+		return provinceID;
+	}
+
+	public void setProvinceID(Integer provinceID) {
+		this.provinceID = provinceID;
+	}
 }
