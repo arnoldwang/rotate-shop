@@ -1,11 +1,12 @@
 package com.dianping.rotate.shop.service.impl;
 
+import com.dianping.combiz.service.CityService;
+import com.dianping.rotate.shop.constants.RotateGroupTypeEnum;
 import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.exceptions.WrongShopInfoException;
 import com.dianping.rotate.shop.factory.ApolloShopExtendFactory;
 import com.dianping.rotate.shop.json.*;
 import com.dianping.rotate.shop.service.ShopService;
-import com.dianping.rotate.shop.utils.JsonUtil;
 import com.dianping.shopremote.remote.dto.ShopCategoryDTO;
 import com.dianping.shopremote.remote.dto.ShopDTO;
 import com.dianping.shopremote.remote.dto.ShopRegionDTO;
@@ -27,6 +28,9 @@ public class ShopServiceImpl implements ShopService {
 
 	@Autowired
 	com.dianping.shopremote.remote.ShopService shopService;
+
+	@Autowired
+	CityService cityService;
 
 	@Autowired
 	ApolloShopDAO apolloShopDAO;
@@ -53,11 +57,11 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-    public void closeShop(int shopId) {
+	public void closeShop(int shopId) {
 		apolloShopDAO.deleteApolloShopByShopID(shopId);
 
 		updateRotateGroupTypeAndStatusByShopID(shopId);
-    }
+	}
 
 	@Override
 	public void openShop(int shopId) {
@@ -68,7 +72,7 @@ public class ShopServiceImpl implements ShopService {
 
 	@Override
 	public void updateRotateGroupTypeAndStatusByShopID(int shopId) {
-		for (RotateGroupShopEntity group: rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId)) {
+		for (RotateGroupShopEntity group : rotateGroupShopDAO.queryRotateGroupShopByShopID(shopId)) {
 			updateRotateGroupTypeAndStatusByRotateGroupId(group.getRotateGroupID());
 		}
 	}
@@ -107,10 +111,10 @@ public class ShopServiceImpl implements ShopService {
 
 			if (shopCountInThisRotateGroup > 1) {
 				// 大于1家门店,设为连锁店
-				rotateGroup.setType(1);
+				rotateGroup.setType(RotateGroupTypeEnum.CHAIN.getCode());
 			} else {
 				// 单店
-				rotateGroup.setType(0);
+				rotateGroup.setType(RotateGroupTypeEnum.SINGLE.getCode());
 			}
 		} else {
 			// 没有门店，设为无效
@@ -121,17 +125,52 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public void updateShop(int shopId){
+	public void updateRotateGroupTypeAndStatus(int rotateGroupID) {
+		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroupIgnoreStatus(rotateGroupID);
+		// 如果没有这个轮转组，就不操作
+		if (rotateGroup == null) {
+			return;
+		}
+
+		Boolean flag = false;
+		int shopCountInThisRotateGroup = rotateGroupShopDAO.getShopNumInGroup(rotateGroupID);
+		if (shopCountInThisRotateGroup > 0 && rotateGroup.getStatus() != 0) {
+			// 有门店,设为有效
+			rotateGroup.setStatus(1);
+			flag = true;
+		}
+		if (shopCountInThisRotateGroup == 0 && rotateGroup.getStatus() != 0) {
+			// 没有门店，设为无效
+			rotateGroup.setStatus(0);
+			flag = true;
+		}
+		if (shopCountInThisRotateGroup > 1 && rotateGroup.getType() != 1) {
+			// 大于1家门店,设为连锁店
+			rotateGroup.setType(1);
+			flag = true;
+		}
+		if(shopCountInThisRotateGroup == 1 && rotateGroup.getType() != 0) {
+			// 单店
+			rotateGroup.setType(0);
+			flag = true;
+		}
+
+		if(flag)
+			rotateGroupDAO.updateRotateGroup(rotateGroup);
+	}
+
+	@Override
+	public void updateShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
 		if (shopDTO == null)
 			throw new WrongShopInfoException("update shop info failed with wrong shopId!");
 
 		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
 		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
-		if(CollectionUtils.isEmpty(shopCategoryDTOList))
+		if (CollectionUtils.isEmpty(shopCategoryDTOList))
 			throw new WrongShopInfoException("update shop info failed with having no category!");
 
-		if(CollectionUtils.isEmpty(shopRegionDTOList))
+		if (CollectionUtils.isEmpty(shopRegionDTOList))
 			throw new WrongShopInfoException("update shop info failed with having no region!");
 
 		ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
@@ -152,25 +191,34 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
+	public List<Integer> getRotateGroupIDList(int pageSize, int offset) {
+		return rotateGroupDAO.queryRotateGroupIDList(pageSize, offset);
+	}
+
+	@Override
+	public int getMaxRotateGroupID() {
+		return rotateGroupDAO.getMaxRotateGroupID();
+	}
+
+	@Override
 	public void addShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
 		if (shopDTO == null) {
 			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
 		}
-		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
-		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
-		if(CollectionUtils.isEmpty(shopCategoryDTOList))
-			throw new WrongShopInfoException("add shop info failed with having no category!");
-
-		if(CollectionUtils.isEmpty(shopRegionDTOList))
-			throw new WrongShopInfoException("add shop info failed with having no region!");
 
 		if (apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId) != null) {
 			throw new WrongShopInfoException("add shop info failed with shop existed!");
 		}
+
+		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
+		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
+
 		ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
-		insertShopCategoryList(shopCategoryDTOList, shopDTO);
-		insertShopRegionList(shopRegionDTOList, shopDTO);
+		if(CollectionUtils.isNotEmpty(shopCategoryDTOList))
+			insertShopCategoryList(shopCategoryDTOList, shopDTO);
+		if(CollectionUtils.isNotEmpty(shopRegionDTOList))
+			insertShopRegionList(shopRegionDTOList, shopDTO);
 		List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);
 		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
 			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
@@ -180,7 +228,11 @@ public class ShopServiceImpl implements ShopService {
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			} else {
 				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
-				setRotateGroupToStores(rotateGroupID);//更新轮转组type
+				int apolloShopID = rotateGroupShopList.get(0).getShopID();
+				int apolloShopExtendType = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(apolloShopID, apolloShopExtend.getBizID()).get(0).getType();
+				apolloShopExtend.setType(apolloShopExtendType);
+				changeApolloShopExtendType(apolloShopExtend);
+				changeRotateGroupType(rotateGroupID);//更新轮转组type
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			}
 		}
@@ -250,7 +302,7 @@ public class ShopServiceImpl implements ShopService {
 			if (apolloShopExtend != null) {
 				RotateGroupEntity rotateGroupEntity = new RotateGroupEntity();
 				rotateGroupEntity.setBizID(apolloShopExtend.getBizID());
-				rotateGroupEntity.setType(0);//0：单店；1：连锁店
+				rotateGroupEntity.setType(RotateGroupTypeEnum.SINGLE.getCode());//0：单店；1：连锁店
 				rotateGroupEntity.setStatus(1);
 				int rotateGroupID = rotateGroupDAO.addToRotateGroup(rotateGroupEntity);
 				rotateGroupIDList.add(rotateGroupID);
@@ -259,10 +311,14 @@ public class ShopServiceImpl implements ShopService {
 		return rotateGroupIDList;
 	}
 
-	private void setRotateGroupToStores(int rotateGroupID) {
+	private void changeRotateGroupType(int rotateGroupID) {
 		RotateGroupEntity rotateGroupEntity = rotateGroupDAO.getRotateGroup(rotateGroupID);
-		rotateGroupEntity.setType(1);//0：单店；1：连锁店
+		rotateGroupEntity.setType(RotateGroupTypeEnum.CHAIN.getCode());//0：单店；1：连锁店
 		rotateGroupDAO.updateRotateGroup(rotateGroupEntity);
+	}
+
+	private void changeApolloShopExtendType(ApolloShopExtendEntity apolloShopExtend) {
+		apolloShopExtendDAO.updateApolloShopExtend(apolloShopExtend);
 	}
 
 	private ApolloShopEntity insertApolloShop(ShopDTO shopDTO) {
@@ -273,6 +329,7 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
 		apolloShopEntity.setShopType(shopDTO.getShopType());
 		apolloShopEntity.setShopStatus(getApolloShopStatus(shopDTO.getPower(), shopDTO.getDisplayStatus()));
+		apolloShopEntity.setProvinceID(cityService.loadCity(shopDTO.getCityId()).getProvinceID());
 
 		int id = apolloShopDAO.addApolloShop(apolloShopEntity);
 		apolloShopEntity.setId(id);
@@ -284,26 +341,28 @@ public class ShopServiceImpl implements ShopService {
 	 * displayStatus=1&&businessStatus=x   ======> businessStatus = x
 	 * displayStatus=0&&businessStatus=x   ======> businessStatus = 2
 	 * displayStatus=2&&businessStatus=x   ======> businessStatus = 1
+	 *
 	 * @param businessStatus 门店的自然状态
-	 * @param displayStatus 门店的审核状态
+	 * @param displayStatus  门店的审核状态
 	 * @return
 	 */
 	private int getApolloShopStatus(Short businessStatus, Short displayStatus) {
-		if(displayStatus == 0)
+		if (displayStatus == 0)
 			return 2;
-		if(displayStatus == 1)
+		if (displayStatus == 1)
 			return businessStatus;
 		return 1;
 	}
 
 	/**
 	 * 按biz为门店创建shopExtend
+	 *
 	 * @param shopID
 	 * @return
 	 */
 	private List<ApolloShopExtendEntity> insertApolloShopExtendList(int shopID) {
 		List<ApolloShopExtendEntity> extendEntities = Lists.newArrayList();
-		for(ApolloShopExtendFactory factory: extendFactories){
+		for (ApolloShopExtendFactory factory : extendFactories) {
 			extendEntities.add(factory.createApolloShopExtend(shopID));
 		}
 		apolloShopExtendDAO.addApolloShopExtendByList(extendEntities);
@@ -316,6 +375,8 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setCityID(shopDTO.getCityId());
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
 		apolloShopEntity.setShopStatus(getApolloShopStatus(shopDTO.getPower(), shopDTO.getDisplayStatus()));
+		apolloShopEntity.setProvinceID(cityService.loadCity(shopDTO.getCityId()).getProvinceID());
+		
 		apolloShopDAO.updateApolloShop(apolloShopEntity);
 	}
 

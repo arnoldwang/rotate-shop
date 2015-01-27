@@ -1,5 +1,7 @@
 package com.dianping.rotate.shop.impl;
 
+import com.dianping.apollobase.api.DepartmentGroupService;
+import com.dianping.apollobase.api.GroupBusiness;
 import com.dianping.rotate.shop.api.RotateGroupService;
 import com.dianping.rotate.shop.constants.ApolloShopTypeEnum;
 import com.dianping.rotate.shop.constants.RotateGroupCustomerStatusEnum;
@@ -10,12 +12,12 @@ import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
 import com.dianping.rotate.shop.dao.RotateGroupDAO;
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.dto.RotateGroupDTO;
+import com.dianping.rotate.shop.exceptions.RequestServiceException;
 import com.dianping.rotate.shop.json.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.json.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.json.RotateGroupEntity;
 import com.dianping.rotate.shop.json.RotateGroupShopEntity;
 import com.dianping.rotate.shop.utils.CommonUtil;
-import com.dianping.rotate.shop.exceptions.RequestServiceException;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
@@ -45,6 +47,9 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 
 	@Autowired
 	ApolloShopExtendDAO apolloShopExtendDAO;
+
+	@Autowired
+	DepartmentGroupService departmentGroupService;
 
 	private Function<RotateGroupEntity, RotateGroupDTO> toRotateGroupDTO = new Function<RotateGroupEntity, RotateGroupDTO>() {
 		@Override
@@ -155,19 +160,22 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		if(CollectionUtils.isNotEmpty(apolloShopBusinessStatusEntityList)) {
 			int rotateGroupStatusIndexTemp = 0;
 			List<Date> offlineTimeList = new ArrayList<Date>();
+			List<Integer> businessTypeList = getBusinessTypeList(departmentGroupService.getGroupBusinesses(rotateGroupDTO.getBizID()));
 			for(int i=0;i<apolloShopBusinessStatusEntityList.size();i++) {
 				ApolloShopBusinessStatusEntity apolloShopBusinessStatusEntity = apolloShopBusinessStatusEntityList.get(i);
-				if(apolloShopBusinessStatusEntity.getOfflineDate() == null &&
-						RotateShopStatusEnum.ONLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus()) {
-					rotateGroupStatusIndexTemp = 3;
-					rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.COOPING.getCode());
-					return;
-				} else if(apolloShopBusinessStatusEntity.getOfflineDate() == null &&
-						RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp < 2) {
-					rotateGroupStatusIndexTemp = 2;
-				} else if(apolloShopBusinessStatusEntity.getOfflineDate() != null && rotateGroupStatusIndexTemp <= 1) {
-					rotateGroupStatusIndexTemp = 1;
-					offlineTimeList.add(apolloShopBusinessStatusEntity.getOfflineDate());
+				if(businessTypeList.contains(apolloShopBusinessStatusEntity.getBusinessType())) {
+					if(RotateShopStatusEnum.ONLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus()) {
+						rotateGroupStatusIndexTemp = 3;
+						rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.COOPING.getCode());
+						return;
+					} else if(apolloShopBusinessStatusEntity.getOfflineDate() == null &&
+							RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp < 2) {
+						rotateGroupStatusIndexTemp = 2;
+					} else if(apolloShopBusinessStatusEntity.getOfflineDate() != null &&
+							RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp <= 1) {
+						rotateGroupStatusIndexTemp = 1;
+						offlineTimeList.add(apolloShopBusinessStatusEntity.getOfflineDate());
+					}
 				}
 			}
 			if(rotateGroupStatusIndexTemp == 1) {
@@ -179,6 +187,16 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 				rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.NO_COOP.getCode());
 			}
 		}
+	}
+
+	private List<Integer> getBusinessTypeList(List<GroupBusiness> groupBusinessList) {
+		List<Integer> businessTypeList = new ArrayList<Integer>();
+		if(CollectionUtils.isNotEmpty(groupBusinessList)) {
+			for(GroupBusiness groupBusiness : groupBusinessList) {
+				businessTypeList.add(groupBusiness.getBusinessId());
+			}
+		}
+		return businessTypeList;
 	}
 
 	private List<java.util.Date> getMinAndMaxOfflineTime(List<Date> offlineTimeList) {

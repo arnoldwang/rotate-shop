@@ -14,6 +14,8 @@
         beans -->
     <context:component-scan base-package="com.dianping.rotate.shop"/>
 
+    <bean id="beans" class="com.dianping.rotate.shop.utils.Beans"/>
+
     <bean id="placeholder" class="com.dianping.lion.client.SpringConfig">
         <property name="propertiesPath"
                   value="config/rotate-shop-biz-appcontext.properties"/>
