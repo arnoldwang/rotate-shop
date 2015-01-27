@@ -63,4 +63,11 @@ public interface ShopService {
 	 * @return
 	 */
 	public int getMaxRotateGroupID();
+
+	/**
+	 * 判断此轮转组下所否有门店为大客户
+	 * @param rotateGroupID
+	 * @return 有返回true，没有返回false
+	 */
+	public boolean isHaveVipByRotateGroupID(int rotateGroupID);
 }

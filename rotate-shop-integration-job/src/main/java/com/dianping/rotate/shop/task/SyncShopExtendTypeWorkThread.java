@@ -46,9 +46,10 @@ public class SyncShopExtendTypeWorkThread implements Runnable {
 					index += page;
 					continue;
 				}
-
+				
+				boolean flag = false;
 				for(int rotateGroupID: rotateGroupIDList){
-
+					flag = shopService.isHaveVipByRotateGroupID(rotateGroupID);
 				}
 			}catch (Exception e){
 				logger.warn("This thread: " + Thread.currentThread().getName() + " sync data failed!", e);

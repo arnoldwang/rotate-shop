@@ -201,6 +201,12 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
+	public boolean isHaveVipByRotateGroupID(int rotateGroupID) {
+		boolean isHaveVip = false;
+		int isHaveVipNum =  rotateGroupShopDAO.getVipShopExtendNum(rotateGroupID)
+	}
+
+	@Override
 	public void addShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
  		if (shopDTO == null) {
