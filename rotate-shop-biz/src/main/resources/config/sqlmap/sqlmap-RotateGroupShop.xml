@@ -103,6 +103,13 @@
         AND Status != 0
     </select>
 
+    <select id="queryShopIDByRotateGroupID" resultClass="int" parameterClass="map">
+        SELECT ShopID
+        FROM RotateGroupShop
+        WHERE RotateGroupID = #rotateGroupID#
+        AND Status != 0
+    </select>
+
     <select id="queryRotateGroupShopByShopGroupIDAndBizID" resultMap="rotateGroupShop" parameterClass="map">
         SELECT
         rgs.ID,

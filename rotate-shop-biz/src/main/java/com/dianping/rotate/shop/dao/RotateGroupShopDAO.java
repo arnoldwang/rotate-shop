@@ -50,4 +50,7 @@ public interface RotateGroupShopDAO extends GenericDao {
 
 	@DAOAction(action = DAOActionType.UPDATE)
 	public void updateRotateGroupShopByShopID(@DAOParam("shopID") int shopId, @DAOParam("shopGroupID")int shopGroupId);
+
+	@DAOAction(action = DAOActionType.QUERY)
+	public List<Integer> queryShopIDByRotateGroupID(@DAOParam("rotateGroupID") int rotateGroupID);
 }
