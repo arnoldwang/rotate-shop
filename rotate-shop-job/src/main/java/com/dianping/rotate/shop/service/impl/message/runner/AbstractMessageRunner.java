@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractMessageRunner implements Runnable {
 	private static final int PROCESS_MESSAGE_LIMIT = 1000;
 	public static final int INTERVAL_WHEN_NO_TASK = 100;
-	public static final String TRANSACTION_NAME = "AddJob";
+	public static final String TRANSACTION_NAME = "Job";
 	private ExecutorService threadPool = Executors.newFixedThreadPool(10);
 	protected Logger logger = LoggerFactory.getLogger(getClass());
     private static final int MAX_RETRY = 10;
@@ -60,24 +60,25 @@ public abstract class AbstractMessageRunner implements Runnable {
     @Override
     public void run() {
         while(true){
-            try {
+			CatContext catContext = CatContext.transaction(TRANSACTION_NAME + "_" + getMessageSourceType());
+			try {
                 if(Switch.on()){
-					CatContext.transaction(TRANSACTION_NAME).startTransactionWithStep("Load");
+					catContext.startTransactionWithStep("Load");
 					List<MessageEntity> messages = messageQueueDAO.getUnprocessedMessage(getMessageSourceType(),
                             getPOIMessageType(),
                             MAX_RETRY, PROCESS_MESSAGE_LIMIT);
 					if (messages.size() == 0) {
-						CatContext.transaction(TRANSACTION_NAME).startNewStep("Sleep");
+						catContext.startNewStep("Sleep");
 						Thread.sleep(INTERVAL_WHEN_NO_TASK);
 					} else {
-						CatContext.transaction(TRANSACTION_NAME).startNewStep("Run");
+						catContext.startNewStep("Run");
 						runMessages(messages);
 					}
 				}
             }catch(Exception ex){
                 logger.error(ex.getMessage(), ex);
             }finally {
-				CatContext.transaction(TRANSACTION_NAME).stopTransaction();
+				catContext.stopTransaction();
 			}
 		}
     }
@@ -92,12 +93,12 @@ public abstract class AbstractMessageRunner implements Runnable {
 						doMessage(message);
                         markMessageHasDone(message);
 					} catch (Exception e) {
-						logger.error("Process message error " + ToStringBuilder.reflectionToString(message,
+						logger.error("Process message error :" + ToStringBuilder.reflectionToString(message,
 								ToStringStyle.SHORT_PREFIX_STYLE), e);
 						try {
 							markMessageHasFailed(message);
 						} catch (Exception e1) {
-							logger.error("MarkMessageHasFailed error " + ToStringBuilder.reflectionToString(message,
+							logger.error("MarkMessageHasFailed error :" + ToStringBuilder.reflectionToString(message,
 									ToStringStyle.SHORT_PREFIX_STYLE), e);
 						}
 					} finally {

@@ -22,10 +22,16 @@ public class CatContext {
 	public static final String STEP_ALL = "ALL";
 	private final String transactionName;
 	private int stepCount;
-	private final Stack<Transaction> transactionStack;
+	private Transaction parentTransaction;
+	private final Stack<Transaction> childTransactionStack;
 
 	private static ThreadLocal<Map<String, CatContext>> catContextMaps = new ThreadLocal<Map<String, CatContext>>();
 
+	/**
+	 * 新建打点
+	 * @param transactionName
+	 * @return
+	 */
 	public static CatContext transaction(String transactionName) {
 		Map<String, CatContext> catContextMap = catContextMaps.get();
 		if (catContextMap == null) {
@@ -43,7 +49,7 @@ public class CatContext {
 	private CatContext(String transactionName) {
 		this.transactionName = transactionName;
 		this.stepCount = 0;
-		this.transactionStack = new Stack<Transaction>();
+		this.childTransactionStack = new Stack<Transaction>();
 	}
 
 	public String getTransactionName() {
@@ -59,34 +65,43 @@ public class CatContext {
 	}
 
 	public void startTransactionWithStep(String stepName) {
-		newTransaction(STEP_ALL);
+		newParentTransaction();
 		if (stepName != null) {
-			newTransaction(formatIntWithZero(incAndGetStepCount()) + "-" + stepName);
+			newChildTransaction(formatIntWithZero(incAndGetStepCount()) + "-" + stepName);
 		}
 	}
 
 	public void startNewStep(String stepName) {
-		if (!transactionStack.peek().getName().equals(STEP_ALL)) {
-			completeTransaction(transactionStack.pop());
+		if (!childTransactionStack.isEmpty()){
+			completeTransaction(childTransactionStack.pop());
 		}
-		newTransaction(formatIntWithZero(incAndGetStepCount()) + "-" + stepName);
+		newChildTransaction(formatIntWithZero(incAndGetStepCount()) + "-" + stepName);
 	}
 
 	public void stopTransaction() {
-		while (!transactionStack.isEmpty()) {
-			completeTransaction(transactionStack.pop());
+		completeTransaction(parentTransaction);
+		while (!childTransactionStack.isEmpty()) {
+			completeTransaction(childTransactionStack.pop());
 		}
 		catContextMaps.remove();
 	}
 
 	private void completeTransaction(Transaction transaction) {
-		transaction.setStatus(Transaction.SUCCESS);
-		transaction.complete();
+		if (transaction != null) {
+			transaction.setStatus(Transaction.SUCCESS);
+			transaction.complete();
+		}
 	}
 
-	private Transaction newTransaction( String step) {
+	private Transaction newParentTransaction() {
+		Transaction transaction = Cat.newTransaction(transactionName, STEP_ALL);
+		parentTransaction = transaction;
+		return transaction;
+	}
+
+	private Transaction newChildTransaction(String step) {
 		Transaction transaction = Cat.newTransaction(transactionName, step);
-		transactionStack.push(transaction);
+		childTransactionStack.push(transaction);
 		return transaction;
 	}
 

@@ -17,13 +17,15 @@
 
     <sql id="key-value">
         (
-        <include refid="keys"/>
+        <include refid="keys"/>,
+        CreatedTime
         )
         VALUES
         (
         #biz.bizID#,
         #biz.name#,
-        #biz.status#
+        #biz.status#,
+        NOW()
         )
     </sql>
 
@@ -32,12 +34,15 @@
             BizID = #biz.bizID#,
             Name = #biz.name#,
             Status = #biz.status#
-        WHERE BizID = #biz.bizID#
+        WHERE ID = #biz.id#
     </sql>
 
     <insert id="addToBiz" parameterClass="map">
         INSERT INTO Biz
         <include refid="key-value"/>
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
     </insert>
 
     <delete id="deleteBiz" parameterClass="map">
@@ -56,6 +61,6 @@
         SELECT ID,
         <include refid="keys"/>
         FROM Biz
-        WHERE BizID = #bizID#
+        WHERE ID = #id#
     </select>
 </sqlMap>

@@ -20,7 +20,9 @@ class RegionDAOTest extends AbstractSpockTest {
         s.setRegionID(regionID)
         s.setRegionName('上海')
         s.setStatus(1)
-        regionDAO.addRegion(s)
+        s.setRegionType(1)
+        s.setCityID(1)
+        def id = regionDAO.addRegion(s)
 
         then:
         1 == regionDAO.queryRegionByRegionID(regionID).get(0).getRegionID()

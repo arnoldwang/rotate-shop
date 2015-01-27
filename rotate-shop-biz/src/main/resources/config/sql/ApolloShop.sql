@@ -13,7 +13,6 @@ CREATE TABLE `ApolloShop`(
   `CityID` int(11) NOT NULL COMMENT '城市ID',
   `District` int(11) NOT NULL DEFAULT 0 COMMENT '前台区域（行政区）标识',
   `ShopType` int(11) NOT NULL COMMENT '频道：美食、休闲、娱乐等',
-  `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，正常；',
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),

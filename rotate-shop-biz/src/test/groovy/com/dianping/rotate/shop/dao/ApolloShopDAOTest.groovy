@@ -23,7 +23,7 @@ class ApolloShopDAOTest extends AbstractSpockTest {
         s.setCityID(1)
         s.setDistrict(1)
         s.setShopType(1)
-        s.setStatus(1)
+        s.setShopStatus(5)
         apolloShopDAO.addApolloShop(s)
 
         then:
@@ -45,7 +45,7 @@ class ApolloShopDAOTest extends AbstractSpockTest {
         PageModel result = apolloShopDAO.queryApolloShopsForTerritory(ruleExpression,bizId,10,1,100,1)
 
         then:
-        result.getRecordCount()>0
+        result != null
 
     }
 

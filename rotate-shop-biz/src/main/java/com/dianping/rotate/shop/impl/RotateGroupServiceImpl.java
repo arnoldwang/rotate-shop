@@ -10,6 +10,7 @@ import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
 import com.dianping.rotate.shop.dao.RotateGroupDAO;
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.dto.RotateGroupDTO;
+import com.dianping.rotate.shop.exceptions.RequestServiceException;
 import com.dianping.rotate.shop.json.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.json.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.json.RotateGroupEntity;
@@ -31,6 +32,8 @@ import java.util.List;
  */
 @Service("RotateGroupService")
 public class RotateGroupServiceImpl implements RotateGroupService {
+	private final static int MAX_RESULT_SIZE = 10000;
+
 	@Autowired
 	RotateGroupDAO rotateGroupDAO;
 
@@ -97,7 +100,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	private void processRotateShopDTOCooperationStatus(RotateGroupDTO rotateGroupDTO, int rotateGroupID) {
-		if(rotateGroupDTO == null) {
+		if(rotateGroupDTO != null) {
 			List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
 			List<Integer> shopIDList = getShopIDs(rotateGroupShopEntityList);
 			if(CollectionUtils.isNotEmpty(shopIDList)) {
@@ -211,7 +214,13 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 
 
 	private List<RotateGroupEntity> getRotateGroupEntity(List<Integer> rotateGroupIDList) {
-		return rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
+		if(rotateGroupIDList.size() > MAX_RESULT_SIZE)
+			throw new RequestServiceException("RotateGroupIDs are too many!");
+		List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
+		if(CollectionUtils.isEmpty(rotateGroupEntityList))
+			throw new RequestServiceException("RotateGroupID does not exist or is wrong!");
+		return rotateGroupEntityList;
+
 	}
 
 }

@@ -52,6 +52,7 @@ public class ApolloShopServiceImpl implements ApolloShopService {
 				to.setDistrict(from.getDistrict());
 				to.setShopType(from.getShopType());
 				to.setShopStatus(from.getShopStatus());
+				to.setProvinceID(from.getProvinceID());
 			}
 			return to;
 		}
@@ -108,14 +109,14 @@ public class ApolloShopServiceImpl implements ApolloShopService {
     }
 
     private void processShop(ApolloShopDTO apolloShopDTO, int shopID) {
-        List<ApolloShopEntity> apolloShopList = apolloShopDAO.queryApolloShopByShopID(shopID);
-        if(CollectionUtils.isNotEmpty(apolloShopList)) {
-            transShopEntityToDTO(apolloShopList.get(0), apolloShopDTO);
+        ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopID);
+        if(apolloShopEntity != null) {
+            transShopEntityToDTO(apolloShopEntity, apolloShopDTO);
         }
     }
 
     private void processShop(List<ApolloShopDTO> apolloShopDTOList, List<Integer> shopIDList) {
-        List<ApolloShopEntity> apolloShopEntityList = apolloShopDAO.queryApolloShopByShopIDList(shopIDList);
+        List<ApolloShopEntity> apolloShopEntityList = apolloShopDAO.queryApolloShopByShopIDListWithNoStatus(shopIDList);
         if(CollectionUtils.isNotEmpty(apolloShopEntityList)) {
             for(ApolloShopEntity apolloShopEntity : apolloShopEntityList) {
                 ApolloShopDTO apolloShopDTO = new ApolloShopDTO();
@@ -132,6 +133,7 @@ public class ApolloShopServiceImpl implements ApolloShopService {
         apolloShopDTO.setDistrict(apolloShopEntity.getDistrict());
         apolloShopDTO.setShopType(apolloShopEntity.getShopType());
         apolloShopDTO.setShopStatus(apolloShopEntity.getShopStatus());
+		apolloShopDTO.setProvinceID(apolloShopEntity.getProvinceID());
     }
 
     private void transShopListToMap(List<ApolloShopDTO> apolloShopDTOList, Map<Integer, ApolloShopDTO> apolloShopDTOMap) {

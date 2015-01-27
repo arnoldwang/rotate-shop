@@ -14,7 +14,7 @@ import java.util.List;
 public interface MessageQueueDAO extends GenericDao {
 
     @DAOAction(action = DAOActionType.INSERT)
-    void addToMessageQueue(@DAOParam("message") MessageEntity message);
+    int addToMessageQueue(@DAOParam("message") MessageEntity message);
 
     @DAOAction(action = DAOActionType.DELETE)
     void deleteMessage(@DAOParam("id") int id);
@@ -22,8 +22,14 @@ public interface MessageQueueDAO extends GenericDao {
     @DAOAction(action = DAOActionType.DELETE)
     void deleteMessagePhysically(@DAOParam("id") int id);
 
+    @DAOAction(action = DAOActionType.DELETE)
+    void deleteMessagePhysicallyBySwallowID(@DAOParam("swallowId") String swallowId);
+
     @DAOAction(action = DAOActionType.LOAD)
     MessageEntity getMessageByID(@DAOParam("id") int id);
+
+    @DAOAction(action = DAOActionType.LOAD)
+    MessageEntity getMessageBySwallowID(@DAOParam("swallowId") String swallowId);
 
 
 	@DAOAction(action = DAOActionType.QUERY)
