@@ -132,7 +132,7 @@ public class ShopServiceImpl implements ShopService {
 			return;
 		}
 
-		Boolean flag = false;
+		boolean flag = false;
 		int shopCountInThisRotateGroup = rotateGroupShopDAO.getShopNumInGroup(rotateGroupID);
 		if (shopCountInThisRotateGroup > 0 && rotateGroup.getStatus() != 0) {
 			// 有门店,设为有效
@@ -203,7 +203,7 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public void addShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
-		if (shopDTO == null) {
+ 		if (shopDTO == null) {
 			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
 		}
 		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
