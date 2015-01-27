@@ -5,13 +5,11 @@ import com.dianping.trade.data.dto.*;
 import com.dianping.trade.data.enums.ReportQueryOrderByType;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by luoming on 15/1/21.

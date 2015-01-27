@@ -75,4 +75,16 @@ public interface RotateGroupDAO extends GenericDao{
 	 */
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<RotateGroupEntity> queryRotateGroupByBizIDAndShopID(@DAOParam("bizID")int bizID, @DAOParam("shopID")int shopID);
+
+	/**
+	 * 分页获取RotateGroupID
+	 * @param pageSize 每页大小
+	 * @param offset 偏移量
+	 * @return ID列表
+	 */
+	@DAOAction(action = DAOActionType.QUERY)
+	public List<Integer> queryRotateGroupIDList(@DAOParam("pageSize")int pageSize,@DAOParam("offset") int offset);
+
+	@DAOAction(action = DAOActionType.LOAD)
+	public int getMaxRotateGroupID();
 }

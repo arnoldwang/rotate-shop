@@ -1,21 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-       <bean id="apolloShopBusinessDataProcessorTask" class="com.dianping.rotate.shop.task.ApolloShopBusinessDataProcessorTask">
-       </bean>
+    <context:component-scan base-package="com.dianping"/>
+    <context:annotation-config/>
 
-       <bean id="apolloShopBusinessDataProcessorTaskJob"
-             class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-              <property name="targetObject" ref="apolloShopBusinessDataProcessorTask"/>
-              <property name="targetMethod" value="process"/>
-              <property name="concurrent" value="false"/>
-       </bean>
+    <bean id="syncRotateGroupTypeTask" class="com.dianping.rotate.shop.task.SyncRotateGroupTypeTask"/>
 
-       <bean id="visitRankExtCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-              <property name="jobDetail" ref="apolloShopBusinessDataProcessorTaskJob"/>
-              <property name="cronExpression" value="${rotate-shop-integration-job.apolloShopBusinessDataProcessorTask.quartz.expression}"/>
-       </bean>
+    <!-- Check单店连锁店一致性 -->
+    <bean id="syncRotateGroupTypeTaskJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="syncRotateGroupTypeTask"/>
+        <property name="targetMethod" value="go"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="syncRotateGroupTypeExtCronTrigger"
+          class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="syncRotateGroupTypeTaskJob"/>
+        <property name="cronExpression" value="${rotate-shop-integration-job.sync.rotateGroup.type.quartz.expression}"/>
+    </bean>
+
+    <!-- Business Data 数据同步  -->
+    <bean id="apolloShopBusinessDataProcessorTask" class="com.dianping.rotate.shop.task.ApolloShopBusinessDataProcessorTask">
+    </bean>
+
+    <bean id="apolloShopBusinessDataProcessorTaskJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="apolloShopBusinessDataProcessorTask"/>
+        <property name="targetMethod" value="process"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="apolloShopBusinessDataProcessorTaskExtCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="apolloShopBusinessDataProcessorTaskJob"/>
+        <property name="cronExpression" value="${rotate-shop-integration-job.apolloShopBusinessDataProcessorTask.quartz.expression}"/>
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="syncRotateGroupTypeTaskJob"/>
+                <ref bean="apolloShopBusinessDataProcessorTaskJob"/>
+            </list>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="syncRotateGroupTypeExtCronTrigger"/>
+                <ref bean="apolloShopBusinessDataProcessorTaskExtCronTrigger"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>

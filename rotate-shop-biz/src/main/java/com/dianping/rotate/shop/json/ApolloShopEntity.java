@@ -12,6 +12,7 @@ public class ApolloShopEntity {
     private int cityID;
     private int district;
     private int shopType;
+	private int provinceID;
 
     public int getShopStatus() {
         return shopStatus;
@@ -69,4 +70,11 @@ public class ApolloShopEntity {
         this.shopType = shopType;
     }
 
+	public int getProvinceID() {
+		return provinceID;
+	}
+
+	public void setProvinceID(int provinceID) {
+		this.provinceID = provinceID;
+	}
 }

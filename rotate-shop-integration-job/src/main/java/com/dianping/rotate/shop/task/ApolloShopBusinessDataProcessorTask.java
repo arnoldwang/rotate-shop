@@ -1,17 +1,12 @@
 package com.dianping.rotate.shop.task;
 
 import com.dianping.rotate.shop.constants.ApolloShopBusinessTypeEnum;
-import com.dianping.rotate.shop.dao.ApolloShopBusinessStatusDAO;
 import com.dianping.rotate.shop.json.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.service.ShopBusinessStatusService;
-import com.dianping.trade.data.api.ReportRemoteService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.sql.Timestamp;
