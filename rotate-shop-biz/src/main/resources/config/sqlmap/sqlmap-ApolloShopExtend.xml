@@ -121,7 +121,7 @@
         AND Status != 0
     </select>
 
-    <select id="queryVipShopExtendNumByRotateGroupID" resultMap="apolloShopExtend" parameterClass="map">
+    <select id="queryVipShopExtendNumByRotateGroupID" resultClass="int" parameterClass="map">
         SELECT COUNT(*)
         FROM ApolloShopExtend ape JOIN RotateGroupShop rgs
         ON rgs.ShopID = ape.ShopID

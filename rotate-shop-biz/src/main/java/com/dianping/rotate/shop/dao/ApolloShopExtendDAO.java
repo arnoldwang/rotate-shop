@@ -73,7 +73,7 @@ public interface ApolloShopExtendDAO extends GenericDao {
 	 * @param rotateGroupID
 	 * @return
 	 */
-	@DAOAction(action = DAOActionType.QUERY)
+	@DAOAction(action = DAOActionType.LOAD)
 	int queryVipShopExtendNumByRotateGroupID(@DAOParam("rotateGroupID")int rotateGroupID);
 
 	/**

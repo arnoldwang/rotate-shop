@@ -57,5 +57,6 @@ public class SyncShopExtendTypeWorkThread implements Runnable {
 				exceptionFlag++;
 			}
 		}
+		logger.info("This thread: " + Thread.currentThread().getName() + " End! ");
 	}
 }
