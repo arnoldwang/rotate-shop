@@ -1,4 +1,4 @@
-package com.dianping.rotate.shop.service.impl.message.runner;
+package com.dianping.rotate.shop.service.impl.message.runnerDel;
 
 import com.dianping.rotate.shop.constants.ActionType;
 import com.dianping.rotate.shop.constants.MessageSource;

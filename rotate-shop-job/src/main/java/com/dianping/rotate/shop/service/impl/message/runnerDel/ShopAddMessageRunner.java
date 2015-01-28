@@ -1,17 +1,11 @@
-package com.dianping.rotate.shop.service.impl.message.runner;
+package com.dianping.rotate.shop.service.impl.message.runnerDel;
 
 import com.dianping.rotate.shop.constants.ActionType;
-import com.dianping.rotate.shop.constants.BizType;
 import com.dianping.rotate.shop.constants.MessageSource;
 import com.dianping.rotate.shop.constants.POIMessageType;
 import com.dianping.rotate.shop.json.MessageEntity;
 import com.dianping.rotate.shop.json.ShopMessage;
-import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.JsonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.IOException;
-import java.util.Map;
 
 import java.util.Map;
 

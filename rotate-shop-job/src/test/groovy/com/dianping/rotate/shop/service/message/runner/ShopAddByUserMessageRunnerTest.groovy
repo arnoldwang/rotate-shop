@@ -11,7 +11,7 @@ import com.dianping.rotate.shop.dao.RotateGroupDAO
 import com.dianping.rotate.shop.json.ApolloShopEntity
 import com.dianping.rotate.shop.json.ApolloShopExtendEntity
 import com.dianping.rotate.shop.json.MessageEntity
-import com.dianping.rotate.shop.service.impl.message.runner.ShopAddMessageRunner
+import com.dianping.rotate.shop.service.impl.message.runnerDel.ShopAddMessageRunner
 import org.springframework.beans.factory.annotation.Autowired
 
 /**

@@ -1,4 +1,4 @@
-package com.dianping.rotate.shop.service.impl.message.runner;
+package com.dianping.rotate.shop.service.impl.message.runnerDel;
 
 import com.dianping.rotate.shop.constants.ActionType;
 import com.dianping.rotate.shop.constants.MessageSource;
@@ -13,22 +13,22 @@ import java.util.Map;
  * User: zaza
  * Date: 15-1-15
  */
-public class ShopMergeMessageRunner extends AbstractMessageRunner {
+public class ShopUpdateBySystemMessageRunner extends AbstractMessageRunner {
 	@Override
 	int getMessageSourceType() {
-		return MessageSource.PERSON;
+		return MessageSource.SYSTEM;
 	}
 
 	@Override
 	int getPOIMessageType() {
-		return POIMessageType.SHOP_MERGE;
+		return POIMessageType.SHOP_UPDATE;
 	}
 
 	@Override
 	public void doMessage(MessageEntity message) throws Exception{
         Map<String, Object> msg = JsonUtil.fromStrToMap(message.getMsg());
-        int shopId = (Integer)msg.get("ShopID");
-        shopService.closeShop(shopId);
+        int shopId = (Integer)msg.get("shopId");
+        shopService.updateShop(shopId);
         publishMessageToMQ(new ShopMessage(shopId, ActionType.UPDATE));
 	}
 }
