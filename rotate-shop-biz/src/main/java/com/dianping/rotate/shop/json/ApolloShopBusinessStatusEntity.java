@@ -61,4 +61,10 @@ public class ApolloShopBusinessStatusEntity {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        String s = this.getShopID() + "_" + this.getCooperationStatus() + "_" + this.getOfflineDate() + "_" + this.getBusinessType() + "_" + this.getStatus() + "_" + this.getId();
+        return s;
+    }
 }

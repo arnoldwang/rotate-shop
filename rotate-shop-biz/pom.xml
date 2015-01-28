@@ -115,6 +115,10 @@
             <groupId>com.dianping.cat</groupId>
             <artifactId>cat-client</artifactId>
         </dependency>
+        <dependency>
+            <artifactId>apollobase-api</artifactId>
+            <groupId>com.dianping</groupId>
+        </dependency>
         <!--spring framework-->
         <dependency>
             <groupId>org.springframework</groupId>

@@ -133,6 +133,7 @@
     <logger name="com.dianping.rotate.shop.task" additivity="false">
         <level value="INFO"/>
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="appAppender"/>
     </logger>
     <root>
         <level value="ERROR"/>

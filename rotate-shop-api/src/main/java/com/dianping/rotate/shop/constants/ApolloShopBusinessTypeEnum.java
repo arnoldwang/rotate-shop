@@ -4,13 +4,16 @@ package com.dianping.rotate.shop.constants;
  * Created by luoming on 15/1/8.
  */
 public enum ApolloShopBusinessTypeEnum {
-    TUAN_GOU(0, "团购"),
-    TUI_GUANG(1, "推广"),
-    HUI_YUAN_KA(2, "会员卡"),
-    CHONG_ZHI_KA(4,"充值卡"),
-    YU_DING(5,"外卖"),
+    WEI_ZHI(0, "未知"),
+    TUAN_GOU(1, "团购"),
+    TUI_GUANG(2, "推广"),
+    HUI_YUAN_KA(3, "会员卡"),
+    CHONG_ZHI_KA(4,"储值卡"),
+    YU_DING(5,"预定"),
     WAI_MAI(6,"外卖"),
-    SHAN_HUI(7,"闪惠");
+    SHAN_HUI(7,"闪惠"),
+    SHAN_FU(8,"闪付"),
+    DIANYING_XUANZUO(9,"电影选座");
 
     private int code;
     private String desc;

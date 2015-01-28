@@ -72,11 +72,44 @@
         </selectKey>
     </insert>
 
+    <insert id="addApolloShopBusinessStatusBatch" parameterClass="map">
+        INSERT INTO ApolloShopBusinessStatus
+        (
+        <include refid="keys"/>,
+        CreatedTime
+        )
+        values
+        <iterate conjunction="," property="apolloShopBusinessStatusList">
+            <![CDATA[
+            (
+            #apolloShopBusinessStatusList[].shopID#,
+            #apolloShopBusinessStatusList[].cooperationStatus#,
+            #apolloShopBusinessStatusList[].offlineDate#,
+            #apolloShopBusinessStatusList[].businessType#,
+            1,
+            NOW()
+            )
+            ]]>
+        </iterate>
+    </insert>
+
     <update id="deleteApolloShopBusinessStatusByShopID" parameterClass="map">
         update ApolloShopBusinessStatus
         set
         Status = 0
         WHERE ShopID = #shopID#
+    </update>
+
+    <update id="deleteApolloShopBusinessStatusAll">
+        update ApolloShopBusinessStatus
+        set
+        Status = 0
+        WHERE Status = 1
+    </update>
+
+    <update id="clearApolloShopBusinessStatus">
+        delete from ApolloShopBusinessStatus
+        WHERE Status = 0
     </update>
 
     <update id="updateApolloShopBusinessStatus" parameterClass="map">

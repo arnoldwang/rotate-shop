@@ -242,6 +242,11 @@
                 <artifactId>tp-dataservice-api</artifactId>
                 <version>0.0.4-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <artifactId>apollobase-api</artifactId>
+                <groupId>com.dianping</groupId>
+                <version>1.2</version>
+            </dependency>
 
             <!-- swallow -->
             <dependency>
