@@ -3,6 +3,7 @@ package com.dianping.rotate.shop.dao
 import com.dianping.core.type.PageModel
 import com.dianping.rotate.shop.AbstractSpockTest
 import com.dianping.rotate.shop.json.ApolloShopEntity
+import com.google.common.collect.Lists
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
@@ -84,5 +85,16 @@ class ApolloShopDAOTest extends AbstractSpockTest {
 
         then:
         500000 == shop.getShopID()
+    }
+
+    def "test queryApolloShopByShopIDList with right data"(){
+        setup:
+        List<Integer> shopIDs = Lists.newArrayList(21813290,21813293)
+
+        when:
+        def apolloShops = apolloShopDAO.queryApolloShopByShopIDList(shopIDs)
+
+        then:
+        2 == apolloShops.size()
     }
 }
