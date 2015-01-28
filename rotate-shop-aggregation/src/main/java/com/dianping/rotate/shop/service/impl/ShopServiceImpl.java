@@ -132,7 +132,7 @@ public class ShopServiceImpl implements ShopService {
 			return;
 		}
 
-		Boolean flag = false;
+		boolean flag = false;
 		int shopCountInThisRotateGroup = rotateGroupShopDAO.getShopNumInGroup(rotateGroupID);
 		if (shopCountInThisRotateGroup > 0 && rotateGroup.getStatus() != 0) {
 			// 有门店,设为有效
@@ -167,21 +167,20 @@ public class ShopServiceImpl implements ShopService {
 
 		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
 		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
-		if (CollectionUtils.isEmpty(shopCategoryDTOList))
-			throw new WrongShopInfoException("update shop info failed with having no category!");
-
-		if (CollectionUtils.isEmpty(shopRegionDTOList))
-			throw new WrongShopInfoException("update shop info failed with having no region!");
 
 		ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
-		Boolean isStatusChanged = (apolloShopEntity.getShopStatus() != shopDTO.getPower());
+		boolean isStatusChanged = (apolloShopEntity.getShopStatus() != shopDTO.getPower());
 		if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
 			updateRotateGroupShopByShopID(shopId, shopDTO.getShopGroupId());
 		}
 
 		updateApolloShop(apolloShopEntity, shopDTO);
-		updateShopCategoryList(shopCategoryDTOList, shopDTO);
-		updateShopRegionList(shopRegionDTOList, shopDTO);
+
+		//如果前台想要去掉Category和Region时，无法做到
+		if (CollectionUtils.isNotEmpty(shopCategoryDTOList))
+			updateShopCategoryList(shopCategoryDTOList, shopDTO);
+		if (CollectionUtils.isNotEmpty(shopRegionDTOList))
+			updateShopRegionList(shopRegionDTOList, shopDTO);
 
 		if (isStatusChanged) {
 			updateRotateGroupTypeAndStatusByShopID(shopId);
