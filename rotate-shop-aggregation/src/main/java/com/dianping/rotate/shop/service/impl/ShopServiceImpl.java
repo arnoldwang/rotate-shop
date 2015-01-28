@@ -200,9 +200,16 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
+	public void updateShopExtendTypeByRotateGroupID(int rotateGroupID) {
+		int vipShopNum = apolloShopExtendDAO.queryVipShopExtendNumByRotateGroupID(rotateGroupID);
+		if (vipShopNum > 0)
+			apolloShopExtendDAO.updateApolloShopExtendTypeByRotateGroupID(rotateGroupID);
+	}
+
+	@Override
 	public void addShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
-		if (shopDTO == null) {
+ 		if (shopDTO == null) {
 			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
 		}
 

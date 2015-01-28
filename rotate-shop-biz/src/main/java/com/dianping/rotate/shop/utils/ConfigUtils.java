@@ -8,7 +8,11 @@ import com.dianping.combiz.spring.util.PropertiesLoaderSupportUtils;
  */
 public class ConfigUtils {
 
-	public static Boolean getSyncRotateGroupTypeTaskTrigger(){
+	public static boolean getSyncRotateGroupTypeTaskTrigger(){
 		return PropertiesLoaderSupportUtils.getBoolProperty("rotate-shop-integration-job.syncRotateGroupTypeTaskTrigger", true);
+	}
+
+	public static boolean getSyncShopExtendTypeTaskTrigger() {
+		return PropertiesLoaderSupportUtils.getBoolProperty("rotate-shop-integration-job.syncExtendShopTypeTaskTrigger", true);
 	}
 }
