@@ -3,19 +3,26 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="messageProcessTask" class="com.dianping.rotate.shop.task.MessageProcessTask" init-method="run">
+    <bean id="messageSingleProcessTask" class="com.dianping.rotate.shop.task.MessageSingleProcessTask" init-method="run">
         <property name="runners">
             <list>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runnerDel.ShopAddMessageRunner"/>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runnerDel.CategoryMessageRunner"/>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runnerDel.RegionMessageRunner"/>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runnerDel.ShopMergeMessageRunner"/>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runnerDel.ShopMergeRecoverMessageRunner"/>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runnerDel.ShopStatusMessageRunner"/>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runnerDel.ShopUpdateMessageRunner"/>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runnerDel.ShopAddBySystemMessageRunner"/>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runnerDel.ShopStatusBySystemMessageRunner"/>
-                <bean class="com.dianping.rotate.shop.service.impl.message.runnerDel.ShopUpdateBySystemMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.CategorySingleMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.RegionSingleMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopAddSingleMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopMergeRestoreSingleMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopMergeSingleMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopStatusSingleMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopUpdateSingleMessageRunner"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="messageBatchProcessTask" class="com.dianping.rotate.shop.task.MessageBatchProcessTask" init-method="run">
+        <property name="runners">
+            <list>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopAddBatchMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopStatusBatchMessageRunner"/>
+                <bean class="com.dianping.rotate.shop.service.impl.message.runner.ShopUpdateBatchMessageRunner"/>
             </list>
         </property>
     </bean>

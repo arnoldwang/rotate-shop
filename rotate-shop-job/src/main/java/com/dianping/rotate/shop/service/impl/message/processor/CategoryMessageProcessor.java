@@ -12,11 +12,9 @@ import java.util.Map;
  * Created by zaza on 15/1/28.
  */
 @Service
-public class ShopMergeRestoreMessageProcessor extends AbstractMessageProcessor {
+public class CategoryMessageProcessor extends AbstractMessageProcessor {
     public void process(MessageEntity message) throws Exception{
-        Map<String, Object> msg = JsonUtil.fromStrToMap(message.getMsg());
-        int shopId = (Integer)msg.get("RestoreShopID");
-        shopService.openShop(shopId);
-        sendMessage(new ShopMessage(shopId, ActionType.UPDATE));
+        //To change body of implemented methods use File | Settings | File Templates.
+        //对于分类树的变化，目前不不通知下游，只在后台记下，线下处理
     }
 }

@@ -19,16 +19,8 @@ import java.util.concurrent.TimeUnit;
  * Created by zaza on 15/1/20.
  */
 public abstract class AbstractMessageRunner implements Runnable{
-
-    protected static final int PROCESS_MESSAGE_LIMIT = 1000;
-    public static final int INTERVAL_WHEN_NO_TASK = 100;
-    public static final String TRANSACTION_NAME = "Job";
     protected ExecutorService threadPool = Executors.newFixedThreadPool(10);
     protected Logger logger = LoggerFactory.getLogger(getClass());
-    protected static final int MAX_RETRY = 10;
-
-    @Autowired
-    private MessageProcessor messageProcessor;
 
     @Autowired
     protected MessageQueueDAO messageQueueDAO;
@@ -40,7 +32,7 @@ public abstract class AbstractMessageRunner implements Runnable{
                 @Override
                 public void run() {
                     try {
-                        messageProcessor.process(message);
+                        getMessageProcessor().process(message);
                         markMessageHasDone(message);
                     } catch (Exception e) {
                         logger.error("Process message error :" + ToStringBuilder.reflectionToString(message,
@@ -70,4 +62,5 @@ public abstract class AbstractMessageRunner implements Runnable{
 
     abstract int getMessageSourceType();
     abstract int getPOIMessageType();
+    abstract MessageProcessor getMessageProcessor();
 }

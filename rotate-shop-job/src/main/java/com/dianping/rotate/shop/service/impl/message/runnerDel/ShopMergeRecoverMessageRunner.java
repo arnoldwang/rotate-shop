@@ -21,7 +21,7 @@ public class ShopMergeRecoverMessageRunner extends AbstractMessageRunner {
 
 	@Override
 	int getPOIMessageType() {
-		return POIMessageType.SHOP_MERGE_RECOVER;
+		return POIMessageType.SHOP_MERGE_RESTORE;
 	}
 
 	@Override

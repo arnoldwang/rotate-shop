@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 /**
  * Created by zaza on 15/1/28.
  */
-public class ShopAddSingleMessageRunner extends SingleMessageRunner {
+public class ShopUpdateSingleMessageRunner extends SingleMessageRunner {
     @Autowired
-    @Qualifier("shopAddMessageProcessor")
+    @Qualifier("shopUpdateMessageProcessor")
     private MessageProcessor messageProcessor;
-
     @Override
     int getMessageSourceType() {
         return MessageSource.PERSON;
@@ -21,7 +20,7 @@ public class ShopAddSingleMessageRunner extends SingleMessageRunner {
 
     @Override
     int getPOIMessageType() {
-        return POIMessageType.SHOP_ADD;
+        return POIMessageType.SHOP_UPDATE;
     }
 
     @Override

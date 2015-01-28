@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 /**
  * Created by zaza on 15/1/28.
  */
-public class ShopAddSingleMessageRunner extends SingleMessageRunner {
+public class RegionSingleMessageRunner extends SingleMessageRunner {
     @Autowired
-    @Qualifier("shopAddMessageProcessor")
+    @Qualifier("regionMessageProcessor")
     private MessageProcessor messageProcessor;
 
     @Override
@@ -21,7 +21,7 @@ public class ShopAddSingleMessageRunner extends SingleMessageRunner {
 
     @Override
     int getPOIMessageType() {
-        return POIMessageType.SHOP_ADD;
+        return POIMessageType.SHOP_REGION;
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.dianping.rotate.shop.task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,7 +10,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by zaza on 15/1/8.
  */
-public class MessageProcessTask {
+public class MessageBatchProcessTask {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private final ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
