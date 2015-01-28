@@ -65,9 +65,8 @@ public interface ShopService {
 	public int getMaxRotateGroupID();
 
 	/**
-	 * 判断此轮转组下所否有门店为大客户
+	 * 更新此轮转组下ApolloShopExtend的Type
 	 * @param rotateGroupID
-	 * @return 有返回true，没有返回false
 	 */
-	public boolean isHaveVipByRotateGroupID(int rotateGroupID);
+	public void updateShopExtendTypeByRotateGroupID(int rotateGroupID);
 }

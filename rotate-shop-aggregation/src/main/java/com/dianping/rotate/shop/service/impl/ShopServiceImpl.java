@@ -201,11 +201,10 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public boolean isHaveVipByRotateGroupID(int rotateGroupID) {
-		boolean isHaveVip = false;
-		List<Integer> shopIDs =  rotateGroupShopDAO.queryShopIDByRotateGroupID(rotateGroupID);
-
-		return isHaveVip;
+	public void updateShopExtendTypeByRotateGroupID(int rotateGroupID) {
+		int vipShopNum = apolloShopExtendDAO.queryVipShopExtendNumByRotateGroupID(rotateGroupID);
+		if (vipShopNum > 0)
+			apolloShopExtendDAO.updateApolloShopExtendTypeByRotateGroupID(rotateGroupID);
 	}
 
 	@Override

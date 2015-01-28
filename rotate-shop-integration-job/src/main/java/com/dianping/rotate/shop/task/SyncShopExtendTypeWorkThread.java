@@ -34,7 +34,6 @@ public class SyncShopExtendTypeWorkThread implements Runnable {
 	}
 
 	private void syncShopExtendType(int threadBegin, int threadEnd) {
-		//todo
 		int exceptionFlag = 0;
 		int page = PAGE_SIZE;
 		int index = threadBegin;
@@ -47,10 +46,12 @@ public class SyncShopExtendTypeWorkThread implements Runnable {
 					continue;
 				}
 				
-				boolean flag = false;
 				for(int rotateGroupID: rotateGroupIDList){
-					flag = shopService.isHaveVipByRotateGroupID(rotateGroupID);
+					shopService.updateShopExtendTypeByRotateGroupID(rotateGroupID);
 				}
+
+				logger.info("This thread: " + Thread.currentThread().getName() + " sync date from " + rotateGroupIDList.get(0) + " to " + (rotateGroupIDList.get(0) + page));
+				index += page;
 			}catch (Exception e){
 				logger.warn("This thread: " + Thread.currentThread().getName() + " sync data failed!", e);
 				exceptionFlag++;
