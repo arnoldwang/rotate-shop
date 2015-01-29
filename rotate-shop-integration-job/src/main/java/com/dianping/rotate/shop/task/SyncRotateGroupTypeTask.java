@@ -34,8 +34,8 @@ public class SyncRotateGroupTypeTask {
 			return;
 		}
 
-		int maxRotateGroupID = shopService.getMaxRotateGroupID();
-		int threadPage = maxRotateGroupID / THREAD_NUM;
+		int rotateGroupNum = shopService.getRotateGroupNum();
+		int threadPage = rotateGroupNum / THREAD_NUM;
 		ExecutorService exe = Executors.newFixedThreadPool(THREAD_NUM);
 		List<Future> futureList = Lists.newArrayList();
 

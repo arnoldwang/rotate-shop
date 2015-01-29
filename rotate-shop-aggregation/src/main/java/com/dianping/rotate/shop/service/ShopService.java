@@ -59,10 +59,10 @@ public interface ShopService {
 	public List<Integer> getRotateGroupIDList(int pageSize, int offset);
 
 	/**
-	 * 获得最大的RotateGroupID
+	 * 获得最大的RotateGroup的数量
 	 * @return
 	 */
-	public int getMaxRotateGroupID();
+	public int getRotateGroupNum();
 
 	/**
 	 * 更新此轮转组下ApolloShopExtend的Type

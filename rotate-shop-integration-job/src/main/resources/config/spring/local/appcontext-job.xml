@@ -8,7 +8,7 @@
 
     <bean id="syncRotateGroupTypeTask" class="com.dianping.rotate.shop.task.SyncRotateGroupTypeTask"/>
     <bean id="syncShopExtendTypeTask" class="com.dianping.rotate.shop.task.SyncShopExtendTypeTask"/>
-    <bean id="apolloShopBusinessDataProcessorTask" class="com.dianping.rotate.shop.task.ApolloShopBusinessDataProcessorTask">
+    <bean id="apolloShopBusinessDataProcessorTask" class="com.dianping.rotate.shop.task.ApolloShopBusinessDataProcessorTask"/>
 
     <!-- Check单店连锁店一致性 -->
     <bean id="syncRotateGroupTypeTaskJob"

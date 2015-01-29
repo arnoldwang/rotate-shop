@@ -110,10 +110,8 @@
         LIMIT #offset#, #pageSize#
     </select>
 
-    <select id="getMaxRotateGroupID" resultClass="int">
-        SELECT ID
+    <select id="getRotateGroupNum" resultClass="int">
+        SELECT COUNT(*)
         FROM RotateGroup
-        ORDER BY ID DESC
-        LIMIT 1
     </select>
 </sqlMap>
