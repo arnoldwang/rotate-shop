@@ -39,14 +39,14 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test addPoiBySys with single shop"() {
         setup:
-        def shopId = 500012
+        def shopId = 503837
 
         when:
         shopService.addShop(shopId);
 
         then:
-        def shop = apolloShopDAO.queryApolloShopByShopID(500012).get(0);
-        500012 == shop.getShopID()
+        def shop = apolloShopDAO.queryApolloShopByShopID(503837).get(0);
+        503837 == shop.getShopID()
     }
 
     def "test addPoiBySys with mul shop"() {

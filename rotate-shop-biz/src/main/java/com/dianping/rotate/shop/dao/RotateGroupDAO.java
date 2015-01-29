@@ -86,5 +86,5 @@ public interface RotateGroupDAO extends GenericDao{
 	public List<Integer> queryRotateGroupIDList(@DAOParam("pageSize")int pageSize,@DAOParam("offset") int offset);
 
 	@DAOAction(action = DAOActionType.LOAD)
-	public int getMaxRotateGroupID();
+	public int getRotateGroupNum();
 }

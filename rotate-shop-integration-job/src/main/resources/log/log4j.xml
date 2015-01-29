@@ -26,6 +26,14 @@
         </layout>
     </appender>
 
+    <appender name="appJobAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <!-- <param name="Threshold" value="INFO" /> -->
+        <param name="File" value="/data/applogs/rotate-shop-integration-job/logs/app-job.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[rotate-shop-integration-job]%d %-5p [%c %L] %m%n"/>
+        </layout>
+    </appender>
+
     <appender name="ibatisAppender" class="org.apache.log4j.DailyRollingFileAppender">
         <!-- <param name="Threshold" value="INFO" /> -->
         <param name="File" value="/data/applogs/rotate-shop-integration-job/logs/ibatis.log"/>
@@ -133,7 +141,7 @@
     <logger name="com.dianping.rotate.shop.task" additivity="false">
         <level value="INFO"/>
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="appAppender"/>
+        <appender-ref ref="appJobAppender"/>
     </logger>
     <root>
         <level value="ERROR"/>

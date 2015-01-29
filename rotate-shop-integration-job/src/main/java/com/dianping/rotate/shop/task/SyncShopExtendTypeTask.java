@@ -16,21 +16,20 @@ import java.util.concurrent.Future;
 
 /**
  * User: zhenwei.wang
- * Date: 15-1-22
+ * Date: 15-1-27
  */
-public class SyncRotateGroupTypeTask {
+public class SyncShopExtendTypeTask {
 
-	Logger logger = LoggerFactory.getLogger(SyncRotateGroupTypeTask.class);
+	Logger logger = LoggerFactory.getLogger(SyncShopExtendTypeTask.class);
 
 	private final static int THREAD_NUM = 10;
 
 	@Autowired
 	ShopService shopService;
 
-
-	public void go() {
-		if (!ConfigUtils.getSyncRotateGroupTypeTaskTrigger()) {
-			logger.info("SyncRotateGroupTypeTask will not run!");
+	public void go(){
+		if (!ConfigUtils.getSyncShopExtendTypeTaskTrigger()) {
+			logger.info("SyncShopExtendTypeTask will not run!");
 			return;
 		}
 
@@ -39,19 +38,18 @@ public class SyncRotateGroupTypeTask {
 		ExecutorService exe = Executors.newFixedThreadPool(THREAD_NUM);
 		List<Future> futureList = Lists.newArrayList();
 
-
-		logger.info("SyncRotateGroupTypeTask.running...");
+		logger.info("SyncShopExtendTypeTask.running...");
 		long beginTime = System.currentTimeMillis();
 
-		for (int i = 0; i < THREAD_NUM; i++) {
-			Runnable r = new SyncRotateGroupTypeWorkThread(i * threadPage, (i + 1) * threadPage);
+		for(int i = 0; i < THREAD_NUM; i++){
+			Runnable r = new SyncShopExtendTypeWorkThread(i * threadPage, (i + 1) * threadPage);
 			Beans.getApplicationContext().getAutowireCapableBeanFactory().autowireBean(r);
 			futureList.add(exe.submit(r));
 		}
 
-		for (int i = 0; i < THREAD_NUM; i++){
+		for(int i = 0; i < THREAD_NUM; i++){
 			try {
-				futureList.get(i).get();
+				futureList.get(0).get();
 			} catch (InterruptedException e) {
 				logger.warn("This thread: " + Thread.currentThread().getName() + " is interrupted!", e);
 			} catch (ExecutionException e) {
@@ -62,9 +60,9 @@ public class SyncRotateGroupTypeTask {
 		exe.shutdown();
 
 		long endTime = System.currentTimeMillis();
-		logger.info("SyncRotateGroupTypeTask.end");
+		logger.info("SyncShopExtendTypeTask.end");
 		long useTime = (endTime - beginTime) / 1000;
 		logger.info("This task use " + useTime / 3600 + " H " + useTime % 3600 / 60 + " m " + useTime % 3600 % 60 + " s!");
-	}
 
+	}
 }

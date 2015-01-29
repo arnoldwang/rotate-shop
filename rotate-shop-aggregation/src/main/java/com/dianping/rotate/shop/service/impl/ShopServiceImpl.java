@@ -134,22 +134,25 @@ public class ShopServiceImpl implements ShopService {
 
 		boolean flag = false;
 		int shopCountInThisRotateGroup = rotateGroupShopDAO.getShopNumInGroup(rotateGroupID);
-		if (shopCountInThisRotateGroup > 0 && rotateGroup.getStatus() != 0) {
+		int rotateGroupStatus = rotateGroup.getStatus();
+		int rotateGroupType = rotateGroup.getType();
+
+		if (shopCountInThisRotateGroup > 0 && rotateGroupStatus != 0) {
 			// 有门店,设为有效
 			rotateGroup.setStatus(1);
 			flag = true;
 		}
-		if (shopCountInThisRotateGroup == 0 && rotateGroup.getStatus() != 0) {
+		if (shopCountInThisRotateGroup == 0 && rotateGroupStatus != 0) {
 			// 没有门店，设为无效
 			rotateGroup.setStatus(0);
 			flag = true;
 		}
-		if (shopCountInThisRotateGroup > 1 && rotateGroup.getType() != 1) {
+		if (shopCountInThisRotateGroup > 1 && rotateGroupType != 1) {
 			// 大于1家门店,设为连锁店
 			rotateGroup.setType(1);
 			flag = true;
 		}
-		if(shopCountInThisRotateGroup == 1 && rotateGroup.getType() != 0) {
+		if(shopCountInThisRotateGroup == 1 && rotateGroupType != 0) {
 			// 单店
 			rotateGroup.setType(0);
 			flag = true;
@@ -195,14 +198,21 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public int getMaxRotateGroupID() {
-		return rotateGroupDAO.getMaxRotateGroupID();
+	public int getRotateGroupNum() {
+		return rotateGroupDAO.getRotateGroupNum();
+	}
+
+	@Override
+	public void updateShopExtendTypeByRotateGroupID(int rotateGroupID) {
+		int vipShopNum = apolloShopExtendDAO.queryVipShopExtendNumByRotateGroupID(rotateGroupID);
+		if (vipShopNum > 0)
+			apolloShopExtendDAO.updateApolloShopExtendTypeByRotateGroupID(rotateGroupID);
 	}
 
 	@Override
 	public void addShop(int shopId) {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
-		if (shopDTO == null) {
+ 		if (shopDTO == null) {
 			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
 		}
 
