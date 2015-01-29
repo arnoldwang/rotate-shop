@@ -12,7 +12,7 @@ import javax.annotation.Resource;
  * Created by zaza on 15/1/28.
  */
 public class ShopAddBatchMessageRunner extends BatchMessageRunner {
-    @Resource(name="shopAddMessageProcessor")
+    @Resource(name="shopAddBatchMessageProcessor")
     private MessageProcessor messageProcessor;
 
     @Override
@@ -22,7 +22,7 @@ public class ShopAddBatchMessageRunner extends BatchMessageRunner {
 
     @Override
     int getPOIMessageType() {
-        return POIMessageType.SHOP_ADD;
+        return POIMessageType.SHOP_ADD_BATCH;
     }
 
     @Override

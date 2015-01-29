@@ -5,6 +5,7 @@
     <bean id="categoryMessageProcessor" class="com.dianping.rotate.shop.service.impl.message.processor.CategoryMessageProcessor"/>
     <bean id="regionMessageProcessor" class="com.dianping.rotate.shop.service.impl.message.processor.RegionMessageProcessor"/>
     <bean id="shopAddMessageProcessor" class="com.dianping.rotate.shop.service.impl.message.processor.ShopAddMessageProcessor"/>
+    <bean id="shopAddBatchMessageProcessor" class="com.dianping.rotate.shop.service.impl.message.processor.ShopAddBatchMessageProcessor"/>
     <bean id="shopMergeMessageProcessor" class="com.dianping.rotate.shop.service.impl.message.processor.ShopMergeMessageProcessor"/>
     <bean id="shopMergeRestoreMessageProcessor" class="com.dianping.rotate.shop.service.impl.message.processor.ShopMergeRestoreMessageProcessor"/>
     <bean id="shopStatusMessageProcessor" class="com.dianping.rotate.shop.service.impl.message.processor.ShopStatusMessageProcessor"/>
