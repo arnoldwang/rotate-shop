@@ -5,6 +5,6 @@ import com.dianping.rotate.shop.json.MessageEntity;
 /**
  * Created by zaza on 15/1/20.
  */
-public interface MessageProcessor extends Runnable{
-    public void doMessage(MessageEntity message) throws Exception;
+public interface MessageProcessor{
+    public void process(MessageEntity message) throws Exception;
 }
