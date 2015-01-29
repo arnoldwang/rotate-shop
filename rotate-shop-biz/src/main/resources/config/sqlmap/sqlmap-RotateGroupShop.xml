@@ -145,7 +145,7 @@
         SELECT COUNT(*)
         FROM RotateGroupShop rgs JOIN ApolloShop ap
         ON rgs.ShopID = ap.ShopID
-        WHERE  rgs.RotateGroupID = #rotateGroupID# AND ap.ShopStatus = 5 AND rgs.Status = 1
+        WHERE  rgs.RotateGroupID = #rotateGroupID# AND (ap.ShopStatus = 5 OR ap.ShopStatus = 0) AND rgs.Status = 1
     </select>
 
     <update id="updateRotateGroupShopByShopID" parameterClass="map">
