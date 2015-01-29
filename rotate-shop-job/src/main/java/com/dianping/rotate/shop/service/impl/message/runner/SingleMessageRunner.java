@@ -14,8 +14,8 @@ public abstract class SingleMessageRunner extends AbstractMessageRunner {
 
     private static final int MAX_RETRY = 10;
     private static final int PROCESS_MESSAGE_LIMIT = 1000;
-    private static final int INTERVAL_WHEN_NO_TASK = 100;
-    private static final String TRANSACTION_NAME = "Job_Batch";
+    private static final int INTERVAL_WHEN_NO_TASK = 1000;//取不到数据，线程休眠一秒
+    private static final String TRANSACTION_NAME = "Job_Single";
 
     @Override
     public void run() {

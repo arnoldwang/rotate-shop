@@ -11,7 +11,6 @@ import java.util.Map;
 /**
  * Created by zaza on 15/1/28.
  */
-@Service
 public class ShopStatusMessageProcessor extends AbstractMessageProcessor {
     public void process(MessageEntity message) throws Exception{
         Map<String, Object> msgBody = JsonUtil.fromStrToMap(message.getMsg());

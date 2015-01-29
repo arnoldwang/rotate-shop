@@ -6,12 +6,13 @@ import com.dianping.rotate.shop.service.MessageProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import javax.annotation.Resource;
+
 /**
  * Created by zaza on 15/1/28.
  */
 public class RegionSingleMessageRunner extends SingleMessageRunner {
-    @Autowired
-    @Qualifier("regionMessageProcessor")
+    @Resource(name="regionMessageProcessor")
     private MessageProcessor messageProcessor;
 
     @Override

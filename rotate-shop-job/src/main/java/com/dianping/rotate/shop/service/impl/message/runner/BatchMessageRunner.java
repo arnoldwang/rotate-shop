@@ -12,9 +12,10 @@ import java.util.List;
 public abstract class BatchMessageRunner extends AbstractMessageRunner {
 
     private static final int MAX_RETRY = 10;
-    private static final int PROCESS_MESSAGE_LIMIT = 1000;
-    private static final int INTERVAL_WHEN_NO_TASK = 100;
-    private static final String TRANSACTION_NAME = "Job_Single";
+    private static final int PROCESS_MESSAGE_LIMIT = 5000;
+    private static final int INTERVAL_WHEN_NO_TASK = 300000;//Batch任务，取不到数据的时候，线程休眠5分钟
+    private static final int INTERVAL_AFTER_PROCESS_ONE_BATCH = 60000;//Batch任务，处理一批，线程休眠1分钟
+    private static final String TRANSACTION_NAME = "Job_Batch";
 
     @Override
     public void run() {
@@ -32,6 +33,7 @@ public abstract class BatchMessageRunner extends AbstractMessageRunner {
                     } else {
                         catContext.startNewStep("Run");
                         runMessages(messages);
+                        Thread.sleep(INTERVAL_AFTER_PROCESS_ONE_BATCH);
                     }
                 }
             }catch(Exception ex){

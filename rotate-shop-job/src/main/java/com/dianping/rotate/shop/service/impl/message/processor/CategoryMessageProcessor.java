@@ -11,7 +11,6 @@ import java.util.Map;
 /**
  * Created by zaza on 15/1/28.
  */
-@Service
 public class CategoryMessageProcessor extends AbstractMessageProcessor {
     public void process(MessageEntity message) throws Exception{
         //To change body of implemented methods use File | Settings | File Templates.

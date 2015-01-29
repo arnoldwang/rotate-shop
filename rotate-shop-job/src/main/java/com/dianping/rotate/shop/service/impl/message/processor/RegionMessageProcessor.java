@@ -6,7 +6,6 @@ import com.dianping.rotate.shop.json.MessageEntity;
 /**
  * Created by zaza on 15/1/28.
  */
-@Service
 public class RegionMessageProcessor extends AbstractMessageProcessor {
     public void process(MessageEntity message) throws Exception{
         //To change body of implemented methods use File | Settings | File Templates.

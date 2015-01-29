@@ -49,7 +49,7 @@ public abstract class AbstractMessageRunner implements Runnable{
                 }
             });
         }
-        countDownLatch.await(100, TimeUnit.SECONDS);
+        countDownLatch.await(300, TimeUnit.SECONDS);//5 min
     }
 
     private void markMessageHasDone(MessageEntity msg) {
