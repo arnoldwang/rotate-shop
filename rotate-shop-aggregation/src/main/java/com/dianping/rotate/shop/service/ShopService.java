@@ -25,6 +25,16 @@ public interface ShopService {
 	 * @param rotateGroupID
 	 */
 	public void updateRotateGroupTypeAndStatusByRotateGroupId(int rotateGroupID);
+
+	/**
+	 * 优化后
+	 * 更新轮转组的状态，包括是否单店，是否有效
+	 * 逻辑是当轮转组有
+	 * 0个门店 -> 无效
+	 * 1个门店 -> 有效 单店
+	 * 2个及以上门店 -> 有效 连锁店
+	 * @param rotateGroupID
+	 */
 	public void updateRotateGroupTypeAndStatus(int rotateGroupID);
 
 	/**
@@ -49,8 +59,14 @@ public interface ShopService {
 	public List<Integer> getRotateGroupIDList(int pageSize, int offset);
 
 	/**
-	 * 获得最大的RotateGroupID
+	 * 获得最大的RotateGroup的数量
 	 * @return
 	 */
-	public int getMaxRotateGroupID();
+	public int getRotateGroupNum();
+
+	/**
+	 * 更新此轮转组下ApolloShopExtend的Type
+	 * @param rotateGroupID
+	 */
+	public void updateShopExtendTypeByRotateGroupID(int rotateGroupID);
 }
