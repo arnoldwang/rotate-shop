@@ -22,7 +22,7 @@ public abstract class SingleMessageRunner extends AbstractMessageRunner {
         while(true){
             CatContext catContext = CatContext.transaction(TRANSACTION_NAME + "_" + getMessageSourceType());
             try {
-                if(Switch.on()){
+                if(!Switch.on()){
                     catContext.startTransactionWithStep("Load");
                     List<MessageEntity> messages = messageQueueDAO.getUnprocessedMessage(getMessageSourceType(),
                             getPOIMessageType(),

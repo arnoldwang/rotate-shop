@@ -1,4 +1,4 @@
-package com.dianping.rotate.shop.service.message.runner
+package com.dianping.rotate.shop.service.message.processor
 
 import com.dianping.rotate.shop.AbstractSpockTest
 import com.dianping.rotate.shop.constants.MessageSource
@@ -11,15 +11,15 @@ import com.dianping.rotate.shop.dao.RotateGroupDAO
 import com.dianping.rotate.shop.json.ApolloShopEntity
 import com.dianping.rotate.shop.json.ApolloShopExtendEntity
 import com.dianping.rotate.shop.json.MessageEntity
-import com.dianping.rotate.shop.service.impl.message.runnerDel.ShopAddMessageRunner
+import com.dianping.rotate.shop.service.impl.message.processor.ShopAddMessageProcessor
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * Created by zaza on 15/1/19.
  */
-class ShopAddByUserMessageRunnerTest extends AbstractSpockTest{
+class ShopAddMessageProcessorTest extends AbstractSpockTest{
     @Autowired
-    private ShopAddMessageRunner shopAddByUserMessageRunner;
+    private ShopAddMessageProcessor shopAddMessageProcessor;
     @Autowired
     private MessageQueueDAO messageQueueDAO;
     @Autowired
@@ -45,7 +45,7 @@ class ShopAddByUserMessageRunnerTest extends AbstractSpockTest{
         apolloShopDAO.deleteApolloShopPhysically(shopId);
         apolloShopExtendDAO.deleteApolloShopExtendByShopID(shopId);
         when:
-        shopAddByUserMessageRunner.doMessage(msg);
+        shopAddMessageProcessor.process(msg);
         then:
         MessageEntity msgRes = messageQueueDAO.getMessageBySwallowID(swallowID+"");
         msgRes.getStatus()==0;
