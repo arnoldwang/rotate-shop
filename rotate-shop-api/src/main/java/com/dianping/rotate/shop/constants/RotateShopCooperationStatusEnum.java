@@ -4,6 +4,7 @@ package com.dianping.rotate.shop.constants;
  * Created by luoming on 15/1/8.
  */
 public enum RotateShopCooperationStatusEnum {
+    UNKNOW(-1, "未知"),
     NO_COOP(0, "未合作"),
     COOPING(1,"合作中"),
     COOP_BREAK(2, "断约");

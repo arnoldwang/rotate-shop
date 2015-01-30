@@ -1,5 +1,6 @@
 package com.dianping.rotate.shop.task;
 
+import com.dianping.rotate.shop.utils.JsonUtil;
 import com.dianping.trade.data.api.ReportRemoteService;
 import com.dianping.trade.data.dto.*;
 import com.dianping.trade.data.enums.ReportQueryOrderByType;
@@ -7,21 +8,22 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by luoming on 15/1/21.
  */
-@Service("reportDataProcessor")
 public class ReportDataProcessor {
 
     @Autowired
     private ReportRemoteService reportRemoteService;
 
-    private int pageIndex = 1;
-    private int pageSize = 2000;
+    private AtomicInteger pageIndex = new AtomicInteger(1);
+    private final static int pageSize = 2000;
 
     private boolean isDataOver;
     private String reportName;
@@ -59,7 +61,7 @@ public class ReportDataProcessor {
                 if(result.size() < pageSize) {
                     this.setDataOver(true);
                 } else {
-                    pageIndex++;
+                    pageIndex.getAndIncrement();
                 }
                 return result;
             }
@@ -70,7 +72,7 @@ public class ReportDataProcessor {
 
     private ReportQueryPageDTO getReportQueryPageDTO() {
         ReportQueryPageDTO reportQueryPageDTO = new ReportQueryPageDTO();
-        reportQueryPageDTO.setPage(pageIndex);
+        reportQueryPageDTO.setPage(pageIndex.get());
         reportQueryPageDTO.setSize(pageSize);
         return reportQueryPageDTO;
     }

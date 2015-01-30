@@ -121,6 +121,20 @@
         AND Status != 0
     </select>
 
+    <update id="updateApolloShopExtendRating" parameterClass="map">
+        update ApolloShopExtend
+        set
+        Rating = CASE ShopID
+        <iterate conjunction="" property="apolloShopExtendList">
+        WHEN #apolloShopExtendList[].shopID# THEN #apolloShopExtendList[].rating#
+        </iterate>
+        END
+        WHERE
+        <iterate conjunction="or" property="apolloShopExtendList">
+            (ShopID = #apolloShopExtendList[].shopID# and BizID = #apolloShopExtendList[].bizID#)
+        </iterate>
+    </update>
+
     <select id="queryVipShopExtendNumByRotateGroupID" resultClass="int" parameterClass="map">
         SELECT COUNT(*)
         FROM ApolloShopExtend ape JOIN RotateGroupShop rgs

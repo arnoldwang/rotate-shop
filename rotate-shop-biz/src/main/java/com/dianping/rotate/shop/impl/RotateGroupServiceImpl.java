@@ -111,6 +111,9 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 			if(CollectionUtils.isNotEmpty(shopIDList)) {
 				List<ApolloShopBusinessStatusEntity> apolloShopBusinessStatusEntityList = apolloShopBusinessStatusDAO.queryApolloShopBusinessStatusByShopIDList(shopIDList);
 				processRotateShopCooperationStatus(apolloShopBusinessStatusEntityList, rotateGroupDTO);
+			// 轮转组未取到门店，轮转组状态设置为未知
+			} else {
+				rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.UNKNOW.getCode());
 			}
 		}
 	}
@@ -168,24 +171,27 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 						rotateGroupStatusIndexTemp = 3;
 						rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.COOPING.getCode());
 						return;
-					} else if(apolloShopBusinessStatusEntity.getOfflineDate() == null &&
+					} else if(apolloShopBusinessStatusEntity.getOfflineDate() != null &&
 							RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp < 2) {
 						rotateGroupStatusIndexTemp = 2;
-					} else if(apolloShopBusinessStatusEntity.getOfflineDate() != null &&
+						offlineTimeList.add(apolloShopBusinessStatusEntity.getOfflineDate());
+					} else if(apolloShopBusinessStatusEntity.getOfflineDate() == null &&
 							RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp <= 1) {
 						rotateGroupStatusIndexTemp = 1;
-						offlineTimeList.add(apolloShopBusinessStatusEntity.getOfflineDate());
 					}
 				}
 			}
-			if(rotateGroupStatusIndexTemp == 1) {
+			if(rotateGroupStatusIndexTemp == 2) {
 				rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.COOP_BREAK.getCode());
 				List<java.util.Date> dateList = getMinAndMaxOfflineTime(offlineTimeList);
 				rotateGroupDTO.setMinOfflineTime(dateList.get(0));
 				rotateGroupDTO.setMaxOfflineTime(dateList.get(1));
-			} else if(rotateGroupStatusIndexTemp == 2) {
+			} else if(rotateGroupStatusIndexTemp == 1) {
 				rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.NO_COOP.getCode());
 			}
+		// 未取到shop status则认为未合作过
+		} else {
+			rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.NO_COOP.getCode());
 		}
 	}
 

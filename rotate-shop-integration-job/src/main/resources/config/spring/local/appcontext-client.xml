@@ -9,7 +9,7 @@
         <property name="iface" value="com.dianping.trade.data.api.ReportRemoteService"/>
         <property name="serialize" value="hessian"/>
         <property name="callMethod" value="sync"/>
-        <property name="timeout" value="5000"/>
+        <property name="timeout" value="50000"/>
     </bean>
 
 </beans>

@@ -100,6 +100,24 @@
         WHERE ID =#id#
     </update>
 
+    <sql id="keysNoID">
+        Msg,
+        SwallowID,
+        AttemptIndex,
+        Source,
+        Status,
+        Type,
+        CreatedTime,
+        LastModifiedTime
+    </sql>
 
+    <insert id="addMessageQueueToHistory">
+        insert into MessageQueueHistory (<include refid="keysNoID"/>) select <include refid="keysNoID"/> from MessageQueue
+        where Status = 0 or AttemptIndex >= 10
+    </insert>
+
+    <delete id="clearMessageQueue">
+        delete from MessageQueue where Status = 0 or AttemptIndex >= 10
+    </delete>
 
 </sqlMap>
