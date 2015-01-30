@@ -41,4 +41,11 @@ public interface MessageQueueDAO extends GenericDao {
     @DAOAction(action = DAOActionType.UPDATE)
     void updateMessageAttemptIndex(@DAOParam("id") int id,
                                    @DAOParam("attemptIndex") int attemptIndex);
+
+    @DAOAction(action = DAOActionType.INSERT)
+    void addMessageQueueToHistory();
+
+    @DAOAction(action = DAOActionType.DELETE)
+    int clearMessageQueue();
+
 }

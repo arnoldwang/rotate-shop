@@ -73,6 +73,22 @@
         <property name="cronExpression" value="${rotate-shop-integration-job.apolloShopRatingDataProcessorTask.quartz.expression}"/>
     </bean>
 
+    <!-- MessageQueue 数据同步到历史库  -->
+    <bean id="messageQueueHistoryDataTask" class="com.dianping.rotate.shop.task.MessageQueueHistoryDataTask">
+    </bean>
+
+    <bean id="messageQueueHistoryDataTaskJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="messageQueueHistoryDataTask"/>
+        <property name="targetMethod" value="process"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="messageQueueHistoryDataTaskExtCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="messageQueueHistoryDataTaskJob"/>
+        <property name="cronExpression" value="${rotate-shop-integration-job.messageQueueHistoryDataTask.quartz.expression}"/>
+    </bean>
+
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="jobDetails">
             <list>
@@ -80,6 +96,7 @@
                 <ref bean="syncShopExtendTypeTaskJob"/>
                 <ref bean="apolloShopBusinessDataProcessorTaskJob"/>
                 <ref bean="apolloShopRatingDataProcessorTaskJob"/>
+                <ref bean="messageQueueHistoryDataTaskJob"/>
             </list>
         </property>
         <property name="triggers">
@@ -88,6 +105,7 @@
                 <ref bean="syncShopExtendTypeExtCronTrigger"/>
                 <ref bean="apolloShopBusinessDataProcessorTaskExtCronTrigger"/>
                 <ref bean="apolloShopRatingDataProcessorTaskExtCronTrigger"/>
+                <ref bean="messageQueueHistoryDataTaskExtCronTrigger"/>
             </list>
         </property>
     </bean>
