@@ -51,7 +51,7 @@ public interface ApolloShopExtendDAO extends GenericDao {
 	 * @return
 	 */
     @DAOAction(action = DAOActionType.UPDATE)
-    int updateApolloShopExtend(@DAOParam("apolloShopExtend") ApolloShopExtendEntity apolloShopExtend);
+    void updateApolloShopExtend(@DAOParam("apolloShopExtend") ApolloShopExtendEntity apolloShopExtend);
 
 	/**
 	 * 通过门店ID查询shopExtend的数量
@@ -67,6 +67,9 @@ public interface ApolloShopExtendDAO extends GenericDao {
 	 */
 	@DAOAction(action = DAOActionType.INSERT)
 	void addApolloShopExtendByList(@DAOParam("extendEntities") List<ApolloShopExtendEntity> extendEntities);
+
+    @DAOAction(action = DAOActionType.UPDATE)
+    int updateApolloShopExtendRating(@DAOParam("apolloShopExtendList") List<ApolloShopExtendEntity> apolloShopExtendList);
 
 	/**
 	 * 查询此轮转组下大客户门店的数量
