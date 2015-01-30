@@ -20,5 +20,8 @@
 <%= PageUtils.js("services.js") %>
 <%= PageUtils.js("modules.js") %>
 <%= PageUtils.js("index.js") %>
+<h1>
+    Welcome to rotate shop admin system!
+</h1>
 </body>
 </html>

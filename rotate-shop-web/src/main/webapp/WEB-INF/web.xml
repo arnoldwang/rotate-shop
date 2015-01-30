@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
 
-    <display-name>MapCenter Service</display-name>
+    <display-name>Rotate Shop Admin Web</display-name>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -12,7 +12,6 @@
         </param-value>
     </context-param>
     <!--由Sprng载入的Log4j配置文件位置-->
-
     <context-param>
         <param-name>log4jConfigLocation</param-name>
         <param-value>classpath:log/log4j.xml</param-value>
@@ -64,8 +63,6 @@
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
-    <!-- log 4j 4 config.dict.spring end -->
-
 
     <servlet>
         <servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
@@ -87,5 +84,25 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <error-page>
+        <error-code>401</error-code>
+        <location>/pages/error-401.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/pages/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/pages/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>405</error-code>
+        <location>/pages/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/pages/error.jsp</location>
+    </error-page>
 
 </web-app>
