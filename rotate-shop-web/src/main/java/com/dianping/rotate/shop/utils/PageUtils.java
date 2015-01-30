@@ -3,7 +3,7 @@ package com.dianping.rotate.shop.utils;
 import com.dianping.combiz.spring.util.LionConfigUtils;
 
 /**
- * Created by yangjie on 1/21/15.
+ * Created by zaza on 1/21/15.
  */
 public class PageUtils {
     private static String resource(String path) {
