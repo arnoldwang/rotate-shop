@@ -390,12 +390,12 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	private void updateShopRegionList(List<ShopRegionDTO> shopRegionDTOList, ShopDTO shopDTO) {
-		shopRegionDAO.deleteShopRegionByShopID(shopDTO.getShopId());
+		shopRegionDAO.deleteShopRegionDirectlyByShopID(shopDTO.getShopId());
 		insertShopRegionList(shopRegionDTOList, shopDTO);
 	}
 
 	private void updateShopCategoryList(List<ShopCategoryDTO> shopCategoryDTOList, ShopDTO shopDTO) {
-		shopCategoryDAO.deleteShopCategoryByShopID(shopDTO.getShopId());
+		shopCategoryDAO.deleteShopCategoryDirectlyByShopID(shopDTO.getShopId());
 		insertShopCategoryList(shopCategoryDTOList, shopDTO);
 	}
 
