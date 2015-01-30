@@ -10,18 +10,16 @@
     <%= PageUtils.css("asset/index.css") %>
     <script>
         var ENV = {
+
         }
     </script>
 </head>
 
 <body>
-<%= PageUtils.js("node_modules.js") %>
-<%= PageUtils.js("jquery-vendors.js") %>
-<%= PageUtils.js("services.js") %>
-<%= PageUtils.js("modules.js") %>
-<%= PageUtils.js("index.js") %>
-<h1>
-    Welcome to rotate shop admin system!
-</h1>
+    <%= PageUtils.js("node_modules.js") %>
+    <%= PageUtils.js("jquery-vendors.js") %>
+    <%= PageUtils.js("services.js") %>
+    <%= PageUtils.js("modules.js") %>
+    <%= PageUtils.js("index.js") %>
 </body>
 </html>
