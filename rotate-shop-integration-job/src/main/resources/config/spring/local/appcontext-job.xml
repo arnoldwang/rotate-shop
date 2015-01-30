@@ -7,6 +7,7 @@
     <context:annotation-config/>
 
     <bean id="syncRotateGroupTypeTask" class="com.dianping.rotate.shop.task.SyncRotateGroupTypeTask"/>
+    <bean id="syncShopExtendTypeTask" class="com.dianping.rotate.shop.task.SyncShopExtendTypeTask"/>
 
     <!-- Check单店连锁店一致性 -->
     <bean id="syncRotateGroupTypeTaskJob"
@@ -21,6 +22,21 @@
         <property name="jobDetail" ref="syncRotateGroupTypeTaskJob"/>
         <property name="cronExpression" value="${rotate-shop-integration-job.sync.rotateGroup.type.quartz.expression}"/>
     </bean>
+
+    <!-- check大客户一致性 -->
+    <bean id="syncShopExtendTypeTaskJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="syncShopExtendTypeTask"/>
+        <property name="targetMethod" value="go"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="syncShopExtendTypeExtCronTrigger"
+          class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="syncShopExtendTypeTaskJob"/>
+        <property name="cronExpression" value="${rotate-shop-integration-job.sync.apolloshopextend.type.quartz.expression}"/>
+    </bean>
+
 
     <bean id="reportDataProcessor" class="com.dianping.rotate.shop.task.ReportDataProcessor" scope="prototype">
     </bean>
@@ -61,6 +77,7 @@
         <property name="jobDetails">
             <list>
                 <ref bean="syncRotateGroupTypeTaskJob"/>
+                <ref bean="syncShopExtendTypeTaskJob"/>
                 <ref bean="apolloShopBusinessDataProcessorTaskJob"/>
                 <ref bean="apolloShopRatingDataProcessorTaskJob"/>
             </list>
@@ -68,6 +85,7 @@
         <property name="triggers">
             <list>
                 <ref bean="syncRotateGroupTypeExtCronTrigger"/>
+                <ref bean="syncShopExtendTypeExtCronTrigger"/>
                 <ref bean="apolloShopBusinessDataProcessorTaskExtCronTrigger"/>
                 <ref bean="apolloShopRatingDataProcessorTaskExtCronTrigger"/>
             </list>

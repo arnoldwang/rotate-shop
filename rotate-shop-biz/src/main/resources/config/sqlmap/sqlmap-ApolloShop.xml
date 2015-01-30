@@ -56,7 +56,7 @@
         ID,
         <include refid="keys"/>
         FROM ApolloShop
-        WHERE ShopID = #shopID# and ShopStatus = 5
+        WHERE ShopID = #shopID# AND (ShopStatus = 5 OR ShopStatus = 0)
     </select>
 
 
@@ -85,8 +85,8 @@
         ID,
         <include refid="keys"/>
         FROM ApolloShop
-        WHERE ShopStatus = 5 and
-        ShopID in
+        WHERE (ShopStatus = 5 OR ShopStatus = 0)
+        AND ShopID in
         <iterate open="(" close=")" conjunction="," property="shopIDList">
             #shopIDList[]#
         </iterate>
