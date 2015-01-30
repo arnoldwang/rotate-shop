@@ -10,15 +10,16 @@
     <%= PageUtils.css("asset/index.css") %>
     <script>
         var ENV = {
+
         }
     </script>
 </head>
 
 <body>
-<%= PageUtils.js("node_modules.js") %>
-<%= PageUtils.js("jquery-vendors.js") %>
-<%= PageUtils.js("services.js") %>
-<%= PageUtils.js("modules.js") %>
-<%= PageUtils.js("index.js") %>
+    <%= PageUtils.js("node_modules.js") %>
+    <%= PageUtils.js("jquery-vendors.js") %>
+    <%= PageUtils.js("services.js") %>
+    <%= PageUtils.js("modules.js") %>
+    <%= PageUtils.js("index.js") %>
 </body>
 </html>
