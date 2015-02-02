@@ -76,14 +76,14 @@ class ShopServiceTest extends AbstractSpockTest {
 
     def "test updatePoi with right data"(){
         setup:
-        def shopId = 21813147
+        def shopId = 500013
 
         when:
         shopService.updateShop(shopId)
 
         then:
-        def shop = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(21813147)
-        2 == shop.getShopStatus()
+        def shop = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(500013)
+        1 == shop.getShopStatus()
     }
 
     def "test updatePoi with wrong data"(){
