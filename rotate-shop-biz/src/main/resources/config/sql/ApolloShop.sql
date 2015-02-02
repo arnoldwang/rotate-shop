@@ -252,3 +252,18 @@ CREATE TABLE `MessageQueue`(
   KEY `IX_SOURCE_TYPE_ATTEMPTINDEX_ID` (`Source`,`Type`,`AttemptIndex`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'POI消息的缓存队列表';
 
+
+DROP TABLE IF EXISTS `MessageQueueHistory`;
+CREATE TABLE `MessageQueueHistory`(
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `Msg` varchar(1000) COMMENT 'Swallow消息体',
+  `SwallowID` varchar(32) NOT NULL COMMENT 'Swallow消息ID',
+  `AttemptIndex` int(11) NOT NULL DEFAULT 0 COMMENT '重试的次数，次数越大，后面再次重试的时间间隔越长',
+  `Source` tinyint(4) NOT NULL DEFAULT 0 COMMENT '消息来源：0，用户行为；1，系统行为；',
+  `Type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '消息类型：0，用户增量添加；1，商圈树；2，商户合并；3，商户误合并后恢复；4，系统批量新增POI；5，更新POI属性；6，分类树；',
+  `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，新增；2，正在处理；3，处理完成；',
+  `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
+  PRIMARY KEY (`ID`),
+  KEY `IX_SOURCE_TYPE_ATTEMPTINDEX_ID` (`Source`,`Type`,`AttemptIndex`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'POI消息的缓存队列表';
