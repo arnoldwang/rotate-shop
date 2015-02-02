@@ -78,7 +78,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
-        <url-pattern>/rotate/shop/admin/*</url-pattern>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
@@ -94,7 +94,7 @@
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/pages/error-404.jsp</location>
+        <location>/index.jsp</location>
     </error-page>
     <error-page>
         <error-code>405</error-code>
