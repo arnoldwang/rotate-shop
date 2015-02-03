@@ -10,7 +10,7 @@
     <%= PageUtils.css("asset/index.css") %>
     <script>
         var ENV = {
-
+            ajaxPrefix: '/data'
         }
     </script>
 </head>
