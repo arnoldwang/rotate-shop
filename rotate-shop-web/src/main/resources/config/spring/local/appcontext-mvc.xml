@@ -9,7 +9,13 @@
 
 
     <!-- Configures the @Controller programming model -->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"></property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     <mvc:view-controller path="/" view-name="index"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -18,4 +24,8 @@
         <property name="prefix" value="WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+
+    <bean id="objectMapper" class="com.dianping.rotate.shop.factory.ObjectMapperFactory"
+          factory-method="getMapper"/>
 </beans>
