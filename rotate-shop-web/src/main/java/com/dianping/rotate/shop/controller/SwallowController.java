@@ -1,5 +1,6 @@
 package com.dianping.rotate.shop.controller;
 
+import com.dianping.rotate.shop.model.Msg;
 import com.dianping.rotate.shop.model.ServiceResult;
 import com.dianping.rotate.shop.service.SwallowService;
 import com.dianping.swallow.common.message.Destination;
@@ -47,26 +48,5 @@ public class SwallowController {
 			p.sendMessage(swallowMsg);
 		}
 		return ServiceResult.success(swallowMsgs.size());
-	}
-
-	private static class Msg {
-		String shopID;
-		String msgType;
-
-		private String getShopID() {
-			return shopID;
-		}
-
-		private void setShopID(String shopID) {
-			this.shopID = shopID;
-		}
-
-		private String getMsgType() {
-			return msgType;
-		}
-
-		private void setMsgType(String msgType) {
-			this.msgType = msgType;
-		}
 	}
 }
