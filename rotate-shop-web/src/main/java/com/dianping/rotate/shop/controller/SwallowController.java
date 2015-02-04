@@ -35,9 +35,9 @@ public class SwallowController {
 	@RequestMapping(value = "/simulate", method = RequestMethod.POST)
 	@ResponseBody
 	@SuppressWarnings("unchecked")
-	public void simulateMsg(@RequestBody Msg msg) {
+	public Integer simulateMsg(@RequestBody Msg msg) {
 		try {
-			String[] shopIDs = msg.getShopID().split(",");
+			String[] shopIDs = msg.getShopID().replace(" ", "").split(",");
 			Map<String, Object> msgMap = swallowService.createMsg(msg.getMsgType(), shopIDs);
 			ProducerConfig config = new ProducerConfig();
 			config.setMode(ProducerMode.SYNC_MODE);
@@ -46,8 +46,10 @@ public class SwallowController {
 			for(String swallowMsg: swallowMsgs){
 				p.sendMessage(swallowMsg);
 			}
+			return swallowMsgs.size();
 		} catch (Exception e) {
 			logger.warn("send swallow message failed!", e);
+			return 0;
 		}
 	}
 
