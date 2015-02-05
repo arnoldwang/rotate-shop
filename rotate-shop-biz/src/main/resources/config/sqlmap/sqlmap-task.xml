@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Task">
+    <typeAlias alias="Task" type="com.dianping.rotate.shop.json.TaskEntity" />
+    <resultMap id="task" class="Task">
+        <result property="startTime" column="StartTime"/>
+        <result property="endTime" column="EndTime"/>
+        <result property="runTime" column="RunTime"/>
+        <result property="totalCount" column="TotalCount"/>
+    </resultMap>
+
+    <select id="queryTask" resultMap="task" parameterClass="map">
+        select b.StartTime, a.EndTime, TIMESTAMPDIFF(SECOND, b.StartTime, a.EndTime) as RunTime, c.TotalCount from
+        (
+        SELECT LastModifiedTime as EndTime
+        FROM $tableName$
+        WHERE `LastModifiedTime` >= timestamp(date(sysdate())) order by LastModifiedTime desc limit 1
+        ) a
+        left outer join
+        (
+        SELECT LastModifiedTime as StartTime
+        FROM $tableName$
+        WHERE `LastModifiedTime` >= timestamp(date(sysdate())) order by LastModifiedTime asc limit 1
+        ) b on 1 = 1
+        left outer join
+        (
+        SELECT count(1) as TotalCount
+        FROM $tableName$
+        WHERE `LastModifiedTime` >= timestamp(date(sysdate())) order by LastModifiedTime
+        ) c on 1 = 1
+    </select>
+
+</sqlMap>

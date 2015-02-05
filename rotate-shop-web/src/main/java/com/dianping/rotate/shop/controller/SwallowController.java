@@ -1,5 +1,7 @@
 package com.dianping.rotate.shop.controller;
 
+import com.dianping.rotate.shop.model.Msg;
+import com.dianping.rotate.shop.model.ServiceResult;
 import com.dianping.rotate.shop.service.SwallowService;
 import com.dianping.swallow.common.message.Destination;
 import com.dianping.swallow.producer.Producer;
@@ -35,43 +37,16 @@ public class SwallowController {
 	@RequestMapping(value = "/simulate", method = RequestMethod.POST)
 	@ResponseBody
 	@SuppressWarnings("unchecked")
-	public Integer simulateMsg(@RequestBody Msg msg) {
-		try {
-			String[] shopIDs = msg.getShopID().replace(" ", "").split(",");
-			Map<String, Object> msgMap = swallowService.createMsg(msg.getMsgType(), shopIDs);
-			ProducerConfig config = new ProducerConfig();
-			config.setMode(ProducerMode.SYNC_MODE);
-			Producer p = ProducerFactoryImpl.getInstance().createProducer(Destination.topic((String) msgMap.get("topic")), config);
-			List<String> swallowMsgs = (ArrayList<String>) msgMap.get("swallowMsgs");
-			for(String swallowMsg: swallowMsgs){
-				p.sendMessage(swallowMsg);
-			}
-			return swallowMsgs.size();
-		} catch (Exception e) {
-			logger.warn("send swallow message failed!", e);
-			return 0;
+	public ServiceResult simulateMsg(@RequestBody Msg msg) throws Exception {
+		String[] shopIDs = msg.getShopID().replace(" ", "").split(",");
+		Map<String, Object> msgMap = swallowService.createMsg(msg.getMsgType(), shopIDs);
+		ProducerConfig config = new ProducerConfig();
+		config.setMode(ProducerMode.SYNC_MODE);
+		Producer p = ProducerFactoryImpl.getInstance().createProducer(Destination.topic((String) msgMap.get("topic")), config);
+		List<String> swallowMsgs = (ArrayList<String>) msgMap.get("swallowMsgs");
+		for (String swallowMsg : swallowMsgs) {
+			p.sendMessage(swallowMsg);
 		}
-	}
-
-
-	private static class Msg {
-		String shopID;
-		String msgType;
-
-		private String getShopID() {
-			return shopID;
-		}
-
-		private void setShopID(String shopID) {
-			this.shopID = shopID;
-		}
-
-		private String getMsgType() {
-			return msgType;
-		}
-
-		private void setMsgType(String msgType) {
-			this.msgType = msgType;
-		}
+		return ServiceResult.success(swallowMsgs.size());
 	}
 }
