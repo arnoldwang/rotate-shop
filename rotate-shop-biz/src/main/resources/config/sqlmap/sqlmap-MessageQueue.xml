@@ -107,8 +107,7 @@
         Source,
         Status,
         Type,
-        CreatedTime,
-        LastModifiedTime
+        CreatedTime
     </sql>
 
     <insert id="addMessageQueueToHistory">
