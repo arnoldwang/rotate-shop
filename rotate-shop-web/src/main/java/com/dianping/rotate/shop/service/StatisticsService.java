@@ -6,10 +6,13 @@ import com.dianping.rotate.shop.json.MessageEntity;
 import com.dianping.rotate.shop.model.MessageModel;
 import com.dianping.rotate.shop.model.MessageProcessModel;
 import com.dianping.rotate.shop.model.StatisticsModel;
+import com.dianping.rotate.shop.utils.CommonUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -70,6 +73,21 @@ public class StatisticsService {
     public StatisticsModel retryMessage(int id){
         StatisticsModel statisticsModel = new StatisticsModel();
         messageQueueDao.updateMessageAttemptIndex(id,0);
+        return statisticsModel;
+    }
+
+    public StatisticsModel getMessageByID(int id){
+        StatisticsModel statisticsModel = new StatisticsModel();
+        List<MessageModel> messageModels = new ArrayList<MessageModel>();
+        MessageEntity msg = messageQueueDao.getMessageByID(id);
+        if(msg !=null) {
+            MessageModel messageModel = new MessageModel();
+            messageModel.setId(msg.getId());
+            messageModel.setRetry(msg.getAttemptIndex());
+            messageModel.setMsg(msg.getMsg());
+            messageModels.add(messageModel);
+            statisticsModel.setMessageList(messageModels);
+        }
         return statisticsModel;
     }
 

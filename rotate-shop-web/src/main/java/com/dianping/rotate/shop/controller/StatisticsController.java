@@ -24,7 +24,7 @@ public class StatisticsController {
     @ResponseBody
     public ServiceResult getProcessFailMessage(@RequestParam(value = "source", defaultValue = "0") int source,
                                                @RequestParam(value = "type", defaultValue = "0") int type,
-                                               @RequestParam(value = "limit", defaultValue = "20") int limit,
+                                               @RequestParam(value = "limit", defaultValue = "10") int limit,
                                                @RequestParam(value = "offset", defaultValue = "0") int offset){
         StatisticsModel statisticsModel = statisticsService.getProcessMessage(source,type, MessageStatus.FAIL,limit,offset);
         ServiceResult result = new ServiceResult();
@@ -37,7 +37,7 @@ public class StatisticsController {
     @ResponseBody
     public ServiceResult getProcessSuccessMessage(@RequestParam(value = "source", defaultValue = "0") int source,
                                                   @RequestParam(value = "type", defaultValue = "0") int type,
-                                                  @RequestParam(value = "limit", defaultValue = "20") int limit,
+                                                  @RequestParam(value = "limit", defaultValue = "10") int limit,
                                                   @RequestParam(value = "offset", defaultValue = "0") int offset){
         StatisticsModel statisticsModel = statisticsService.getProcessMessage(source,type, MessageStatus.SUCCESS,limit,offset);
         ServiceResult result = new ServiceResult();
@@ -92,6 +92,16 @@ public class StatisticsController {
     @ResponseBody
     public ServiceResult getAllMessageStatistics(){
         StatisticsModel statisticsModel = statisticsService.getAllMessageStatistics();
+        ServiceResult result = new ServiceResult();
+        result.setCode(ServiceResult.SUCCESS);
+        result.setMsg(statisticsModel);
+        return result;
+    }
+
+    @RequestMapping(value = "/message/search", method = RequestMethod.GET)
+    @ResponseBody
+    public ServiceResult getMessageByID(@RequestParam(value = "id", defaultValue = "0") int id){
+        StatisticsModel statisticsModel = statisticsService.getMessageByID(id);
         ServiceResult result = new ServiceResult();
         result.setCode(ServiceResult.SUCCESS);
         result.setMsg(statisticsModel);
