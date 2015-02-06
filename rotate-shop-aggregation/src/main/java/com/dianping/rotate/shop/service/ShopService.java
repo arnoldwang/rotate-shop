@@ -6,7 +6,16 @@ import java.util.List;
  * Created by yangjie on 1/13/15.
  */
 public interface ShopService {
+	/**
+	 * 关闭门店
+	 * @param shopId
+	 */
     public void closeShop(int shopId);
+
+	/**
+	 * 重开门店
+	 * @param shopId
+	 */
     public void openShop(int shopId);
 
 	/**
@@ -17,6 +26,7 @@ public interface ShopService {
 	public void updateRotateGroupTypeAndStatusByShopID(int shopId);
 
 	/**
+	 * 建议用updateRotateGroupTypeAndStatus()方法代替
 	 * 更新轮转组的状态，包括是否单店，是否有效
 	 * 逻辑是当轮转组有
 	 * 0个门店 -> 无效
@@ -24,6 +34,7 @@ public interface ShopService {
 	 * 2个及以上门店 -> 有效 连锁店
 	 * @param rotateGroupID
 	 */
+	@Deprecated
 	public void updateRotateGroupTypeAndStatusByRotateGroupId(int rotateGroupID);
 
 	/**
