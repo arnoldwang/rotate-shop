@@ -6,8 +6,9 @@ import java.util.List;
  * Created by zaza on 15/2/4.
  */
 public class StatisticsModel {
-    List<MessageProcessModel> messageStatisticsList;
-    List<MessageModel> messageList;
+    private int total;
+    private List<MessageProcessModel> messageStatisticsList;
+    private List<MessageModel> messageList;
 
     public StatisticsModel(){}
 
@@ -29,5 +30,13 @@ public class StatisticsModel {
 
     public void setMessageList(List<MessageModel> messageList) {
         this.messageList = messageList;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 }

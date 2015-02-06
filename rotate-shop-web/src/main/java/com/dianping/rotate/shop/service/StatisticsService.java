@@ -33,6 +33,9 @@ public class StatisticsService {
             messageModel.setRetry(message.getAttemptIndex());
             messageModels.add(messageModel);
         }
+        StatisticsModel statisticsModel = new StatisticsModel();
+        statisticsModel.setMessageList(messageModels);
+        statisticsModel.setTotal(messageQueueDao.getMessageCount(source,type,status));
         return new StatisticsModel(messageModels);
     }
 
