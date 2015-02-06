@@ -28,7 +28,7 @@ public class SwallowService {
 		}
 		if(msgType.equals("用户新增")){
 			for(String shopID: correctShopIDs){
-				StringBuilder swallowMsg = new StringBuilder("{'type':201,'pair':{'shopId':");
+				StringBuilder swallowMsg = new StringBuilder("{\"type\":201,\"pair\":{\"shopId\":");
 				swallowMsg.append(shopID);
 				swallowMsg.append("}}");
 				swallowMsgs.add(swallowMsg.toString());
@@ -37,45 +37,45 @@ public class SwallowService {
 		}
 		if(msgType.equals("系统新增")){
 			for(String shopID: correctShopIDs){
-				StringBuilder swallowMsg = new StringBuilder("{'shopId':");
+				StringBuilder swallowMsg = new StringBuilder("{\"shopId\":");
 				swallowMsg.append(shopID);
-				swallowMsg.append(",'messageType':4}");
+				swallowMsg.append(",\"messageType\":4}");
 				swallowMsgs.add(swallowMsg.toString());
 			}
 			msgMap.put("topic", "dp_poi_change");
 		}
 		if(msgType.equals("POI变更")){
 			for(String shopID: correctShopIDs){
-				StringBuilder swallowMsg = new StringBuilder("{'shopID':");
+				StringBuilder swallowMsg = new StringBuilder("{\"shopID\":");
 				swallowMsg.append(shopID);
-				swallowMsg.append(",'lasgModifyUser':-1234,'messageType':5}");
+				swallowMsg.append(",\"lasgModifyUser\":-1234,\"messageType\":5}");
 				swallowMsgs.add(swallowMsg.toString());
 			}
 			msgMap.put("topic", "dp_poi_change");
 		}
 		if(msgType.equals("合并商户")){
 			for(String shopID: correctShopIDs){
-				StringBuilder swallowMsg = new StringBuilder("{'ShopID':");
+				StringBuilder swallowMsg = new StringBuilder("{\"ShopID\":");
 				swallowMsg.append(shopID);
-				swallowMsg.append(",'messageType':2}");
+				swallowMsg.append(",\"messageType\":2}");
 				swallowMsgs.add(swallowMsg.toString());
 			}
 			msgMap.put("topic", "dp_poi_change");
 		}
 		if(msgType.equals("恢复商户")){
 			for(String shopID: correctShopIDs){
-				StringBuilder swallowMsg = new StringBuilder("{'RestoreShopID':");
+				StringBuilder swallowMsg = new StringBuilder("{\"RestoreShopID\":");
 				swallowMsg.append(shopID);
-				swallowMsg.append(",'messageType':3}");
+				swallowMsg.append(",\"messageType\":3}");
 				swallowMsgs.add(swallowMsg.toString());
 			}
 			msgMap.put("topic", "dp_poi_change");
 		}
 		if(msgType.equals("商户状态改变")){
 			for(String shopID: correctShopIDs){
-				StringBuilder swallowMsg = new StringBuilder("{'shopId':");
+				StringBuilder swallowMsg = new StringBuilder("{\"shopId\":");
 				swallowMsg.append(shopID);
-				swallowMsg.append(",'lasgModifyUser':-1234}");
+				swallowMsg.append(",\"lasgModifyUser\":-1234}");
 				swallowMsgs.add(swallowMsg.toString());
 			}
 			msgMap.put("topic", "dp_shop_status_change");
