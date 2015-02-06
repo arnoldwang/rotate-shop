@@ -11,14 +11,10 @@ import com.dianping.rotate.shop.dto.ApolloShopForTerritoryQueryDTO;
 
 
 import com.dianping.rotate.shop.enums.TerritoryShopPropertyMapper;
-import com.sun.java.swing.plaf.windows.resources.windows_es;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.impl.AvalonLogger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.parsing.QualifierEntry;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +37,7 @@ public class ApolloShopForTerritoryServiceImpl implements ApolloShopForTerritory
     AvatarLogger avatarLogger = AvatarLoggerFactory.getLogger(ApolloShopForTerritoryServiceImpl.class);
 
     @Override
+	@SuppressWarnings("unchecked")
     public PageModel batchFetchApolloShop(ApolloShopForTerritoryQueryDTO queryDto) {
         //01.检查入参合法性
         if (queryDto == null
