@@ -46,4 +46,12 @@ public interface RotateGroupService {
 	 */
 	public RotateGroupDTO getRotateGroupWithCustomerStatus(int rotateGroupID);
 
+	/**
+	 * 合并轮转组，rotateGroupIDList里的rotateGroupIDs合并到rotateGroupID
+	 * @param rotateGroupID
+	 * @param rotateGroupIDList
+	 * @return
+	 */
+	public boolean mergeRotateGroup(int rotateGroupID, List<Integer> rotateGroupIDList);
+
 }

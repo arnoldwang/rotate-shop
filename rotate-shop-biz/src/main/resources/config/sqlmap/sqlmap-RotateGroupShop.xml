@@ -154,4 +154,16 @@
         ShopGroupID = #shopGroupID#
         WHERE shopID = #shopID#
     </update>
+
+    <update id="updateRotateGroupShopRotateGroupIDBatch" parameterClass="map">
+        UPDATE RotateGroupShop
+        SET
+        RotateGroupID = #rotateGroupID#
+        WHERE RotateGroupID IN
+        (
+        <iterate property="rotateGroupIDList" conjunction=",">
+            #rotateGroupIDList[]#
+        </iterate>
+        )
+    </update>
 </sqlMap>

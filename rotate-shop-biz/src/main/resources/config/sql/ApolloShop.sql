@@ -4,7 +4,7 @@
 **/
 
 
-DROP TABLE IF EXISTS `ApolloShop`;
+/** DROP TABLE IF EXISTS `ApolloShop`; **/
 CREATE TABLE `ApolloShop`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `ShopID` int(11) NOT NULL COMMENT '门店ID',
@@ -17,14 +17,13 @@ CREATE TABLE `ApolloShop`(
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_SHOP_ID` (`ShopID`),
   UNIQUE KEY `UNIQUE_SHOPID` (`ShopID`),
   KEY `IX_SHOP_GROUP_ID` (`ShopGroupID`),
   KEY `IX_SHOP_CITY_ID` (`CityID`),
   KEY `IX_SHOP_DISTRICT` (`District`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '落地的POI门店信息表';
 
-
+/**
 DROP TABLE IF EXISTS `Region`;
 CREATE TABLE `Region`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -39,7 +38,7 @@ CREATE TABLE `Region`(
   KEY `IX_REGION_ID` (`RegionID`),
   KEY `IX_REGION_CITY_ID` (`RegionID`,`CityID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '区域表';
-
+**/
 
 /** 数据不需要同步到表里
 DROP TABLE IF EXISTS `RegionTree`;
@@ -65,12 +64,11 @@ CREATE TABLE `RegionExpand`(
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_REGION_ID` (`RegionID`),
   KEY `IX_REGION_CITY_ID` (`RegionID`,`CityID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '区域树拉平表';
 **/
 
-DROP TABLE IF EXISTS `ShopRegion`;
+/** DROP TABLE IF EXISTS `ShopRegion`; **/
 CREATE TABLE `ShopRegion`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `ShopID` int(11) NOT NULL COMMENT '门店ID',
@@ -84,7 +82,7 @@ CREATE TABLE `ShopRegion`(
   KEY `IX_REGION_ID` (`RegionID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '门店和区域树的关系表';
 
-
+/**
 DROP TABLE IF EXISTS `Category`;
 CREATE TABLE `Category`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -96,10 +94,9 @@ CREATE TABLE `Category`(
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_CATEGORY_ID` (`CategoryID`),
   KEY `IX_CATEGORY_CITY_ID` (`CategoryID`,`CityID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类表';
-
+**/
 
 /** 数据不需要同步到表里
 DROP TABLE IF EXISTS `CategoryTree`;
@@ -113,7 +110,6 @@ CREATE TABLE `CategoryTree`(
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_CATEGORY_ID` (`CategoryID`),
   KEY `IX_CATEGORY_CITY_ID` (`CategoryID`,`CityID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类树表';
 
@@ -130,13 +126,12 @@ CREATE TABLE `CategoryExpand`(
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_CATEGORY_ID` (`CategoryID`),
   KEY `IX_CATEGORY_CITY_ID` (`CategoryID`,`CityID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '分类树拉平表';
 **/
 
 
-DROP TABLE IF EXISTS `ShopCategory`;
+/** DROP TABLE IF EXISTS `ShopCategory`; **/
 CREATE TABLE `ShopCategory`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `ShopID` int(11) NOT NULL COMMENT '门店ID',
@@ -151,7 +146,7 @@ CREATE TABLE `ShopCategory`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '门店和分类的关系表';
 
 
-DROP TABLE IF EXISTS `ApolloShopExtend`;
+/** DROP TABLE IF EXISTS `ApolloShopExtend`; **/
 CREATE TABLE `ApolloShopExtend`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `ShopID` int(11) NOT NULL COMMENT '门店ID',
@@ -162,12 +157,11 @@ CREATE TABLE `ApolloShopExtend`(
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_SHOP_ID` (`ShopID`),
   KEY `IX_SHOP_BIZ_ID` (`ShopID`,`BizID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '门店扩展信息表';
 
 
-DROP TABLE IF EXISTS `ApolloShopBusinessStatus`;
+/** DROP TABLE IF EXISTS `ApolloShopBusinessStatus`; **/
 CREATE TABLE `ApolloShopBusinessStatus`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `ShopID` int(11) NOT NULL COMMENT '门店ID',
@@ -178,12 +172,11 @@ CREATE TABLE `ApolloShopBusinessStatus`(
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_SHOP_ID` (`ShopID`),
   KEY `IX_SHOP_BUSINESSTYPE_ID` (`ShopID`,`BusinessType`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '门店各业务的合作信息表';
 
 
-DROP TABLE IF EXISTS `RotateGroup`;
+/** DROP TABLE IF EXISTS `RotateGroup`; **/
 CREATE TABLE `RotateGroup`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `BizID` int(11) NOT NULL COMMENT 'BizID',
@@ -196,7 +189,7 @@ CREATE TABLE `RotateGroup`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '轮转门店组信息表';
 
 
-DROP TABLE IF EXISTS `RotateGroupShop`;
+/** DROP TABLE IF EXISTS `RotateGroupShop`; **/
 CREATE TABLE `RotateGroupShop`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `RotateGroupID` int(11) NOT NULL COMMENT '轮转门店组ID',
@@ -211,7 +204,7 @@ CREATE TABLE `RotateGroupShop`(
   KEY `IX_SHOPGROUP_ID` (`ShopGroupID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '轮转门店组和门店的关系表';
 
-
+/**
 DROP TABLE IF EXISTS `Biz`;
 CREATE TABLE `Biz`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -223,9 +216,9 @@ CREATE TABLE `Biz`(
   PRIMARY KEY (`ID`),
   KEY `IX_BizID_ID` (`BizID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '业务聚合体信息表';
+**/
 
-
-DROP TABLE IF EXISTS `BuBiz`;
+/** DROP TABLE IF EXISTS `BuBiz`; **/
 CREATE TABLE `BuBiz`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `BuID` int(11) NOT NULL COMMENT 'BuID',
@@ -237,7 +230,7 @@ CREATE TABLE `BuBiz`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '业务聚合体和BU的关系表';
 
 
-DROP TABLE IF EXISTS `MessageQueue`;
+/** DROP TABLE IF EXISTS `MessageQueue`; **/
 CREATE TABLE `MessageQueue`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `Msg` varchar(1000) COMMENT 'Swallow消息体',
@@ -253,7 +246,7 @@ CREATE TABLE `MessageQueue`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'POI消息的缓存队列表';
 
 
-DROP TABLE IF EXISTS `MessageQueueHistory`;
+/** DROP TABLE IF EXISTS `MessageQueueHistory`; **/
 CREATE TABLE `MessageQueueHistory`(
   `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `Msg` varchar(1000) COMMENT 'Swallow消息体',

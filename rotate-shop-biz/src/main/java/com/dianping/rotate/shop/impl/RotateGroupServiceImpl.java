@@ -103,6 +103,36 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		return rotateGroupDTO;
 	}
 
+	@Override
+	public boolean mergeRotateGroup(int rotateGroupID, List<Integer> rotateGroupIDList) {
+		if(CollectionUtils.isNotEmpty(rotateGroupIDList)) {
+			if(rotateGroupIDList.size() > MAX_RESULT_SIZE) {
+				throw new RequestServiceException("RotateGroupIDs are too many!");
+			}
+			RotateGroupEntity rotateGroupEntity = getRotateGroupEntity(rotateGroupID);
+			if(rotateGroupEntity != null) {
+				rotateGroupDAO.deleteRotateGroupBatch(rotateGroupIDList);
+				updateShopExtendType(rotateGroupID, rotateGroupEntity, rotateGroupIDList);
+				rotateGroupShopDAO.updateRotateGroupShopRotateGroupIDBatch(rotateGroupID, rotateGroupIDList);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void updateShopExtendType(int rotateGroupID, RotateGroupEntity rotateGroupEntity, List<Integer> rotateGroupIDList) {
+		List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
+		if(CollectionUtils.isNotEmpty(rotateGroupShopEntityList)) {
+			int shopID = rotateGroupShopEntityList.get(0).getShopID();
+			Integer bizID = rotateGroupEntity.getBizID();
+			if(bizID != null) {
+				ApolloShopExtendEntity apolloShopExtendEntity = getApolloShopExtendEntityByBizIDAndShopID(bizID, shopID);
+				int type = apolloShopExtendEntity.getType();
+				apolloShopExtendDAO.updateApolloShopExtendTypeByRotateGroupIDListAndType(rotateGroupIDList, type, bizID);
+			}
+		}
+	}
+
 	private void processRotateShopDTOCooperationStatus(RotateGroupDTO rotateGroupDTO, int rotateGroupID) {
 		if(rotateGroupDTO != null) {
 			List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);

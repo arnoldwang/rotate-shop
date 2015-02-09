@@ -52,6 +52,17 @@
         WHERE ID = #id#
     </update>
 
+    <update id="deleteRotateGroupBatch" parameterClass="map">
+        UPDATE RotateGroup
+        SET
+        Status = 0
+        WHERE ID IN
+        (
+        <iterate property="rotateGroupIDList" conjunction=",">
+            #rotateGroupIDList[]#
+        </iterate>
+        )
+    </update>
 
     <update id="restoreRotateGroup" parameterClass="map">
         UPDATE RotateGroup
