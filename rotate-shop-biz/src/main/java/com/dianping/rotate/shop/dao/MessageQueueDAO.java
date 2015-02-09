@@ -16,7 +16,7 @@ public interface MessageQueueDAO extends GenericDao {
     @DAOAction(action = DAOActionType.INSERT)
     int addToMessageQueue(@DAOParam("message") MessageEntity message);
 
-    @DAOAction(action = DAOActionType.DELETE)
+    @DAOAction(action = DAOActionType.UPDATE)
     void deleteMessage(@DAOParam("id") int id);
 
     @DAOAction(action = DAOActionType.DELETE)
@@ -42,10 +42,26 @@ public interface MessageQueueDAO extends GenericDao {
     void updateMessageAttemptIndex(@DAOParam("id") int id,
                                    @DAOParam("attemptIndex") int attemptIndex);
 
+    @DAOAction(action = DAOActionType.UPDATE)
+    void updateMessageAttemptIndexByType(@DAOParam("type") int type,
+                                         @DAOParam("source") int source,
+                                         @DAOParam("attemptIndex") int attemptIndex);
+
     @DAOAction(action = DAOActionType.INSERT)
     void addMessageQueueToHistory();
 
     @DAOAction(action = DAOActionType.DELETE)
     int clearMessageQueue();
 
+    @DAOAction(action = DAOActionType.QUERY)
+    List<MessageEntity> getMessage(@DAOParam("source") int source,
+                                   @DAOParam("type") int type,
+                                   @DAOParam("status") int status,
+                                   @DAOParam("limit") int limit,
+                                   @DAOParam("offset") int offset);
+
+    @DAOAction(action = DAOActionType.LOAD)
+    int getMessageCount(@DAOParam("source") int source,
+                        @DAOParam("type") int type,
+                        @DAOParam("status") int status);
 }

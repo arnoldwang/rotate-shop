@@ -17,15 +17,14 @@ import com.dianping.rotate.shop.json.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.json.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.json.RotateGroupEntity;
 import com.dianping.rotate.shop.json.RotateGroupShopEntity;
-import com.dianping.rotate.shop.utils.CommonUtil;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -207,15 +206,9 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 
 	private List<java.util.Date> getMinAndMaxOfflineTime(List<Date> offlineTimeList) {
 		List<java.util.Date> dateList = new ArrayList<java.util.Date>();
-		dateList.add(formatDate(offlineTimeList.get(offlineTimeList.size() - 1)));
-		dateList.add(formatDate(offlineTimeList.get(0)));
+		dateList.add(offlineTimeList.get(offlineTimeList.size() - 1));
+		dateList.add(offlineTimeList.get(0));
 		return dateList;
-	}
-
-	private java.util.Date formatDate(Date date) {
-		CommonUtil commonUtil = new CommonUtil();
-		String dateString = commonUtil.datetimeToString(new java.util.Date(date.getTime()));
-		return commonUtil.stringToDateTime(dateString);
 	}
 
 	private List<Integer> getShopIDs(List<RotateGroupShopEntity> rotateGroupShopEntityList) {

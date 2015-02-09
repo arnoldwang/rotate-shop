@@ -1,6 +1,6 @@
 package com.dianping.rotate.shop.json;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by luoming on 15/1/4.

@@ -156,4 +156,9 @@
             )
         </iterate>
     </insert>
+
+    <delete id="deleteShopCategoryDirectlyByShopID" parameterClass="map">
+        DELETE FROM ShopCategory
+        WHERE ShopID = #shopID#
+    </delete>
 </sqlMap>

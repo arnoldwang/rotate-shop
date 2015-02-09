@@ -5,6 +5,7 @@ import com.dianping.rotate.shop.exception.POIMessageException;
 import com.dianping.rotate.shop.factory.POIChange;
 import com.dianping.rotate.shop.factory.POIFactory;
 import com.dianping.rotate.shop.service.POIChangeService;
+import com.dianping.rotate.shop.utils.Switch;
 import com.dianping.swallow.common.message.Message;
 import com.dianping.swallow.consumer.MessageListener;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ public class POIAddListener implements MessageListener {
     @Override
     public void onMessage(Message msg) throws POIMessageException {
         try{
+            if(Switch.off()) return;
             if(POIChangeService.getDPActionMessageType(msg)==DP_ACTION_ADD_TYPE){
                 POIChange poiChange = poiFactory.factory(POIMessageType.SHOP_ADD);
                 if(poiChange==null) return;
