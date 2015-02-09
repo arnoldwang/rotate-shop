@@ -20,26 +20,14 @@ public class StatisticsController {
     @Autowired
     private StatisticsService statisticsService;
 
-    @RequestMapping(value = "/message/fail", method = RequestMethod.GET)
+    @RequestMapping(value = "/message/detail", method = RequestMethod.GET)
     @ResponseBody
-    public ServiceResult getProcessFailMessage(@RequestParam(value = "source", defaultValue = "0") int source,
-                                               @RequestParam(value = "type", defaultValue = "0") int type,
-                                               @RequestParam(value = "pageSize", defaultValue = "10") int limit,
-                                               @RequestParam(value = "pageIndex", defaultValue = "0") int offset){
-        StatisticsModel statisticsModel = statisticsService.getProcessMessage(source,type, MessageStatus.FAIL,limit,offset);
-        ServiceResult result = new ServiceResult();
-        result.setCode(ServiceResult.SUCCESS);
-        result.setMsg(statisticsModel);
-        return result;
-    }
-
-    @RequestMapping(value = "/message/success", method = RequestMethod.GET)
-    @ResponseBody
-    public ServiceResult getProcessSuccessMessage(@RequestParam(value = "source", defaultValue = "0") int source,
-                                                  @RequestParam(value = "type", defaultValue = "0") int type,
-                                                  @RequestParam(value = "pageSize", defaultValue = "10") int limit,
-                                                  @RequestParam(value = "pageIndex", defaultValue = "0") int offset){
-        StatisticsModel statisticsModel = statisticsService.getProcessMessage(source,type, MessageStatus.SUCCESS,limit,offset);
+    public ServiceResult getProcessMessage(@RequestParam(value = "source", defaultValue = "0") int source,
+                                           @RequestParam(value = "type", defaultValue = "0") int type,
+                                           @RequestParam(value = "status", defaultValue = "0") int status,
+                                           @RequestParam(value = "pageIndex", defaultValue = "1") int pageIndex,
+                                           @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        StatisticsModel statisticsModel = statisticsService.getProcessMessage(source,type, status,pageSize,(pageSize-1)*pageIndex);
         ServiceResult result = new ServiceResult();
         result.setCode(ServiceResult.SUCCESS);
         result.setMsg(statisticsModel);

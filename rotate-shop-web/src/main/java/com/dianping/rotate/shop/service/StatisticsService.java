@@ -35,8 +35,9 @@ public class StatisticsService {
         }
         StatisticsModel statisticsModel = new StatisticsModel();
         statisticsModel.setMessageList(messageModels);
-        statisticsModel.setTotal(messageQueueDao.getMessageCount(source,type,status));
-        return new StatisticsModel(messageModels);
+        int total = messageQueueDao.getMessageCount(source,type,status);
+        statisticsModel.setTotal(total);
+        return statisticsModel;
     }
 
     public void deleteMessage(int id){
