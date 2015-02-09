@@ -27,7 +27,7 @@ public class StatisticsController {
                                            @RequestParam(value = "status", defaultValue = "0") int status,
                                            @RequestParam(value = "pageIndex", defaultValue = "1") int pageIndex,
                                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        StatisticsModel statisticsModel = statisticsService.getProcessMessage(source,type, status,pageSize,(pageSize-1)*pageIndex);
+        StatisticsModel statisticsModel = statisticsService.getProcessMessage(source,type, status,pageSize,pageSize*(pageIndex-1));
         ServiceResult result = new ServiceResult();
         result.setCode(ServiceResult.SUCCESS);
         result.setMsg(statisticsModel);
