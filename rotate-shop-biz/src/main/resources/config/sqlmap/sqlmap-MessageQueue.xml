@@ -100,6 +100,14 @@
         WHERE ID =#id#
     </update>
 
+    <update id="updateMessageAttemptIndexByType" parameterClass="map">
+        update  MessageQueue
+        set  AttemptIndex = #attemptIndex#
+        WHERE Type = #type#
+        AND Source = #source#
+        AND Status = 1
+    </update>
+
     <sql id="keysNoID">
         Msg,
         SwallowID,
@@ -118,5 +126,25 @@
     <delete id="clearMessageQueue">
         delete from MessageQueue where Status = 0 or AttemptIndex >= 10
     </delete>
+
+    <select id="getMessage" resultMap="messageQueue" parameterClass="map">
+        SELECT
+        <include refid="keys"/>
+        FROM MessageQueue
+        WHERE Source=#source#
+        AND Type=#type#
+        AND Status=#status#
+        ORDER BY ID
+        LIMIT #limit#
+        OFFSET #offset#
+    </select>
+
+    <select id="getMessageCount" resultClass="int" parameterClass="map">
+        SELECT COUNT(*)
+        FROM MessageQueue
+        WHERE Type = #type#
+        AND Status = #status#
+        AND Source = #source#
+    </select>
 
 </sqlMap>

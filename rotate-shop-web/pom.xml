@@ -326,5 +326,12 @@
             <version>4.3.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.dianping</groupId>
+            <artifactId>rotate-shop-biz</artifactId>
+            <version>1.0.2-SNAPSHOT</version>
+        </dependency>
+
+
     </dependencies>
 </project>
