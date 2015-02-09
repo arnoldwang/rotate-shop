@@ -6,6 +6,20 @@ import java.util.List;
  * Created by yangjie on 1/13/15.
  */
 public interface ShopService {
+
+	/**
+	 * poi新增门店后，客户轮转系统初始化shop、shopExtend、region、category、rotateGroup、rotateGroupShop
+	 * @param shopId
+	 */
+	public void addShop(int shopId);
+
+	/**
+	 * poi更新门店信息后，客户轮转系统更新shop、region、category、rotateGroup、rotateGroupShop
+	 * 更新poi信息
+	 * @param shopId
+	 */
+	public void updateShop(int shopId);
+
 	/**
 	 * 关闭门店
 	 * @param shopId
@@ -26,7 +40,7 @@ public interface ShopService {
 	public void updateRotateGroupTypeAndStatusByShopID(int shopId);
 
 	/**
-	 * 建议用updateRotateGroupTypeAndStatus()方法代替
+	 * 前台操作调用此方法
 	 * 更新轮转组的状态，包括是否单店，是否有效
 	 * 逻辑是当轮转组有
 	 * 0个门店 -> 无效
@@ -34,11 +48,10 @@ public interface ShopService {
 	 * 2个及以上门店 -> 有效 连锁店
 	 * @param rotateGroupID
 	 */
-	@Deprecated
 	public void updateRotateGroupTypeAndStatusByRotateGroupId(int rotateGroupID);
 
 	/**
-	 * 优化后
+	 * 优化后，供Job使用
 	 * 更新轮转组的状态，包括是否单店，是否有效
 	 * 逻辑是当轮转组有
 	 * 0个门店 -> 无效
@@ -47,19 +60,6 @@ public interface ShopService {
 	 * @param rotateGroupID
 	 */
 	public void updateRotateGroupTypeAndStatus(int rotateGroupID);
-
-	/**
-	 * poi新增门店后，客户轮转系统初始化shop、shopExtend、region、category、rotateGroup、rotateGroupShop
-	 * @param shopId
-	 */
-	public void addShop(int shopId);
-
-	/**
-	 * poi更新门店信息后，客户轮转系统更新shop、region、category、rotateGroup、rotateGroupShop
-	 * 更新poi信息
-	 * @param shopId
-	 */
-	public void updateShop(int shopId);
 
 	/**
 	 * 分页批量获取rotateGroupID

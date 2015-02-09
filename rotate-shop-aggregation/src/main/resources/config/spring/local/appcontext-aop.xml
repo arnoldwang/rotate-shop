@@ -6,5 +6,4 @@
 
     <aop:aspectj-autoproxy/>
 
-    <bean id="shopLog" class="com.dianping.rotate.shop.aop.ShopLog"/>
 </beans>
