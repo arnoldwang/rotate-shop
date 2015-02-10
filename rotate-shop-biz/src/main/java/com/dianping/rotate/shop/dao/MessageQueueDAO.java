@@ -5,6 +5,7 @@ import com.dianping.avatar.dao.annotation.DAOAction;
 import com.dianping.avatar.dao.annotation.DAOActionType;
 import com.dianping.avatar.dao.annotation.DAOParam;
 import com.dianping.rotate.shop.json.MessageEntity;
+import com.dianping.rotate.shop.json.MessageStatisticsEntity;
 
 import java.util.List;
 
@@ -64,4 +65,8 @@ public interface MessageQueueDAO extends GenericDao {
     int getMessageCount(@DAOParam("source") int source,
                         @DAOParam("type") int type,
                         @DAOParam("status") int status);
+
+    @DAOAction(action = DAOActionType.QUERY)
+    List<MessageStatisticsEntity> getMessageStatistics(@DAOParam("source") int source,
+                                                       @DAOParam("type") int type);
 }

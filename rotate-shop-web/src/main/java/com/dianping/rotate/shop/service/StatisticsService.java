@@ -3,17 +3,18 @@ package com.dianping.rotate.shop.service;
 import com.dianping.rotate.shop.constants.MessageStatus;
 import com.dianping.rotate.shop.dao.MessageQueueDAO;
 import com.dianping.rotate.shop.json.MessageEntity;
-import com.dianping.rotate.shop.model.MessageModel;
-import com.dianping.rotate.shop.model.MessageProcessModel;
-import com.dianping.rotate.shop.model.StatisticsModel;
-import com.dianping.rotate.shop.utils.CommonUtil;
-import org.apache.commons.collections.CollectionUtils;
+import com.dianping.rotate.shop.json.MessageStatisticsEntity;
+import com.dianping.rotate.shop.model.*;
+import com.dianping.rotate.shop.model.ChartsModel.Series;
+import com.dianping.rotate.shop.model.ChartsModel.Title;
+import com.dianping.rotate.shop.model.ChartsModel.XAxis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zaza on 15/2/4.
@@ -93,6 +94,45 @@ public class StatisticsService {
             statisticsModel.setMessageList(messageModels);
         }
         return statisticsModel;
+    }
+
+    public MessageChartsModel getMessageChartsModel(int type,int source){
+        MessageChartsModel chartsModel = new MessageChartsModel();
+        List<MessageStatisticsEntity> statisticsEntities = messageQueueDao.getMessageStatistics(source,type);
+        chartsModel.setTitle(new Title(getMessageNameByType(type, source)));
+        Map<String,List<MessageStatisticsEntity>> data2Entity = new HashMap<String,List<MessageStatisticsEntity>>();
+        for(MessageStatisticsEntity entity:statisticsEntities){
+            if(!data2Entity.containsKey(entity.getTitle())){
+                data2Entity.put(entity.getTitle(),new ArrayList<MessageStatisticsEntity>());
+            }
+            data2Entity.get(entity.getTitle()).add(entity);
+        }
+        List<String> categories = new ArrayList<String>();
+        List<Integer> data_0 = new ArrayList<Integer>();
+        List<Integer> data_1 = new ArrayList<Integer>();
+        for(String data:data2Entity.keySet()){
+            categories.add(data);
+            for(MessageStatisticsEntity entity:data2Entity.get(data)){
+                if(entity.getStatus()==0){
+                    data_0.add(entity.getTotal());
+                    if(data2Entity.get(data).size()<2){
+                        data_1.add(0);
+                    }
+                }else{
+                    data_1.add(entity.getTotal());
+                    if(data2Entity.get(data).size()<2){
+                        data_0.add(0);
+                    }
+                }
+            }
+
+        }
+        chartsModel.setXAxis(new XAxis(categories));
+        List<Series> series = new ArrayList<Series>();
+        series.add(new Series(data_0));
+        series.add(new Series(data_1));
+        chartsModel.setSeries(series);
+        return chartsModel;
     }
 
     private MessageProcessModel getMessageProcessModel(int type,int source){

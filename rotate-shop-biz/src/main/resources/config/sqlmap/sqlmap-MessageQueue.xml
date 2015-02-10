@@ -13,6 +13,12 @@
         <result column="Type" property="type"/>
     </resultMap>
 
+    <resultMap id="messageStatistics" class="com.dianping.rotate.shop.json.MessageStatisticsEntity">
+        <result column="title" property="title"/>
+        <result column="total" property="total"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
     <sql id="keys">
         ID,
         Msg,
@@ -146,5 +152,15 @@
         AND Status = #status#
         AND Source = #source#
     </select>
+
+    <select id="getMessageStatistics" resultMap="messageStatistics" parameterClass="map">
+        SELECT date(CreatedTime) as title,count(*) as total,Status as status
+        FROM MessageQueue
+        WHERE Type = #type#
+        AND Source = #source#
+        group by date(CreatedTime),Status
+    </select>
+
+
 
 </sqlMap>

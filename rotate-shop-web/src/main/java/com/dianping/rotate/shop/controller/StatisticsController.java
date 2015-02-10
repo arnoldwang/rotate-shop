@@ -1,6 +1,7 @@
 package com.dianping.rotate.shop.controller;
 
 import com.dianping.rotate.shop.constants.MessageStatus;
+import com.dianping.rotate.shop.model.MessageChartsModel;
 import com.dianping.rotate.shop.model.ServiceResult;
 import com.dianping.rotate.shop.model.StatisticsModel;
 import com.dianping.rotate.shop.service.StatisticsService;
@@ -26,7 +27,7 @@ public class StatisticsController {
                                            @RequestParam(value = "type", defaultValue = "0") int type,
                                            @RequestParam(value = "status", defaultValue = "0") int status,
                                            @RequestParam(value = "pageIndex", defaultValue = "1") int pageIndex,
-                                           @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+                                           @RequestParam(value = "pageSize", defaultValue = "0") int pageSize){
         StatisticsModel statisticsModel = statisticsService.getProcessMessage(source,type, status,pageSize,pageSize*(pageIndex-1));
         ServiceResult result = new ServiceResult();
         result.setCode(ServiceResult.SUCCESS);
@@ -95,5 +96,18 @@ public class StatisticsController {
         result.setMsg(statisticsModel);
         return result;
     }
+
+    @RequestMapping(value = "/message/charts", method = RequestMethod.GET)
+    @ResponseBody
+    public ServiceResult getMessageCharts(@RequestParam(value = "type", defaultValue = "0") int type,
+                                          @RequestParam(value = "source", defaultValue = "0") int source
+                                          ){
+        MessageChartsModel chartsModel = statisticsService.getMessageChartsModel(type,source);
+        ServiceResult result = new ServiceResult();
+        result.setCode(ServiceResult.SUCCESS);
+        result.setMsg(chartsModel);
+        return result;
+    }
+
 
 }
