@@ -23,9 +23,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: zhenwei.wang
@@ -86,7 +84,6 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	@Override
 	public List<RotateGroupDTO> getRotateGroup(List<Integer> rotateGroupIDList) {
 		return Lists.transform(getRotateGroupEntity(rotateGroupIDList), toRotateGroupDTO);
-
 	}
 
 	@Override
@@ -118,6 +115,72 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public RotateGroupDTO createRotateGroup(int bizID, List<Integer> apolloShopIDList) {
+		removeDuplicate(apolloShopIDList);
+		RotateGroupEntity rotateGroupEntity = addRotateGroup(bizID, apolloShopIDList);
+		if(rotateGroupEntity != null) {
+			addRotateGroupShop(rotateGroupEntity.getId(), apolloShopIDList);
+			return toRotateGroupDTO.apply(rotateGroupEntity);
+		}
+		return null;
+	}
+
+	@Override
+	public boolean deleteRotateGroupByRotateGroupID(int rotateGroupID) {
+		rotateGroupDAO.deleteRotateGroup(rotateGroupID);
+		rotateGroupShopDAO.deleteRotateGroupShopByRotateGroupID(rotateGroupID);
+		return true;
+	}
+
+	private RotateGroupEntity addRotateGroup(int bizID, List<Integer> apolloShopIDList) {
+		RotateGroupEntity rotateGroupEntity = new RotateGroupEntity();
+		rotateGroupEntity.setBizID(bizID);
+		rotateGroupEntity.setType(getRotateGroupType(apolloShopIDList));
+		rotateGroupEntity.setStatus(1);
+		int rotateGroupID = rotateGroupDAO.addToRotateGroup(rotateGroupEntity);
+		if(rotateGroupID < 0) {
+			return null;
+		}
+		rotateGroupEntity.setId(rotateGroupID);
+		return rotateGroupEntity;
+	}
+
+	private void addRotateGroupShop(int rotateGroupID, List<Integer> apolloShopIDList) {
+		if(CollectionUtils.isNotEmpty(apolloShopIDList)) {
+			List<RotateGroupShopEntity> rotateGroupShopEntityList = new ArrayList<RotateGroupShopEntity>();
+			for(int shopID : apolloShopIDList) {
+				RotateGroupShopEntity rotateGroupShopEntity = new RotateGroupShopEntity();
+				rotateGroupShopEntity.setRotateGroupID(rotateGroupID);
+				rotateGroupShopEntity.setShopID(shopID);
+				rotateGroupShopEntity.setShopGroupID(rotateGroupID);
+				rotateGroupShopEntity.setStatus(1);
+				rotateGroupShopEntityList.add(rotateGroupShopEntity);
+			}
+			rotateGroupShopDAO.addToRotateGroupShopByList(rotateGroupShopEntityList);
+		}
+	}
+
+	private void removeDuplicate(List<Integer> apolloShopIDList) {
+		HashSet hashSet = new HashSet(apolloShopIDList);
+		apolloShopIDList.clear();
+		apolloShopIDList.addAll(hashSet);
+	}
+
+	private int getRotateGroupType(List<Integer> apolloShopIDList) {
+		int type = 0;
+		if(CollectionUtils.isNotEmpty(apolloShopIDList)) {
+			int apolloShopIDListSize = apolloShopIDList.size();
+			if(apolloShopIDListSize > MAX_RESULT_SIZE) {
+				throw new RequestServiceException("ApolloShopIDs are too many!");
+			}
+			if(apolloShopIDListSize > 1) {
+				type = 1;
+			}
+		}
+		return type;
 	}
 
 	private void updateShopExtendType(int rotateGroupID, RotateGroupEntity rotateGroupEntity, List<Integer> rotateGroupIDList) {

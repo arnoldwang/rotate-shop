@@ -56,6 +56,12 @@
         WHERE ID = #id#
     </update>
 
+    <update id="deleteRotateGroupShopByRotateGroupID" parameterClass="map">
+        UPDATE RotateGroupShop
+        SET
+        Status = 0
+        WHERE RotateGroupID = #rotateGroupID#
+    </update>
 
     <update id="deleteRotateGroupShopByShopId" parameterClass="map">
         UPDATE RotateGroupShop
