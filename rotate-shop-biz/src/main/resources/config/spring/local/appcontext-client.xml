@@ -3,12 +3,21 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-       <bean id="departmentGroupServiceRemote" class="com.dianping.dpsf.spring.ProxyBeanFactory" init-method="init">
-              <property name="serviceName" value="http://service.dianping.com/apolloBaseService/apolloBaseService_1.0.0"/>
-              <property name="iface" value="com.dianping.apollobase.api.DepartmentGroupService"/>
-              <property name="serialize" value="hessian"/>
-              <property name="callMethod" value="sync"/>
-              <property name="timeout" value="5000"/>
-       </bean>
+    <bean id="departmentGroupServiceRemote" class="com.dianping.dpsf.spring.ProxyBeanFactory" init-method="init">
+        <property name="serviceName" value="http://service.dianping.com/apolloBaseService/apolloBaseService_1.0.0"/>
+        <property name="iface" value="com.dianping.apollobase.api.DepartmentGroupService"/>
+        <property name="serialize" value="hessian"/>
+        <property name="callMethod" value="sync"/>
+        <property name="timeout" value="5000"/>
+    </bean>
 
+    <bean id="shopLogService" class="com.dianping.dpsf.spring.ProxyBeanFactory"
+          init-method="init">
+        <property name="serviceName"
+                  value="http://service.dianping.com/rotate/core/ShopLogService_0.0.1" />
+        <property name="iface" value="com.dianping.rotate.core.api.service.ShopLogService" />
+        <property name="serialize" value="hessian" />
+        <property name="callMethod" value="sync" />
+        <property name="timeout" value="5000" />
+    </bean>
 </beans>
