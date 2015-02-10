@@ -148,4 +148,16 @@
         SET ape.Type = 1
         WHERE rgs.rotateGroupID = #rotateGroupID# AND rgs.Status = 1
     </update>
+
+    <update id="updateApolloShopExtendTypeByRotateGroupIDListAndType" parameterClass="map">
+        UPDATE ApolloShopExtend ape JOIN RotateGroupShop rgs
+        ON rgs.ShopID = ape.ShopID
+        SET ape.Type = #type#
+        WHERE ape.BizID = #bizID# and rgs.RotateGroupID IN
+        (
+        <iterate property="rotateGroupIDList" conjunction=",">
+            #rotateGroupIDList[]#
+        </iterate>
+        )
+    </update>
 </sqlMap>

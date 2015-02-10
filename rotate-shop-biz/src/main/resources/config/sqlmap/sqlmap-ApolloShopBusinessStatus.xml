@@ -107,10 +107,10 @@
         WHERE Status = 1
     </update>
 
-    <update id="clearApolloShopBusinessStatus">
+    <delete id="clearApolloShopBusinessStatus">
         delete from ApolloShopBusinessStatus
         WHERE Status = 0
-    </update>
+    </delete>
 
     <update id="updateApolloShopBusinessStatus" parameterClass="map">
         update ApolloShopBusinessStatus

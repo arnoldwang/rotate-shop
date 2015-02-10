@@ -52,6 +52,17 @@
         WHERE ID = #id#
     </update>
 
+    <update id="deleteRotateGroupBatch" parameterClass="map">
+        UPDATE RotateGroup
+        SET
+        Status = 0
+        WHERE ID IN
+        (
+        <iterate property="rotateGroupIDList" conjunction=",">
+            #rotateGroupIDList[]#
+        </iterate>
+        )
+    </update>
 
     <update id="restoreRotateGroup" parameterClass="map">
         UPDATE RotateGroup
@@ -113,5 +124,15 @@
     <select id="getRotateGroupNum" resultClass="int">
         SELECT COUNT(*)
         FROM RotateGroup
+    </select>
+
+    <select id="queryRotateGroupByShopID" resultMap="rotateGroup" parameterClass="map">
+         SELECT
+        rg.ID,
+        rg.BizID,
+        rg.Type,
+        rg.Status
+        FROM RotateGroup rg, RotateGroupShop rgs
+        WHERE rg.ID = rgs.RotateGroupID and  rgs.Status != 0 and  rgs.ShopID = #shopID#
     </select>
 </sqlMap>

@@ -30,6 +30,13 @@ public interface RotateGroupDAO extends GenericDao{
 	public void deleteRotateGroup(@DAOParam("id")int rotateGroupID);
 
 	/**
+	 * 批量删除轮转组，软删除
+	 * @param rotateGroupIDList
+	 */
+	@DAOAction(action = DAOActionType.UPDATE)
+	public void deleteRotateGroupBatch(@DAOParam("rotateGroupIDList")List<Integer> rotateGroupIDList);
+
+	/**
 	 * 重新开启一个轮转组
 	 * @param rotateGroupID
 	 */
@@ -85,6 +92,18 @@ public interface RotateGroupDAO extends GenericDao{
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<Integer> queryRotateGroupIDList(@DAOParam("pageSize")int pageSize,@DAOParam("offset") int offset);
 
+	/**
+	 * 查询RotateGroup的总数量，包括关闭的
+	 * @return
+	 */
 	@DAOAction(action = DAOActionType.LOAD)
 	public int getRotateGroupNum();
+
+	/**
+	 * 按门店查询轮转组，包括关闭的轮转组
+	 * @param shopId
+	 * @return
+	 */
+	@DAOAction(action = DAOActionType.QUERY)
+	public List<RotateGroupEntity> queryRotateGroupByShopID(@DAOParam("shopID")int shopId);
 }
