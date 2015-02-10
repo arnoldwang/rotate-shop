@@ -4,10 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
     <!-- Master Main datasource -->
     <bean id="rotate-shop-master" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="jdbcUrl" value="${rotate-shop-biz.jdbc.url}"/>
-        <property name="user" value="${rotate-shop-biz.jdbc.username}"/>
-        <property name="password" value="${rotate-shop-biz.jdbc.password}"/>
-        <property name="driverClass" value="${rotate-shop-biz.jdbc.driverClassName}"/>
+        <property name="jdbcUrl" value="${rotate-shop-biz.master.jdbc.url}"/>
+        <property name="user" value="${rotate-shop-biz.master.jdbc.username}"/>
+        <property name="password" value="${rotate-shop-biz.master.jdbc.password}"/>
+        <property name="driverClass" value="${rotate-shop-biz.master.jdbc.driverClassName}"/>
         <property name="minPoolSize" value="8"/>
         <property name="maxPoolSize" value="30"/>
         <property name="initialPoolSize" value="15"/>
@@ -24,10 +24,10 @@
 
     <!-- Slave Main datasource -->
     <bean id="rotate-shop-slave" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-        <property name="jdbcUrl" value="${rotate-shop-biz.jdbc.url}"/>
-        <property name="user" value="${rotate-shop-biz.jdbc.username}"/>
-        <property name="password" value="${rotate-shop-biz.jdbc.password}"/>
-        <property name="driverClass" value="${rotate-shop-biz.jdbc.driverClassName}"/>
+        <property name="jdbcUrl" value="${rotate-shop-biz.slave.jdbc.url}"/>
+        <property name="user" value="${rotate-shop-biz.slave.jdbc.username}"/>
+        <property name="password" value="${rotate-shop-biz.slave.jdbc.password}"/>
+        <property name="driverClass" value="${rotate-shop-biz.slave.jdbc.driverClassName}"/>
         <property name="minPoolSize" value="8"/>
         <property name="maxPoolSize" value="30"/>
         <property name="initialPoolSize" value="15"/>

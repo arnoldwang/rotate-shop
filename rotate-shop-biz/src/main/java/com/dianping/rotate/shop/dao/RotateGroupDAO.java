@@ -30,6 +30,13 @@ public interface RotateGroupDAO extends GenericDao{
 	public void deleteRotateGroup(@DAOParam("id")int rotateGroupID);
 
 	/**
+	 * 批量删除轮转组，软删除
+	 * @param rotateGroupIDList
+	 */
+	@DAOAction(action = DAOActionType.UPDATE)
+	public void deleteRotateGroupBatch(@DAOParam("rotateGroupIDList")List<Integer> rotateGroupIDList);
+
+	/**
 	 * 重新开启一个轮转组
 	 * @param rotateGroupID
 	 */

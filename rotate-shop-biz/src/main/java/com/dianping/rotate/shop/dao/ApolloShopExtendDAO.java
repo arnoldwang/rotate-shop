@@ -85,4 +85,12 @@ public interface ApolloShopExtendDAO extends GenericDao {
 	 */
 	@DAOAction(action = DAOActionType.UPDATE)
 	void updateApolloShopExtendTypeByRotateGroupID(@DAOParam("rotateGroupID")int rotateGroupID);
+
+    /**
+     * 更新轮转组下ApolloShopExtend的Type
+     * @param rotateGroupIDList
+     * @param type
+     */
+    @DAOAction(action = DAOActionType.UPDATE)
+    void updateApolloShopExtendTypeByRotateGroupIDListAndType(@DAOParam("rotateGroupIDList")List<Integer> rotateGroupIDList, @DAOParam("type")int type, @DAOParam("bizID")int bizID);
 }

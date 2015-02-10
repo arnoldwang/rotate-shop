@@ -66,6 +66,12 @@
     </build>
     <dependencies>
         <dependency>
+            <groupId>com.dianping</groupId>
+            <artifactId>rotate-shop-aggregation</artifactId>
+            <version>1.0.2-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.dianping.platform</groupId>
             <artifactId>platform-sdk</artifactId>
         </dependency>
@@ -319,6 +325,13 @@
             <artifactId>httpclient</artifactId>
             <version>4.3.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.dianping</groupId>
+            <artifactId>rotate-shop-biz</artifactId>
+            <version>1.0.2-SNAPSHOT</version>
+        </dependency>
+
 
     </dependencies>
 </project>
