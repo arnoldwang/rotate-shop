@@ -26,6 +26,11 @@
             <artifactId>rotate-shop-api</artifactId>
             <version>${api.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.dianping</groupId>
+            <artifactId>rotate-core-api</artifactId>
+            <version>0.0.7-SNAPSHOT</version>
+        </dependency>
         <!-- dp framework -->
         <dependency>
             <groupId>com.dianping.dpdl</groupId>
