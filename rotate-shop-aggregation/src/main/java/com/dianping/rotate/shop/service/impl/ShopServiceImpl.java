@@ -141,10 +141,6 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
-	/**
-	 * 前台操作关闭/重开门店调用此方法，此方法不打Log
-	 * @param rotateGroupID
-	 */
 	@Override
 	public void updateRotateGroupTypeAndStatusByRotateGroupId(int rotateGroupID) {
 
@@ -299,7 +295,7 @@ public class ShopServiceImpl implements ShopService {
 		return rotateGroupShopEntityList;
 	}
 
-	private int insertRotateGroup(ApolloShopExtendEntity apolloShopExtend) {
+	public int insertRotateGroup(ApolloShopExtendEntity apolloShopExtend) {
 		List<ApolloShopExtendEntity> apolloShopExtendList = Lists.newArrayList(apolloShopExtend);
 		List<Integer> rotateGroupIDList = insertRotateGroupList(apolloShopExtendList);
 		return rotateGroupIDList.get(0);
@@ -402,4 +398,5 @@ public class ShopServiceImpl implements ShopService {
 	private void updateRotateGroupShopByShopID(int shopId, int shopGroupId) {
 		rotateGroupShopDAO.updateRotateGroupShopByShopID(shopId, shopGroupId);
 	}
+
 }
