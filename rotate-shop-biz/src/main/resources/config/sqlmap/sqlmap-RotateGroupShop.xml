@@ -181,7 +181,7 @@
         WHERE rgs.ShopID = #rotateGroup.ShopID# AND rg.BizID = #bizID#
     </update>
 
-    <select id="queryRotateGroupSHopByShopIDAndBizID" resultMap="rotateGroupShop" parameterClass="map">
+    <select id="queryRotateGroupShopByShopIDAndBizID" resultMap="rotateGroupShop" parameterClass="map">
         SELECT
         rgs.ID,
         rgs.RotateGroupID,
@@ -189,7 +189,7 @@
         rgs.ShopGroupID,
         rgs.Status
         FROM RotateGroupShop rgs JOIN RotateGroup rg ON rgs.RotateGroupID = rg.ID
-        WHERE rgs.ShopID = #rotateGroup.ShopID# AND rg.BizID = #bizID#
+        WHERE rgs.ShopID = #shopID# AND rg.BizID = #bizID#
         LIMIT 1
     </select>
 </sqlMap>
