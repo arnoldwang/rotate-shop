@@ -1,6 +1,8 @@
 package com.dianping.rotate.shop.service.impl;
 
 import com.dianping.combiz.service.CityService;
+import com.dianping.rotate.core.api.service.RotateGroupUserService;
+import com.dianping.rotate.shop.constants.BizTypeEnum;
 import com.dianping.rotate.shop.constants.RotateGroupTypeEnum;
 import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.exceptions.WrongShopInfoException;
@@ -28,6 +30,9 @@ public class ShopServiceImpl implements ShopService {
 
 	@Autowired
 	com.dianping.shopremote.remote.ShopService shopService;
+
+	@Autowired
+	RotateGroupUserService rotateGroupUserService;
 
 	@Autowired
 	CityService cityService;
@@ -99,14 +104,17 @@ public class ShopServiceImpl implements ShopService {
 		ShopDTO shopDTO = shopService.loadShop(shopId);
 		if (shopDTO == null)
 			throw new WrongShopInfoException("update shop info failed with wrong shopId!");
+		ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
+		if( apolloShopEntity == null)
+			throw new WrongShopInfoException("update shop is not existed!");
 
 		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
 		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
 
-		ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
 		boolean isStatusChanged = (apolloShopEntity.getShopStatus() != shopDTO.getPower());
 		if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
 			updateRotateGroupShopByShopID(shopId, shopDTO.getShopGroupId());
+			isStatusChanged = true;
 		}
 
 		updateApolloShop(apolloShopEntity, shopDTO);
@@ -223,7 +231,7 @@ public class ShopServiceImpl implements ShopService {
 			flag = true;
 		}
 
-		if (flag){
+		if (flag) {
 			rotateGroupDAO.updateRotateGroup(rotateGroup);
 		}
 	}
@@ -395,8 +403,40 @@ public class ShopServiceImpl implements ShopService {
 		insertShopCategoryList(shopCategoryDTOList, shopDTO);
 	}
 
+
+	/**
+	 * 对于合并连锁店：
+	 * 1.如果被变化的门店在公海中，则将被变化门店的rotateGroupID改成同一shopGroup下最小的rotateGroupID
+	 * 2.如果被变化的门店在私海中，则遍历同一shopGroup，将rotateGroupID最小的且属于公海的门店的rotateGroupID改成被变化门店的rotateGroupID
+	 * 2.1 同一shopGroup下左右门店都在私海则不合并
+	 * 拆分连锁店不需要以上操作
+	 *
+	 * @param shopId      变化的门店ID
+	 * @param shopGroupId 变化后门店的shopGroupID
+	 */
 	private void updateRotateGroupShopByShopID(int shopId, int shopGroupId) {
-		rotateGroupShopDAO.updateRotateGroupShopByShopID(shopId, shopGroupId);
+		for (BizTypeEnum bizTypeEnum : BizTypeEnum.values()) {
+			int bizId = bizTypeEnum.getCode();
+			List<RotateGroupShopEntity> rotateGroupShopEntities = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopGroupId, bizId);
+			RotateGroupShopEntity changedRotateGroupShop = rotateGroupShopDAO.queryRotateGroupShopByShopIDAndBizID(shopId, bizId);
+			if(changedRotateGroupShop == null)
+				continue;
+			if (CollectionUtils.isNotEmpty(rotateGroupShopEntities)) {
+				if (rotateGroupUserService.findByShopIdAndBizId(shopId, bizId) == null) {//门店在公海里
+					int rotateGroupID = rotateGroupShopEntities.get(0).getRotateGroupID();
+					changedRotateGroupShop.setRotateGroupID(rotateGroupID);
+				} else {//门店在私海里
+					for (RotateGroupShopEntity rotateGroupShop : rotateGroupShopEntities) {
+						if (rotateGroupUserService.findByRotateGroupId(rotateGroupShop.getRotateGroupID()) == null) {
+							rotateGroupShop.setRotateGroupID(changedRotateGroupShop.getRotateGroupID());
+							rotateGroupShopDAO.updateRotateGroupShop(rotateGroupShop);
+						}
+					}
+				}
+			}
+			changedRotateGroupShop.setShopGroupID(shopGroupId);
+			rotateGroupShopDAO.updateRotateGroupShop(changedRotateGroupShop);
+		}
 	}
 
 }

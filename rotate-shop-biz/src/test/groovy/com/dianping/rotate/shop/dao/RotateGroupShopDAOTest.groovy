@@ -104,4 +104,16 @@ class RotateGroupShopDAOTest extends AbstractSpockTest{
         then:
         1 == 1;
     }
+
+    def "test queryRotateGroupShopByShopIDAndBizID"(){
+        setup:
+        def shopId = 500015
+        def bizId  = 101
+
+        when:
+        def r = rotateGroupShopDAO.queryRotateGroupShopByShopIDAndBizID(shopId, bizId)
+
+        then:
+        500015 == r.getShopID()
+    }
 }

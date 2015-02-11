@@ -15,47 +15,53 @@ import java.util.List;
 public interface RotateGroupShopDAO extends GenericDao {
 
 	@DAOAction(action = DAOActionType.INSERT)
-	public int addToRotateGroupShop(@DAOParam("rotateGroupShop")RotateGroupShopEntity rotateGroupShop);
+	public int addToRotateGroupShop(@DAOParam("rotateGroupShop") RotateGroupShopEntity rotateGroupShop);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void deleteRotateGroupShop(@DAOParam("id")int id);
+	public void deleteRotateGroupShop(@DAOParam("id") int id);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void deleteRotateGroupShopByRotateGroupID(@DAOParam("rotateGroupID")int rotateGroupID);
+	public void deleteRotateGroupShopByRotateGroupID(@DAOParam("rotateGroupID") int rotateGroupID);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void deleteRotateGroupShopByShopId(@DAOParam("shopId")int id);
+	public void deleteRotateGroupShopByShopId(@DAOParam("shopId") int id);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void restoreRotateGroupShopByShopId(@DAOParam("shopId")int id);
+	public void restoreRotateGroupShopByShopId(@DAOParam("shopId") int id);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void updateRotateGroupShop(@DAOParam("rotateGroupShop")RotateGroupShopEntity rotateGroupShop);
+	public void updateRotateGroupShop(@DAOParam("rotateGroupShop") RotateGroupShopEntity rotateGroupShop);
 
 	@DAOAction(action = DAOActionType.LOAD)
-	public RotateGroupShopEntity queryRotateGroupShop(@DAOParam("id")int id);
+	public RotateGroupShopEntity queryRotateGroupShop(@DAOParam("id") int id);
 
 	@DAOAction(action = DAOActionType.QUERY)
-	public List<RotateGroupShopEntity> queryRotateGroupShopByRotateGroupID(@DAOParam("rotateGroupID")int rotateGroupID);
+	public List<RotateGroupShopEntity> queryRotateGroupShopByRotateGroupID(@DAOParam("rotateGroupID") int rotateGroupID);
 
 	@DAOAction(action = DAOActionType.QUERY)
-	public List<RotateGroupShopEntity> queryRotateGroupShopByShopID(@DAOParam("shopId")int shopId);
+	public List<RotateGroupShopEntity> queryRotateGroupShopByShopID(@DAOParam("shopId") int shopId);
 
 	@DAOAction(action = DAOActionType.QUERY)
-	public List<RotateGroupShopEntity> queryRotateGroupShopByShopGroupIDAndBizID(@DAOParam("shopGroupID")int shopGroupId, @DAOParam("bizID")int bizID);
+	public List<RotateGroupShopEntity> queryRotateGroupShopByShopGroupIDAndBizID(@DAOParam("shopGroupID") int shopGroupId, @DAOParam("bizID") int bizID);
 
 	@DAOAction(action = DAOActionType.INSERT)
-	public void addToRotateGroupShopByList(@DAOParam("rotateGroupShopList")List<RotateGroupShopEntity> rotateGroupShopEntityList);
+	public void addToRotateGroupShopByList(@DAOParam("rotateGroupShopList") List<RotateGroupShopEntity> rotateGroupShopEntityList);
 
 	@DAOAction(action = DAOActionType.LOAD)
 	public int getShopNumInGroup(@DAOParam("rotateGroupID") int rotateGroupID);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void updateRotateGroupShopByShopID(@DAOParam("shopID") int shopId, @DAOParam("shopGroupID")int shopGroupId);
+	public void updateRotateGroupShopByShopID(@DAOParam("shopID") int shopId, @DAOParam("shopGroupID") int shopGroupId);
 
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<Integer> queryShopIDByRotateGroupID(@DAOParam("rotateGroupID") int rotateGroupID);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void updateRotateGroupShopRotateGroupIDBatch(@DAOParam("rotateGroupID") int rotateGroupID, @DAOParam("rotateGroupIDList")List<Integer> rotateGroupIDList);
+	public void updateRotateGroupShopRotateGroupIDBatch(@DAOParam("rotateGroupID") int rotateGroupID, @DAOParam("rotateGroupIDList") List<Integer> rotateGroupIDList);
+
+	@DAOAction(action = DAOActionType.UPDATE)
+	public void updateRotateGroupShopByShopIDAndBizID(@DAOParam("rotateGroup") RotateGroupShopEntity rotateGroupShopEntity, @DAOParam("bizID") int bizId);
+
+	@DAOAction(action = DAOActionType.LOAD)
+	public RotateGroupShopEntity queryRotateGroupShopByShopIDAndBizID(@DAOParam("shopID") int shopId, @DAOParam("bizID") int bizId);
 }

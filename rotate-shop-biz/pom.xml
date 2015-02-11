@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.dianping</groupId>
             <artifactId>rotate-core-api</artifactId>
-            <version>0.0.7-SNAPSHOT</version>
+            <version>${rotate-core-api.version}</version>
         </dependency>
         <!-- dp framework -->
         <dependency>

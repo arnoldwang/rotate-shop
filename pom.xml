@@ -26,6 +26,7 @@
         <avatar.version>1.0.1</avatar.version>
         <api.version>1.1.0-SNAPSHOT</api.version>
         <smt.base.version>1.0.4-SNAPSHOT</smt.base.version>
+        <rotate-core-api.version>0.0.7-SNAPSHOT</rotate-core-api.version>
     </properties>
     <modules>
         <module>rotate-shop-api</module>

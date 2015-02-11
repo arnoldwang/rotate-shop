@@ -151,7 +151,7 @@
         SELECT COUNT(*)
         FROM RotateGroupShop rgs JOIN ApolloShop ap
         ON rgs.ShopID = ap.ShopID
-        WHERE  rgs.RotateGroupID = #rotateGroupID# AND (ap.ShopStatus = 5 OR ap.ShopStatus = 0) AND rgs.Status = 1
+        WHERE  rgs.RotateGroupID = #rotateGroupID# AND (ap.ShopStatus = 5 OR ap.ShopStatus = 0 OR ap.ShopStatus = 4) AND rgs.Status = 1
     </select>
 
     <update id="updateRotateGroupShopByShopID" parameterClass="map">
@@ -172,4 +172,24 @@
         </iterate>
         )
     </update>
+
+    <update id="updateRotateGroupShopByShopIDAndBizID" parameterClass="map">
+        UPDATE RotateGroupShop rgs JOIN RotateGroup rg ON rgs.RotateGroupID = rg.ID
+        SET
+        rgs.RotateGroupID = #rotateGroup.rotateGroupID#,
+        rgs.ShopGroupID = #rotateGroup.shopGroupID#
+        WHERE rgs.ShopID = #rotateGroup.ShopID# AND rg.BizID = #bizID#
+    </update>
+
+    <select id="queryRotateGroupShopByShopIDAndBizID" resultMap="rotateGroupShop" parameterClass="map">
+        SELECT
+        rgs.ID,
+        rgs.RotateGroupID,
+        rgs.ShopID,
+        rgs.ShopGroupID,
+        rgs.Status
+        FROM RotateGroupShop rgs JOIN RotateGroup rg ON rgs.RotateGroupID = rg.ID
+        WHERE rgs.ShopID = #shopID# AND rg.BizID = #bizID#
+        LIMIT 1
+    </select>
 </sqlMap>
