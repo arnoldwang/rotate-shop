@@ -86,6 +86,20 @@ class ShopServiceTest extends AbstractSpockTest {
         1 == shop.getShopStatus()
     }
 
+    def "test mergeShop"(){
+        setup:
+        def shopId = 500015
+
+        when:
+        shopService.updateShop(shopId)
+
+        then:
+        def rgs = rotateGroupShopDAO.queryRotateGroupShopByShopIDAndBizID(shopId, 101)
+        105537 == rgs.getRotateGroupID()
+        def rg = rotateGroupDAO.queryRotateGroupByBizIDAndShopID(101, shopId)
+        1 == rg.get(0).getType()
+    }
+
     def "test updatePoi with wrong data"(){
 
         when:

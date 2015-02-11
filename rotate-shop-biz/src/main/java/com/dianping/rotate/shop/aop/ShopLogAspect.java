@@ -77,7 +77,6 @@ public class ShopLogAspect {
 	 * @param joinPoint
 	 * @param daoMethod
 	 * @return
-	 * @throws Throwable
 	 */
 	@SuppressWarnings("unchecked")
 	@Around(value = "insert(daoMethod)", argNames = "joinPoint, daoMethod")
