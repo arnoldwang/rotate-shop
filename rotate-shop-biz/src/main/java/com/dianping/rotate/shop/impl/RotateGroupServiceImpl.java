@@ -264,11 +264,11 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 						rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.COOPING.getCode());
 						return;
 					} else if(apolloShopBusinessStatusEntity.getOfflineDate() != null &&
-							RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp < 2) {
+							RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp <= 2) {
 						rotateGroupStatusIndexTemp = 2;
 						offlineTimeList.add(apolloShopBusinessStatusEntity.getOfflineDate());
 					} else if(apolloShopBusinessStatusEntity.getOfflineDate() == null &&
-							RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp <= 1) {
+							RotateShopStatusEnum.OFFLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus() && rotateGroupStatusIndexTemp < 1) {
 						rotateGroupStatusIndexTemp = 1;
 					}
 				}
