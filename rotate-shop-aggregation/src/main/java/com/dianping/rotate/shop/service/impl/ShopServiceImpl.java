@@ -57,16 +57,80 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
+	public void addShop(int shopId) {
+		ShopDTO shopDTO = shopService.loadShop(shopId);
+		if (shopDTO == null) {
+			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
+		}
+
+		if (apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId) != null) {
+			throw new WrongShopInfoException("add shop info failed with shop existed!");
+		}
+
+		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
+		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
+
+		ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
+		if (CollectionUtils.isNotEmpty(shopCategoryDTOList))
+			insertShopCategoryList(shopCategoryDTOList, shopDTO);
+		if (CollectionUtils.isNotEmpty(shopRegionDTOList))
+			insertShopRegionList(shopRegionDTOList, shopDTO);
+		List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);
+		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
+			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
+			if (rotateGroupShopList.size() == 0) {
+				//此处有坑，当一个新店与一个已存在的老店shopGroupID相同，而老店被关闭时，轮转组size为0，会新增一个轮转组
+				int rotateGroupID = insertRotateGroup(apolloShopExtend);
+				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
+			} else {
+				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
+				int apolloShopID = rotateGroupShopList.get(0).getShopID();
+				int apolloShopExtendType = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(apolloShopID, apolloShopExtend.getBizID()).get(0).getType();
+				apolloShopExtend.setType(apolloShopExtendType);
+				changeApolloShopExtendType(apolloShopExtend);
+				changeRotateGroupType(rotateGroupID);//更新轮转组type
+				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
+			}
+		}
+	}
+
+	@Override
+	public void updateShop(int shopId) {
+		ShopDTO shopDTO = shopService.loadShop(shopId);
+		if (shopDTO == null)
+			throw new WrongShopInfoException("update shop info failed with wrong shopId!");
+
+		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
+		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
+
+		ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
+		boolean isStatusChanged = (apolloShopEntity.getShopStatus() != shopDTO.getPower());
+		if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
+			updateRotateGroupShopByShopID(shopId, shopDTO.getShopGroupId());
+		}
+
+		updateApolloShop(apolloShopEntity, shopDTO);
+
+		//如果前台想要去掉Category和Region时，无法做到
+		if (CollectionUtils.isNotEmpty(shopCategoryDTOList))
+			updateShopCategoryList(shopCategoryDTOList, shopDTO);
+		if (CollectionUtils.isNotEmpty(shopRegionDTOList))
+			updateShopRegionList(shopRegionDTOList, shopDTO);
+
+		if (isStatusChanged) {
+			updateRotateGroupTypeAndStatusByShopID(shopId);
+		}
+	}
+
+	@Override
 	public void closeShop(int shopId) {
 		apolloShopDAO.deleteApolloShopByShopID(shopId);
-
 		updateRotateGroupTypeAndStatusByShopID(shopId);
 	}
 
 	@Override
 	public void openShop(int shopId) {
 		apolloShopDAO.restoreApolloShopByShopID(shopId);
-
 		updateRotateGroupTypeAndStatusByShopID(shopId);
 	}
 
@@ -127,6 +191,7 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public void updateRotateGroupTypeAndStatus(int rotateGroupID) {
 		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroupIgnoreStatus(rotateGroupID);
+		RotateGroupEntity oldRotateGroup = rotateGroup;
 		// 如果没有这个轮转组，就不操作
 		if (rotateGroup == null) {
 			return;
@@ -137,7 +202,7 @@ public class ShopServiceImpl implements ShopService {
 		int rotateGroupStatus = rotateGroup.getStatus();
 		int rotateGroupType = rotateGroup.getType();
 
-		if (shopCountInThisRotateGroup > 0 && rotateGroupStatus != 0) {
+		if (shopCountInThisRotateGroup > 0 && rotateGroupStatus != 1) {
 			// 有门店,设为有效
 			rotateGroup.setStatus(1);
 			flag = true;
@@ -149,47 +214,18 @@ public class ShopServiceImpl implements ShopService {
 		}
 		if (shopCountInThisRotateGroup > 1 && rotateGroupType != 1) {
 			// 大于1家门店,设为连锁店
-			rotateGroup.setType(1);
+			rotateGroup.setType(RotateGroupTypeEnum.CHAIN.getCode());
 			flag = true;
 		}
-		if(shopCountInThisRotateGroup == 1 && rotateGroupType != 0) {
+		if (shopCountInThisRotateGroup <= 1 && rotateGroupType != 0) {
 			// 单店
-			rotateGroup.setType(0);
+			rotateGroup.setType(RotateGroupTypeEnum.SINGLE.getCode());
 			flag = true;
 		}
 
-		if(flag)
+		if (flag){
 			rotateGroupDAO.updateRotateGroup(rotateGroup);
-	}
-
-	@Override
-	public void updateShop(int shopId) {
-		ShopDTO shopDTO = shopService.loadShop(shopId);
-		if (shopDTO == null)
-			throw new WrongShopInfoException("update shop info failed with wrong shopId!");
-
-		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
-		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
-
-		ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId);
-		boolean isStatusChanged = (apolloShopEntity.getShopStatus() != shopDTO.getPower());
-		if (apolloShopEntity.getShopGroupID() != shopDTO.getShopGroupId()) {
-			updateRotateGroupShopByShopID(shopId, shopDTO.getShopGroupId());
 		}
-
-		updateApolloShop(apolloShopEntity, shopDTO);
-
-		//如果前台想要去掉Category和Region时，无法做到
-		if (CollectionUtils.isNotEmpty(shopCategoryDTOList))
-			updateShopCategoryList(shopCategoryDTOList, shopDTO);
-		if (CollectionUtils.isNotEmpty(shopRegionDTOList))
-			updateShopRegionList(shopRegionDTOList, shopDTO);
-
-		if (isStatusChanged) {
-			updateRotateGroupTypeAndStatusByShopID(shopId);
-		}
-
-
 	}
 
 	@Override
@@ -209,44 +245,6 @@ public class ShopServiceImpl implements ShopService {
 			apolloShopExtendDAO.updateApolloShopExtendTypeByRotateGroupID(rotateGroupID);
 	}
 
-	@Override
-	public void addShop(int shopId) {
-		ShopDTO shopDTO = shopService.loadShop(shopId);
- 		if (shopDTO == null) {
-			throw new WrongShopInfoException("add shop info failed with wrong shopId!");
-		}
-
-		if (apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopId) != null) {
-			throw new WrongShopInfoException("add shop info failed with shop existed!");
-		}
-
-		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
-		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
-
-		ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
-		if(CollectionUtils.isNotEmpty(shopCategoryDTOList))
-			insertShopCategoryList(shopCategoryDTOList, shopDTO);
-		if(CollectionUtils.isNotEmpty(shopRegionDTOList))
-			insertShopRegionList(shopRegionDTOList, shopDTO);
-		List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);
-		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
-			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
-			if (rotateGroupShopList.size() == 0) {
-				//此处有坑，当一个新店与一个已存在的老店shopGroupID相同，而老店被关闭时，轮转组size为0，会新增一个轮转组
-				int rotateGroupID = insertRotateGroup(apolloShopExtend);
-				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
-			} else {
-				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
-				int apolloShopID = rotateGroupShopList.get(0).getShopID();
-				int apolloShopExtendType = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(apolloShopID, apolloShopExtend.getBizID()).get(0).getType();
-				apolloShopExtend.setType(apolloShopExtendType);
-				changeApolloShopExtendType(apolloShopExtend);
-				changeRotateGroupType(rotateGroupID);//更新轮转组type
-				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
-			}
-		}
-	}
-
 	private void insertShopRegionList(List<ShopRegionDTO> shopRegionDTOList, ShopDTO shopDTO) {
 		List<ShopRegionEntity> shopRegionEntityList = Lists.newArrayList();
 		int mainRegionId = shopDTO.getMainRegionId();
@@ -254,7 +252,6 @@ public class ShopServiceImpl implements ShopService {
 		for (ShopRegionDTO shopRegionDTO : shopRegionDTOList) {
 			ShopRegionEntity shopRegionEntity = new ShopRegionEntity();
 			shopRegionEntity.setShopID(shopId);
-			//todo check whether right ID
 			shopRegionEntity.setRegionID(shopRegionDTO.getRegionId());
 			shopRegionEntity.setIsMain(mainRegionId == shopRegionDTO.getRegionId() ? 1 : 0);
 			shopRegionEntity.setStatus(1);
@@ -270,7 +267,6 @@ public class ShopServiceImpl implements ShopService {
 		for (ShopCategoryDTO shopCategoryDTO : shopCategoryDTOList) {
 			ShopCategoryEntity shopCategoryEntity = new ShopCategoryEntity();
 			shopCategoryEntity.setShopID(shopId);
-			//todo check whether right ID
 			shopCategoryEntity.setCategoryID(shopCategoryDTO.getId());
 			shopCategoryEntity.setIsMain(mainCategoryId == shopCategoryDTO.getId() ? 1 : 0);
 			shopCategoryEntity.setStatus(1);
@@ -299,7 +295,7 @@ public class ShopServiceImpl implements ShopService {
 		return rotateGroupShopEntityList;
 	}
 
-	private int insertRotateGroup(ApolloShopExtendEntity apolloShopExtend) {
+	public int insertRotateGroup(ApolloShopExtendEntity apolloShopExtend) {
 		List<ApolloShopExtendEntity> apolloShopExtendList = Lists.newArrayList(apolloShopExtend);
 		List<Integer> rotateGroupIDList = insertRotateGroupList(apolloShopExtendList);
 		return rotateGroupIDList.get(0);
@@ -385,7 +381,7 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setDistrict(shopDTO.getDistrict());
 		apolloShopEntity.setShopStatus(getApolloShopStatus(shopDTO.getPower(), shopDTO.getDisplayStatus()));
 		apolloShopEntity.setProvinceID(cityService.loadCity(shopDTO.getCityId()).getProvinceID());
-		
+
 		apolloShopDAO.updateApolloShop(apolloShopEntity);
 	}
 
@@ -402,4 +398,5 @@ public class ShopServiceImpl implements ShopService {
 	private void updateRotateGroupShopByShopID(int shopId, int shopGroupId) {
 		rotateGroupShopDAO.updateRotateGroupShopByShopID(shopId, shopGroupId);
 	}
+
 }
