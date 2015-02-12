@@ -46,7 +46,7 @@ public class SwallowService {
 		}
 		if(msgType.equals("POI变更")){
 			for(String shopID: correctShopIDs){
-				StringBuilder swallowMsg = new StringBuilder("{\"shopID\":");
+				StringBuilder swallowMsg = new StringBuilder("{\"shopId\":");
 				swallowMsg.append(shopID);
 				swallowMsg.append(",\"lasgModifyUser\":-1234,\"messageType\":5}");
 				swallowMsgs.add(swallowMsg.toString());

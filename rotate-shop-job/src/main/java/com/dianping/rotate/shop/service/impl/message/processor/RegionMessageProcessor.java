@@ -1,6 +1,5 @@
 package com.dianping.rotate.shop.service.impl.message.processor;
 
-import com.dianping.pigeon.remoting.provider.config.annotation.Service;
 import com.dianping.rotate.shop.json.MessageEntity;
 
 /**
