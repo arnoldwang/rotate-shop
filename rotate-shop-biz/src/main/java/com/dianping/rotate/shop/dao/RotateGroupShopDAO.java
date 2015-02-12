@@ -24,10 +24,10 @@ public interface RotateGroupShopDAO extends GenericDao {
 	public void deleteRotateGroupShopByRotateGroupID(@DAOParam("rotateGroupID") int rotateGroupID);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void deleteRotateGroupShopByShopId(@DAOParam("shopId") int id);
+	public void deleteRotateGroupShopByShopId(@DAOParam("shopId") int shopId);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void restoreRotateGroupShopByShopId(@DAOParam("shopId") int id);
+	public void restoreRotateGroupShopByShopId(@DAOParam("shopId") int shopId);
 
 	@DAOAction(action = DAOActionType.UPDATE)
 	public void updateRotateGroupShop(@DAOParam("rotateGroupShop") RotateGroupShopEntity rotateGroupShop);
@@ -64,4 +64,7 @@ public interface RotateGroupShopDAO extends GenericDao {
 
 	@DAOAction(action = DAOActionType.LOAD)
 	public RotateGroupShopEntity queryRotateGroupShopByShopIDAndBizID(@DAOParam("shopID") int shopId, @DAOParam("bizID") int bizId);
+
+	@DAOAction(action = DAOActionType.DELETE)
+	public void deleteRotateGroupShopDirectlyByShopId(@DAOParam("shopID") int shopId);
 }

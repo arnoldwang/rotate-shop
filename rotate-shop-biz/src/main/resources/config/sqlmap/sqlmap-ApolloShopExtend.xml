@@ -160,4 +160,9 @@
         </iterate>
         )
     </update>
+
+    <delete id="deleteApolloShopExtendDirectlyByShopID" parameterClass="map">
+        DELETE FROM ApolloShopExtend
+        WHERE ShopID = #shopID#
+    </delete>
 </sqlMap>
