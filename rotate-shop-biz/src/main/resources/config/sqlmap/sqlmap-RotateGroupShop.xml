@@ -192,4 +192,9 @@
         WHERE rgs.ShopID = #shopID# AND rg.BizID = #bizID#
         LIMIT 1
     </select>
+
+    <delete id="deleteRotateGroupShopDirectlyByShopId" parameterClass="map">
+        DELETE FROM RotateGroupShop
+        WHERE ShopID = #shopID#
+    </delete>
 </sqlMap>

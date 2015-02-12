@@ -9,6 +9,7 @@ import com.dianping.rotate.shop.exceptions.WrongShopInfoException
 import com.dianping.rotate.shop.json.ApolloShopEntity
 import com.dianping.rotate.shop.json.RotateGroupEntity
 import com.dianping.rotate.shop.json.RotateGroupShopEntity
+import com.dianping.shopremote.remote.dto.ShopDTO
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
