@@ -75,6 +75,7 @@ public class ShopServiceImpl implements ShopService {
 		List<ShopCategoryDTO> shopCategoryDTOList = shopService.findShopCategories(shopId, shopDTO.getCityId());
 		List<ShopRegionDTO> shopRegionDTOList = shopService.findShopRegions(shopId);
 
+		checkEnv(shopId);
 		ApolloShopEntity apolloShopEntity = insertApolloShop(shopDTO);
 		if (CollectionUtils.isNotEmpty(shopCategoryDTOList))
 			insertShopCategoryList(shopCategoryDTOList, shopDTO);
@@ -199,7 +200,6 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public void updateRotateGroupTypeAndStatus(int rotateGroupID) {
 		RotateGroupEntity rotateGroup = rotateGroupDAO.getRotateGroupIgnoreStatus(rotateGroupID);
-		RotateGroupEntity oldRotateGroup = rotateGroup;
 		// 如果没有这个轮转组，就不操作
 		if (rotateGroup == null) {
 			return;
@@ -251,6 +251,21 @@ public class ShopServiceImpl implements ShopService {
 		int vipShopNum = apolloShopExtendDAO.queryVipShopExtendNumByRotateGroupID(rotateGroupID);
 		if (vipShopNum > 0)
 			apolloShopExtendDAO.updateApolloShopExtendTypeByRotateGroupID(rotateGroupID);
+	}
+
+	private ApolloShopEntity insertApolloShop(ShopDTO shopDTO) {
+		ApolloShopEntity apolloShopEntity = new ApolloShopEntity();
+		apolloShopEntity.setShopID(shopDTO.getShopId());
+		apolloShopEntity.setShopGroupID(shopDTO.getShopGroupId());
+		apolloShopEntity.setCityID(shopDTO.getCityId());
+		apolloShopEntity.setDistrict(shopDTO.getDistrict());
+		apolloShopEntity.setShopType(shopDTO.getShopType());
+		apolloShopEntity.setShopStatus(getApolloShopStatus(shopDTO.getPower(), shopDTO.getDisplayStatus()));
+		apolloShopEntity.setProvinceID(cityService.loadCity(shopDTO.getCityId()).getProvinceID());
+
+		int id = apolloShopDAO.addApolloShop(apolloShopEntity);
+		apolloShopEntity.setId(id);
+		return apolloShopEntity;
 	}
 
 	private void insertShopRegionList(List<ShopRegionDTO> shopRegionDTOList, ShopDTO shopDTO) {
@@ -334,21 +349,6 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopExtendDAO.updateApolloShopExtend(apolloShopExtend);
 	}
 
-	private ApolloShopEntity insertApolloShop(ShopDTO shopDTO) {
-		ApolloShopEntity apolloShopEntity = new ApolloShopEntity();
-		apolloShopEntity.setShopID(shopDTO.getShopId());
-		apolloShopEntity.setShopGroupID(shopDTO.getShopGroupId());
-		apolloShopEntity.setCityID(shopDTO.getCityId());
-		apolloShopEntity.setDistrict(shopDTO.getDistrict());
-		apolloShopEntity.setShopType(shopDTO.getShopType());
-		apolloShopEntity.setShopStatus(getApolloShopStatus(shopDTO.getPower(), shopDTO.getDisplayStatus()));
-		apolloShopEntity.setProvinceID(cityService.loadCity(shopDTO.getCityId()).getProvinceID());
-
-		int id = apolloShopDAO.addApolloShop(apolloShopEntity);
-		apolloShopEntity.setId(id);
-		return apolloShopEntity;
-	}
-
 	/**
 	 * 根据门店的自然状态和审核状态返回门店的最终状态
 	 * displayStatus=1&&businessStatus=x   ======> businessStatus = x
@@ -408,7 +408,7 @@ public class ShopServiceImpl implements ShopService {
 	 * 对于合并连锁店：
 	 * 1.如果被变化的门店在公海中，则将被变化门店的rotateGroupID改成同一shopGroup下最小的rotateGroupID
 	 * 2.如果被变化的门店在私海中，则遍历同一shopGroup，将rotateGroupID最小的且属于公海的门店的rotateGroupID改成被变化门店的rotateGroupID
-	 * 2.1 同一shopGroup下左右门店都在私海则不合并
+	 * 2.1 同一shopGroup下所有门店都在私海则不合并
 	 * 拆分连锁店不需要以上操作
 	 *
 	 * @param shopId      变化的门店ID
@@ -430,6 +430,7 @@ public class ShopServiceImpl implements ShopService {
 						if (rotateGroupUserService.findByRotateGroupId(rotateGroupShop.getRotateGroupID()) == null) {
 							rotateGroupShop.setRotateGroupID(changedRotateGroupShop.getRotateGroupID());
 							rotateGroupShopDAO.updateRotateGroupShop(rotateGroupShop);
+							break;
 						}
 					}
 				}
@@ -439,4 +440,14 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
+	private void checkEnv(int shopId) {
+		try{
+			apolloShopExtendDAO.deleteApolloShopExtendDirectlyByShopID(shopId);
+			shopCategoryDAO.deleteShopCategoryDirectlyByShopID(shopId);
+			shopRegionDAO.deleteShopRegionDirectlyByShopID(shopId);
+			rotateGroupShopDAO.deleteRotateGroupShopDirectlyByShopId(shopId);
+		}catch (Exception e){
+			logger.warn("clean environment failed!", e);
+		}
+	}
 }

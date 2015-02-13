@@ -93,4 +93,11 @@ public interface ApolloShopExtendDAO extends GenericDao {
      */
     @DAOAction(action = DAOActionType.UPDATE)
     void updateApolloShopExtendTypeByRotateGroupIDListAndType(@DAOParam("rotateGroupIDList")List<Integer> rotateGroupIDList, @DAOParam("type")int type, @DAOParam("bizID")int bizID);
+
+	/**
+	 * 硬删除ApolloShopExtend
+	 * @param shopId
+	 */
+	@DAOAction(action = DAOActionType.DELETE)
+	void deleteApolloShopExtendDirectlyByShopID(@DAOParam("shopID") int shopId);
 }
