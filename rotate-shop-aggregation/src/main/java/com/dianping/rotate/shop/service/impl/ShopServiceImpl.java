@@ -430,6 +430,7 @@ public class ShopServiceImpl implements ShopService {
 						if (rotateGroupUserService.findByRotateGroupId(rotateGroupShop.getRotateGroupID()) == null) {
 							rotateGroupShop.setRotateGroupID(changedRotateGroupShop.getRotateGroupID());
 							rotateGroupShopDAO.updateRotateGroupShop(rotateGroupShop);
+							break;
 						}
 					}
 				}
