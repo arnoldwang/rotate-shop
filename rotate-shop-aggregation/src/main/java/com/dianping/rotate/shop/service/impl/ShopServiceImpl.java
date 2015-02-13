@@ -405,12 +405,11 @@ public class ShopServiceImpl implements ShopService {
 
 
 	/**
-	 * 对于合并连锁店：
+	 * 对于合并/拆分连锁店：
 	 * 1.如果被变化的门店在公海中，则将被变化门店的rotateGroupID改成同一shopGroup下最小的rotateGroupID
 	 * 2.如果被变化的门店在私海中，则遍历同一shopGroup，将rotateGroupID最小的且属于公海的门店的rotateGroupID改成被变化门店的rotateGroupID
 	 * 2.1 同一shopGroup下所有门店都在私海则不合并
-	 * 拆分连锁店不需要以上操作
-	 *
+	 * PS:
 	 * @param shopId      变化的门店ID
 	 * @param shopGroupId 变化后门店的shopGroupID
 	 */
