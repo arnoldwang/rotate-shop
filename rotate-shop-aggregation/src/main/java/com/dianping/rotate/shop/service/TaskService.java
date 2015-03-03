@@ -9,8 +9,4 @@ public interface TaskService {
 
     public TaskDTO getTask(String taskName);
 
-    public boolean resetTask(String taskName);
-
-    public boolean disableTask(String taskName);
-
 }

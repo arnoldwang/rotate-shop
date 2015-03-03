@@ -15,4 +15,9 @@ public class ConfigUtils {
 	public static boolean getSyncShopExtendTypeTaskTrigger() {
 		return PropertiesLoaderSupportUtils.getBoolProperty("rotate-shop-integration-job.syncExtendShopTypeTaskTrigger", true);
 	}
+
+	public static String getIntegrationJobAddress() {
+		return PropertiesLoaderSupportUtils.getProperty("rotate-shop-integration-job.address", null);
+	}
+
 }
