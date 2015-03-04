@@ -5,12 +5,9 @@ import com.dianping.rotate.shop.dto.TaskDTO;
 import com.dianping.rotate.shop.json.TaskEntity;
 import com.dianping.rotate.shop.service.TaskService;
 import com.dianping.rotate.shop.utils.CommonUtil;
-import com.dianping.rotate.shop.utils.ConfigUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,34 +20,24 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskDAO taskDAO;
 
-    private static Map<String, String> map = new HashMap<String, String>();
-
-    static {
-        map.put("messageQueueHistoryDataTask", "MessageQueueHistory");
-        map.put("apolloShopRatingDataProcessorTask", "ApolloShopExtend");
-        map.put("apolloShopBusinessDataProcessorTask", "ApolloShopBusinessStatus");
-        map.put("syncShopExtendTypeTask", "ApolloShopExtend");
-        map.put("syncRotateGroupTypeTask", "RotateGroup");
-    }
-
     @Override
     public TaskDTO getTask(String taskName) {
         TaskEntity taskEntity = null;
-        String tableName = map.get(taskName);
+        String tableName = getTableNameByTaskName(taskName);
         if(tableName != null) {
             taskEntity = taskDAO.queryTask(tableName);
         }
         return trans(taskEntity);
     }
 
-    @Override
-    public boolean resetTask(String taskName) {
-        return false;
-    }
-
-    @Override
-    public boolean disableTask(String taskName) {
-        return false;
+    private String getTableNameByTaskName(String taskName) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("messageQueueHistoryDataTask", "MessageQueueHistory");
+        map.put("apolloShopRatingDataProcessorTask", "ApolloShopExtend");
+        map.put("apolloShopBusinessDataProcessorTask", "ApolloShopBusinessStatus");
+        map.put("syncShopExtendTypeTask", "ApolloShopExtend");
+        map.put("syncRotateGroupTypeTask", "RotateGroup");
+        return map.get(taskName);
     }
 
     private TaskDTO trans(TaskEntity taskEntity) {

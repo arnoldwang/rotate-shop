@@ -15,6 +15,8 @@
         <property name="targetObject" ref="syncRotateGroupTypeTask"/>
         <property name="targetMethod" value="go"/>
         <property name="concurrent" value="false"/>
+        <property name="name" value="syncRotateGroupTypeTaskName"/>
+        <property name="group" value="syncRotateGroupTypeTaskGroup"/>
     </bean>
 
     <bean id="syncRotateGroupTypeExtCronTrigger"
@@ -29,6 +31,8 @@
         <property name="targetObject" ref="syncShopExtendTypeTask"/>
         <property name="targetMethod" value="go"/>
         <property name="concurrent" value="false"/>
+        <property name="name" value="syncShopExtendTypeTaskName"/>
+        <property name="group" value="syncShopExtendTypeTaskGroup"/>
     </bean>
 
     <bean id="syncShopExtendTypeExtCronTrigger"
@@ -50,6 +54,8 @@
         <property name="targetObject" ref="apolloShopBusinessDataProcessorTask"/>
         <property name="targetMethod" value="process"/>
         <property name="concurrent" value="false"/>
+        <property name="name" value="apolloShopBusinessDataProcessorTaskName"/>
+        <property name="group" value="apolloShopBusinessDataProcessorTaskGroup"/>
     </bean>
 
     <bean id="apolloShopBusinessDataProcessorTaskExtCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
@@ -66,6 +72,8 @@
         <property name="targetObject" ref="apolloShopRatingDataProcessorTask"/>
         <property name="targetMethod" value="process"/>
         <property name="concurrent" value="false"/>
+        <property name="name" value="apolloShopRatingDataProcessorTaskName"/>
+        <property name="group" value="apolloShopRatingDataProcessorTaskGroup"/>
     </bean>
 
     <bean id="apolloShopRatingDataProcessorTaskExtCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
@@ -82,6 +90,8 @@
         <property name="targetObject" ref="messageQueueHistoryDataTask"/>
         <property name="targetMethod" value="process"/>
         <property name="concurrent" value="false"/>
+        <property name="name" value="messageQueueHistoryDataTaskName"/>
+        <property name="group" value="messageQueueHistoryDataTaskGroup"/>
     </bean>
 
     <bean id="messageQueueHistoryDataTaskExtCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
@@ -89,7 +99,7 @@
         <property name="cronExpression" value="${rotate-shop-integration-job.messageQueueHistoryDataTask.quartz.expression}"/>
     </bean>
 
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="jobDetails">
             <list>
                 <ref bean="syncRotateGroupTypeTaskJob"/>

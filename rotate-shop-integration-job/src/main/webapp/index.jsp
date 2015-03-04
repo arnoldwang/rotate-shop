@@ -1,5 +1,7 @@
 <html>
+<head>
+</head>
+
 <body>
-<h2>Welcome to rotate-shop-integration-job!</h2>
 </body>
 </html>
