@@ -109,6 +109,18 @@
         AND Status != 0
     </select>
 
+    <select id="queryRotateGroupShopByRotateGroupIDList" resultMap="rotateGroupShop" parameterClass="map">
+        SELECT ID,
+        <include refid="keys"/>
+        FROM RotateGroupShop
+        WHERE
+        RotateGroupID IN
+        <iterate open="(" close=")" conjunction="," property="rotateGroupIDList">
+            #rotateGroupIDList[]#
+        </iterate>
+        AND Status != 0
+    </select>
+
     <select id="queryShopIDByRotateGroupID" resultClass="int" parameterClass="map">
         SELECT ShopID
         FROM RotateGroupShop
