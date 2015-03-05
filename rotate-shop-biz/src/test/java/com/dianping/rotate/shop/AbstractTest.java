@@ -14,7 +14,8 @@ import spock.lang.Specification;
 //@RunWith(UnitilsJUnit4TestClassRunner.class)
 @ContextConfiguration(locations = {
         "classpath*:/config/spring/common/appcontext-*.xml",
-        "classpath*:/config/spring/local/appcontext-*.xml"})
+        "classpath*:/config/spring/local/appcontext-*.xml",
+        "classpath*:/config/spring/appcontext-*.xml"})
 @Ignore
 public abstract class AbstractTest extends Specification {
     public void notNull(Object obj) {
