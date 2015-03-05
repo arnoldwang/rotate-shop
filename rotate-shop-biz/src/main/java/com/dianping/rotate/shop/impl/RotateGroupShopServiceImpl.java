@@ -51,4 +51,9 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 		}
 		return result;
 	}
+
+	@Override
+	public List<RotateGroupShopDTO> getRotateGroupShopByShopGroupIDAndBizID(int shopGroupID, int bizID) {
+		return Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopGroupID, bizID), toRotateShopDTO);
+	}
 }
