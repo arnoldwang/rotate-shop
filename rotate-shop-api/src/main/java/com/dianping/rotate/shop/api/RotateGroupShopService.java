@@ -14,4 +14,6 @@ public interface RotateGroupShopService {
 	public List<RotateGroupShopDTO> getRotateGroupShop(int rotateGroupID);
 
 	public Map<Integer, List<RotateGroupShopDTO>> getRotateGroupShop(List<Integer> rotateGroupIDs);
+
+	public List<RotateGroupShopDTO> getRotateGroupShopByShopGroupIDAndBizID(int shopGroupID, int bizID);
 }

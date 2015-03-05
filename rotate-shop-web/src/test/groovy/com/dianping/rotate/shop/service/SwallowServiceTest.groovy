@@ -17,10 +17,10 @@ class SwallowServiceTest extends AbstractSpockTest {
     @Autowired
     SwallowService swallowService;
 
-    def "test send 500000 msg"(){
+    def "test send 1000000 msg"(){
         setup:
-        int msgNum = 500000
-        String topic = "POI变更"
+        int msgNum = 1000000
+        String topic = "用户新增"
         String[] shopIDs = new String[msgNum]
 
         when:
@@ -38,6 +38,6 @@ class SwallowServiceTest extends AbstractSpockTest {
         }
 
         then:
-        500000 == swallowMsgs.size()
+        1000000 == swallowMsgs.size()
     }
 }
