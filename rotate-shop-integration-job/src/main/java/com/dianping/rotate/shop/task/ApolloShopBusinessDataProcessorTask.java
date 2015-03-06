@@ -3,6 +3,7 @@ package com.dianping.rotate.shop.task;
 import com.dianping.rotate.shop.constants.ApolloShopBusinessTypeEnum;
 import com.dianping.rotate.shop.dao.ApolloShopBusinessStatusDAO;
 import com.dianping.rotate.shop.json.ApolloShopBusinessStatusEntity;
+import com.dianping.rotate.shop.producer.ShopBusinessNotificationProducer;
 import com.dianping.rotate.shop.service.ShopBusinessStatusService;
 import com.dianping.trade.data.api.ReportRemoteService;
 import org.apache.commons.collections.CollectionUtils;
@@ -29,9 +30,12 @@ public class ApolloShopBusinessDataProcessorTask {
     @Autowired
     private ReportDataProcessor reportDataProcessor;
 
+    @Autowired
+    private ShopBusinessNotificationProducer producer;
+
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final static String REPORT_NAME = "dprpt_dp_shop_coop_status_1";
+    private final static String REPORT_NAME = "dprpt_dp_shop_coop_status";
 
     public void process() {
         try {
@@ -44,6 +48,7 @@ public class ApolloShopBusinessDataProcessorTask {
                 sleep();
             }
             clearData();
+            producer.send();
             logger.info("ApolloShopBusinessDataProcessorTask end("+(System.currentTimeMillis()-start)+"ms)");
         } catch(Exception e) {
             logger.error("ApolloShopBusinessDataProcessorTask fail", e);

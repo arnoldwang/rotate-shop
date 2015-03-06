@@ -108,6 +108,16 @@ public class ApolloShopServiceImpl implements ApolloShopService {
         apolloShopDAO.restoreApolloShopByShopID(shopId);
     }
 
+    @Override
+    public boolean updateApolloShopTypeByShopIDAndBizID(List<Integer> shopIds,int bizID,int type){
+        try{
+            apolloShopExtendDAO.updateApolloShopExtendTypeByShopIDListAndType(shopIds,type,bizID);
+        }catch(Exception ex){
+            return false;
+        }
+        return true;
+    }
+
     private void processShop(ApolloShopDTO apolloShopDTO, int shopID) {
         ApolloShopEntity apolloShopEntity = apolloShopDAO.queryApolloShopByShopIDWithNoStatus(shopID);
         if(apolloShopEntity != null) {
