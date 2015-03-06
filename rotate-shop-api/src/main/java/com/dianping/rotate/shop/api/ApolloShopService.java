@@ -31,8 +31,25 @@ public interface ApolloShopService {
 	 * @return 门店列表
 	 */
 	public List<ApolloShopDTO> getShopByRotateGroupID(int rotateGroupID);
-
+    /**
+     * 通过shopId关闭门店
+     * @param shopId
+     * @return void
+     */
     public void deleteApolloShopByShopID(int shopId);
+    /**
+     * 通过shopId恢复门店的状态
+     * @param shopId
+     * @return void
+     */
     public void restoreApolloShopByShopID(int shopId);
+    /**
+     * 通过shopId恢复门店的状态
+     * @param shopIds
+     * @param type
+     * @param bizID
+     * @return void
+     */
+    public boolean updateApolloShopTypeByShopIDAndBizID(List<Integer> shopIds,int bizID,int type);
 
 }
