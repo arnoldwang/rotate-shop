@@ -7,7 +7,6 @@ import com.dianping.rotate.shop.dto.RotateGroupShopDTO;
 import com.dianping.rotate.shop.json.RotateGroupShopEntity;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +26,7 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 		@Override
 		public RotateGroupShopDTO apply(RotateGroupShopEntity from) {
 			RotateGroupShopDTO to = null;
-			if(from != null){
+			if (from != null) {
 				to = new RotateGroupShopDTO();
 				to.setRotateGroupID(from.getRotateGroupID());
 				to.setShopID(from.getShopID());
@@ -45,7 +44,7 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 	@Override
 	public Map<Integer, List<RotateGroupShopDTO>> getRotateGroupShop(List<Integer> rotateGroupIDs) {
 		Map<Integer, List<RotateGroupShopDTO>> result = Maps.newHashMap();
-		for(int rotateGroupID: rotateGroupIDs){
+		for (int rotateGroupID : rotateGroupIDs) {
 			result.put(rotateGroupID,
 					Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID), toRotateShopDTO));
 		}
@@ -55,5 +54,10 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 	@Override
 	public List<RotateGroupShopDTO> getRotateGroupShopByShopGroupIDAndBizID(int shopGroupID, int bizID) {
 		return Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopGroupID, bizID), toRotateShopDTO);
+	}
+
+	@Override
+	public List<RotateGroupShopDTO> getRotateGroupShopByShopGroupIDAndBizIDAndCityID(int shopGroupID, int bizID, int cityID, int pageSize, int pageIndex) {
+		return Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizIDAndCityID(shopGroupID, bizID, cityID, pageSize, pageIndex), toRotateShopDTO);
 	}
 }

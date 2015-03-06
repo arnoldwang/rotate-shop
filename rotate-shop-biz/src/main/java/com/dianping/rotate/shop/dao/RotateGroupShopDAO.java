@@ -42,7 +42,8 @@ public interface RotateGroupShopDAO extends GenericDao {
 	public List<RotateGroupShopEntity> queryRotateGroupShopByShopID(@DAOParam("shopId") int shopId);
 
 	@DAOAction(action = DAOActionType.QUERY)
-	public List<RotateGroupShopEntity> queryRotateGroupShopByShopGroupIDAndBizID(@DAOParam("shopGroupID") int shopGroupId, @DAOParam("bizID") int bizID);
+	public List<RotateGroupShopEntity> queryRotateGroupShopByShopGroupIDAndBizID(@DAOParam("shopGroupID") int shopGroupId,
+																				 @DAOParam("bizID") int bizID);
 
 	@DAOAction(action = DAOActionType.INSERT)
 	public void addToRotateGroupShopByList(@DAOParam("rotateGroupShopList") List<RotateGroupShopEntity> rotateGroupShopEntityList);
@@ -57,14 +58,24 @@ public interface RotateGroupShopDAO extends GenericDao {
 	public List<Integer> queryShopIDByRotateGroupID(@DAOParam("rotateGroupID") int rotateGroupID);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void updateRotateGroupShopRotateGroupIDBatch(@DAOParam("rotateGroupID") int rotateGroupID, @DAOParam("rotateGroupIDList") List<Integer> rotateGroupIDList);
+	public void updateRotateGroupShopRotateGroupIDBatch(@DAOParam("rotateGroupID") int rotateGroupID,
+														@DAOParam("rotateGroupIDList") List<Integer> rotateGroupIDList);
 
 	@DAOAction(action = DAOActionType.UPDATE)
-	public void updateRotateGroupShopByShopIDAndBizID(@DAOParam("rotateGroup") RotateGroupShopEntity rotateGroupShopEntity, @DAOParam("bizID") int bizId);
+	public void updateRotateGroupShopByShopIDAndBizID(@DAOParam("rotateGroup") RotateGroupShopEntity rotateGroupShopEntity,
+													  @DAOParam("bizID") int bizId);
 
 	@DAOAction(action = DAOActionType.LOAD)
-	public RotateGroupShopEntity queryRotateGroupShopByShopIDAndBizID(@DAOParam("shopID") int shopId, @DAOParam("bizID") int bizId);
+	public RotateGroupShopEntity queryRotateGroupShopByShopIDAndBizID(@DAOParam("shopID") int shopId,
+																	  @DAOParam("bizID") int bizId);
 
 	@DAOAction(action = DAOActionType.DELETE)
 	public void deleteRotateGroupShopDirectlyByShopId(@DAOParam("shopID") int shopId);
+
+	@DAOAction(action = DAOActionType.QUERY)
+	public List<RotateGroupShopEntity> queryRotateGroupShopByShopGroupIDAndBizIDAndCityID(@DAOParam("shopGroupID")int shopGroupId,
+																						  @DAOParam("bizID")int bizId,
+																						  @DAOParam("cityID")int cityId,
+																						  @DAOParam("pageSize")int pageSize,
+																						  @DAOParam("pageIndex")int pageIndex);
 }

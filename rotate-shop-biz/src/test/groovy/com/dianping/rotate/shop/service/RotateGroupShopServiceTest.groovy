@@ -56,4 +56,19 @@ class RotateGroupShopServiceTest extends AbstractSpockTest {
         r.setShopGroupID(2000)
         rotateGroupShopDAO.addToRotateGroupShop(r)
     }
+
+    def "test getRotateGroupShopByShopGroupIDAndBizIDAndCityID"(){
+        setup:
+        def shopGroupID = 10003
+        def bizID = 101
+        def cityID = 1
+        def pageSize = 10
+        def pageIndex = 0
+
+        when:
+        List<RotateGroupShopDTO> rotateGroupShopDTOs = rotateGroupShopService.getRotateGroupShopByShopGroupIDAndBizIDAndCityID(shopGroupID,bizID,cityID,pageSize,pageIndex)
+
+        then:
+        1 == rotateGroupShopDTOs.size()
+    }
 }
