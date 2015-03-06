@@ -46,13 +46,13 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 	public Map<Integer, List<RotateGroupShopDTO>> getRotateGroupShop(List<Integer> rotateGroupIDs) {
 		Map<Integer, List<RotateGroupShopDTO>> result = Maps.newHashMap();
 
-        List<RotateGroupShopEntity> rotateGroupShops = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupIDList(rotateGroupIDs);
-		for(RotateGroupShopEntity rotateGroupShop:rotateGroupShops){
-            if(!result.containsKey(rotateGroupShop.getRotateGroupID())){
-                result.put(rotateGroupShop.getRotateGroupID(),new ArrayList<RotateGroupShopDTO>());
-            }
-            result.get(rotateGroupShop.getRotateGroupID()).add(toRotateShopDTO.apply(rotateGroupShop));
-        }
+		List<RotateGroupShopEntity> rotateGroupShops = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupIDList(rotateGroupIDs);
+		for (RotateGroupShopEntity rotateGroupShop : rotateGroupShops) {
+			if (!result.containsKey(rotateGroupShop.getRotateGroupID())) {
+				result.put(rotateGroupShop.getRotateGroupID(), new ArrayList<RotateGroupShopDTO>());
+			}
+			result.get(rotateGroupShop.getRotateGroupID()).add(toRotateShopDTO.apply(rotateGroupShop));
+		}
 //        for(int rotateGroupID: rotateGroupIDs){
 //			result.put(rotateGroupID,
 //					Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID), toRotateShopDTO));
@@ -66,7 +66,12 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 	}
 
 	@Override
-	public List<RotateGroupShopDTO> getRotateGroupShopByShopGroupIDAndBizIDAndCityID(int shopGroupID, int bizID, int cityID, int pageSize, int pageIndex) {
-		return Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizIDAndCityID(shopGroupID, bizID, cityID, pageSize, pageIndex), toRotateShopDTO);
+	public List<RotateGroupShopDTO> getRotateGroupShopByShopGroupIDAndBizIDAndCityID(int shopGroupID, int bizID, int cityID, int pageSize, int offset) {
+		return Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizIDAndCityID(shopGroupID, bizID, cityID, pageSize, offset), toRotateShopDTO);
+	}
+
+	@Override
+	public int getTotalNumByShopGroupIDAndBizIDAndCityID(int shopGroupID, int bizID, int cityID) {
+		return rotateGroupShopDAO.getTotalNumByShopGroupIDAndBizIDAndCityID(shopGroupID, bizID, cityID);
 	}
 }

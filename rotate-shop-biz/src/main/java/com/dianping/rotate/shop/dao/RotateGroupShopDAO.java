@@ -38,8 +38,8 @@ public interface RotateGroupShopDAO extends GenericDao {
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<RotateGroupShopEntity> queryRotateGroupShopByRotateGroupID(@DAOParam("rotateGroupID") int rotateGroupID);
 
-    @DAOAction(action = DAOActionType.QUERY)
-    public List<RotateGroupShopEntity> queryRotateGroupShopByRotateGroupIDList(@DAOParam("rotateGroupIDList") List<Integer> rotateGroupIDList);
+	@DAOAction(action = DAOActionType.QUERY)
+	public List<RotateGroupShopEntity> queryRotateGroupShopByRotateGroupIDList(@DAOParam("rotateGroupIDList") List<Integer> rotateGroupIDList);
 
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<RotateGroupShopEntity> queryRotateGroupShopByShopID(@DAOParam("shopId") int shopId);
@@ -76,9 +76,14 @@ public interface RotateGroupShopDAO extends GenericDao {
 	public void deleteRotateGroupShopDirectlyByShopId(@DAOParam("shopID") int shopId);
 
 	@DAOAction(action = DAOActionType.QUERY)
-	public List<RotateGroupShopEntity> queryRotateGroupShopByShopGroupIDAndBizIDAndCityID(@DAOParam("shopGroupID")int shopGroupId,
-																						  @DAOParam("bizID")int bizId,
-																						  @DAOParam("cityID")int cityId,
-																						  @DAOParam("pageSize")int pageSize,
-																						  @DAOParam("pageIndex")int pageIndex);
+	public List<RotateGroupShopEntity> queryRotateGroupShopByShopGroupIDAndBizIDAndCityID(@DAOParam("shopGroupID") int shopGroupId,
+																						  @DAOParam("bizID") int bizId,
+																						  @DAOParam("cityID") int cityId,
+																						  @DAOParam("pageSize") int pageSize,
+																						  @DAOParam("offset") int pageIndex);
+
+	@DAOAction(action = DAOActionType.LOAD)
+	public int getTotalNumByShopGroupIDAndBizIDAndCityID(@DAOParam("shopGroupID") int shopGroupID,
+														 @DAOParam("bizID") int bizID,
+														 @DAOParam("cityID") int cityID);
 }

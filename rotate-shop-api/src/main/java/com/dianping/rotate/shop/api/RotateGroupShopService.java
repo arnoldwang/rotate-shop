@@ -18,5 +18,7 @@ public interface RotateGroupShopService {
 	public List<RotateGroupShopDTO> getRotateGroupShopByShopGroupIDAndBizID(int shopGroupID, int bizID);
 
 	public List<RotateGroupShopDTO> getRotateGroupShopByShopGroupIDAndBizIDAndCityID(int shopGroupID, int bizID, int cityID,
-																					 int pageSize, int pageIndex);
+																					 int pageSize, int offset);
+
+	public int getTotalNumByShopGroupIDAndBizIDAndCityID(int shopGroupID, int bizID, int cityID);
 }

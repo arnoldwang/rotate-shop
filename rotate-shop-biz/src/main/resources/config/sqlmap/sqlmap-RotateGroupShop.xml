@@ -215,6 +215,13 @@
         FROM RotateGroupShop rgs, RotateGroup rg, ApolloShop ap
         WHERE rgs.RotateGroupID = rg.ID AND rgs.ShopGroupID = ap.ShopGroupID
         AND rgs.ShopGroupID = #shopGroupID# AND rg.BizID = #bizID# AND ap.CityID = #cityID#
-        LIMIT #pageIndex#, #pageSize#
+        LIMIT #offset#, #pageSize#
+    </select>
+
+    <select id="getTotalNumByShopGroupIDAndBizIDAndCityID" resultClass="int" parameterClass="map">
+        SELECT COUNT(*)
+        FROM RotateGroupShop rgs, RotateGroup rg, ApolloShop ap
+        WHERE rgs.RotateGroupID = rg.ID AND rgs.ShopGroupID = ap.ShopGroupID
+        AND rgs.ShopGroupID = #shopGroupID# AND rg.BizID = #bizID# AND ap.CityID = #cityID#
     </select>
 </sqlMap>
