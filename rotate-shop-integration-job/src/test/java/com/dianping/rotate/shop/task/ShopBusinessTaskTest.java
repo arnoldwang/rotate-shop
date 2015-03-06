@@ -13,7 +13,7 @@ public class ShopBusinessTaskTest extends AbstractTest {
 
     @Test
     public void processTest(){
-        shopBusinessTask.send();
+        //shopBusinessTask.send();
         System.out.println("send message!");
     }
 }
