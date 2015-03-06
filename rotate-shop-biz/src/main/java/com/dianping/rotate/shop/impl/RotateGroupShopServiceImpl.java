@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,10 +45,18 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 	@Override
 	public Map<Integer, List<RotateGroupShopDTO>> getRotateGroupShop(List<Integer> rotateGroupIDs) {
 		Map<Integer, List<RotateGroupShopDTO>> result = Maps.newHashMap();
-		for (int rotateGroupID : rotateGroupIDs) {
-			result.put(rotateGroupID,
-					Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID), toRotateShopDTO));
-		}
+
+        List<RotateGroupShopEntity> rotateGroupShops = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupIDList(rotateGroupIDs);
+		for(RotateGroupShopEntity rotateGroupShop:rotateGroupShops){
+            if(!result.containsKey(rotateGroupShop.getRotateGroupID())){
+                result.put(rotateGroupShop.getRotateGroupID(),new ArrayList<RotateGroupShopDTO>());
+            }
+            result.get(rotateGroupShop.getRotateGroupID()).add(toRotateShopDTO.apply(rotateGroupShop));
+        }
+//        for(int rotateGroupID: rotateGroupIDs){
+//			result.put(rotateGroupID,
+//					Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID), toRotateShopDTO));
+//		}
 		return result;
 	}
 

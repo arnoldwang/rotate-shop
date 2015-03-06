@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    <bean id="rotateGroupServiceRemote" class="com.dianping.dpsf.spring.ProxyBeanFactory" init-method="init">
+        <property name="serviceName" value="http://service.dianping.com/rotate/shop/RotateGroupService_0.0.1"/>
+        <property name="iface" value="com.dianping.rotate.shop.api.RotateGroupService"/>
+        <property name="serialize" value="hessian"/>
+        <property name="callMethod" value="sync"/>
+        <property name="timeout" value="50000"/>
+    </bean>
+    <bean id="rotateGroupShopServiceRemote" class="com.dianping.dpsf.spring.ProxyBeanFactory" init-method="init">
+        <property name="serviceName" value="http://service.dianping.com/rotate/shop/RotateGroupShopService_0.0.1"/>
+        <property name="iface" value="com.dianping.rotate.shop.api.RotateGroupShopService"/>
+        <property name="serialize" value="hessian"/>
+        <property name="callMethod" value="sync"/>
+        <property name="timeout" value="50000"/>
+    </bean>
+</beans>
