@@ -35,7 +35,7 @@ public class ApolloShopBusinessDataProcessorTask {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final static String REPORT_NAME = "dprpt_dp_shop_coop_status";
+    private final static String REPORT_NAME = "dprpt_dp_shop_coop_status_1";
 
     public void process() {
         try {
