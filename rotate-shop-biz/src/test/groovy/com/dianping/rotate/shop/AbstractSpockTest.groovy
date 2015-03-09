@@ -12,8 +12,8 @@ import spock.lang.Specification;
 @ContextConfiguration(locations = [
     "classpath*:/config/spring/common/appcontext-*.xml",
     "classpath*:/config/spring/local/appcontext-*.xml"])
-@Transactional
-@TransactionConfiguration(transactionManager = "transactionManager",defaultRollback = true)
+//@Transactional
+//@TransactionConfiguration(transactionManager = "transactionManager",defaultRollback = true)
 @Ignore
 public abstract class AbstractSpockTest extends Specification {
 

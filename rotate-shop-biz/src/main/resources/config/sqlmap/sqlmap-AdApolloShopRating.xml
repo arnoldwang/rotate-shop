@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AdApolloShopRating">
+    <resultMap id="adApolloShopRating" class="com.dianping.rotate.shop.json.AdApolloShopRatingEntity">
+        <result property="id" column="Id"/>
+        <result property="shopId" column="ShopId"/>
+        <result property="type" column="Type"/>
+        <result property="bizId" column="BizId"/>
+        <result property="rating" column="Rating"/>
+        <result property="status" column="Status"/>
+        <result property="createdTime" column="CreatedTime"/>
+        <result property="createdBy" column="CreatedBy"/>
+        <result property="lastModifiedTime" column="LastModifiedTime"/>
+        <result property="lastModifiedBy" column="LastModifiedBy"/>
+    </resultMap>
+
+    <sql id="keys">
+        ShopId,
+        Type,
+        BizId,
+        Rating,
+        Status,
+        CreatedTime,
+        CreatedBy,
+        LastModifiedTime,
+        LastModifiedBy
+    </sql>
+
+    <select id="queryAdApolloShopRating" resultMap="adApolloShopRating" parameterClass="map">
+        SELECT Id,
+        <include refid="keys"/>
+        FROM AdApolloShopRating
+        WHERE Status = 1
+        AND BizId = #bizId#
+        AND ShopId IN
+        <iterate open="(" close=")" conjunction="," property="shopIdList">
+            #shopIdList[]#
+        </iterate>
+    </select>
+
+    <insert id="insert" parameterClass="map">
+        INSERT INTO AdApolloShopRating
+        (
+        <include refid="keys"/>
+        )
+        VALUES
+        (
+        #adApolloShopRating.shopId#,
+        #adApolloShopRating.type#,
+        #adApolloShopRating.bizId#,
+        #adApolloShopRating.rating#,
+        #adApolloShopRating.status#,
+        #adApolloShopRating.createdTime#,
+        #adApolloShopRating.createdBy#,
+        #adApolloShopRating.lastModifiedTime#,
+        #adApolloShopRating.lastModifiedBy#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterClass="map">
+        UPDATE AdApolloShopRating
+        SET
+        ShopId = #adApolloShopRating.shopId#,
+        Type = #adApolloShopRating.type#,
+        BizId = #adApolloShopRating.bizId#,
+        Rating = #adApolloShopRating.rating#,
+        Status = #adApolloShopRating.status#,
+        LastModifiedTime = #adApolloShopRating.lastModifiedTime#,
+        LastModifiedBy  = #adApolloShopRating.lastModifiedBy#
+        WHERE
+        Id = #adApolloShopRating.id#
+    </update>
+
+    <delete id="delete" parameterClass="map">
+        DELETE FROM AdApolloShopRating
+        WHERE Id = #id#
+    </delete>
+</sqlMap>
