@@ -76,4 +76,11 @@ public interface RotateGroupService {
 	 */
 	public RotateGroupDTO createRotateGroup(int bizID);
 
+	/**
+	 * 更新轮转组类型
+	 * @param rotateGroupID
+	 * @param type
+	 */
+	public void updateType(int rotateGroupID, int type);
+
 }

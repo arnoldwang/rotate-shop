@@ -142,6 +142,11 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		return toRotateGroupDTO.apply(rotateGroupEntity);
 	}
 
+	@Override
+	public void updateType(int rotateGroupID, int type) {
+		rotateGroupDAO.updateRotateGroupTypeByID(rotateGroupID, type);
+	}
+
 	private RotateGroupEntity addRotateGroup(int bizID, List<Integer> apolloShopIDList) {
 		RotateGroupEntity rotateGroupEntity = new RotateGroupEntity();
 		rotateGroupEntity.setBizID(bizID);
