@@ -105,4 +105,16 @@ class RotateGroupServiceTest extends AbstractSpockTest{
         then:
         3 == entityList.size()
     }
+
+    def "test updateType"() {
+        setup:
+        def id = 0
+        def type = 1
+
+        when:
+        rotateGroupService.updateType(id, type)
+
+        then:
+        1 == rotateGroupService.getRotateGroup(id).getType()
+    }
 }

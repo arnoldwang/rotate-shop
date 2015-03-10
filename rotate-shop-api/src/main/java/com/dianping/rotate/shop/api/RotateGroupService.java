@@ -69,4 +69,18 @@ public interface RotateGroupService {
 	 */
 	public boolean deleteRotateGroupByRotateGroupID(int rotateGroupID);
 
+	/**
+	 * 创建一个新的轮转组
+	 * @param bizID
+	 * @return
+	 */
+	public RotateGroupDTO createRotateGroup(int bizID);
+
+	/**
+	 * 更新轮转组类型
+	 * @param rotateGroupID
+	 * @param type
+	 */
+	public void updateType(int rotateGroupID, int type);
+
 }

@@ -3,10 +3,7 @@ package com.dianping.rotate.shop.impl;
 import com.dianping.apollobase.api.DepartmentGroupService;
 import com.dianping.apollobase.api.GroupBusiness;
 import com.dianping.rotate.shop.api.RotateGroupService;
-import com.dianping.rotate.shop.constants.ApolloShopTypeEnum;
-import com.dianping.rotate.shop.constants.RotateGroupCustomerStatusEnum;
-import com.dianping.rotate.shop.constants.RotateShopCooperationStatusEnum;
-import com.dianping.rotate.shop.constants.RotateShopStatusEnum;
+import com.dianping.rotate.shop.constants.*;
 import com.dianping.rotate.shop.dao.ApolloShopBusinessStatusDAO;
 import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
 import com.dianping.rotate.shop.dao.RotateGroupDAO;
@@ -133,6 +130,21 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		rotateGroupDAO.deleteRotateGroup(rotateGroupID);
 		rotateGroupShopDAO.deleteRotateGroupShopByRotateGroupID(rotateGroupID);
 		return true;
+	}
+
+	@Override
+	public RotateGroupDTO createRotateGroup(int bizID) {
+		RotateGroupEntity rotateGroupEntity = new RotateGroupEntity();
+		rotateGroupEntity.setBizID(bizID);
+		rotateGroupEntity.setType(RotateGroupTypeEnum.SINGLE.getCode());
+		rotateGroupEntity.setStatus(1);
+		rotateGroupEntity.setId(rotateGroupDAO.addToRotateGroup(rotateGroupEntity));
+		return toRotateGroupDTO.apply(rotateGroupEntity);
+	}
+
+	@Override
+	public void updateType(int rotateGroupID, int type) {
+		rotateGroupDAO.updateRotateGroupTypeByID(rotateGroupID, type);
 	}
 
 	private RotateGroupEntity addRotateGroup(int bizID, List<Integer> apolloShopIDList) {

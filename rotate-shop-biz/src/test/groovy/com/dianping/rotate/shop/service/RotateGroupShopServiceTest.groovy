@@ -3,6 +3,7 @@ package com.dianping.rotate.shop.service
 import com.beust.jcommander.internal.Lists
 import com.dianping.rotate.shop.AbstractSpockTest
 import com.dianping.rotate.shop.api.RotateGroupShopService
+import com.dianping.rotate.shop.dao.RotateGroupDAO
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO
 import com.dianping.rotate.shop.dto.RotateGroupShopDTO
 import com.dianping.rotate.shop.json.RotateGroupShopEntity
@@ -83,5 +84,34 @@ class RotateGroupShopServiceTest extends AbstractSpockTest {
 
         then:
         1 == num
+    }
+
+    def "test updateRotateGroupShop"() {
+        setup:
+        def rotateGroupShopDTO = new RotateGroupShopDTO()
+        def rotateGroupID = 1
+        rotateGroupShopDTO.setId(226554)
+        rotateGroupShopDTO.setRotateGroupID(rotateGroupID)
+        rotateGroupShopDTO.setShopID(500054)
+        rotateGroupShopDTO.setShopGroupID(10037)
+        rotateGroupShopDTO.setStatus(1)
+
+        when:
+        rotateGroupShopService.updateRotateGroupShop(rotateGroupShopDTO)
+        List<RotateGroupShopDTO> result = rotateGroupShopService.getRotateGroupShop(rotateGroupID)
+
+        then:
+        1 == result.size()
+    }
+
+    def "test"(){
+        setup:
+        def rotateGroupID = 1
+
+        when:
+        List<RotateGroupShopDTO> list = rotateGroupShopService.getRotateGroupShop(rotateGroupID)
+
+        then:
+        1 == list.size()
     }
 }

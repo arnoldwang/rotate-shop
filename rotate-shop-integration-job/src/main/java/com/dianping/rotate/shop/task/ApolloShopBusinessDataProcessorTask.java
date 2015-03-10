@@ -5,19 +5,19 @@ import com.dianping.rotate.shop.dao.ApolloShopBusinessStatusDAO;
 import com.dianping.rotate.shop.json.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.producer.ShopBusinessNotificationProducer;
 import com.dianping.rotate.shop.service.ShopBusinessStatusService;
+import com.dianping.rotate.shop.utils.Beans;
 import com.dianping.trade.data.api.ReportRemoteService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by luoming on 15/1/21.
@@ -26,9 +26,6 @@ public class ApolloShopBusinessDataProcessorTask {
 
     @Autowired
     private ShopBusinessStatusService shopBusinessStatusService;
-
-    @Autowired
-    private ReportDataProcessor reportDataProcessor;
 
     @Autowired
     private ShopBusinessNotificationProducer producer;
@@ -41,6 +38,9 @@ public class ApolloShopBusinessDataProcessorTask {
         try {
             long start = System.currentTimeMillis();
             logger.info("ApolloShopBusinessDataProcessorTask start");
+            ReportDataProcessor reportDataProcessor = new ReportDataProcessor();
+            Beans.getApplicationContext().getAutowireCapableBeanFactory().autowireBean(reportDataProcessor);
+            System.out.println("reportDataProcessor" + reportDataProcessor.hashCode());
             deleteData();
             reportDataProcessor.setReportName(REPORT_NAME);
             while(!reportDataProcessor.isDataOver()) {
@@ -49,7 +49,7 @@ public class ApolloShopBusinessDataProcessorTask {
             }
             clearData();
             producer.send();
-            logger.info("ApolloShopBusinessDataProcessorTask end("+(System.currentTimeMillis()-start)+"ms)");
+            logger.info("ApolloShopBusinessDataProcessorTask end(" + (System.currentTimeMillis() - start) + "ms)");
         } catch(Exception e) {
             logger.error("ApolloShopBusinessDataProcessorTask fail", e);
         }
