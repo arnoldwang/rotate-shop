@@ -40,7 +40,6 @@ public class ApolloShopBusinessDataProcessorTask {
             logger.info("ApolloShopBusinessDataProcessorTask start");
             ReportDataProcessor reportDataProcessor = new ReportDataProcessor();
             Beans.getApplicationContext().getAutowireCapableBeanFactory().autowireBean(reportDataProcessor);
-            System.out.println("reportDataProcessor" + reportDataProcessor.hashCode());
             deleteData();
             reportDataProcessor.setReportName(REPORT_NAME);
             while(!reportDataProcessor.isDataOver()) {
