@@ -4,6 +4,7 @@ package com.dianping.rotate.shop.constants;
  * Created by luoming on 15/1/8.
  */
 public enum RotateGroupTypeEnum {
+	CLOSE(-1, "关闭"),
     SINGLE(0, "单店"),
     CHAIN(1,"连锁店");
 
