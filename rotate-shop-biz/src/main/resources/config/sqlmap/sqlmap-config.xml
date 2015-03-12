@@ -5,6 +5,7 @@
               lazyLoadingEnabled="false" maxRequests="3000" maxSessions="3000"
               maxTransactions="3000" useStatementNamespaces="true"/>
 
+    <sqlMap resource="config/sqlmap/sqlmap-AdApolloShopRating.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-ApolloShop.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-ApolloShopExtend.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-ApolloShopBusinessStatus.xml"/>
