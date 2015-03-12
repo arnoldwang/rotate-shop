@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <!--消息的目的地 Destination -->
+    <bean id="destination" class="com.dianping.swallow.common.message.Destination"
+          factory-method="topic">
+        <constructor-arg value="dp_apollo_rotate_job_notification"/> <!-- ${topicName}为消息的Topic，需自定义-->
+    </bean>
+    <!--生产者的配置类 ProducerConfig -->
+    <bean id="producerConfig" class="com.dianping.swallow.producer.ProducerConfig">
+        <property name="mode" value="SYNC_MODE" /><!--同步模式(推荐)-->
+    </bean>
+    <!--生产者的工厂类 ProducerFactory -->
+    <bean id="producerFactory" class="com.dianping.swallow.producer.impl.ProducerFactoryImpl"
+          factory-method="getInstance" />
+    <!--生产者 ProducerClient -->
+    <bean id="jobProducerClient" factory-bean="producerFactory"
+          factory-method="createProducer">
+        <constructor-arg>
+            <ref bean="destination" />
+        </constructor-arg>
+        <constructor-arg>
+            <ref bean="producerConfig" />
+        </constructor-arg>
+    </bean>
+
+
+
+</beans>

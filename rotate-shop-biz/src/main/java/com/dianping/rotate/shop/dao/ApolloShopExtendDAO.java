@@ -100,4 +100,14 @@ public interface ApolloShopExtendDAO extends GenericDao {
 	 */
 	@DAOAction(action = DAOActionType.DELETE)
 	void deleteApolloShopExtendDirectlyByShopID(@DAOParam("shopID") int shopId);
+
+    /**
+     * 更新轮转组下ApolloShopExtend的Type
+     * @param shopIDList
+     * @param type
+     * @param bizID
+     */
+    @DAOAction(action = DAOActionType.UPDATE)
+    void updateApolloShopExtendTypeByShopIDListAndType(@DAOParam("shopIDList")List<Integer> shopIDList, @DAOParam("type")int type, @DAOParam("bizID")int bizID);
+
 }

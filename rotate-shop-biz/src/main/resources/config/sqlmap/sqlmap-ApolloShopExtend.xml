@@ -165,4 +165,15 @@
         DELETE FROM ApolloShopExtend
         WHERE ShopID = #shopID#
     </delete>
+
+    <update id="updateApolloShopExtendTypeByShopIDListAndType" parameterClass="map">
+        UPDATE ApolloShopExtend
+        SET Type = #type#
+        WHERE BizID = #bizID# and ShopID IN
+        (
+        <iterate property="shopIDList" conjunction=",">
+            #shopIDList[]#
+        </iterate>
+        )
+    </update>
 </sqlMap>

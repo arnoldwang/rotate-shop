@@ -3,6 +3,7 @@ package com.dianping.rotate.shop.service
 import com.beust.jcommander.internal.Lists
 import com.dianping.rotate.shop.AbstractSpockTest
 import com.dianping.rotate.shop.api.RotateGroupShopService
+import com.dianping.rotate.shop.dao.RotateGroupDAO
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO
 import com.dianping.rotate.shop.dto.RotateGroupShopDTO
 import com.dianping.rotate.shop.json.RotateGroupShopEntity
@@ -33,10 +34,10 @@ class RotateGroupShopServiceTest extends AbstractSpockTest {
 
     }
 
-    def  "test getRotateGroupShop by mult"(){
+    def "test getRotateGroupShop by mult"() {
         setup:
         def List<Integer> ids = Lists.newArrayList(1000, 1001)
-        for(int id: ids){
+        for (int id : ids) {
             createRotateGroupShop(id)
         }
 
@@ -55,5 +56,62 @@ class RotateGroupShopServiceTest extends AbstractSpockTest {
         r.setShopID(10001)
         r.setShopGroupID(2000)
         rotateGroupShopDAO.addToRotateGroupShop(r)
+    }
+
+    def "test getRotateGroupShopByShopGroupIDAndBizIDAndCityID"() {
+        setup:
+        def shopGroupID = 10003
+        def bizID = 101
+        def cityID = 1
+        def pageSize = 10
+        def pageIndex = 0
+
+        when:
+        List<RotateGroupShopDTO> rotateGroupShopDTOs = rotateGroupShopService.getRotateGroupShopByShopGroupIDAndBizIDAndCityID(shopGroupID, bizID, cityID, pageSize, pageIndex)
+
+        then:
+        1 == rotateGroupShopDTOs.size()
+    }
+
+    def "test getTotalNumByShopGroupIDAndBizIDAndCityID"() {
+        setup:
+        def shopGroupID = 10003
+        def bizID = 101
+        def cityID = 1
+
+        when:
+        int num = rotateGroupShopService.getTotalNumByShopGroupIDAndBizIDAndCityID(shopGroupID, bizID, cityID)
+
+        then:
+        1 == num
+    }
+
+    def "test updateRotateGroupShop"() {
+        setup:
+        def rotateGroupShopDTO = new RotateGroupShopDTO()
+        def rotateGroupID = 1
+        rotateGroupShopDTO.setId(226554)
+        rotateGroupShopDTO.setRotateGroupID(rotateGroupID)
+        rotateGroupShopDTO.setShopID(500054)
+        rotateGroupShopDTO.setShopGroupID(10037)
+        rotateGroupShopDTO.setStatus(1)
+
+        when:
+        rotateGroupShopService.updateRotateGroupShop(rotateGroupShopDTO)
+        List<RotateGroupShopDTO> result = rotateGroupShopService.getRotateGroupShop(rotateGroupID)
+
+        then:
+        1 == result.size()
+    }
+
+    def "test"(){
+        setup:
+        def rotateGroupID = 1
+
+        when:
+        List<RotateGroupShopDTO> list = rotateGroupShopService.getRotateGroupShop(rotateGroupID)
+
+        then:
+        1 == list.size()
     }
 }
