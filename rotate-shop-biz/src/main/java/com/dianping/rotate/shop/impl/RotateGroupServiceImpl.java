@@ -147,6 +147,21 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		rotateGroupDAO.updateRotateGroupTypeByID(rotateGroupID, type);
 	}
 
+	@Override
+	public List<RotateGroupDTO> getRotateGroupList(int shopGroupID, int bizID) {
+		List<RotateGroupDTO> rotateGroupDTOs =  Lists.newArrayList();
+		for(RotateGroupDTO dto:
+				Lists.transform(rotateGroupDAO.queryRotateGroupByShopGroupIDAndBizID(shopGroupID, bizID), toRotateGroupDTO)){
+			if(dto != null){
+				int rotateGroupID = dto.getId();
+				processRotateShopDTOCooperationStatus(dto, rotateGroupID);
+				processRotateShopDTOCustomerStatus(dto, rotateGroupID);
+				rotateGroupDTOs.add(dto);
+			}
+		}
+		return rotateGroupDTOs;
+	}
+
 	private RotateGroupEntity addRotateGroup(int bizID, List<Integer> apolloShopIDList) {
 		RotateGroupEntity rotateGroupEntity = new RotateGroupEntity();
 		rotateGroupEntity.setBizID(bizID);

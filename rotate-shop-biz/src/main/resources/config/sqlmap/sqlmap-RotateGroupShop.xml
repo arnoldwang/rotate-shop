@@ -211,7 +211,7 @@
     </delete>
 
     <select id="queryRotateGroupShopByShopGroupIDAndBizIDAndCityID" resultMap="rotateGroupShop" parameterClass="map">
-        SELECT rgs.ID, rgs.RotateGroupID, rgs.ShopID, rgs.ShopGroupID, rgs.Status
+        SELECT DISTINCT rgs.ID, rgs.RotateGroupID, rgs.ShopID, rgs.ShopGroupID, rgs.Status
         FROM RotateGroupShop rgs, RotateGroup rg, ApolloShop ap
         WHERE rgs.RotateGroupID = rg.ID AND rgs.ShopGroupID = ap.ShopGroupID
         AND rgs.ShopGroupID = #shopGroupID# AND rg.BizID = #bizID# AND ap.CityID = #cityID#
@@ -220,7 +220,7 @@
     </select>
 
     <select id="queryAllRotateGroupShopByShopGroupIDAndBizIDAndCityID" resultMap="rotateGroupShop" parameterClass="map">
-        SELECT rgs.ID, rgs.RotateGroupID, rgs.ShopID, rgs.ShopGroupID, rgs.Status
+        SELECT DISTINCT rgs.ID, rgs.RotateGroupID, rgs.ShopID, rgs.ShopGroupID, rgs.Status
         FROM RotateGroupShop rgs, RotateGroup rg, ApolloShop ap
         WHERE rgs.RotateGroupID = rg.ID AND rgs.ShopGroupID = ap.ShopGroupID
         AND rgs.ShopGroupID = #shopGroupID# AND rg.BizID = #bizID# AND ap.CityID = #cityID#
@@ -228,9 +228,10 @@
     </select>
 
     <select id="getTotalNumByShopGroupIDAndBizIDAndCityID" resultClass="int" parameterClass="map">
-        SELECT COUNT(*)
+        SELECT COUNT(DISTINCT(rgs.ID))
         FROM RotateGroupShop rgs, RotateGroup rg, ApolloShop ap
         WHERE rgs.RotateGroupID = rg.ID AND rgs.ShopGroupID = ap.ShopGroupID
         AND rgs.ShopGroupID = #shopGroupID# AND rg.BizID = #bizID# AND ap.CityID = #cityID#
+        AND rgs.Status = rg.Status = 1
     </select>
 </sqlMap>

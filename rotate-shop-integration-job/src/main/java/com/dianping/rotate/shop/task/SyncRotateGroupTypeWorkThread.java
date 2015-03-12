@@ -49,7 +49,7 @@ public class SyncRotateGroupTypeWorkThread implements Runnable {
 				}
 
 				for (int rotateGroupID : rotateGroupIDList) {
-					shopService.updateRotateGroupTypeAndStatus(rotateGroupID);
+					shopService.updateRotateGroupType(rotateGroupID);
 				}
 
 				logger.info("This thread: " + Thread.currentThread().getName() + " sync date from " + rotateGroupIDList.get(0) + " to " + (rotateGroupIDList.get(0) + page));

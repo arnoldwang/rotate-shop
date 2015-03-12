@@ -83,4 +83,12 @@ public interface RotateGroupService {
 	 */
 	public void updateType(int rotateGroupID, int type);
 
+	/**
+	 * 获取轮转组DTO
+	 * @param shopGroupID
+	 * @param bizID
+	 * @return
+	 */
+	public List<RotateGroupDTO> getRotateGroupList(int shopGroupID, int bizID);
+
 }

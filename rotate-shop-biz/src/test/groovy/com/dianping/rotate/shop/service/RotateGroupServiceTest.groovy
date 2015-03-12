@@ -117,4 +117,16 @@ class RotateGroupServiceTest extends AbstractSpockTest{
         then:
         1 == rotateGroupService.getRotateGroup(id).getType()
     }
+
+    def "test getRotateGroupList"() {
+        setup:
+        def shopGroupId = 10225
+        def bizId = 101
+
+        when:
+        def rotateGroupList = rotateGroupService.getRotateGroupList(shopGroupId, bizId)
+
+        then:
+        3 == rotateGroupList.size()
+    }
 }
