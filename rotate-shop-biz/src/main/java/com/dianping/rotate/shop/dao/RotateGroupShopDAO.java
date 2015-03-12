@@ -82,8 +82,14 @@ public interface RotateGroupShopDAO extends GenericDao {
 																						  @DAOParam("pageSize") int pageSize,
 																						  @DAOParam("offset") int pageIndex);
 
+	@DAOAction(action = DAOActionType.QUERY)
+	public List<RotateGroupShopEntity> queryAllRotateGroupShopByShopGroupIDAndBizIDAndCityID(@DAOParam("shopGroupID")int shopGroupID,
+																							 @DAOParam("bizID")int bizID,
+																							 @DAOParam("cityID")int cityID);
+
 	@DAOAction(action = DAOActionType.LOAD)
 	public int getTotalNumByShopGroupIDAndBizIDAndCityID(@DAOParam("shopGroupID") int shopGroupID,
 														 @DAOParam("bizID") int bizID,
 														 @DAOParam("cityID") int cityID);
+
 }

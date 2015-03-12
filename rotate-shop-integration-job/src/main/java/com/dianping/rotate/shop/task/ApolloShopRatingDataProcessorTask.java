@@ -6,11 +6,13 @@ import com.dianping.rotate.shop.json.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.json.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.service.ShopBusinessStatusService;
 import com.dianping.rotate.shop.service.ShopExtendService;
+import com.dianping.rotate.shop.utils.Beans;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -28,9 +30,6 @@ public class ApolloShopRatingDataProcessorTask {
     @Autowired
     private ShopExtendService shopExtendService;
 
-    @Autowired
-    private ReportDataProcessor reportDataProcessor;
-
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     private final static String REPORT_NAME = "dpdm_tg_shop_rating_star_information";
@@ -41,6 +40,8 @@ public class ApolloShopRatingDataProcessorTask {
         try {
             long start = System.currentTimeMillis();
             logger.info("ApolloShopRatingDataProcessorTask start");
+            ReportDataProcessor reportDataProcessor = new ReportDataProcessor();
+            Beans.getApplicationContext().getAutowireCapableBeanFactory().autowireBean(reportDataProcessor);
             reportDataProcessor.setReportName(REPORT_NAME);
             reportDataProcessor.setOrderByName("shop_id");
             while(!reportDataProcessor.isDataOver()) {

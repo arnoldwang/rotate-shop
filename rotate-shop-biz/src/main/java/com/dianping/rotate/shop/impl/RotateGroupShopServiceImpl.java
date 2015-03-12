@@ -29,9 +29,27 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 			RotateGroupShopDTO to = null;
 			if (from != null) {
 				to = new RotateGroupShopDTO();
+				to.setId(from.getId());
 				to.setRotateGroupID(from.getRotateGroupID());
 				to.setShopID(from.getShopID());
 				to.setShopGroupID(from.getShopGroupID());
+				to.setStatus(from.getStatus());
+			}
+			return to;
+		}
+	};
+
+	private Function<RotateGroupShopDTO, RotateGroupShopEntity> toRotateShopEntity = new Function<RotateGroupShopDTO, RotateGroupShopEntity>() {
+		@Override
+		public RotateGroupShopEntity apply(RotateGroupShopDTO from) {
+			RotateGroupShopEntity to = null;
+			if(from != null){
+				to = new RotateGroupShopEntity();
+				to.setId(from.getId());
+				to.setRotateGroupID(from.getRotateGroupID());
+				to.setShopID(from.getShopID());
+				to.setShopGroupID(from.getShopGroupID());
+				to.setStatus(from.getStatus());
 			}
 			return to;
 		}
@@ -71,7 +89,17 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 	}
 
 	@Override
+	public List<RotateGroupShopDTO> getAllRotateGroupShopByShopGroupIDAndBizIDAndCityID(int shopGroupID, int bizID, int cityID) {
+		return Lists.transform(rotateGroupShopDAO.queryAllRotateGroupShopByShopGroupIDAndBizIDAndCityID(shopGroupID, bizID, cityID), toRotateShopDTO);
+	}
+
+	@Override
 	public int getTotalNumByShopGroupIDAndBizIDAndCityID(int shopGroupID, int bizID, int cityID) {
 		return rotateGroupShopDAO.getTotalNumByShopGroupIDAndBizIDAndCityID(shopGroupID, bizID, cityID);
+	}
+
+	@Override
+	public void updateRotateGroupShop(RotateGroupShopDTO rotateGroupShopDTO) {
+		rotateGroupShopDAO.updateRotateGroupShop(toRotateShopEntity.apply(rotateGroupShopDTO));
 	}
 }

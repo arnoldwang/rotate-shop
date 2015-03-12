@@ -15,7 +15,7 @@ public class RotateGroupShopEntity {
 	private int shopID;
 
 	private int shopGroupID;
-	//状态：0，删除；1，正常；2，关闭；3，暂停营业；4，尚未营业；
+	//状态：0，删除；1，正常
 	private int status;
 
 	private Date createdTime;
