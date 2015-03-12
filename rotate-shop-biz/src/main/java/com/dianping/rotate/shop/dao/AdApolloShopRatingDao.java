@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface AdApolloShopRatingDAO extends GenericDao {
     @DAOAction(action = DAOActionType.QUERY)
-    public List<AdApolloShopRatingEntity> queryAdApolloShopRating(@DAOParam("shopIdList")List<Integer> shopIdList,@DAOParam("bizId")int bizId);
+    public List<AdApolloShopRatingEntity> queryAdApolloShopRating(@DAOParam("shopId")Integer shopId,@DAOParam("bizId")int bizId);
 
     @DAOAction(action = DAOActionType.INSERT)
     public int insert(@DAOParam("adApolloShopRating")AdApolloShopRatingEntity adApolloShopRating);

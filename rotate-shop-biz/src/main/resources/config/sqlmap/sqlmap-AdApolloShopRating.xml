@@ -33,10 +33,7 @@
         FROM AdApolloShopRating
         WHERE Status = 1
         AND BizId = #bizId#
-        AND ShopId IN
-        <iterate open="(" close=")" conjunction="," property="shopIdList">
-            #shopIdList[]#
-        </iterate>
+        AND ShopId = #shopId#
     </select>
 
     <insert id="insert" parameterClass="map">
