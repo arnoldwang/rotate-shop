@@ -71,10 +71,6 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 			}
 			result.get(rotateGroupShop.getRotateGroupID()).add(toRotateShopDTO.apply(rotateGroupShop));
 		}
-//        for(int rotateGroupID: rotateGroupIDs){
-//			result.put(rotateGroupID,
-//					Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID), toRotateShopDTO));
-//		}
 		return result;
 	}
 
@@ -102,4 +98,9 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 	public void updateRotateGroupShop(RotateGroupShopDTO rotateGroupShopDTO) {
 		rotateGroupShopDAO.updateRotateGroupShop(toRotateShopEntity.apply(rotateGroupShopDTO));
 	}
+
+    @Override
+    public List<RotateGroupShopDTO> getRotateGroupShopWithNoStatus(int rotateGroupID){
+        return Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByRotateGroupIDWithNoStatus(rotateGroupID),toRotateShopDTO);
+    }
 }

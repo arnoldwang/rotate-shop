@@ -89,7 +89,6 @@
         FROM RotateGroupShop
         WHERE ID = #id#
         AND Status != 0
-
     </select>
 
 
@@ -233,5 +232,12 @@
         WHERE rgs.RotateGroupID = rg.ID AND rgs.ShopGroupID = ap.ShopGroupID
         AND rgs.ShopGroupID = #shopGroupID# AND rg.BizID = #bizID# AND ap.CityID = #cityID#
         AND rgs.Status = rg.Status = 1
+    </select>
+
+    <select id="queryRotateGroupShopByRotateGroupIDWithNoStatus" resultMap="rotateGroupShop" parameterClass="map">
+        SELECT ID,
+        <include refid="keys"/>
+        FROM RotateGroupShop
+        WHERE RotateGroupID = #rotateGroupID#
     </select>
 </sqlMap>
