@@ -162,6 +162,11 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		return rotateGroupDTOs;
 	}
 
+    @Override
+    public List<RotateGroupDTO> getRotateGroupWithNoStatus(int rotateGroupID){
+        return Lists.transform(rotateGroupDAO.getRotateGroupWithNoStatus(rotateGroupID), toRotateGroupDTO);
+    }
+
 	private RotateGroupEntity addRotateGroup(int bizID, List<Integer> apolloShopIDList) {
 		RotateGroupEntity rotateGroupEntity = new RotateGroupEntity();
 		rotateGroupEntity.setBizID(bizID);

@@ -125,4 +125,12 @@ public interface RotateGroupDAO extends GenericDao {
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<RotateGroupEntity> queryRotateGroupByShopGroupIDAndBizID(@DAOParam("shopGroupID")int shopGroupID,
 																		 @DAOParam("bizID")int bizID);
+    /**
+     * 按RotateGroupID查询轮转组，包括删除的轮转组
+     *
+     * @param rotateGroupID
+     * @return
+     */
+    @DAOAction(action = DAOActionType.QUERY)
+    public List<RotateGroupEntity> getRotateGroupWithNoStatus(@DAOParam("id") int rotateGroupID);
 }

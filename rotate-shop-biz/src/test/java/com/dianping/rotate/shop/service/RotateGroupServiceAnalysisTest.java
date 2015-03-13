@@ -4,6 +4,7 @@ import com.dianping.rotate.shop.AbstractTest;
 import com.dianping.rotate.shop.api.RotateGroupService;
 import com.dianping.rotate.shop.api.RotateGroupShopService;
 import com.dianping.rotate.shop.dao.RotateGroupDAO;
+import com.dianping.rotate.shop.dto.RotateGroupDTO;
 import com.dianping.rotate.shop.dto.RotateGroupShopDTO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,16 @@ import java.util.Map;
  * Created by zaza on 15/3/4.
  */
 public class RotateGroupServiceAnalysisTest extends AbstractTest {
-//    @Autowired
-//    @Qualifier("RotateGroupService")
-//    RotateGroupService rotateGroupService;
-//    @Autowired
-//    @Qualifier("RotateGroupShopService")
-//    RotateGroupShopService rotateGroupShopService;
-//
+    @Autowired
+    @Qualifier("RotateGroupService")
+    RotateGroupService rotateGroupService;
+    @Autowired
+    @Qualifier("RotateGroupShopService")
+    RotateGroupShopService rotateGroupShopService;
+
 //    @Autowired
 //    RotateGroupDAO rotateGroupDAO;
-//
+
 //    @Test
 //    public void getRotateGroupWithCooperationStatusTest(){
 //        int count =0;
@@ -108,5 +109,13 @@ public class RotateGroupServiceAnalysisTest extends AbstractTest {
 //        Map<Integer, List<RotateGroupShopDTO>> id2RotateGroupShops =  rotateGroupShopService.getRotateGroupShop(rotateGroupIds);
 //        System.out.println(id2RotateGroupShops.toString());
 //    }
+
+    @Test
+    public void getRotateGroupWithNoStatus(){
+        //List<RotateGroupDTO> rotateGroupDTOs = rotateGroupService.getRotateGroupWithNoStatus(975);
+        //System.out.print("su");
+        //List<RotateGroupShopDTO> rotateGroupShopDTOs = rotateGroupShopService.getRotateGroupShopWithNoStatus(1000);
+        //System.out.print("su");
+    }
 
 }
