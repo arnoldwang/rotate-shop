@@ -154,4 +154,11 @@
         AND rgs.Status = rg.Status = 1
         ORDER BY rg.ID LIMIT 10000
     </select>
+
+    <select id="getRotateGroupWithNoStatus" resultMap="rotateGroup" parameterClass="map">
+        SELECT ID,
+        <include refid="keys"/>
+        FROM RotateGroup
+        WHERE ID = #id#
+    </select>
 </sqlMap>

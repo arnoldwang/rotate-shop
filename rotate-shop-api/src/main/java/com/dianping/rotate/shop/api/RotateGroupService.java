@@ -91,4 +91,11 @@ public interface RotateGroupService {
 	 */
 	public List<RotateGroupDTO> getRotateGroupList(int shopGroupID, int bizID);
 
+    /**
+    * 获取所有轮转组DTO，包括软删的RotateGroup
+    * @param rotateGroupID 轮转组ID
+    * @return
+    */
+    public List<RotateGroupDTO> getRotateGroupWithNoStatus(int rotateGroupID);
+
 }
