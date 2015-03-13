@@ -20,6 +20,8 @@ public class ShopLogEntity {
 
 	private List<RotateGroupEntity> rotateGroupEntities;
 
+	private List<RotateGroupShopEntity> rotateGroupShopEntities;
+
 	public ApolloShopEntity getApolloShopEntity() {
 		return apolloShopEntity;
 	}
@@ -58,5 +60,13 @@ public class ShopLogEntity {
 
 	public void setRotateGroupEntities(List<RotateGroupEntity> rotateGroupEntities) {
 		this.rotateGroupEntities = rotateGroupEntities;
+	}
+
+	public List<RotateGroupShopEntity> getRotateGroupShopEntities() {
+		return rotateGroupShopEntities;
+	}
+
+	public void setRotateGroupShopEntities(List<RotateGroupShopEntity> rotateGroupShopEntities) {
+		this.rotateGroupShopEntities = rotateGroupShopEntities;
 	}
 }

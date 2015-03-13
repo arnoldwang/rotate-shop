@@ -12,7 +12,9 @@ public enum ShopLogTypeEnum {
 	INSERT_SHOP_EXTEND(5, "新增门店扩展"),
 	UPDATE_SHOP_EXTEND(6, "更新门店扩展"),
 	INSERT_ROTATE_GROUP(7, "新增轮转组"),
-	UPDATE_ROTATE_GROUP(8, "更新轮转组");
+	UPDATE_ROTATE_GROUP(8, "更新轮转组"),
+	UPDATE_ROTATE_GROUP_SHOP(9, "更新门店轮转组关系");
+
 
 	private int code;
 	private String desc;
