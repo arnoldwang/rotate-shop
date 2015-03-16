@@ -5,6 +5,8 @@ import com.dianping.rotate.shop.dao.RotateGroupDAO;
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.json.RotateGroupEntity;
 import com.dianping.rotate.shop.json.RotateGroupShopEntity;
+import com.dianping.rotate.shop.json.ShopJson;
+import com.dianping.rotate.shop.producer.RotateGroupShopMessageProducer;
 import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class RotateGroupMessageAspectTest extends AbstractTest {
     RotateGroupDAO rotateGroupDAO;
     @Autowired
     RotateGroupShopDAO rotateGroupShopDAO;
+    @Autowired
+    RotateGroupShopMessageProducer producer;
 
     @Test
     public void rotateGroupInsertAspectTest(){
@@ -98,5 +102,12 @@ public class RotateGroupMessageAspectTest extends AbstractTest {
     @Test
     public void rotateGroupShopDeleteAspectTest(){
 
+    }
+
+    @Test
+    public void RotateGroupMessageProducerTest(){
+        List<Integer> shops = Lists.newArrayList();
+        shops.add(11111);
+        //producer.send(123,-123,shops,234,-234);
     }
 }
