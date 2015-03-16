@@ -54,6 +54,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 				to.setId(from.getId());
 				to.setBizID(from.getBizID());
 				to.setType(from.getType());
+				to.setStatus(from.getStatus());
 			}
 			return to;
 		}
