@@ -14,7 +14,6 @@ import java.util.List;
  * Created by zaza on 15/3/11.
  */
 @Service("rotateGroupShopMessageProducer")
-
 public class RotateGroupShopMessageProducer extends AbstractMessageProducer{
     public void send(String msg){
         try{
@@ -35,6 +34,7 @@ public class RotateGroupShopMessageProducer extends AbstractMessageProducer{
             for(Integer shopId:shops){
                 shopJsonList.add(new ShopJson(shopId));
             }
+            rotateGroupShopJson.setShop(shopJsonList);
             rotateGroupShopProducerClient.sendMessage(JsonUtil.toStr(rotateGroupShopJson));
         }catch(Exception ex){
             logger.error(ex.getMessage(), ex);
