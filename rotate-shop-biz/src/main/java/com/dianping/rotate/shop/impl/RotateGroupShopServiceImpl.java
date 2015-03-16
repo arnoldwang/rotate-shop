@@ -5,9 +5,11 @@ import com.dianping.rotate.shop.api.RotateGroupShopService;
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.dto.RotateGroupShopDTO;
 import com.dianping.rotate.shop.json.RotateGroupShopEntity;
+import com.dianping.rotate.shop.producer.RotateGroupShopMessageProducer;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +24,11 @@ import java.util.Map;
 public class RotateGroupShopServiceImpl implements RotateGroupShopService {
 	@Autowired
 	RotateGroupShopDAO rotateGroupShopDAO;
+
+    @Autowired
+    @Qualifier("rotateGroupShopMessageProducer")
+    RotateGroupShopMessageProducer producer;
+
 
 	private Function<RotateGroupShopEntity, RotateGroupShopDTO> toRotateShopDTO = new Function<RotateGroupShopEntity, RotateGroupShopDTO>() {
 		@Override
@@ -102,5 +109,11 @@ public class RotateGroupShopServiceImpl implements RotateGroupShopService {
     @Override
     public List<RotateGroupShopDTO> getRotateGroupShopWithNoStatus(int rotateGroupID){
         return Lists.transform(rotateGroupShopDAO.queryRotateGroupShopByRotateGroupIDWithNoStatus(rotateGroupID),toRotateShopDTO);
+    }
+
+    @Override
+    public void sendMessage(Integer newRotateGroupId,Integer newOwner,List<Integer> shops,
+                            Integer oldRotateGroupId,Integer oldOwner){
+        producer.send(newRotateGroupId,newOwner,shops,oldRotateGroupId,oldOwner);
     }
 }

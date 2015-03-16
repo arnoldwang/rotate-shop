@@ -27,4 +27,7 @@ public interface RotateGroupShopService {
 	public void updateRotateGroupShop(RotateGroupShopDTO rotateGroupShopDTO);
 
     public List<RotateGroupShopDTO> getRotateGroupShopWithNoStatus(int rotateGroupID);
+
+    public void sendMessage(Integer newRotateGroupId,Integer newOwner,List<Integer> shops,
+                            Integer oldRotateGroupId,Integer oldOwner);
 }
