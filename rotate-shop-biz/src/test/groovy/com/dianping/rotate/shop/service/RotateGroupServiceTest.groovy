@@ -27,10 +27,10 @@ class RotateGroupServiceTest extends AbstractSpockTest{
 
     def "test getRotateGroup when normal"() {
         when:
-        RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroup(rotateGroupID);
+        RotateGroupDTO rotateGroupDTO = rotateGroupService.getRotateGroup(96757808);
 
         then:
-        rotateGroupID == rotateGroupDTO.getId();
+        96757808 == rotateGroupDTO.getId();
     }
 
     def "test getRotateGroup when rotateGroupID is not exist"() {

@@ -21,5 +21,6 @@
     <sqlMap resource="config/sqlmap/sqlmap-Biz.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-BuBiz.xml"/>
     <sqlMap resource="config/sqlmap/sqlmap-Task.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-WrongOper.xml"/>
 
 </sqlMapConfig>
