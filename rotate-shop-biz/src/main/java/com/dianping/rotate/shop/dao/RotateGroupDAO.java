@@ -119,18 +119,47 @@ public interface RotateGroupDAO extends GenericDao {
 	@DAOAction(action = DAOActionType.QUERY)
 	public List<RotateGroupEntity> queryRotateGroupByShopID(@DAOParam("shopID") int shopId);
 
+	/**
+	 * 跟新轮转组type
+	 *
+	 * @param rotateGroupID
+	 * @param type
+	 */
 	@DAOAction(action = DAOActionType.UPDATE)
 	public void updateRotateGroupTypeByID(@DAOParam("id") int rotateGroupID, @DAOParam("type") int type);
 
+	/**
+	 * 根据ShopGroupID和BizId获得轮转组
+	 *
+	 * @param shopGroupID
+	 * @param bizID
+	 * @return
+	 */
 	@DAOAction(action = DAOActionType.QUERY)
-	public List<RotateGroupEntity> queryRotateGroupByShopGroupIDAndBizID(@DAOParam("shopGroupID")int shopGroupID,
-																		 @DAOParam("bizID")int bizID);
-    /**
-     * 按RotateGroupID查询轮转组，包括删除的轮转组
-     *
-     * @param rotateGroupID
-     * @return
-     */
-    @DAOAction(action = DAOActionType.QUERY)
-    public List<RotateGroupEntity> getRotateGroupWithNoStatus(@DAOParam("id") int rotateGroupID);
+	public List<RotateGroupEntity> queryRotateGroupByShopGroupIDAndBizID(@DAOParam("shopGroupID") int shopGroupID,
+																		 @DAOParam("bizID") int bizID);
+
+	/**
+	 * 按RotateGroupID查询轮转组，包括删除的轮转组
+	 *
+	 * @param rotateGroupID
+	 * @return
+	 */
+	@DAOAction(action = DAOActionType.QUERY)
+	public List<RotateGroupEntity> getRotateGroupWithNoStatus(@DAOParam("id") int rotateGroupID);
+
+	/**
+	 * 更新轮转组type，此方法供合并拆分轮转组使用，不发出swallow消息
+	 * @param rotateGroupID
+	 * @param type
+	 */
+	@DAOAction(action = DAOActionType.UPDATE)
+	public void updateRotateGroupTypeUsedBySplitAndMerge(@DAOParam("id") int rotateGroupID, @DAOParam("type") int type);
+
+	/**
+	 * 软删除轮转组，此方法供合并拆分轮转组使用，不发出swallow消息
+	 * @param rotateGroupID
+	 */
+	@DAOAction(action = DAOActionType.UPDATE)
+	public void deleteRotateGroupUsedBySplitAndMerge(@DAOParam("id")int rotateGroupID);
 }

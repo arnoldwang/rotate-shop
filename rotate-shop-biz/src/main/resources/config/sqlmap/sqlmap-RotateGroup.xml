@@ -161,4 +161,18 @@
         FROM RotateGroup
         WHERE ID = #id#
     </select>
+
+    <update id="updateRotateGroupTypeUsedBySplitAndMerge" parameterClass="map">
+        UPDATE RotateGroup
+        SET
+        Type = #type#
+        WHERE ID = #id#
+    </update>
+
+    <update id="deleteRotateGroupUsedBySplitAndMerge" parameterClass="map">
+        UPDATE RotateGroup
+        SET
+            Status = 0
+        WHERE ID = #id#
+    </update>
 </sqlMap>
