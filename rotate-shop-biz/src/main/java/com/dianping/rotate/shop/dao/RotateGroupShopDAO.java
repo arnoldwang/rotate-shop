@@ -92,4 +92,7 @@ public interface RotateGroupShopDAO extends GenericDao {
 														 @DAOParam("bizID") int bizID,
 														 @DAOParam("cityID") int cityID);
 
+    @DAOAction(action = DAOActionType.QUERY)
+    public List<RotateGroupShopEntity> queryRotateGroupShopByRotateGroupIDWithNoStatus(@DAOParam("rotateGroupID") int rotateGroupID);
+
 }

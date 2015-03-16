@@ -25,4 +25,6 @@ public interface RotateGroupShopService {
 	public int getTotalNumByShopGroupIDAndBizIDAndCityID(int shopGroupID, int bizID, int cityID);
 
 	public void updateRotateGroupShop(RotateGroupShopDTO rotateGroupShopDTO);
+
+    public List<RotateGroupShopDTO> getRotateGroupShopWithNoStatus(int rotateGroupID);
 }

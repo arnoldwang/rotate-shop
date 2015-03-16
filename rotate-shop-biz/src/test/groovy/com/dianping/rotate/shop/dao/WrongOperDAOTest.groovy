@@ -24,7 +24,7 @@ class WrongOperDAOTest extends AbstractSpockTest {
         int id = wrongOperDAO.addWrongOper(wrongOperEntity);
 
         then:
-        1 == 1
+        1 == id
 
     }
 }
