@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="WrongOper">
+    <typeAlias alias="WrongOper" type="com.dianping.rotate.shop.json.WrongOperEntity" />
+    <resultMap id="wrongOper" class="WrongOper">
+        <result property="id" column="ID"/>
+        <result property="type" column="Type"/>
+        <result property="source" column="Source"/>
+        <result property="target" column="Target"/>
+        <result property="status" column="Status"/>
+    </resultMap>
+
+    <sql id="keys">
+        Type,
+        Source,
+        Target
+    </sql>
+
+    <sql id="key-value">
+        (
+        <include refid="keys"/>,
+        CreatedTime
+        )
+        VALUES
+        (
+        #wrongOper.type#,
+        #wrongOper.source#,
+        #wrongOper.target#,
+        NOW()
+        )
+    </sql>
+
+    <insert id="addWrongOper" parameterClass="map">
+        INSERT INTO WrongOper
+        <include refid="key-value"/>
+        <selectKey resultClass="int" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+    </insert>
+</sqlMap>

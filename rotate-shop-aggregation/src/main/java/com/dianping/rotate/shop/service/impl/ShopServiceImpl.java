@@ -1,9 +1,11 @@
 package com.dianping.rotate.shop.service.impl;
 
 import com.dianping.combiz.service.CityService;
+import com.dianping.rotate.core.api.dto.RotateGroupUserDTO;
 import com.dianping.rotate.core.api.service.RotateGroupUserService;
 import com.dianping.rotate.shop.constants.BizTypeEnum;
 import com.dianping.rotate.shop.constants.RotateGroupTypeEnum;
+import com.dianping.rotate.shop.constants.WrongOperEnum;
 import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.exceptions.WrongShopInfoException;
 import com.dianping.rotate.shop.factory.ApolloShopExtendFactory;
@@ -19,7 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by yangjie on 1/13/15.
@@ -54,6 +58,9 @@ public class ShopServiceImpl implements ShopService {
 
 	@Autowired
 	ShopRegionDAO shopRegionDAO;
+
+	@Autowired
+	WrongOperDAO wrongOperDAO;
 
 	List<ApolloShopExtendFactory> extendFactories;
 
@@ -90,6 +97,13 @@ public class ShopServiceImpl implements ShopService {
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			} else {
 				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
+				// 多个轮转组属于不同的人员时候，需要记录，等待运营人员修复
+				Integer rotateGroupID_ = proessWrongOper(shopId, rotateGroupShopList);
+				if (rotateGroupID_ <= 0) {
+					return;
+				} else {
+					rotateGroupID = rotateGroupID_;
+				}
 				int apolloShopID = rotateGroupShopList.get(0).getShopID();
 				int apolloShopExtendType = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(apolloShopID, apolloShopExtend.getBizID()).get(0).getType();
 				apolloShopExtend.setType(apolloShopExtendType);
@@ -98,6 +112,80 @@ public class ShopServiceImpl implements ShopService {
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
 			}
 		}
+	}
+
+	private Integer proessWrongOper(int shopId, List<RotateGroupShopEntity> rotateGroupShopList) {
+		Set<Integer> rotateGroupIDSet = procecssRotateGroupID(rotateGroupShopList);
+		Integer rotateGroupID_ = isRotateGroupBelongToMore(rotateGroupIDSet);
+		if(rotateGroupID_ == 0) {
+			addWrongOper(shopId, rotateGroupIDSet);
+		}
+		return rotateGroupID_;
+	}
+
+	/**
+	 * 去除重复的RotageGroupID
+	 * @param rotateGroupShopList
+	 * @return
+	 */
+	private Set<Integer> procecssRotateGroupID(List<RotateGroupShopEntity> rotateGroupShopList) {
+		Set<Integer> rotateGroupIDSet = null;
+		if(CollectionUtils.isNotEmpty(rotateGroupShopList)) {
+			rotateGroupIDSet = new HashSet<Integer>();
+			for(RotateGroupShopEntity rotateGroupShopEntity : rotateGroupShopList) {
+				rotateGroupIDSet.add(rotateGroupShopEntity.getRotateGroupID());
+			}
+		}
+		return rotateGroupIDSet;
+	}
+
+	/**
+	 * 判断轮转组是否属于多人
+	 * @param rotateGroupIDSet
+	 * @return -1 轮转组集合为NULL或者只有一个轮转组；0 轮转组属于多人；其它 轮转组属于单人(有所属人的轮转组ID）
+	 */
+	private Integer isRotateGroupBelongToMore(Set<Integer> rotateGroupIDSet) {
+		if(rotateGroupIDSet != null && rotateGroupIDSet.size() >= 2) {
+			Set<Integer> userIDSet = new HashSet<Integer>();
+			Integer rotateGroupID_ = -1;
+			for(Integer rotateGroupID : rotateGroupIDSet) {
+				RotateGroupUserDTO rotateGroupUserDTO = rotateGroupUserService.findByRotateGroupId(rotateGroupID);
+				if(rotateGroupUserDTO != null) {
+					userIDSet.add(rotateGroupUserDTO.getUserId());
+					rotateGroupID_ = rotateGroupID;
+				}
+			}
+			if(userIDSet.size() >= 2) {
+				return 0;
+			} else if(userIDSet.size() == 1) {
+				return rotateGroupID_;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * 添加错误操作
+	 * @param shopID
+	 * @param rotateGroupIDSet
+	 */
+	private void addWrongOper(int shopID, Set<Integer> rotateGroupIDSet) {
+		WrongOperEntity wrongOperEntity = new WrongOperEntity();
+		wrongOperEntity.setSource(String.valueOf(shopID));
+		wrongOperEntity.setTarget(processTarget(rotateGroupIDSet));
+		wrongOperEntity.setType(WrongOperEnum.SHOP_ROTATEGROUP_MERGE.getCode());
+		wrongOperDAO.addWrongOper(wrongOperEntity);
+	}
+
+	private String processTarget(Set<Integer> rotateGroupIDSet) {
+		String target = "";
+		for(Integer rotateGroupID : rotateGroupIDSet) {
+			target += rotateGroupID + ",";
+		}
+		if(target.endsWith(",")) {
+			target = target.substring(0, target.length() - 1);
+		}
+		return target;
 	}
 
 	@Override
@@ -398,7 +486,7 @@ public class ShopServiceImpl implements ShopService {
 	 * 1.如果被变化的门店在公海中，则将被变化门店的rotateGroupID改成同一shopGroup下最小的rotateGroupID
 	 * 2.如果被变化的门店在私海中，则遍历同一shopGroup，将rotateGroupID最小的且属于公海的门店的rotateGroupID改成被变化门店的rotateGroupID
 	 * 2.1 同一shopGroup下所有门店都在私海则不合并
-	 * PS:
+	 * PS: // 私海属于同一人是否需要合并? 有公海且有私海，私海是否属于同一人?  门店属于公海私海为什么要区分?
 	 *
 	 * @param shopId      变化的门店ID
 	 * @param shopGroupId 变化后门店的shopGroupID
@@ -413,6 +501,13 @@ public class ShopServiceImpl implements ShopService {
 			if (CollectionUtils.isNotEmpty(rotateGroupShopEntities)) {
 				if (rotateGroupUserService.findByShopIdAndBizId(shopId, bizId) == null) {//门店在公海里
 					int rotateGroupID = rotateGroupShopEntities.get(0).getRotateGroupID();
+					// 多个轮转组属于不同的人员时候，需要记录，等待运营人员修复
+					Integer rotateGroupID_ = proessWrongOper(shopId, rotateGroupShopEntities);
+					if (rotateGroupID_ <= 0) {
+						return;
+					} else {
+						rotateGroupID = rotateGroupID_;
+					}
 					changedRotateGroupShop.setRotateGroupID(rotateGroupID);
 				} else {//门店在私海里
 					for (RotateGroupShopEntity rotateGroupShop : rotateGroupShopEntities) {
@@ -439,4 +534,5 @@ public class ShopServiceImpl implements ShopService {
 			logger.warn("clean environment failed!", e);
 		}
 	}
+
 }

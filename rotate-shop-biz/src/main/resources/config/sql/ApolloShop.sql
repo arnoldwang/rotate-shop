@@ -260,3 +260,31 @@ CREATE TABLE `MessageQueueHistory`(
   PRIMARY KEY (`ID`),
   KEY `IX_SOURCE_TYPE_ATTEMPTINDEX_ID` (`Source`,`Type`,`AttemptIndex`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT 'POI消息的缓存队列表';
+
+/** DROP TABLE IF EXISTS `WrongOper`; **/
+CREATE TABLE `WrongOper`(
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `Type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '错误类型：1，门店无法确认合并到哪个轮转组；',
+  `Source` varchar(200) NOT NULL DEFAULT '' COMMENT '错误源',
+  `Target` varchar (200) NOT NULL DEFAULT '' COMMENT '错误目标',
+  `Status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '状态：0，删除；1，新增；2，正在处理；3，处理完成；',
+  `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
+  PRIMARY KEY (`ID`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '错误操作表（需要运营人员手工干预）';
+
+/** DROP TABLE IF EXISTS `AdApolloShopRating`; **/
+CREATE TABLE `AdApolloShopRating` (
+  `Id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `ShopId` int(11) NOT NULL COMMENT '前台shopid',
+  `Type` tinyint(4) NOT NULL COMMENT '类型 1：分级，2：推广通优质门店',
+  `BizID` int(11) NOT NULL COMMENT 'BizID',
+  `Rating` int(11) DEFAULT NULL COMMENT '值 101：普通门店，102：推荐门店 201：推广通普通门店 202：推广通优质门店',
+  `Status` tinyint(4) DEFAULT '1' COMMENT '1正常，0删除',
+  `CreatedTime` datetime DEFAULT NULL COMMENT '创建时间',
+  `CreatedBy` int(11) DEFAULT '0' COMMENT '创建人',
+  `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  `LastModifiedBy` int(11) DEFAULT '0' COMMENT '最后更新人',
+  PRIMARY KEY (`Id`),
+  KEY `ShopId` (`ShopId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='推广门店分级表';
