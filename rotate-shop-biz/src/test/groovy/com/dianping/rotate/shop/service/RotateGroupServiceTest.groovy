@@ -118,6 +118,29 @@ class RotateGroupServiceTest extends AbstractSpockTest{
         1 == rotateGroupService.getRotateGroup(id).getType()
     }
 
+    def "test updateTypeUsedBySplitAndMerge"() {
+        setup:
+        def id = 0
+        def type = 1
+
+        when:
+        rotateGroupService.updateTypeUsedBySplitAndMerge(id, type)
+
+        then:
+        1 == rotateGroupService.getRotateGroup(id).getType()
+    }
+
+    def "test deleteRotateGroupUsedBySplitAndMerge"(){
+        setup:
+        def id = 0
+
+        when:
+        rotateGroupService.deleteRotateGroupUsedBySplitAndMerge(id)
+
+        then:
+        null == rotateGroupService.getRotateGroup(id)
+    }
+
     def "test getRotateGroupList"() {
         setup:
         def shopGroupId = 10225
