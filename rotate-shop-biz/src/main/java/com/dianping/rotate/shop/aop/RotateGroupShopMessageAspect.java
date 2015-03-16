@@ -86,21 +86,21 @@ public class RotateGroupShopMessageAspect {
     public void doAfterDelete(DAOMethod daoMethod){
         try{
             if(daoMethod.getName().equals("deleteRotateGroupShop")){
-                /*
                 Integer id = (Integer)daoMethod.getParams().get("id");
-                RotateGroupShopEntity rotateGroupShopEntity = rotateGroupShopDAO.queryRotateGroupShop(id);
-                producer.send(getMessage("delete",rotateGroupShopEntity.getRotateGroupID()));
-                */
+                List<RotateGroupShopEntity> rotateGroupShopEntities = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupIDWithNoStatus(id);
+                for(RotateGroupShopEntity rotateGroupShopEntity:rotateGroupShopEntities){
+                    producer.send(getMessage("delete",rotateGroupShopEntity.getRotateGroupID()));
+                }
             }
             if(daoMethod.getName().equals("deleteRotateGroupShopByRotateGroupID")){
                 Integer rotateGroupId = (Integer)daoMethod.getParams().get("rotateGroupID");
                 producer.send(getMessage("delete",rotateGroupId));
             }
             if(daoMethod.getName().equals("deleteRotateGroupShopByShopId")){
-                //已经删除，再根据ShopID无法获取RotateGroupID相关信息
+                //已经软删除，再根据ShopID无法获取RotateGroupID相关信息
             }
             if(daoMethod.getName().equals("deleteRotateGroupShopDirectlyByShopId")){
-
+                //已经硬删除，再根据ShopID无法获取RotateGroupID相关信息
             }
         }catch (Exception ex){
             logger.error(ex.getMessage());

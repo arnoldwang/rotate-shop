@@ -93,9 +93,10 @@ public class RotateGroupMessageAspectTest extends AbstractTest {
 
 //        rotateGroupShopDAO.updateRotateGroupShopRotateGroupIDBatch(-3333,Lists.newArrayList(-1,-2));
           rotateGroupShopDAO.deleteRotateGroupShop(102605471);
-
     }
 
+    @Test
+    public void rotateGroupShopDeleteAspectTest(){
 
-
+    }
 }
