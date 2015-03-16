@@ -62,6 +62,15 @@ public class RotateGroupMessageAspect {
                 logger.error(ex.getMessage());
             }
         }
+        if(daoMethod.getName().equals("updateRotateGroupTypeByID")){
+            try{
+                List<Integer> newValues = Lists.newArrayList();
+                newValues.add((Integer)daoMethod.getParams().get("id"));
+                producer.send(getMessage("update",new ArrayList<Integer>(),newValues));
+            }catch(Exception ex){
+                logger.error(ex.getMessage());
+            }
+        }
     }
 
 
@@ -75,7 +84,8 @@ public class RotateGroupMessageAspect {
             }catch(Exception ex){
                 logger.error(ex.getMessage());
             }
-        }else if(daoMethod.getName().equals("deleteRotateGroupBatch")){
+        }
+        if(daoMethod.getName().equals("deleteRotateGroupBatch")){
             try{
                 List<Integer> oldValues = Lists.newArrayList();
                 oldValues.addAll((List<Integer>)daoMethod.getParams().get("rotateGroupIDList"));

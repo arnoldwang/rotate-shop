@@ -14,6 +14,8 @@ public class RotateGroupDTO implements Serializable{
 
 	private Integer type;
 
+	private Integer status;
+
 	private Integer cooperationStatus;
 
 	private Date minOfflineTime;
@@ -44,6 +46,14 @@ public class RotateGroupDTO implements Serializable{
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public Integer getCooperationStatus() {

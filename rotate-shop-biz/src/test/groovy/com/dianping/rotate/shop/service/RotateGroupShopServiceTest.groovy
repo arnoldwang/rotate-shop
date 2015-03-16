@@ -60,17 +60,17 @@ class RotateGroupShopServiceTest extends AbstractSpockTest {
 
     def "test getRotateGroupShopByShopGroupIDAndBizIDAndCityID"() {
         setup:
-        def shopGroupID = 10003
+        def shopGroupID = 10319
         def bizID = 101
         def cityID = 1
         def pageSize = 10
-        def pageIndex = 0
+        def offset = 0
 
         when:
-        List<RotateGroupShopDTO> rotateGroupShopDTOs = rotateGroupShopService.getRotateGroupShopByShopGroupIDAndBizIDAndCityID(shopGroupID, bizID, cityID, pageSize, pageIndex)
+        List<RotateGroupShopDTO> rotateGroupShopDTOs = rotateGroupShopService.getRotateGroupShopByShopGroupIDAndBizIDAndCityID(shopGroupID, bizID, cityID, pageSize, offset)
 
         then:
-        1 == rotateGroupShopDTOs.size()
+        2 == rotateGroupShopDTOs.size()
     }
 
     def "test getTotalNumByShopGroupIDAndBizIDAndCityID"() {
@@ -101,17 +101,7 @@ class RotateGroupShopServiceTest extends AbstractSpockTest {
         List<RotateGroupShopDTO> result = rotateGroupShopService.getRotateGroupShop(rotateGroupID)
 
         then:
-        1 == result.size()
+        500054 == result.get(0).getShopID()
     }
 
-    def "test"(){
-        setup:
-        def rotateGroupID = 1
-
-        when:
-        List<RotateGroupShopDTO> list = rotateGroupShopService.getRotateGroupShop(rotateGroupID)
-
-        then:
-        1 == list.size()
-    }
 }
