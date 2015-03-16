@@ -20,7 +20,9 @@ CREATE TABLE `ApolloShop`(
   UNIQUE KEY `UNIQUE_SHOPID` (`ShopID`),
   KEY `IX_SHOP_GROUP_ID` (`ShopGroupID`),
   KEY `IX_SHOP_CITY_ID` (`CityID`),
-  KEY `IX_SHOP_DISTRICT` (`District`)
+  KEY `IX_SHOP_DISTRICT` (`District`),
+  KEY `IDX_LAST_MODIFIED_TIME` (`LastModifiedTime`),
+  KEY `IX_SHOP_Province` (`ProvinceID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '落地的POI门店信息表';
 
 /**
@@ -157,7 +159,8 @@ CREATE TABLE `ApolloShopExtend`(
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_SHOP_BIZ_ID` (`ShopID`,`BizID`)
+  KEY `IX_SHOP_BIZ_ID` (`ShopID`,`BizID`),
+  KEY `IDX_LAST_MODIFIED_TIME` (`LastModifiedTime`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '门店扩展信息表';
 
 
@@ -185,7 +188,8 @@ CREATE TABLE `RotateGroup`(
   `CreatedTime` datetime NOT NULL COMMENT '记录添加时间',
   `LastModifiedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
   PRIMARY KEY (`ID`),
-  KEY `IX_BIZ_ID` (`BizID`)
+  KEY `IX_BIZ_ID` (`BizID`),
+  KEY `IDX_LAST_MODIFIED_TIME` (`LastModifiedTime`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '轮转门店组信息表';
 
 
@@ -201,7 +205,8 @@ CREATE TABLE `RotateGroupShop`(
   PRIMARY KEY (`ID`),
   KEY `IX_ROTATEGROUP_ID` (`RotateGroupID`),
   KEY `IX_SHOP_ID` (`ShopID`),
-  KEY `IX_SHOPGROUP_ID` (`ShopGroupID`)
+  KEY `IX_SHOPGROUP_ID` (`ShopGroupID`),
+  KEY `IDX_LAST_MODIFIED_TIME` (`LastModifiedTime`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '轮转门店组和门店的关系表';
 
 /**

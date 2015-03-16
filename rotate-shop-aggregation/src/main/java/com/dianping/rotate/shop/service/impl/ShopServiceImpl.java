@@ -99,9 +99,9 @@ public class ShopServiceImpl implements ShopService {
 				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
 				// 多个轮转组属于不同的人员时候，需要记录，等待运营人员修复
 				Integer rotateGroupID_ = proessWrongOper(shopId, rotateGroupShopList);
-				if (rotateGroupID_ <= 0) {
+				if (rotateGroupID_ == 0) {
 					return;
-				} else {
+				} else if(rotateGroupID_ > 0) {
 					rotateGroupID = rotateGroupID_;
 				}
 				int apolloShopID = rotateGroupShopList.get(0).getShopID();
@@ -142,10 +142,10 @@ public class ShopServiceImpl implements ShopService {
 	/**
 	 * 判断轮转组是否属于多人
 	 * @param rotateGroupIDSet
-	 * @return -1 轮转组集合为NULL或者只有一个轮转组；0 轮转组属于多人；其它 轮转组属于单人(有所属人的轮转组ID）
+	 * @return -1 轮转组集合为空；-2 轮转组都属于公海；0 轮转组属于多人；其它 轮转组属于单人(有所属人的轮转组ID）
 	 */
 	private Integer isRotateGroupBelongToMore(Set<Integer> rotateGroupIDSet) {
-		if(rotateGroupIDSet != null && rotateGroupIDSet.size() >= 2) {
+		if(rotateGroupIDSet != null && rotateGroupIDSet.size() >= 1) {
 			Set<Integer> userIDSet = new HashSet<Integer>();
 			Integer rotateGroupID_ = -1;
 			for(Integer rotateGroupID : rotateGroupIDSet) {
@@ -159,6 +159,8 @@ public class ShopServiceImpl implements ShopService {
 				return 0;
 			} else if(userIDSet.size() == 1) {
 				return rotateGroupID_;
+			} else {
+				return -2;
 			}
 		}
 		return -1;
@@ -503,9 +505,9 @@ public class ShopServiceImpl implements ShopService {
 					int rotateGroupID = rotateGroupShopEntities.get(0).getRotateGroupID();
 					// 多个轮转组属于不同的人员时候，需要记录，等待运营人员修复
 					Integer rotateGroupID_ = proessWrongOper(shopId, rotateGroupShopEntities);
-					if (rotateGroupID_ <= 0) {
+					if (rotateGroupID_ == 0) {
 						return;
-					} else {
+					} else if(rotateGroupID_ > 0) {
 						rotateGroupID = rotateGroupID_;
 					}
 					changedRotateGroupShop.setRotateGroupID(rotateGroupID);

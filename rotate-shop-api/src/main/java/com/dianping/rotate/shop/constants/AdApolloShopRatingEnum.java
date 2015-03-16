@@ -1,17 +1,19 @@
 package com.dianping.rotate.shop.constants;
 
 /**
- * Created by luoming on 15/1/8.
+ * Created by sharon on 15-3-13.
  */
-public enum ApolloShopTypeEnum {
-    COMMON(0, "普通客户"),
-    VIP(1,"大客户"),
-    KA(2,"KA客户");
+public enum  AdApolloShopRatingEnum {
+    COMMON_RECOMMENDED(101,"普通门店"),
+    RECOMMENDED(102,"推荐门店"),
+    INDIFFERENT_QUALITY(201,"推广通普通门店"),
+    HIGH_QUALITY(202,"推广通优质门店");
+
 
     private int code;
     private String desc;
 
-    private ApolloShopTypeEnum(int code, String desc) {
+    private AdApolloShopRatingEnum(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }
@@ -34,9 +36,9 @@ public enum ApolloShopTypeEnum {
 
     public static String getDescByCode(int code) {
         String result = "";
-        for (ApolloShopTypeEnum apolloShopTypeEnum : ApolloShopTypeEnum.values()) {
-            if (apolloShopTypeEnum.getCode() == code) {
-                result = apolloShopTypeEnum.getDesc();
+        for (AdApolloShopRatingEnum adApolloShopRatingEnum : AdApolloShopRatingEnum.values()) {
+            if (adApolloShopRatingEnum.getCode() == code) {
+                result = adApolloShopRatingEnum.getDesc();
                 break;
             }
         }
