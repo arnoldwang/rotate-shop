@@ -24,7 +24,7 @@ public class RotateGroupShopMessageProducer extends AbstractMessageProducer{
         }
     }
 
-    public void send(Integer newRotateGroupId,Integer newOwner,List<Integer> shops,
+    public  void send(Integer newRotateGroupId,Integer newOwner,List<Integer> shops,
                      Integer oldRotateGroupId,Integer oldOwner){
         try{
             RotateGroupShopJson rotateGroupShopJson = new RotateGroupShopJson();
