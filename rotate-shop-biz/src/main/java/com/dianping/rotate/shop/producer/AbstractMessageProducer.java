@@ -19,6 +19,9 @@ public abstract class AbstractMessageProducer {
     @Autowired
     @Qualifier("rotateGroupShopProducerClient")
     protected Producer rotateGroupShopProducerClient;
+    @Autowired
+    @Qualifier("apolloShopProducerClient")
+    protected  Producer apolloShopProducerClient;
 
     abstract void send(String msg);
 }
