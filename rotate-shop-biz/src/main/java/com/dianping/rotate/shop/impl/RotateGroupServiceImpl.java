@@ -116,11 +116,11 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	}
 
 	@Override
-	public RotateGroupDTO createRotateGroup(int bizID, List<Integer> apolloShopIDList) {
+	public RotateGroupDTO createRotateGroup(int shopGroupId,int bizID, List<Integer> apolloShopIDList) {
 		removeDuplicate(apolloShopIDList);
 		RotateGroupEntity rotateGroupEntity = addRotateGroup(bizID, apolloShopIDList);
 		if(rotateGroupEntity != null) {
-			addRotateGroupShop(rotateGroupEntity.getId(), apolloShopIDList);
+			addRotateGroupShop(rotateGroupEntity.getId(), apolloShopIDList,shopGroupId);
 			return toRotateGroupDTO.apply(rotateGroupEntity);
 		}
 		return null;
@@ -191,14 +191,14 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		return rotateGroupEntity;
 	}
 
-	private void addRotateGroupShop(int rotateGroupID, List<Integer> apolloShopIDList) {
+	private void addRotateGroupShop(int rotateGroupID, List<Integer> apolloShopIDList,int shopGroupId) {
 		if(CollectionUtils.isNotEmpty(apolloShopIDList)) {
 			List<RotateGroupShopEntity> rotateGroupShopEntityList = new ArrayList<RotateGroupShopEntity>();
 			for(int shopID : apolloShopIDList) {
 				RotateGroupShopEntity rotateGroupShopEntity = new RotateGroupShopEntity();
 				rotateGroupShopEntity.setRotateGroupID(rotateGroupID);
 				rotateGroupShopEntity.setShopID(shopID);
-				rotateGroupShopEntity.setShopGroupID(rotateGroupID);
+				rotateGroupShopEntity.setShopGroupID(shopGroupId);
 				rotateGroupShopEntity.setStatus(1);
 				rotateGroupShopEntityList.add(rotateGroupShopEntity);
 			}

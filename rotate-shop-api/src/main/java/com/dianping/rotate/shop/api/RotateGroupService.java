@@ -67,7 +67,7 @@ public interface RotateGroupService {
 	 * @param apolloShopIDList
 	 * @return
 	 */
-	public RotateGroupDTO createRotateGroup(int bizID, List<Integer> apolloShopIDList);
+	public RotateGroupDTO createRotateGroup(int shopGroupId,int bizID, List<Integer> apolloShopIDList);
 
 	/**
 	 * 删除轮转组
