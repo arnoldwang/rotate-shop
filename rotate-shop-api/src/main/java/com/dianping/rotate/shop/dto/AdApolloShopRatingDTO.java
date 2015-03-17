@@ -1,9 +1,11 @@
 package com.dianping.rotate.shop.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by sharon on 15-3-12.
  */
-public class AdApolloShopRatingDTO {
+public class AdApolloShopRatingDTO implements Serializable{
     private Integer shopid;
     private Integer type;
     private Integer bizId;
