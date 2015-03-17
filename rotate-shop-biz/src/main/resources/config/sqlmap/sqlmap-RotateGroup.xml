@@ -145,7 +145,7 @@
 
     <select id="queryRotateGroupByShopGroupIDAndBizID" resultMap="rotateGroup" parameterClass="map">
         SELECT
-        rg.ID,
+        DISTINCT rg.ID,
         rg.BizID,
         rg.Type,
         rg.Status
