@@ -1,6 +1,7 @@
 package com.dianping.rotate.shop.service;
 
 import com.dianping.rotate.shop.AbstractTest;
+import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
 import com.dianping.rotate.shop.dao.RotateGroupDAO;
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.json.RotateGroupEntity;
@@ -23,6 +24,9 @@ public class RotateGroupMessageAspectTest extends AbstractTest {
     RotateGroupShopDAO rotateGroupShopDAO;
     @Autowired
     RotateGroupShopMessageProducer producer;
+
+    @Autowired
+    ApolloShopExtendDAO apolloShopExtendDAO;
 
     @Test
     public void rotateGroupInsertAspectTest(){
@@ -105,9 +109,14 @@ public class RotateGroupMessageAspectTest extends AbstractTest {
     }
 
     @Test
-    public void RotateGroupMessageProducerTest(){
+    public void rotateGroupMessageProducerTest(){
         List<Integer> shops = Lists.newArrayList();
         shops.add(11111);
         //producer.send(123,-123,shops,234,-234);
+    }
+
+    @Test
+    public void apolloShopExtendDAOTest(){
+        apolloShopExtendDAO.updateApolloShopExtendTypeByShopIDListAndType(Lists.newArrayList(124),1,101);
     }
 }
