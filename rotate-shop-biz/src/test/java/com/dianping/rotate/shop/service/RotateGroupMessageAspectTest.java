@@ -1,10 +1,13 @@
 package com.dianping.rotate.shop.service;
 
 import com.dianping.rotate.shop.AbstractTest;
+import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
 import com.dianping.rotate.shop.dao.RotateGroupDAO;
 import com.dianping.rotate.shop.dao.RotateGroupShopDAO;
 import com.dianping.rotate.shop.json.RotateGroupEntity;
 import com.dianping.rotate.shop.json.RotateGroupShopEntity;
+import com.dianping.rotate.shop.json.ShopJson;
+import com.dianping.rotate.shop.producer.RotateGroupShopMessageProducer;
 import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,11 @@ public class RotateGroupMessageAspectTest extends AbstractTest {
     RotateGroupDAO rotateGroupDAO;
     @Autowired
     RotateGroupShopDAO rotateGroupShopDAO;
+    @Autowired
+    RotateGroupShopMessageProducer producer;
+
+    @Autowired
+    ApolloShopExtendDAO apolloShopExtendDAO;
 
     @Test
     public void rotateGroupInsertAspectTest(){
@@ -98,5 +106,17 @@ public class RotateGroupMessageAspectTest extends AbstractTest {
     @Test
     public void rotateGroupShopDeleteAspectTest(){
 
+    }
+
+    @Test
+    public void rotateGroupMessageProducerTest(){
+        List<Integer> shops = Lists.newArrayList();
+        shops.add(11111);
+        //producer.send(123,-123,shops,234,-234);
+    }
+
+    @Test
+    public void apolloShopExtendDAOTest(){
+        apolloShopExtendDAO.updateApolloShopExtendTypeByShopIDListAndType(Lists.newArrayList(124),1,101);
     }
 }
