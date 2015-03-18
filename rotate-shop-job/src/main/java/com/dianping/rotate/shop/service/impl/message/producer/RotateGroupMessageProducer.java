@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * Created by zaza on 15/1/14.
  */
-@Service
+@Service("rotateGroupMessageProducerJob")
 public class RotateGroupMessageProducer extends AbstractMessageProducer {
     @Override
     public String getMessageJson(Object msg) throws IOException{
