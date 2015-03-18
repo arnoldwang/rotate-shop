@@ -73,8 +73,9 @@ public class ApolloShopMessageAspect {
         if(daoMethod.getName().equals("updateApolloShopExtendTypeByShopIDListAndType")){
             try{
                 List<Integer> shopIds = (List<Integer>)daoMethod.getParams().get("shopIDList");
+                Integer bizId = (Integer)daoMethod.getParams().get("bizID");
                 for(Integer shopId:shopIds){
-                    producer.send(getMessage(shopId,"update"));
+                    producer.send(getMessage(shopId,"update",bizId));
                 }
             }catch(Exception ex){
                 logger.error(ex.getMessage());
@@ -87,7 +88,7 @@ public class ApolloShopMessageAspect {
 
     }
 
-    private String getMessage(Integer shopId,String type){
-        return "{\"shopId\":"+shopId+",\"type\""+type+"}";
+    private String getMessage(Integer shopId,String type,Integer bizId){
+        return "{\"shopId\":"+shopId+",\"type\":"+type+",\"bizId\":"+bizId+"}";
     }
 }
