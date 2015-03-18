@@ -152,4 +152,15 @@ class RotateGroupServiceTest extends AbstractSpockTest{
         then:
         3 == rotateGroupList.size()
     }
+
+    def "test getRotateGroupWithNoStatus"(){
+        setup:
+        def rotateGroupID = 96757947
+
+        when:
+        def rotateGroupList = rotateGroupService.getRotateGroupWithNoStatus(rotateGroupID)
+
+        then:
+        1 == rotateGroupList.get(0).getStatus()
+    }
 }
