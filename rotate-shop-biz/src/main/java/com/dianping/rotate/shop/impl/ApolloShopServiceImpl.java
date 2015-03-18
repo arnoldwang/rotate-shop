@@ -1,15 +1,9 @@
 package com.dianping.rotate.shop.impl;
 
 import com.dianping.rotate.shop.api.ApolloShopService;
-import com.dianping.rotate.shop.dao.ApolloShopDAO;
-import com.dianping.rotate.shop.dao.ApolloShopExtendDAO;
-import com.dianping.rotate.shop.dao.ShopCategoryDAO;
-import com.dianping.rotate.shop.dao.ShopRegionDAO;
+import com.dianping.rotate.shop.dao.*;
 import com.dianping.rotate.shop.dto.ApolloShopDTO;
-import com.dianping.rotate.shop.json.ApolloShopEntity;
-import com.dianping.rotate.shop.json.ApolloShopExtendEntity;
-import com.dianping.rotate.shop.json.ShopCategoryEntity;
-import com.dianping.rotate.shop.json.ShopRegionEntity;
+import com.dianping.rotate.shop.json.*;
 import com.dianping.rotate.shop.exceptions.RequestServiceException;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -39,6 +33,9 @@ public class ApolloShopServiceImpl implements ApolloShopService {
 
     @Autowired
     private ShopCategoryDAO shopCategoryDAO;
+
+    @Autowired
+    private RotateGroupShopDAO rotateGroupShopDAO;
 
 	private Function<ApolloShopEntity, ApolloShopDTO> toApolloShopDTO = new Function<ApolloShopEntity, ApolloShopDTO>() {
 		@Override
@@ -113,6 +110,21 @@ public class ApolloShopServiceImpl implements ApolloShopService {
         try{
             apolloShopExtendDAO.updateApolloShopExtendTypeByShopIDListAndType(shopIds,type,bizID);
         }catch(Exception ex){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateApolloShopTypeByRotateGroupID(int rotateGroupId,int bizID,int type){
+        try{
+            List<RotateGroupShopEntity> rotateGroupShopEntities=rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupId);
+            List<Integer> shopIds = Lists.newArrayList();
+            for(RotateGroupShopEntity rotateGroupShopEntity:rotateGroupShopEntities){
+                shopIds.add(rotateGroupShopEntity.getShopID());
+            }
+            updateApolloShopTypeByShopIDAndBizID(shopIds,bizID,type);
+        }catch (Exception ex){
             return false;
         }
         return true;
