@@ -337,7 +337,7 @@ public class ShopServiceImpl implements ShopService {
 		apolloShopEntity.setShopID(shopDTO.getShopId());
 		apolloShopEntity.setShopGroupID(shopDTO.getShopGroupId());
 		apolloShopEntity.setCityID(shopDTO.getCityId());
-		apolloShopEntity.setDistrict(shopDTO.getDistrict());
+		apolloShopEntity.setDistrict(shopDTO.getDistrict() == null ? 0 : shopDTO.getDistrict()); // 无商圈的时候默认为0
 		apolloShopEntity.setShopType(shopDTO.getShopType());
 		apolloShopEntity.setShopStatus(getApolloShopStatus(shopDTO.getPower(), shopDTO.getDisplayStatus()));
 		apolloShopEntity.setProvinceID(cityService.loadCity(shopDTO.getCityId()).getProvinceID());
