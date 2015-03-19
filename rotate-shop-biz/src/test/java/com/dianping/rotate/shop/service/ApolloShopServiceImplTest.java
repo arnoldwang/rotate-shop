@@ -25,4 +25,15 @@ public class ApolloShopServiceImplTest extends AbstractTest {
             System.out.println("update type fail");
         }
     }
+
+    @Test
+    public void updateApolloShopTypeByRotateGroupIdTest(){
+        List<Integer> rotateIds = new ArrayList<Integer>();
+        rotateIds.add(28762143);
+        if(apolloShopService.updateApolloShopTypeByRotateGroupID(rotateIds,101,1)){
+            System.out.println("update type success");
+        }else{
+            System.out.println("update type fail");
+        }
+    }
 }
