@@ -89,6 +89,6 @@ public class ApolloShopMessageAspect {
     }
 
     private String getMessage(Integer shopId,String type,Integer bizId){
-        return "{\"shopId\":"+shopId+",\"type\":"+type+",\"bizId\":"+bizId+"}";
+        return "{\"shopId\":"+shopId+",\"type\":\""+type+"\",\"bizId\":"+bizId+"}";
     }
 }
