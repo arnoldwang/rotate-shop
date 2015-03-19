@@ -116,14 +116,16 @@ public class ApolloShopServiceImpl implements ApolloShopService {
     }
 
     @Override
-    public boolean updateApolloShopTypeByRotateGroupID(int rotateGroupId,int bizID,int type){
+    public boolean updateApolloShopTypeByRotateGroupID(List<Integer> rotateGroupIds,int bizID,int type){
         try{
-            List<RotateGroupShopEntity> rotateGroupShopEntities=rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupId);
-            List<Integer> shopIds = Lists.newArrayList();
-            for(RotateGroupShopEntity rotateGroupShopEntity:rotateGroupShopEntities){
-                shopIds.add(rotateGroupShopEntity.getShopID());
+            for(Integer rotateGroupId:rotateGroupIds){
+                List<RotateGroupShopEntity> rotateGroupShopEntities=rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupId);
+                List<Integer> shopIds = Lists.newArrayList();
+                for(RotateGroupShopEntity rotateGroupShopEntity:rotateGroupShopEntities){
+                    shopIds.add(rotateGroupShopEntity.getShopID());
+                }
+                updateApolloShopTypeByShopIDAndBizID(shopIds,bizID,type);
             }
-            updateApolloShopTypeByShopIDAndBizID(shopIds,bizID,type);
         }catch (Exception ex){
             return false;
         }

@@ -53,9 +53,9 @@ public interface ApolloShopService {
     public boolean updateApolloShopTypeByShopIDAndBizID(List<Integer> shopIds,int bizID,int type);
     /**
      * 根据rotateGroupId和bizId设置type
-     * @param rotateGroupId
+     * @param rotateGroupIds
      * @param bizID
      * @return boolean
      */
-    public boolean updateApolloShopTypeByRotateGroupID(int rotateGroupId,int bizID,int type);
+    public boolean updateApolloShopTypeByRotateGroupID(List<Integer> rotateGroupIds,int bizID,int type);
 }
