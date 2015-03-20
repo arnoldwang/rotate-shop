@@ -98,10 +98,8 @@ public class ShopServiceImpl implements ShopService {
 			} else {
 				int rotateGroupID = rotateGroupShopList.get(0).getRotateGroupID();
 				// 多个轮转组属于不同的人员时候，需要记录，等待运营人员修复
-				Integer rotateGroupID_ = proessWrongOper(shopId, rotateGroupShopList);
-				if (rotateGroupID_ == 0) {
-					return;
-				} else if(rotateGroupID_ > 0) {
+				Integer rotateGroupID_ = processWrongOper(shopId, rotateGroupShopList);
+				if(rotateGroupID_ > 0) {
 					rotateGroupID = rotateGroupID_;
 				}
 				int apolloShopID = rotateGroupShopList.get(0).getShopID();
@@ -114,7 +112,7 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
-	private Integer proessWrongOper(int shopId, List<RotateGroupShopEntity> rotateGroupShopList) {
+	private Integer processWrongOper(int shopId, List<RotateGroupShopEntity> rotateGroupShopList) {
 		Set<Integer> rotateGroupIDSet = procecssRotateGroupID(rotateGroupShopList);
 		Integer rotateGroupID_ = isRotateGroupBelongToMore(rotateGroupIDSet);
 		if(rotateGroupID_ == 0) {
@@ -504,10 +502,8 @@ public class ShopServiceImpl implements ShopService {
 				if (rotateGroupUserService.findByShopIdAndBizId(shopId, bizId) == null) {//门店在公海里
 					int rotateGroupID = rotateGroupShopEntities.get(0).getRotateGroupID();
 					// 多个轮转组属于不同的人员时候，需要记录，等待运营人员修复
-					Integer rotateGroupID_ = proessWrongOper(shopId, rotateGroupShopEntities);
-					if (rotateGroupID_ == 0) {
-						return;
-					} else if(rotateGroupID_ > 0) {
+					Integer rotateGroupID_ = processWrongOper(shopId, rotateGroupShopEntities);
+					if(rotateGroupID_ > 0) {
 						rotateGroupID = rotateGroupID_;
 					}
 					changedRotateGroupShop.setRotateGroupID(rotateGroupID);
