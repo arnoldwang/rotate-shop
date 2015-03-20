@@ -20,6 +20,9 @@ public class POIAddListener implements MessageListener {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private POIFactory poiFactory;
+    /*
+    当throw BackoutMessageException()，Swallow那边会认为没有处理成功，后续会继续重试
+    */
 
     @Override
     public void onMessage(Message msg) throws BackoutMessageException{
