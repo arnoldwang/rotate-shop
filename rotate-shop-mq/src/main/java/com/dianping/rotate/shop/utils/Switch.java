@@ -16,7 +16,7 @@ public class Switch {
         return LionConfigUtils.getProperty(LionKey.MQ_SWITCH, "off").equals("off");
     }
     //关闭，不接受消息
-    public static boolean exception(){
-        return LionConfigUtils.getProperty(LionKey.MQ_SWITCH, "exception").equals("exception");
+    public static boolean notAccept(){
+        return LionConfigUtils.getProperty(LionKey.MQ_SWITCH, "notAccept").equals("notAccept");
     }
 }
