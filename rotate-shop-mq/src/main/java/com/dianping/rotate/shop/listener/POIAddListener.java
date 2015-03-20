@@ -1,12 +1,11 @@
 package com.dianping.rotate.shop.listener;
 
 import com.dianping.rotate.shop.constants.POIMessageType;
-import com.dianping.rotate.shop.exception.POIMessageException;
 import com.dianping.rotate.shop.factory.POIChange;
 import com.dianping.rotate.shop.factory.POIFactory;
 import com.dianping.rotate.shop.service.POIChangeService;
 import com.dianping.rotate.shop.utils.Switch;
-import com.dianping.swallow.BackoutMessageException;
+import com.dianping.swallow.consumer.BackoutMessageException;
 import com.dianping.swallow.common.message.Message;
 import com.dianping.swallow.consumer.MessageListener;
 import org.slf4j.Logger;
@@ -21,18 +20,23 @@ public class POIAddListener implements MessageListener {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private POIFactory poiFactory;
+    /*
+    当throw BackoutMessageException()，Swallow那边会认为没有处理成功，后续会继续重试
+    */
 
     @Override
-    public void onMessage(Message msg) throws POIMessageException{
-        try{
-            if(Switch.off()) return;
-            if(POIChangeService.getDPActionMessageType(msg)==DP_ACTION_ADD_TYPE){
+    public void onMessage(Message msg) throws BackoutMessageException{
+        try {
+            if (Switch.off()) return;
+            if (Switch.notAccept()) throw new BackoutMessageException("Not Accept Message");
+            if (POIChangeService.getDPActionMessageType(msg) == DP_ACTION_ADD_TYPE) {
                 POIChange poiChange = poiFactory.factory(POIMessageType.SHOP_ADD);
-                if(poiChange==null) return;
+                if (poiChange == null) return;
                 poiChange.addToMsgQueue(msg);
             }
         }catch(Exception ex){
             logger.error("Accept POI Add Message Error:"+ex.getMessage(),ex);
+            throw new BackoutMessageException("Accept POI Add Message Failed");
         }
     }
 }
