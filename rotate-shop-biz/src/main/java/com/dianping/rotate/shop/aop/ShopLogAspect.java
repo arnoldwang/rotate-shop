@@ -83,9 +83,10 @@ public class ShopLogAspect {
 	public Object createInsertLog(ProceedingJoinPoint joinPoint, DAOMethod daoMethod) {
 		Object result = null;
 		Map<String, Object> params = daoMethod.getParams();
-		if (params.containsKey("apolloShop"))
+		String method = daoMethod.getName();
+		if (method.equals("addApolloShop"))
 			return createAddShopLog(joinPoint, (ApolloShopEntity) params.get("apolloShop"));
-		if (params.containsKey("extendEntities"))
+		if (method.equals("addApolloShopExtendByList"))
 			return createAddApolloShopExtendLog(joinPoint, (List<ApolloShopExtendEntity>) params.get("extendEntities"));
 		try {
 			result = joinPoint.proceed();
@@ -108,20 +109,19 @@ public class ShopLogAspect {
 	public Object createUpdateLog(ProceedingJoinPoint joinPoint, DAOMethod daoMethod) {
 		Object result = null;
 		Map<String, Object> params = daoMethod.getParams();
-		if (params.containsKey("apolloShop"))
+		String method = daoMethod.getName();
+		if (method.equals("updateApolloShop"))
 			return createUpdateShopLog(joinPoint, (ApolloShopEntity) params.get("apolloShop"));
-		if (params.containsKey("shopID")) {
-			if (daoMethod.getName().equals("deleteApolloShopByShopID"))
-				return createCloseShopLog(joinPoint, (Integer) params.get("shopID"));
-			if (daoMethod.getName().equals("restoreApolloShopByShopID"))
-				return createOpenShopLog(joinPoint, (Integer) params.get("shopID"));
-		}
-		if (params.containsKey("apolloShopExtend"))
+		if (method.equals("deleteApolloShopByShopID"))
+			return createCloseShopLog(joinPoint, (Integer) params.get("shopID"));
+		if (method.equals("restoreApolloShopByShopID"))
+			return createOpenShopLog(joinPoint, (Integer) params.get("shopID"));
+		if (method.equals("updateApolloShopExtend"))
 			return createUpdateShopExtendLog(joinPoint, (ApolloShopExtendEntity) params.get("apolloShopExtend"));
-		if (params.containsKey("rotateGroup"))
+		if (method.equals("updateRotateGroup"))
 			return createUpdateRotateGroupLog(joinPoint, (RotateGroupEntity) params.get("rotateGroup"));
-		if(params.containsKey("rotateGroupShop"))
-			return createUpdateRotateGroupShopLog(joinPoint, (RotateGroupShopEntity)params.get("rotateGroupShop"));
+		if (method.equals("updateRotateGroupShop"))
+			return createUpdateRotateGroupShopLog(joinPoint, (RotateGroupShopEntity) params.get("rotateGroupShop"));
 		try {
 			result = joinPoint.proceed();
 		} catch (Throwable t) {
@@ -219,7 +219,7 @@ public class ShopLogAspect {
 	}
 
 	private Object createUpdateRotateGroupShopLog(ProceedingJoinPoint joinPoint, RotateGroupShopEntity rotateGroupShop) {
-		try{
+		try {
 			ShopLogEntity oldValue = new ShopLogEntity();
 			RotateGroupShopEntity oldRotateGroupShopEntity = rotateGroupShopDAO.queryRotateGroupShop(rotateGroupShop.getId());
 			oldValue.setRotateGroupShopEntities(Lists.newArrayList(oldRotateGroupShopEntity));
@@ -232,9 +232,9 @@ public class ShopLogAspect {
 			int type = ShopLogTypeEnum.UPDATE_ROTATE_GROUP_SHOP.getCode();
 			createLog(rotateGroupShop.getShopID(), type, null, null, oldValue, newValue);
 			return result;
-		}catch (Exception e){
+		} catch (Exception e) {
 			logger.warn("create update rotateGroupShop log failed!", e);
-		}catch (Throwable t){
+		} catch (Throwable t) {
 			logger.error("execute update rotateGroupShop failed!", t);
 		}
 		return null;

@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Created by zaza on 15/3/6.
  */
-public abstract class AbstractMessageProducer {
+public abstract class AbstractMessageJobProducer {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     @Qualifier("jobProducerClient")
