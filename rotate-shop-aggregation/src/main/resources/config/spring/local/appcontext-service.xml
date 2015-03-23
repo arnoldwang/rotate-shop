@@ -8,12 +8,12 @@
         <property name="extendFactories">
             <list>
                 <bean id="marryApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.MarryApolloShopExtend"/>
-                <bean id="takeoutApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.TakeoutApolloShopExtend"/>
                 <bean id="bookApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.BookApolloShopExtend"/>
                 <bean id="spreadApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.SpreadApolloShopExtend"/>
                 <bean id="movieApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.MovieApolloShopExtend"/>
                 <bean id="tpApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.TPApolloShopExtend"/>
                 <bean id="travelApolloExtend" class="com.dianping.rotate.shop.factory.impl.TravelApolloShopExtend"/>
+                <!--<bean id="takeoutApolloShopExtend" class="com.dianping.rotate.shop.factory.impl.TakeoutApolloShopExtend"/>-->
             </list>
         </property>
     </bean>
