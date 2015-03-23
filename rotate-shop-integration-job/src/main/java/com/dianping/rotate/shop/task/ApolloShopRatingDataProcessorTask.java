@@ -34,12 +34,11 @@ public class ApolloShopRatingDataProcessorTask {
 
     private final static String REPORT_NAME = "dpdm_tg_shop_rating_star_information";
 
-    private ThreadPoolManager threadPoolManager = new ThreadPoolManager();
-
     public void process() {
         try {
             long start = System.currentTimeMillis();
             logger.info("ApolloShopRatingDataProcessorTask start");
+            ThreadPoolManager threadPoolManager = new ThreadPoolManager();
             ReportDataProcessor reportDataProcessor = new ReportDataProcessor();
             Beans.getApplicationContext().getAutowireCapableBeanFactory().autowireBean(reportDataProcessor);
             reportDataProcessor.setReportName(REPORT_NAME);

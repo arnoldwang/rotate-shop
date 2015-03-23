@@ -44,12 +44,18 @@ public interface ApolloShopService {
      */
     public void restoreApolloShopByShopID(int shopId);
     /**
-     * 通过shopId恢复门店的状态
+     * 根据shopIds和bizId设置type
      * @param shopIds
      * @param type
      * @param bizID
-     * @return void
+     * @return boolean
      */
     public boolean updateApolloShopTypeByShopIDAndBizID(List<Integer> shopIds,int bizID,int type);
-
+    /**
+     * 根据rotateGroupId和bizId设置type
+     * @param rotateGroupIds
+     * @param bizID
+     * @return boolean
+     */
+    public boolean updateApolloShopTypeByRotateGroupID(List<Integer> rotateGroupIds,int bizID,int type);
 }
