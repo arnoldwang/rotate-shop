@@ -300,7 +300,7 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 
 	private void processRotateShopCooperationStatus(List<ApolloShopBusinessStatusEntity> apolloShopBusinessStatusEntityList, RotateGroupDTO rotateGroupDTO) {
 		if(CollectionUtils.isNotEmpty(apolloShopBusinessStatusEntityList)) {
-			int rotateGroupStatusIndexTemp = 0;
+			int rotateGroupStatusIndexTemp = 1;
 			List<Date> offlineTimeList = new ArrayList<Date>();
 			List<Integer> businessTypeList = getBusinessTypeList(departmentGroupService.getGroupBusinesses(rotateGroupDTO.getBizID()));
 			for(int i=0;i<apolloShopBusinessStatusEntityList.size();i++) {
