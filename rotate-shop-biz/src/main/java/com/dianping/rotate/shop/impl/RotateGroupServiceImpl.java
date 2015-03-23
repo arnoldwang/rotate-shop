@@ -307,7 +307,6 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 				ApolloShopBusinessStatusEntity apolloShopBusinessStatusEntity = apolloShopBusinessStatusEntityList.get(i);
 				if(businessTypeList.contains(apolloShopBusinessStatusEntity.getBusinessType())) {
 					if(RotateShopStatusEnum.ONLINE.getCode() == apolloShopBusinessStatusEntity.getCooperationStatus()) {
-						rotateGroupStatusIndexTemp = 3;
 						rotateGroupDTO.setCooperationStatus(RotateShopCooperationStatusEnum.COOPING.getCode());
 						return;
 					} else if(apolloShopBusinessStatusEntity.getOfflineDate() != null &&
