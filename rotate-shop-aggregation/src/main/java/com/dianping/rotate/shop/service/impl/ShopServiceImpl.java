@@ -90,7 +90,8 @@ public class ShopServiceImpl implements ShopService {
 			insertShopRegionList(shopRegionDTOList, shopDTO);
 		List<ApolloShopExtendEntity> apolloShopExtendList = insertApolloShopExtendList(shopId);
 		for (ApolloShopExtendEntity apolloShopExtend : apolloShopExtendList) {
-			List<RotateGroupShopEntity> rotateGroupShopList = rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
+			List<RotateGroupShopEntity> rotateGroupShopList =
+					rotateGroupShopDAO.queryRotateGroupShopByShopGroupIDAndBizID(shopDTO.getShopGroupId(), apolloShopExtend.getBizID());
 			if (rotateGroupShopList.size() == 0) {
 				int rotateGroupID = insertRotateGroup(apolloShopExtend);
 				insertRotateGroupShop(rotateGroupID, apolloShopEntity);
@@ -102,7 +103,8 @@ public class ShopServiceImpl implements ShopService {
 					rotateGroupID = rotateGroupID_;
 				}
 				int apolloShopID = rotateGroupShopList.get(0).getShopID();
-				int apolloShopExtendType = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(apolloShopID, apolloShopExtend.getBizID()).get(0).getType();
+				int apolloShopExtendType = apolloShopExtendDAO.queryApolloShopExtendByShopIDAndBizID(apolloShopID,
+						apolloShopExtend.getBizID()).get(0).getType();
 				apolloShopExtend.setType(apolloShopExtendType);
 				changeApolloShopExtendType(apolloShopExtend);
 				changeRotateGroupType(rotateGroupID);//更新轮转组type
@@ -313,7 +315,7 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public List<Integer> getRotateGroupIDList(int pageSize, int offset) {
+	public List<RotateGroupEntity> getRotateGroupList(int pageSize, int offset) {
 		return rotateGroupDAO.queryRotateGroupIDList(pageSize, offset);
 	}
 
@@ -323,10 +325,10 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public void updateShopExtendTypeByRotateGroupID(int rotateGroupID) {
-		int vipShopNum = apolloShopExtendDAO.queryVipShopExtendNumByRotateGroupID(rotateGroupID);
+	public void updateShopExtendTypeByRotateGroupID(int rotateGroupID, int bizID) {
+		int vipShopNum = apolloShopExtendDAO.queryVipShopExtendNumByRotateGroupID(rotateGroupID, bizID);
 		if (vipShopNum > 0)
-			apolloShopExtendDAO.updateApolloShopExtendTypeByRotateGroupID(rotateGroupID);
+			apolloShopExtendDAO.updateApolloShopExtendTypeByRotateGroupID(rotateGroupID, bizID);
 	}
 
 	private ApolloShopEntity insertApolloShop(ShopDTO shopDTO) {

@@ -10,9 +10,9 @@ public class RotateGroupEntity {
 	private int id;
 
 	private int bizID;
-	//类型：0，单店；1，连锁店
+	//类型：-1, 关闭；0，单店；1，连锁店
 	private int type;
-	//状态：0，删除；1，正常；2，关闭；3，暂停营业；4，尚未营业；
+	//状态：0，删除；1，正常
 	private int status;
 
 	private Date createdTime;
