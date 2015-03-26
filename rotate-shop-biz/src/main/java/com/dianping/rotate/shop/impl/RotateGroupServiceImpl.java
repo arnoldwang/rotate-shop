@@ -260,15 +260,29 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 	private void processRotateShopDTOCustomerStatus(RotateGroupDTO rotateGroupDTO, int rotateGroupID) {
 		if(rotateGroupDTO != null) {
 			List<RotateGroupShopEntity> rotateGroupShopEntityList = rotateGroupShopDAO.queryRotateGroupShopByRotateGroupID(rotateGroupID);
-			if(CollectionUtils.isNotEmpty(rotateGroupShopEntityList)) {
-				int shopID = rotateGroupShopEntityList.get(0).getShopID();
+			List<Integer> shopIDList = parseShopID(rotateGroupShopEntityList);
+			if(CollectionUtils.isNotEmpty(shopIDList)) {
 				Integer bizID = rotateGroupDTO.getBizID();
 				if(bizID != null) {
-					ApolloShopExtendEntity apolloShopExtendEntity = getApolloShopExtendEntityByBizIDAndShopID(bizID, shopID);
-					processRotateShopCustomerStatus(rotateGroupDTO, apolloShopExtendEntity);
+					List<ApolloShopExtendEntity> apolloShopExtendEntityList = apolloShopExtendDAO.queryApolloShopExtendByShopIDListAndBizID(shopIDList, bizID);
+					processRotateShopCustomerStatus(rotateGroupDTO, apolloShopExtendEntityList);
 				}
 			}
 		}
+	}
+
+	private List<Integer> parseShopID(List<RotateGroupShopEntity> rotateGroupShopEntityList) {
+		List<Integer> shopIDList = null;
+		if(CollectionUtils.isNotEmpty(rotateGroupShopEntityList)) {
+			shopIDList = new ArrayList<Integer>();
+			for(RotateGroupShopEntity rotateGroupShopEntity : rotateGroupShopEntityList) {
+				int shopID = rotateGroupShopEntity.getShopID();
+				if(!shopIDList.contains(shopID)) {
+					shopIDList.add(shopID);
+				}
+			}
+		}
+		return shopIDList;
 	}
 
 	private RotateGroupEntity getRotateGroupEntityByBizIDAndShopID(int bizID, int shopID) {
@@ -287,13 +301,16 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		return null;
 	}
 
-	private void processRotateShopCustomerStatus(RotateGroupDTO rotateGroupDTO, ApolloShopExtendEntity apolloShopExtendEntity) {
-		if(apolloShopExtendEntity != null) {
-			int shopCustomerStatus = apolloShopExtendEntity.getType();
-			if(ApolloShopTypeEnum.VIP.getCode() == shopCustomerStatus) {
-				rotateGroupDTO.setCustomerStatus(RotateGroupCustomerStatusEnum.VIP.getCode());
-			} else if(ApolloShopTypeEnum.COMMON.getCode() == shopCustomerStatus) {
-				rotateGroupDTO.setCustomerStatus(RotateGroupCustomerStatusEnum.COMMON.getCode());
+	private void processRotateShopCustomerStatus(RotateGroupDTO rotateGroupDTO, List<ApolloShopExtendEntity> apolloShopExtendEntityList) {
+		if(CollectionUtils.isNotEmpty(apolloShopExtendEntityList)) {
+			for(ApolloShopExtendEntity apolloShopExtendEntity : apolloShopExtendEntityList) {
+				int shopCustomerStatus = apolloShopExtendEntity.getType();
+				if(ApolloShopTypeEnum.VIP.getCode() == shopCustomerStatus) {
+					rotateGroupDTO.setCustomerStatus(RotateGroupCustomerStatusEnum.VIP.getCode());
+					return;
+				} else if(ApolloShopTypeEnum.COMMON.getCode() == shopCustomerStatus) {
+					rotateGroupDTO.setCustomerStatus(RotateGroupCustomerStatusEnum.COMMON.getCode());
+				}
 			}
 		}
 	}
