@@ -100,7 +100,7 @@ public interface RotateGroupDAO extends GenericDao {
 	 * @return ID列表
 	 */
 	@DAOAction(action = DAOActionType.QUERY)
-	public List<Integer> queryRotateGroupIDList(@DAOParam("pageSize") int pageSize, @DAOParam("offset") int offset);
+	public List<RotateGroupEntity> queryRotateGroupIDList(@DAOParam("pageSize") int pageSize, @DAOParam("offset") int offset);
 
 	/**
 	 * 查询RotateGroup的总数量，包括关闭的

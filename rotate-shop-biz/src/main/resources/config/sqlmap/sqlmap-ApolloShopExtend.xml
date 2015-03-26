@@ -139,14 +139,14 @@
         SELECT COUNT(*)
         FROM ApolloShopExtend ape JOIN RotateGroupShop rgs
         ON rgs.ShopID = ape.ShopID
-        WHERE rgs.rotateGroupID = #rotateGroupID# AND rgs.Status = 1 AND ape.Type = 1
+        WHERE rgs.rotateGroupID = #rotateGroupID# AND rgs.Status = 1 AND ape.Type = 1 AND ape.BizID = #bizID#
     </select>
 
     <update id="updateApolloShopExtendTypeByRotateGroupID" parameterClass="map">
         UPDATE ApolloShopExtend ape JOIN RotateGroupShop rgs
         ON rgs.ShopID = ape.ShopID
         SET ape.Type = 1
-        WHERE rgs.rotateGroupID = #rotateGroupID# AND rgs.Status = 1
+        WHERE rgs.rotateGroupID = #rotateGroupID# AND rgs.Status = 1 AND ape.BizID = #bizID#
     </update>
 
     <update id="updateApolloShopExtendTypeByRotateGroupIDListAndType" parameterClass="map">
