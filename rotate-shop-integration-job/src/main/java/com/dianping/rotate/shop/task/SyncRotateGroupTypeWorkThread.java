@@ -1,5 +1,6 @@
 package com.dianping.rotate.shop.task;
 
+import com.dianping.rotate.shop.json.RotateGroupEntity;
 import com.dianping.rotate.shop.service.ShopService;
 import com.dianping.rotate.shop.utils.ConfigUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -47,18 +48,20 @@ public class SyncRotateGroupTypeWorkThread implements Runnable {
 					return;
 				}
 
-				List<Integer> rotateGroupIDList = shopService.getRotateGroupIDList(page, index);
-				if (CollectionUtils.isEmpty(rotateGroupIDList)) {
-					logger.info("This thread: " + Thread.currentThread().getName() + " rotateGroupID from " + index + " to " + (index + page) + " is empty!");
+				List<RotateGroupEntity> rotateGroupList = shopService.getRotateGroupList(page, index);
+				if (CollectionUtils.isEmpty(rotateGroupList)) {
+					logger.info("This thread: " + Thread.currentThread().getName() + " rotateGroupID from "
+							+ index + " to " + (index + page) + " is empty!");
 					index += page;
 					continue;
 				}
 
-				for (int rotateGroupID : rotateGroupIDList) {
-					shopService.updateRotateGroupType(rotateGroupID);
+				for (RotateGroupEntity rotateGroupEntity : rotateGroupList) {
+					shopService.updateRotateGroupType(rotateGroupEntity.getId());
 				}
 
-				logger.info("This thread: " + Thread.currentThread().getName() + " sync date from " + rotateGroupIDList.get(0) + " to " + (rotateGroupIDList.get(0) + page));
+				logger.info("This thread: " + Thread.currentThread().getName() + " sync date from "
+						+ rotateGroupList.get(0).getId() + " to " + (rotateGroupList.get(0).getId() + page));
 				index += page;
 			} catch (Exception e) {
 				logger.warn("This thread: " + Thread.currentThread().getName() + " sync data failed!", e);

@@ -1,5 +1,7 @@
 package com.dianping.rotate.shop.service;
 
+import com.dianping.rotate.shop.json.RotateGroupEntity;
+
 import java.util.List;
 
 /**
@@ -65,7 +67,7 @@ public interface ShopService {
 	 * @param offset 偏移量
 	 * @return ID列表
 	 */
-	public List<Integer> getRotateGroupIDList(int pageSize, int offset);
+	public List<RotateGroupEntity> getRotateGroupList(int pageSize, int offset);
 
 	/**
 	 * 获得最大的RotateGroup的数量
@@ -76,6 +78,7 @@ public interface ShopService {
 	/**
 	 * 更新此轮转组下ApolloShopExtend的Type
 	 * @param rotateGroupID
+	 * @param bizID
 	 */
-	public void updateShopExtendTypeByRotateGroupID(int rotateGroupID);
+	public void updateShopExtendTypeByRotateGroupID(int rotateGroupID, int bizID);
 }

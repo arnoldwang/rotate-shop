@@ -73,18 +73,21 @@ public interface ApolloShopExtendDAO extends GenericDao {
 
 	/**
 	 * 查询此轮转组下大客户门店的数量
+	 *
 	 * @param rotateGroupID
+	 * @param bizID
 	 * @return
 	 */
 	@DAOAction(action = DAOActionType.LOAD)
-	int queryVipShopExtendNumByRotateGroupID(@DAOParam("rotateGroupID")int rotateGroupID);
+	int queryVipShopExtendNumByRotateGroupID(@DAOParam("rotateGroupID") int rotateGroupID,@DAOParam("bizID") int bizID);
 
 	/**
 	 * 更新轮转组下ApolloShopExtend的Type
 	 * @param rotateGroupID
+	 * @param bizID
 	 */
 	@DAOAction(action = DAOActionType.UPDATE)
-	void updateApolloShopExtendTypeByRotateGroupID(@DAOParam("rotateGroupID")int rotateGroupID);
+	void updateApolloShopExtendTypeByRotateGroupID(@DAOParam("rotateGroupID") int rotateGroupID,@DAOParam("bizID") int bizID);
 
     /**
      * 更新轮转组下ApolloShopExtend的Type
