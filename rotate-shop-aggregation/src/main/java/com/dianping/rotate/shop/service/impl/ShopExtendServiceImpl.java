@@ -22,4 +22,14 @@ public class ShopExtendServiceImpl implements ShopExtendService {
         apolloShopExtendDAO.updateApolloShopExtendRating(apolloShopExtendEntityList);
     }
 
+    @Override
+    public List<ApolloShopExtendEntity> queryApolloShopExtendByShopIDListAndBizID(List<Integer> shopIDList, int bizID) {
+        return apolloShopExtendDAO.queryApolloShopExtendByShopIDListAndBizID(shopIDList, bizID);
+    }
+
+    @Override
+    public void addApolloShopExtend(List<ApolloShopExtendEntity> apolloShopExtendEntityList) {
+        apolloShopExtendDAO.addApolloShopExtendByList(apolloShopExtendEntityList);
+    }
+
 }

@@ -29,6 +29,10 @@ public class ReportDataProcessor {
     private String reportName;
     private String orderByName = "id";
 
+    public AtomicInteger getPageIndex() {
+        return pageIndex;
+    }
+
     public boolean isDataOver() {
         return isDataOver;
     }

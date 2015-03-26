@@ -11,4 +11,8 @@ public interface ShopExtendService {
 
     public void updateApolloShopExtendRating(List<ApolloShopExtendEntity> apolloShopExtendEntityList);
 
+    public List<ApolloShopExtendEntity> queryApolloShopExtendByShopIDListAndBizID(List<Integer> shopIDList, int bizID);
+
+    public void addApolloShopExtend(List<ApolloShopExtendEntity> apolloShopExtendEntityList);
+
 }
