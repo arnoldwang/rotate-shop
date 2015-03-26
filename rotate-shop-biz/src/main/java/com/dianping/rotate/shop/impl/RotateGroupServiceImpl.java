@@ -368,15 +368,16 @@ public class RotateGroupServiceImpl implements RotateGroupService {
 		return rotateGroupDAO.getRotateGroup(rotateGroupID);
 	}
 
-
 	private List<RotateGroupEntity> getRotateGroupEntity(List<Integer> rotateGroupIDList) {
+		if(CollectionUtils.isEmpty(rotateGroupIDList)) {
+			return Collections.emptyList();
+		}
 		if(rotateGroupIDList.size() > MAX_RESULT_SIZE)
 			throw new RequestServiceException("RotateGroupIDs are too many!");
 		List<RotateGroupEntity> rotateGroupEntityList = rotateGroupDAO.getRotateGroupList(rotateGroupIDList);
 		if(CollectionUtils.isEmpty(rotateGroupEntityList))
-			throw new RequestServiceException("RotateGroupID does not exist or is wrong!");
+			throw new RequestServiceException("rotateGroupEntityList does not exist or is null!");
 		return rotateGroupEntityList;
-
 	}
 
 }
