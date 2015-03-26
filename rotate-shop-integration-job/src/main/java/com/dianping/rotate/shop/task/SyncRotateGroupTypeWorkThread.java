@@ -1,6 +1,7 @@
 package com.dianping.rotate.shop.task;
 
 import com.dianping.rotate.shop.service.ShopService;
+import com.dianping.rotate.shop.utils.ConfigUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,11 @@ public class SyncRotateGroupTypeWorkThread implements Runnable {
 		int index = threadBegin;
 		while (index < (threadEnd + page) && exceptionFlag < 100) {
 			try {
+				if (!ConfigUtils.getSyncRotateGroupTypeTaskTrigger()) {
+					logger.info("SyncRotateGroupTypeTask stop!");
+					return;
+				}
+
 				List<Integer> rotateGroupIDList = shopService.getRotateGroupIDList(page, index);
 				if (CollectionUtils.isEmpty(rotateGroupIDList)) {
 					logger.info("This thread: " + Thread.currentThread().getName() + " rotateGroupID from " + index + " to " + (index + page) + " is empty!");
