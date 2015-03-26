@@ -7,6 +7,7 @@ import com.dianping.rotate.shop.json.ApolloShopExtendEntity;
 import com.dianping.rotate.shop.service.ShopBusinessStatusService;
 import com.dianping.rotate.shop.service.ShopExtendService;
 import com.dianping.rotate.shop.utils.Beans;
+import com.dianping.rotate.shop.utils.ConfigUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,11 @@ public class ApolloShopRatingDataProcessorTask {
 
     public void process() {
         try {
+            if (!ConfigUtils.getRatingDataProcessorTaskTrigger()) {
+                logger.info("ApolloShopRatingDataProcessorTask will not run!");
+                return;
+            }
+
             long start = System.currentTimeMillis();
             logger.info("ApolloShopRatingDataProcessorTask start");
 

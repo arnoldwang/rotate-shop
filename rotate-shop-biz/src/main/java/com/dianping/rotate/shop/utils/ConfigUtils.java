@@ -20,4 +20,16 @@ public class ConfigUtils {
 		return PropertiesLoaderSupportUtils.getProperty("rotate-shop-integration-job.address", null);
 	}
 
+	public static boolean getBusinessDataProcessorTaskTrigger() {
+		return PropertiesLoaderSupportUtils.getBoolProperty("rotate-shop-integration-job.apolloShopBusinessDataProcessorTask.trigger", true);
+	}
+
+	public static boolean getRatingDataProcessorTaskTrigger() {
+		return PropertiesLoaderSupportUtils.getBoolProperty("rotate-shop-integration-job.apolloShopRatingDataProcessorTask.trigger", true);
+	}
+
+	public static boolean getMessageQueueHistoryDataTaskTrigger() {
+		return PropertiesLoaderSupportUtils.getBoolProperty("rotate-shop-integration-job.messageQueueHistoryDataTask.trigger", true);
+	}
+
 }

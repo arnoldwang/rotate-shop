@@ -6,6 +6,7 @@ import com.dianping.rotate.shop.json.ApolloShopBusinessStatusEntity;
 import com.dianping.rotate.shop.producer.ShopBusinessNotificationProducer;
 import com.dianping.rotate.shop.service.ShopBusinessStatusService;
 import com.dianping.rotate.shop.utils.Beans;
+import com.dianping.rotate.shop.utils.ConfigUtils;
 import com.dianping.trade.data.api.ReportRemoteService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -36,6 +37,11 @@ public class ApolloShopBusinessDataProcessorTask {
 
     public void process() {
         try {
+            if (!ConfigUtils.getBusinessDataProcessorTaskTrigger()) {
+                logger.info("ApolloShopBusinessDataProcessorTask will not run!");
+                return;
+            }
+
             long start = System.currentTimeMillis();
             logger.info("ApolloShopBusinessDataProcessorTask start");
             ReportDataProcessor reportDataProcessor = new ReportDataProcessor();

@@ -1,6 +1,7 @@
 package com.dianping.rotate.shop.task;
 
 import com.dianping.rotate.shop.service.MessageQueueService;
+import com.dianping.rotate.shop.utils.ConfigUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,11 @@ public class MessageQueueHistoryDataTask {
 
     public void process() {
         try {
+            if (!ConfigUtils.getMessageQueueHistoryDataTaskTrigger()) {
+                logger.info("MessageQueueHistoryDataTask will not run!");
+                return;
+            }
+
             long start = System.currentTimeMillis();
             logger.info("MessageQueueHistoryDataTask start");
             messageQueueService.clearMessageQueueToHistory();
